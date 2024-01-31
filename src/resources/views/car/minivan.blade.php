@@ -7,6 +7,7 @@
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item"><a href="#makers" class="nav-link active" data-toggle="tab">メーカー</a></li>
         <li class="nav-item"><a href="#names" class="nav-link" data-toggle="tab">名前</a></li>
+        <li class="nav-item"><a href="#releases" class="nav-link" data-toggle="tab">発売日</a></li>
         <li class="nav-item"><a href="#plices" class="nav-link" data-toggle="tab">価格</a></li>
         <li class="nav-item"><a href="#taxs" class="nav-link" data-toggle="tab">税金</a></li>
     </ul>
@@ -58,6 +59,28 @@
                     </table>
             </div>
 
+            <div id="releases" class="tab-pane active">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>名前</th>
+                                <th>発売日</th>                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($releases as $car)
+                            <tr>
+                                <td>
+                                <a href="{{ route('car.show', [$car->id]) }}">{{$car->name}}</a>                                
+                                </td>
+                                <td>{{ $car->release }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+            </div>
+
+
             <div id="plices" class="tab-pane">
                     <table class="table table-striped">
                         <thead>
@@ -78,6 +101,9 @@
                         </tbody>
                     </table>
             </div>
+
+
+
 
             <div id="taxs" class="tab-pane">
                     <table class="table table-striped">

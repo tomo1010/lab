@@ -122,6 +122,9 @@ class CarsController extends Controller
             //車名取得
             $names = $cars->sortBy('name');
 
+            //発売日取得
+            $releases = $cars->sortByDesc('release');
+
             //価格取得
             $plices = $cars->sortBy('plice');
 
@@ -164,6 +167,7 @@ class CarsController extends Controller
         return view('car.minivan', [
             'makers' => $makers,
             'names' => $names,
+            'releases' => $releases,
             'plices' => $plices,
             'taxs' => $taxs,
         ]);
