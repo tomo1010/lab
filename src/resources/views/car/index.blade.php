@@ -65,7 +65,6 @@
                         <td>{{ $car->Fbraketype }}</td>
                         <td>{{ $car->Rbraketype }}</td>
                         <td>{{ $car->year }}</td>
-                        <td>{{ $car->genre }}</td>
 
                     </tr>
                     @endforeach

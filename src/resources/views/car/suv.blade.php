@@ -5,16 +5,16 @@
     <h1>SUV一覧</h1>
 
     <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item"><a href="#makers" class="nav-link active" data-toggle="tab">メーカー</a></li>
-        <li class="nav-item"><a href="#names" class="nav-link" data-toggle="tab">名前</a></li>
-        <li class="nav-item"><a href="#plices" class="nav-link" data-toggle="tab">価格</a></li>
-        <li class="nav-item"><a href="#taxs" class="nav-link" data-toggle="tab">税金</a></li>
+        <li class="nav-item"><a href="#maker" class="nav-link active" data-toggle="tab">メーカー</a></li>
+        <li class="nav-item"><a href="#name" class="nav-link" data-toggle="tab">名前</a></li>
+        <li class="nav-item"><a href="#price" class="nav-link" data-toggle="tab">価格</a></li>
+        <li class="nav-item"><a href="#tax" class="nav-link" data-toggle="tab">税金</a></li>
     </ul>
 
 
         <div class="tab-content">
 
-            <div id="makers" class="tab-pane active">
+            <div id="maker" class="tab-pane active">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -26,8 +26,6 @@
                             @foreach ($makers as $car)
                             <tr>
                                 <td>
-                                <img src="https://about-car.net/img/180/{{ $car->maker }}/{{ $car->model }}.jpg">
-                                <img src="https://about-car.net/img/180/toyota/3BA-AGH30W.jpg">
                                 <a href="{{ route('car.show', [$car->id]) }}">{{$car->name}}</a>
                                 
                                 
@@ -39,7 +37,7 @@
                     </table>
             </div>
 
-            <div id="names" class="tab-pane">
+            <div id="name" class="tab-pane">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -58,7 +56,7 @@
                     </table>
             </div>
 
-            <div id="plices" class="tab-pane">
+            <div id="price" class="tab-pane">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -68,7 +66,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($plices as $car)
+                            @foreach ($prices as $car)
                             <tr>
                                 <td>{{ $car->name }}</td>
                                 <td>{{ $car->grade }}</td>
@@ -79,7 +77,7 @@
                     </table>
             </div>
 
-            <div id="taxs" class="tab-pane">
+            <div id="tax" class="tab-pane">
                     <table class="table table-striped">
                         <thead>
                             <tr>
