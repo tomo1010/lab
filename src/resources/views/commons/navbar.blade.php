@@ -17,9 +17,9 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">一覧</a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"><a href="{{ route('car.minivan') }}">ミニバン</a></li>
+                            <li class="dropdown-item"><a href="">ミニバン</a></li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="{{ route('car.suv') }}">SUV</a></li>
+                            <li class="dropdown-item"><a href="">SUV</a></li>
                             <li class="dropdown-divider"></li>
                         </ul>
                 </li>

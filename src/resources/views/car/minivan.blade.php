@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>ミニバン一覧</h1>
+    <h1>{{$year}}ミニバン一覧</h1>
 
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item"><a href="#maker" class="nav-link active" data-toggle="tab">メーカー</a></li>

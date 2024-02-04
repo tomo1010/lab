@@ -103,97 +103,89 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function minivan()
+    public function minivan($year)
     {
 
         //ミニバンのみ取得
         $cars = Car::where([
-            ['minivan_flug','=', '1']
+            ['minivan_flug','=', '1'],
+            ['year','=', $year]
             ])
             ->get();
 
-        //毎年２回のデータ処理、上半期下半期
-        for($i = 2022; $i < 2025; $i++){
-
-            //年度取得
-            $cars = $cars->where('year',$i);
-
             //メーカー取得
-            $makers[] = $cars->sortBy('maker');            
+            $makers = $cars->sortBy('maker');            
 
             //車名取得
-            $names[] = $cars->sortBy('name');
+            $names = $cars->sortBy('name');
 
             //発売日取得
-            $releases[] = $cars->sortByDesc('release');
+            $releases = $cars->sortByDesc('release');
 
             //価格取得
-            $prices[] = $cars->sortBy('price');
+            $prices = $cars->sortBy('price');
 
             //自動車税取得
-            $taxs[] = $cars->sortBy('displacement');
+            $taxs = $cars->sortBy('displacement');
 
                 //排気量を自動車税へ変換し$taxへ格納
                 foreach($taxs as $car){
-                    foreach($cars as $car){
-                        if($car->displacement == '-'){
-                            $car->tax = '-';
-                        }elseif($car->displacement < 660){
-                            $car->tax = '10800';
-                        }elseif($car->displacement < 1000){
-                            $car->tax = '25000';
-                        }elseif($car->displacement < 1500){
-                            $car->tax = '30500';
-                        }elseif($car->displacement < 2000){
-                            $car->tax = '36000';
-                        }elseif($car->displacement < 2500){
-                            $car->tax = '43500';
-                        }elseif($car->displacement < 3000){
-                            $car->tax = '50000';
-                        }elseif($car->displacement < 3500){
-                            $car->tax = '57000';
-                        }elseif($car->displacement < 4000){
-                            $car->tax = '65500';
-                        }elseif($car->displacement < 4500){
-                            $car->tax = '75500';
-                        }elseif($car->displacement < 5000){
-                            $car->tax = '87000';
-                        }elseif($car->displacement < 5500){
-                            $car->tax = '110000';
-                        }elseif($car->displacement > 6000){
-                            $car->tax = '19800';
-                        }
+                    if($car->displacement == '-'){
+                        $car->tax = '-';
+                    }elseif($car->displacement < 660){
+                        $car->tax = '10800';
+                    }elseif($car->displacement < 1000){
+                        $car->tax = '25000';
+                    }elseif($car->displacement < 1500){
+                        $car->tax = '30500';
+                    }elseif($car->displacement < 2000){
+                        $car->tax = '36000';
+                    }elseif($car->displacement < 2500){
+                        $car->tax = '43500';
+                    }elseif($car->displacement < 3000){
+                        $car->tax = '50000';
+                    }elseif($car->displacement < 3500){
+                        $car->tax = '57000';
+                    }elseif($car->displacement < 4000){
+                        $car->tax = '65500';
+                    }elseif($car->displacement < 4500){
+                        $car->tax = '75500';
+                    }elseif($car->displacement < 5000){
+                        $car->tax = '87000';
+                    }elseif($car->displacement < 5500){
+                        $car->tax = '110000';
+                    }elseif($car->displacement > 6000){
+                        $car->tax = '19800';
                     }
                 }
 
 
             //重量税取得
-            $jtaxs[] = $cars->sortBy('wight');
+            $jtaxs = $cars->sortBy('wight');
 
                 //排気量を自動車税へ変換し$taxへ格納
-                foreach($jtaxs as $cars){
-                    foreach($cars as $car){
-                        if($car->weight == '-'){
-                            $car->jtax = '-';
-                        }elseif($car->weight < 500){
-                            $car->jtax = '12600';
-                        }elseif($car->weight < 1000){
-                            $car->jtax = '25200';
-                        }elseif($car->weight < 1500){
-                            $car->jtax = '37800';
-                        }elseif($car->weight < 2000){
-                            $car->jtax = '50400';
-                        }elseif($car->weight < 2500){
-                            $car->jtax = '63000';
-                        }elseif($car->weight < 3000){
-                            $car->jtax = '75600';
-                        }
+                foreach($jtaxs as $car){
+                    if($car->weight == '-'){
+                        $car->jtax = '-';
+                    }elseif($car->weight < 500){
+                        $car->jtax = '12600';
+                    }elseif($car->weight < 1000){
+                        $car->jtax = '25200';
+                    }elseif($car->weight < 1500){
+                        $car->jtax = '37800';
+                    }elseif($car->weight < 2000){
+                        $car->jtax = '50400';
+                    }elseif($car->weight < 2500){
+                        $car->jtax = '63000';
+                    }elseif($car->weight < 3000){
+                        $car->jtax = '75600';
                     }
                 }
 
-//dd($makers);
+//dd($years);
         //車種一覧ビューでそれを表示
         return view('car.minivan', [
+            'year' => $year,
             'makers' => $makers,
             'names' => $names,
             'releases' => $releases,
@@ -201,8 +193,7 @@ class CarsController extends Controller
             'taxs' => $taxs,
             'jtaxs' => $taxs,
         ]);
-    }}
-
+    }
 
 
     /**
