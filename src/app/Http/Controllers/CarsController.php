@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;    // 追加
+use Carbon\Carbon;
+
 
 class CarsController extends Controller
 {
@@ -202,6 +204,60 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function minivanName($year)
+    {
+
+        //ミニバンのみ取得
+        $cars = Car::where([
+            ['minivan_flug','=', '1'],
+            ['year','=', $year]
+            ])
+            ->get();
+
+            //車名取得
+            $names = $cars->sortBy('name');
+
+        //車種一覧ビューでそれを表示
+        return view('car.minivan.name', [
+            'year' => $year,
+            'names' => $names,
+        ]);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function minivanMaker($year)
+    {
+
+        //ミニバンのみ取得
+        $cars = Car::where([
+            ['minivan_flug','=', '1'],
+            ['year','=', $year]
+            ])
+            ->get();
+
+            //車名取得
+            $makers = $cars->sortBy('maker');
+
+        //車種一覧ビューでそれを表示
+        return view('car.minivan.maker', [
+            'year' => $year,
+            'makers' => $makers,
+        ]);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function suv()
     {
 
@@ -261,6 +317,83 @@ class CarsController extends Controller
 
         //車種一覧ビューでそれを表示
         return view('car.suv', [
+            'makers' => $makers,
+            'names' => $names,
+            'prices' => $prices,
+            'taxs' => $taxs,
+        ]);
+    }
+
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function thirdyear()
+    {
+
+        //３年目を設定
+        $dt = new Carbon();
+        $year = $dt->subYears(3);
+        $year = $year->year;
+        
+//dd($year);
+            //3年目のみ取得
+            $cars = Car::where([
+                ['suv_flug','=', '1'],
+                ['year','=', '2022']
+                ])
+                ->get();
+
+            //メーカー取得
+            $makers = $cars->sortBy('maker');
+
+            //車名取得
+            $names = $cars->sortBy('name');
+
+            //価格取得
+            $prices = $cars->sortBy('price');
+
+            //自動車税取得
+            $taxs = $cars->sortBy('displacement');
+
+                //排気量を自動車税へ変換し$taxへ格納
+                foreach($taxs as $car){
+                    if($car->displacement == '-'){
+                        $car->tax = '-';
+                    }elseif($car->displacement < 660){
+                        $car->tax = '10800';
+                    }elseif($car->displacement < 1000){
+                        $car->tax = '25000';
+                    }elseif($car->displacement < 1500){
+                        $car->tax = '30500';
+                    }elseif($car->displacement < 2000){
+                        $car->tax = '36000';
+                    }elseif($car->displacement < 2500){
+                        $car->tax = '43500';
+                    }elseif($car->displacement < 3000){
+                        $car->tax = '50000';
+                    }elseif($car->displacement < 3500){
+                        $car->tax = '57000';
+                    }elseif($car->displacement < 4000){
+                        $car->tax = '65500';
+                    }elseif($car->displacement < 4500){
+                        $car->tax = '75500';
+                    }elseif($car->displacement < 5000){
+                        $car->tax = '87000';
+                    }elseif($car->displacement < 5500){
+                        $car->tax = '110000';
+                    }elseif($car->displacement > 6000){
+                        $car->tax = '19800';
+                    }
+                }
+
+
+        //車種一覧ビューでそれを表示
+        return view('car.thirdyear', [
             'makers' => $makers,
             'names' => $names,
             'prices' => $prices,
