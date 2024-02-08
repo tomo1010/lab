@@ -204,33 +204,6 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function minivanName($year)
-    {
-
-        //ミニバンのみ取得
-        $cars = Car::where([
-            ['minivan_flug','=', '1'],
-            ['year','=', $year]
-            ])
-            ->get();
-
-            //車名取得
-            $names = $cars->sortBy('name');
-
-        //車種一覧ビューでそれを表示
-        return view('car.minivan.name', [
-            'year' => $year,
-            'names' => $names,
-        ]);
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function minivanMaker($year)
     {
 
@@ -241,15 +214,83 @@ class CarsController extends Controller
             ])
             ->get();
 
-            //車名取得
-            $makers = $cars->sortBy('maker');
+        //過去ページリンク用に今年取得
+        $thisYear = 2024;
+
+        //車名取得
+        $makers = $cars->sortBy('maker');
 
         //車種一覧ビューでそれを表示
         return view('car.minivan.maker', [
             'year' => $year,
+            'thisYear' => $thisYear,
             'makers' => $makers,
         ]);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function minivanName($year)
+    {
+
+        //ミニバンのみ取得
+        $cars = Car::where([
+            ['minivan_flug','=', '1'],
+            ['year','=', $year]
+            ])
+            ->get();
+
+        //過去ページリンク用に今年取得
+        $thisYear = 2024;
+
+        //車名取得
+        $names = $cars->sortBy('name');
+
+        //車種一覧ビューでそれを表示
+        return view('car.minivan.name', [
+            'year' => $year,
+            'thisYear' => $thisYear,
+            'names' => $names,
+        ]);
+    }
+
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function minivanRelease($year)
+    {
+
+        //ミニバンのみ取得
+        $cars = Car::where([
+            ['minivan_flug','=', '1'],
+            ['year','=', $year]
+            ])
+            ->get();
+
+        //過去ページリンク用に今年取得
+        $thisYear = 2024;            
+
+            //車名取得
+            $releases = $cars->sortBy('release');
+
+        //車種一覧ビューでそれを表示
+        return view('car.minivan.release', [
+            'year' => $year,
+            'thisYear' => $thisYear,
+            'releases' => $releases,
+        ]);
+    }    
+
 
 
     /**

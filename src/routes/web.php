@@ -29,5 +29,6 @@ Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thi
 Route::get('car/minivan/{year}', [CarsController::class, 'minivan'])->name('car.minivan');
 Route::get('car/minivan/{year}/name', [CarsController::class, 'minivanName'])->name('car.minivanName');
 Route::get('car/minivan/{year}/maker', [CarsController::class, 'minivanMaker'])->name('car.minivanMaker');
+Route::get('car/minivan/{year}/release', [CarsController::class, 'minivanRelease'])->name('car.minivanRelease');
 
 Route::get('car/{id}', [CarsController::class, 'show'])->name('car.show');

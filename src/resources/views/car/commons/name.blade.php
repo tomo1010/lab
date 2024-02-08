@@ -1,0 +1,1 @@
+<a href="{{ route('car.show', [$car->id]) }}">{{$car->name}}</a>

@@ -2,21 +2,15 @@
 
 @section('content')
 
-    <h1>{{$year}}年ミニバンをメーカーで比較</h1>
+    <h1>{{$year}}年メーカーで比較</h1>
 
-    <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item"><a href="#maker" class="nav-link active" data-toggle="tab">メーカー</a></li>
-        <li class="nav-item"><a href="#name" class="nav-link" data-toggle="tab">名前</a></li>
-        <li class="nav-item"><a href="#release" class="nav-link" data-toggle="tab">発売日</a></li>
-        <li class="nav-item"><a href="#plice" class="nav-link" data-toggle="tab">価格</a></li>
-        <li class="nav-item"><a href="#tax" class="nav-link" data-toggle="tab">税金</a></li>
-    </ul>
+    @include('car.commons.menubar')
 
+    @if($year == 2024)
+    @include('car.commons.maker')
+    @endif
 
-        <div class="tab-content">
-
-            <div id="maker" class="tab-pane active">
-                <table class="table table-striped">
+            <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>名前</th>
@@ -27,7 +21,7 @@
                         @foreach ($makers as $car)
                         <tr>
                             <td>
-                                <a href="{{ route('car.show', [$car->id]) }}">{{$car->name}}</a>
+                                @include('car.commons.name')
                             </td>
                             <td>
                                 {{ $car->maker }}
@@ -36,12 +30,9 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
 
-        </div>
-
-        @for ($i = 2020; $i < 2025; $i++)
-        <a href="{{ route('car.minivanMaker', ['year'=>$i]) }}">{{$i}}年ミニバンをメーカーで比較　</a><br>
+        @for ($i = $thisYear; $i > 2019; $i--)
+        <a href="{{ route('car.minivanMaker', ['year'=>$i]) }}">{{$i}}年ミニバンをメーカーで比較</a><br>
         @endfor
 
 @endsection
