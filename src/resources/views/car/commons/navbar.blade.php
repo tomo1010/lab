@@ -1,9 +1,7 @@
-
-
+{{-- ジャンル別ヘッダ分岐 --}}
 @if((Request::is('car/minivan/*')))
     @include('car.minivan.title')
 @endif
-
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
@@ -17,7 +15,7 @@
                 
                 {{-- 一覧へのリンク--}}                
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">一覧</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">その他のジャンル一覧</a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item"><a href="">ミニバン</a></li>
                             <li class="dropdown-divider"></li>
@@ -31,9 +29,9 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 {{-- ユーザ登録ページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">Signup</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">サインアップ</a></li>
                 {{-- ログインページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">ログイン</a></li>
             </ul>
         </div>
     </nav>

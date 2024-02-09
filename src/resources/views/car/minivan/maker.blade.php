@@ -2,12 +2,12 @@
 
 @section('content')
 
+@include('car.minivan.menubar')
+
     <h1>{{$year}}年メーカーで比較</h1>
 
-    @include('car.commons.menubar')
-
     @if($year == 2024)
-    @include('car.commons.maker')
+    @include('car.minivan.contents_maker')
     @endif
 
             <table class="table table-striped">

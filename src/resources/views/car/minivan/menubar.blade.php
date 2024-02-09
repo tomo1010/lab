@@ -1,3 +1,4 @@
+<p>
 <!-- Example single danger button -->
 <div class="btn-group">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -139,4 +140,4 @@
   </div>
 </div>
 
-<p>
+</p>

@@ -16,19 +16,23 @@ use App\Http\Controllers\CarsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->name(home);
 });
 
 // 比較サイト
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
-//ジャンル別一覧
-
-Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
-Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
+//ミニバン
 Route::get('car/minivan/{year}', [CarsController::class, 'minivan'])->name('car.minivan');
 Route::get('car/minivan/{year}/name', [CarsController::class, 'minivanName'])->name('car.minivanName');
 Route::get('car/minivan/{year}/maker', [CarsController::class, 'minivanMaker'])->name('car.minivanMaker');
 Route::get('car/minivan/{year}/release', [CarsController::class, 'minivanRelease'])->name('car.minivanRelease');
 
+//SUV
+Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
+
+//新車から3年後
+Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
+
+//車種詳細ページ
 Route::get('car/{id}', [CarsController::class, 'show'])->name('car.show');

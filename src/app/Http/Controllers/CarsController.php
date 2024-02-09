@@ -220,11 +220,15 @@ class CarsController extends Controller
         //車名取得
         $makers = $cars->sortBy('maker');
 
+        //カテゴリー設定
+        $category = 'メーカー';
+
         //車種一覧ビューでそれを表示
         return view('car.minivan.maker', [
             'year' => $year,
             'thisYear' => $thisYear,
             'makers' => $makers,
+            'category' => $category,
         ]);
     }
 

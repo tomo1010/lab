@@ -1,3 +1,5 @@
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/yellow_bird_woodstock/3124413365/" title="ミニカー売り場"><img src="https://live.staticflickr.com/3255/3124413365_40241735d1.jpg" width="500" height="375" alt="ミニカー売り場"/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+
 <h3>比較ポイント</h3>
 メーカーを選べば、あとはサイズを選ぶだけなので、おのずと車種も決まってきます。
 
