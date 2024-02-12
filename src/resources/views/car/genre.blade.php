@@ -127,7 +127,7 @@
         </div>
 
         @for ($i = 2020; $i < 2025; $i++)
-        <a href="{{ route('car.minivan', ['year'=>$i]) }}">{{$i}}年ミニバン</a><br>
+{{--        <a href="{{ route('car.minivan', ['year'=>$i]) }}">{{$i}}年ミニバン</a><br>--}}
 
         @endfor
 

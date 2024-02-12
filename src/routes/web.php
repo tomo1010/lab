@@ -22,14 +22,16 @@ Route::get('/', function () {
 // 比較サイト
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
-//ミニバン
-Route::get('car/minivan/{year}', [CarsController::class, 'minivan'])->name('car.minivan');
+//
+Route::get('car/{genre}/{year}', [CarsController::class, 'genre'])->name('car.genre');
+
+
 Route::get('car/minivan/{year}/name', [CarsController::class, 'minivanName'])->name('car.minivanName');
 Route::get('car/minivan/{year}/maker', [CarsController::class, 'minivanMaker'])->name('car.minivanMaker');
 Route::get('car/minivan/{year}/release', [CarsController::class, 'minivanRelease'])->name('car.minivanRelease');
 
 //SUV
-Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
+//Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
 
 //新車から3年後
 Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');

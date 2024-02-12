@@ -9,6 +9,9 @@ use Carbon\Carbon;
 
 class CarsController extends Controller
 {
+
+//    const THISYEAR = 2024;
+
     /**
      * Display a listing of the resource.
      *
@@ -105,15 +108,24 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function minivan($year)
+    public function genre($genre,$year)
     {
 
-        //ミニバンのみ取得
-        $cars = Car::where([
-            ['minivan_flug','=', '1'],
-            ['year','=', $year]
-            ])
-            ->get();
+        //ジャンルを取得
+        if($genre == 'minivan' ){
+            $cars = Car::where([
+                ['minivan_flug','=', '1'],
+                ['year','=', $year]
+                ])
+                ->get();
+
+        }elseif($genre == 'suv'){
+            $cars = Car::where([
+                ['suv_flug','=', '1'],
+                ['year','=', $year]
+                ])
+                ->get();
+        }
 
             //メーカー取得
             $makers = $cars->sortBy('maker');            
@@ -186,7 +198,8 @@ class CarsController extends Controller
 
 //dd($years);
         //車種一覧ビューでそれを表示
-        return view('car.minivan', [
+        return view('car.genre', [
+            'genre' => $genre,
             'year' => $year,
             'makers' => $makers,
             'names' => $names,
@@ -215,7 +228,7 @@ class CarsController extends Controller
             ->get();
 
         //過去ページリンク用に今年取得
-        $thisYear = 2024;
+        //$thisYear = self::THISYEAR;
 
         //車名取得
         $makers = $cars->sortBy('maker');
