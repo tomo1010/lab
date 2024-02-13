@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class CarsController extends Controller
 {
 
-//    const THISYEAR = 2024;
+    const THISYEAR = 2024;
 
     /**
      * Display a listing of the resource.
@@ -108,8 +108,11 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function genre($genre,$year)
+    public function genre($genre,$year,$spec)
     {
+
+        //年度取得
+        $thisYear = self::THISYEAR;
 
         //ジャンルを取得
         if($genre == 'minivan' ){
@@ -127,11 +130,32 @@ class CarsController extends Controller
                 ->get();
         }
 
-            //メーカー取得
-            $makers = $cars->sortBy('maker');            
+        //メーカー取得
+        if($spec == 'maker'){
+            $makers = $cars->sortBy('maker');       
+            
+            return view('car.maker', [
+                'genre' => $genre,
+                'year' => $year,
+                'spec' => $spec,
+                'makers' => $makers,
+                'thisYear' => $thisYear,
+            ]);
 
-            //車名取得
+        //車名取得
+        }elseif($spec == 'name'){
             $names = $cars->sortBy('name');
+
+            return view('car.name', [
+                'genre' => $genre,
+                'year' => $year,
+                'spec' => $spec,
+                'names' => $names,
+                'thisYear' => $thisYear,
+            ]);
+        }
+
+
 
             //発売日取得
             $releases = $cars->sortByDesc('release');
@@ -201,6 +225,7 @@ class CarsController extends Controller
         return view('car.genre', [
             'genre' => $genre,
             'year' => $year,
+            'spec' => $spec,
             'makers' => $makers,
             'names' => $names,
             'releases' => $releases,
@@ -217,10 +242,10 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function minivanMaker($year)
+    public function maker($genre,$year)
     {
 
-        //ミニバンのみ取得
+        //ジャンル取得
         $cars = Car::where([
             ['minivan_flug','=', '1'],
             ['year','=', $year]
@@ -229,6 +254,7 @@ class CarsController extends Controller
 
         //過去ページリンク用に今年取得
         //$thisYear = self::THISYEAR;
+                $thisYear = 2025;
 
         //車名取得
         $makers = $cars->sortBy('maker');
@@ -237,7 +263,7 @@ class CarsController extends Controller
         $category = 'メーカー';
 
         //車種一覧ビューでそれを表示
-        return view('car.minivan.maker', [
+        return view('car.maker', [
             'year' => $year,
             'thisYear' => $thisYear,
             'makers' => $makers,

@@ -23,12 +23,10 @@ Route::get('/', function () {
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 //
-Route::get('car/{genre}/{year}', [CarsController::class, 'genre'])->name('car.genre');
-
-
-Route::get('car/minivan/{year}/name', [CarsController::class, 'minivanName'])->name('car.minivanName');
-Route::get('car/minivan/{year}/maker', [CarsController::class, 'minivanMaker'])->name('car.minivanMaker');
-Route::get('car/minivan/{year}/release', [CarsController::class, 'minivanRelease'])->name('car.minivanRelease');
+Route::get('car/{genre}/{year}/{spec}', [CarsController::class, 'genre'])->name('car.genre');
+Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
+Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');
+Route::get('car/{genre}/{year}/release', [CarsController::class, 'release'])->name('car.release');
 
 //SUV
 //Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
