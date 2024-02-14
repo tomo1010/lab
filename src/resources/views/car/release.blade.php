@@ -4,7 +4,7 @@
 
     <h1>{{$year}}年ミニバンを発売日で比較</h1>
 
-    @include('car.commons.menubar')
+    @include('car.minivan.menubar')
 
                     <table class="table table-striped">
                         <thead>
@@ -29,7 +29,7 @@
 
 
         @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.minivanRelease', ['year'=>$i]) }}">{{$i}}年ミニバンを発売日で比較</a><br>
+        <a href="{{ route('car.genre', ['genre'=>$genre,'year'=>$i,'spec'=>'release']) }}">{{$i}}年ミニバンを発売日で比較</a><br>
         @endfor
 
 @endsection

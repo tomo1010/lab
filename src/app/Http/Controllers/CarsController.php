@@ -108,7 +108,7 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function genre($genre,$year,$spec)
+    public function spec($genre,$year,$spec)
     {
 
         //年度取得
@@ -134,31 +134,22 @@ class CarsController extends Controller
         if($spec == 'maker'){
             $makers = $cars->sortBy('maker');       
             
-            return view('car.maker', [
-                'genre' => $genre,
-                'year' => $year,
-                'spec' => $spec,
-                'makers' => $makers,
-                'thisYear' => $thisYear,
-            ]);
-
-        //車名取得
-        }elseif($spec == 'name'){
-            $names = $cars->sortBy('name');
-
-            return view('car.name', [
-                'genre' => $genre,
-                'year' => $year,
-                'spec' => $spec,
-                'names' => $names,
-                'thisYear' => $thisYear,
-            ]);
+            return view('car.maker', compact('genre','year','spec','thisYear','makers'));
         }
 
+        //車名取得
+        elseif($spec == 'name'){
+            $names = $cars->sortBy('name');
 
+            return view('car.name', compact('genre','year','spec','thisYear','names'));
+        }
 
-            //発売日取得
+        //発売日取得
+        elseif($spec == 'release'){
             $releases = $cars->sortByDesc('release');
+
+            return view('car.release', compact('genre','year','spec','thisYear','releases'));
+        }
 
             //価格取得
             $prices = $cars->sortBy('price');
@@ -236,40 +227,6 @@ class CarsController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function maker($genre,$year)
-    {
-
-        //ジャンル取得
-        $cars = Car::where([
-            ['minivan_flug','=', '1'],
-            ['year','=', $year]
-            ])
-            ->get();
-
-        //過去ページリンク用に今年取得
-        //$thisYear = self::THISYEAR;
-                $thisYear = 2025;
-
-        //車名取得
-        $makers = $cars->sortBy('maker');
-
-        //カテゴリー設定
-        $category = 'メーカー';
-
-        //車種一覧ビューでそれを表示
-        return view('car.maker', [
-            'year' => $year,
-            'thisYear' => $thisYear,
-            'makers' => $makers,
-            'category' => $category,
-        ]);
-    }
 
 
     /**
@@ -278,133 +235,30 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function minivanName($year)
+    public function genre()
     {
 
-        //ミニバンのみ取得
-        $cars = Car::where([
-            ['minivan_flug','=', '1'],
-            ['year','=', $year]
-            ])
-            ->get();
-
-        //過去ページリンク用に今年取得
-        $thisYear = 2024;
-
-        //車名取得
-        $names = $cars->sortBy('name');
-
-        //車種一覧ビューでそれを表示
-        return view('car.minivan.name', [
-            'year' => $year,
-            'thisYear' => $thisYear,
-            'names' => $names,
-        ]);
-    }
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function minivanRelease($year)
-    {
-
-        //ミニバンのみ取得
-        $cars = Car::where([
-            ['minivan_flug','=', '1'],
-            ['year','=', $year]
-            ])
-            ->get();
-
-        //過去ページリンク用に今年取得
-        $thisYear = 2024;            
-
-            //車名取得
-            $releases = $cars->sortBy('release');
-
-        //車種一覧ビューでそれを表示
-        return view('car.minivan.release', [
-            'year' => $year,
-            'thisYear' => $thisYear,
-            'releases' => $releases,
-        ]);
-    }    
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function suv()
-    {
-
-        //毎年２回のデータ処理、上半期下半期
-        //for($i = 0; $i < 3; $i++){
-
-            //SUVのみ取得
+        //ジャンルを取得
+        if($genre == 'minivan' ){
             $cars = Car::where([
-                ['suv_flug','=', '1'],
-                ['year','=', '2022']
+                ['minivan_flug','=', '1'],
+                ['year','=', $year]
                 ])
                 ->get();
 
-            //メーカー取得
-            $makers = $cars->sortBy('maker');
-
-            //車名取得
-            $names = $cars->sortBy('name');
-
-            //価格取得
-            $prices = $cars->sortBy('price');
-
-            //自動車税取得
-            $taxs = $cars->sortBy('displacement');
-
-                //排気量を自動車税へ変換し$taxへ格納
-                foreach($taxs as $car){
-                    if($car->displacement == '-'){
-                        $car->tax = '-';
-                    }elseif($car->displacement < 660){
-                        $car->tax = '10800';
-                    }elseif($car->displacement < 1000){
-                        $car->tax = '25000';
-                    }elseif($car->displacement < 1500){
-                        $car->tax = '30500';
-                    }elseif($car->displacement < 2000){
-                        $car->tax = '36000';
-                    }elseif($car->displacement < 2500){
-                        $car->tax = '43500';
-                    }elseif($car->displacement < 3000){
-                        $car->tax = '50000';
-                    }elseif($car->displacement < 3500){
-                        $car->tax = '57000';
-                    }elseif($car->displacement < 4000){
-                        $car->tax = '65500';
-                    }elseif($car->displacement < 4500){
-                        $car->tax = '75500';
-                    }elseif($car->displacement < 5000){
-                        $car->tax = '87000';
-                    }elseif($car->displacement < 5500){
-                        $car->tax = '110000';
-                    }elseif($car->displacement > 6000){
-                        $car->tax = '19800';
-                    }
-                }
+        }elseif($genre == 'suv'){
+            $cars = Car::where([
+                ['suv_flug','=', '1'],
+                ['year','=', $year]
+                ])
+                ->get();
+        }
 
 
         //車種一覧ビューでそれを表示
-        return view('car.suv', [
-            'makers' => $makers,
-            'names' => $names,
-            'prices' => $prices,
-            'taxs' => $taxs,
+        return view('car.genre', [
+            'genre' => $genre,
+            'cars' => $cars,
         ]);
     }
 

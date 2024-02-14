@@ -32,7 +32,7 @@
                 </table>
 
         @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.maker', ['genre'=>$genre,'year'=>$i]) }}">{{$i}}年ミニバンをメーカーで比較</a><br>
+        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'maker']) }}">{{$i}}年ミニバンをメーカーで比較</a><br>
         @endfor
 
 @endsection

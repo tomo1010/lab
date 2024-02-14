@@ -23,16 +23,19 @@ Route::get('/', function () {
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 //
-Route::get('car/{genre}/{year}/{spec}', [CarsController::class, 'genre'])->name('car.genre');
-Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
-Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');
-Route::get('car/{genre}/{year}/release', [CarsController::class, 'release'])->name('car.release');
+Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
+Route::get('car/{genre}/{year}', [CarsController::class, 'year'])->name('car.year');
+Route::get('car/{genre}/{year}/{spec}', [CarsController::class, 'spec'])->name('car.spec');
+
+//Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
+//Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');
+//Route::get('car/{genre}/{year}/release', [CarsController::class, 'release'])->name('car.release');
 
 //SUV
 //Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
 
 //新車から3年後
-Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
+//Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
 
 //車種詳細ページ
 Route::get('car/{id}', [CarsController::class, 'show'])->name('car.show');

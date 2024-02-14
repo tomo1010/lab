@@ -23,9 +23,9 @@
     選ぶ楽しみ
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.name', ['genre'=>$genre,'year'=>$year]) }}">車名</a>
-    <a class="dropdown-item" href="{{ route('car.maker', ['genre'=>$genre,'year'=>$year]) }}">メーカー</a>
-    <a class="dropdown-item" href="{{ route('car.release', ['genre'=>$genre,'year'=>$year]) }}">発売日</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'name']) }}">車名</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'maker']) }}">メーカー</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日</a>
     <a class="dropdown-item" href="#">カラー</a>
     <a class="dropdown-item" href="#">燃料タンク容量</a>
     <a class="dropdown-item" href="#">発kg単価</a>
@@ -79,8 +79,8 @@
     絶対条件
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.name', ['genre'=>$genre,'year'=>$year]) }}">車名</a>
-    <a class="dropdown-item" href="{{ route('car.maker', ['genre'=>$genre,'year'=>$year]) }}">メーカー</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'name']) }}">車名</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'maker']) }}">メーカー</a>
     <a class="dropdown-item" href="#">価格</a>
     <a class="dropdown-item" href="#">車体の大きさ</a>
     <a class="dropdown-item" href="#">乗車人数</a>
@@ -99,7 +99,7 @@
     流行り
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.release', ['genre'=>$genre,'year'=>$year]) }}">発売日</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日</a>
     <a class="dropdown-item" href="#">乗車人数</a>
     <a class="dropdown-item" href="#">カラー</a>
     <a class="dropdown-item" href="#">燃費</a>
@@ -115,7 +115,7 @@
     維持費
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.release', ['genre'=>$genre,'year'=>$year]) }}">価格</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">価格</a>
     <a class="dropdown-item" href="#">重量税</a>
     <a class="dropdown-item" href="#">燃費</a>
     <a class="dropdown-item" href="#">自動車税</a>
@@ -131,7 +131,7 @@
     お金
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.release', ['genre'=>$genre,'year'=>$year]) }}">価格</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">価格</a>
     <a class="dropdown-item" href="#">重量税</a>
     <a class="dropdown-item" href="#">自動車税</a>
     <a class="dropdown-item" href="#">kg単価</a>
