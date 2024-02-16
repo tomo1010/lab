@@ -1,13 +1,10 @@
-{{-- ジャンル別ヘッダ分岐
-@if((Request::is('car/minivan/*')))
+{{-- ジャンル別ヘッダ分岐--}}
+@if($genre == 'minivan')
     @include('car.minivan.title')
+@elseif($genre == 'suv')
+    @include('car.suv.title')
 @endif
---}}
 
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#2981C0;">
-    {{-- トップページへのリンク --}}
-    しっかり比較して賢く選ぶ。全メーカー全車種一覧ランキング。
-    <a class="navbar-brand" href="/"><img src="https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png"></a>
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">

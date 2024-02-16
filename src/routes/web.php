@@ -24,8 +24,8 @@ Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 //
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
-Route::get('car/{genre}/{year}', [CarsController::class, 'year'])->name('car.year');
-Route::get('car/{genre}/{year}/{spec}', [CarsController::class, 'spec'])->name('car.spec');
+//Route::get('car/{genre}/{year}', [CarsController::class, 'year'])->name('car.year');
+Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('car.spec');
 
 //Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
 //Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');

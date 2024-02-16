@@ -108,7 +108,7 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function spec($genre,$year,$spec)
+    public function spec($genre,$spec,$year)
     {
 
         //年度取得
@@ -422,6 +422,44 @@ class CarsController extends Controller
 
 
 
+
+
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function genre($genre)
+    {
+
+        //ジャンルを取得
+        if($genre == 'minivan' ){
+            $cars = Car::where([
+                ['minivan_flug','=', '1'],
+                //['year','=', $year]
+                ])
+                ->get();
+
+        }elseif($genre == 'suv'){
+            $cars = Car::where([
+                ['suv_flug','=', '1'],
+                //['year','=', $year]
+                ])
+                ->get();
+        }
+
+
+        //車種一覧ビューでそれを表示
+        return view('car.genre', [
+            'genre' => $genre,
+            'cars' => $cars,
+        ]);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -462,32 +500,32 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function genre($genre)
+    public function category($genre,$year)
     {
+
+        //年度取得
+        $thisYear = self::THISYEAR;
 
         //ジャンルを取得
         if($genre == 'minivan' ){
             $cars = Car::where([
                 ['minivan_flug','=', '1'],
-                //['year','=', $year]
+                ['year','=', $year]
+
                 ])
                 ->get();
 
         }elseif($genre == 'suv'){
             $cars = Car::where([
                 ['suv_flug','=', '1'],
-                //['year','=', $year]
+                ['year','=', $year]
                 ])
                 ->get();
         }
 
-
         //車種一覧ビューでそれを表示
-        return view('car.genre', [
-            'genre' => $genre,
-            'cars' => $cars,
-        ]);
-    }
+        return view('car.category', compact('genre','year','thisYear','cars'));
+    }    
 
 
 
