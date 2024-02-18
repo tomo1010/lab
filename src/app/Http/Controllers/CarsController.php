@@ -393,6 +393,37 @@ class CarsController extends Controller
             return view('car.jtax', compact('genre','year','spec','thisYear','jtaxs'));
         }
 
+        //kg単価
+        elseif($spec == 'kg'){
+
+            $kgs = $cars->sortBy('weight'); //重量を取得
+
+                foreach($kgs as $car){
+                    $price = ($car->price)*10000;
+                    $weight = $car->weight;
+                    $car->kg = floor($price/$weight);//本当はこの結果でソートしたい
+                    }
+                
+            return view('car.kg', compact('genre','year','spec','thisYear','kgs'));
+        }
+
+
+        //航続距離
+        elseif($spec == 'cruising'){
+
+            $cruisings = $cars->sortBy('fueltank'); //燃料タンク容量を取得
+
+                foreach($cruisings as $car){
+                    $fueltank = $car->fueltank;
+                    $wltc = $car->WLTC;
+                    //$car->cruising = $fueltank*$wltc;//本当はこの結果でソートしたい
+                    $car->cruising = $fueltank; //bladeテスト用
+                    }
+                
+            return view('car.cruising', compact('genre','year','spec','thisYear','cruisings'));
+        }
+
+
         ////SPECなし年のみ
         //elseif($spec == null){
         //    $cars = Car::where([
@@ -466,30 +497,30 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function year($genre,$year)
+    public function year($genre,$spec)
     {
 
         //年度取得
         $thisYear = self::THISYEAR;
-
+//dd($spec);
         //ジャンルを取得
         if($genre == 'minivan' ){
             $cars = Car::where([
                 ['minivan_flug','=', '1'],
-                ['year','=', $year]
+                ['spec','=', $spec]
                 ])
                 ->get();
 
         }elseif($genre == 'suv'){
             $cars = Car::where([
                 ['suv_flug','=', '1'],
-                ['year','=', $year]
+                ['spec','=', $spec]
                 ])
                 ->get();
         }
 
         //車種一覧ビューでそれを表示
-        return view('car.year', compact('genre','year','thisYear','cars'));
+        return view('car.year', compact('genre','spec','thisYear','cars'));
     }
 
 

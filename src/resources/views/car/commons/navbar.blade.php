@@ -1,10 +1,20 @@
-{{-- ジャンル別ヘッダ分岐--}}
+{{-- ジャンル別ヘッダ分岐
 @if($genre == 'minivan')
     @include('car.minivan.title')
 @elseif($genre == 'suv')
     @include('car.suv.title')
+@else($genre == null)
+    @include('car.commons.title')
 @endif
+--}}
 
+@if(Request::is('car/minivan'))
+    @include('car.minivan.title')
+@elseif(Request::is('suv'))
+    @include('car.suv.title')
+@else
+    @include('car.commons.title')
+@endif
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">

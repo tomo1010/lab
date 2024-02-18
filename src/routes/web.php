@@ -22,14 +22,21 @@ Route::get('/', function () {
 // 比較サイト
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
+
+
 //
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
-//Route::get('car/{genre}/{year}', [CarsController::class, 'year'])->name('car.year');
+//Route::get('car/{genre}/{spec}', [CarsController::class, 'year'])->name('car.year');
 Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('car.spec');
+
+//車種詳細ページ
+Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
+
 
 //Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
 //Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');
 //Route::get('car/{genre}/{year}/release', [CarsController::class, 'release'])->name('car.release');
+
 
 //SUV
 //Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
@@ -37,5 +44,4 @@ Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('
 //新車から3年後
 //Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
 
-//車種詳細ページ
-Route::get('car/{id}', [CarsController::class, 'show'])->name('car.show');
+
