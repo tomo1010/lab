@@ -113,16 +113,16 @@ class CarsController extends Controller
 
         //年度取得
         $thisYear = self::THISYEAR;
+        //$year = Carbon('year');
+
 
         /*
         ジャンルと年を取得
         */
 
         if($genre == 'minivan' ){
-            $cars = Car::where([
-                ['minivan_flug','=', '1'],
-                ['year','=', $year]
-                ])
+            $cars = Car::where('minivan_flug','=', '1')
+                ->whereYear('year', '<=', $year)
                 ->get();
 
         }elseif($genre == 'suv'){
@@ -132,6 +132,26 @@ class CarsController extends Controller
                 ])
                 ->get();
         }
+
+
+        ///*
+        //ジャンルと年を取得
+        //*/
+
+        //if($genre == 'minivan' ){
+        //    $cars = Car::where([
+        //        ['minivan_flug','=', '1'],
+        //        ['year','=', $year]
+        //        ])
+        //        ->get();
+
+        //}elseif($genre == 'suv'){
+        //    $cars = Car::where([
+        //        ['suv_flug','=', '1'],
+        //        ['year','=', $year]
+        //        ])
+        //        ->get();
+        //}
 
 
         /*

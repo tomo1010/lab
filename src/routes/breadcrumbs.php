@@ -14,9 +14,3 @@ Breadcrumbs::for('site.category', function (BreadcrumbTrail $trail, Category $ca
     $trail->push($year, route('car.minivan'));
 });
 
-// カテゴリ別記事一覧 第3階層
-Breadcrumbs::for('site.category.article', function (BreadcrumbTrail $trail, Category $category) {
-    $trail->parent('site.category');
-}
-$trail->push("{$category->name}新着記事一覧", route('site.category.article', $category->id));
-});

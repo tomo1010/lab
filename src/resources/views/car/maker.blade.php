@@ -21,7 +21,7 @@
                         @foreach ($makers as $car)
                         <tr>
                             <td>
-                                @include('car.commons.carName')
+                                @include('car.commons.name')
                             </td>
                             <td>
                                 {{ $car->maker }}
