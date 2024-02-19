@@ -1,16 +1,7 @@
-{{-- ジャンル別ヘッダ分岐
-@if($genre == 'minivan')
+{{-- ジャンル別ヘッダ分岐--}}
+@if(Request::is('car/minivan*'))
     @include('car.minivan.title')
-@elseif($genre == 'suv')
-    @include('car.suv.title')
-@else($genre == null)
-    @include('car.commons.title')
-@endif
---}}
-
-@if(Request::is('car/minivan'))
-    @include('car.minivan.title')
-@elseif(Request::is('suv'))
+@elseif(Request::is('car/suv*'))
     @include('car.suv.title')
 @else
     @include('car.commons.title')
@@ -30,9 +21,9 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">その他のジャンル一覧</a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"><a href="">ミニバン</a></li>
+                            <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'minivan']) }}">ミニバン</a></li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="">SUV</a></li>
+                            <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv']) }}">SUV</a></li>
                             <li class="dropdown-divider"></li>
                         </ul>
                 </li>

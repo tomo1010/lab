@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>カテゴリ一</h1>
+    <p><h1>カテゴリ一</h1></p>
 
     <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item"><a href="#size" class="nav-link active" data-toggle="tab">大きさ</a></li>
@@ -10,7 +10,7 @@
         <li class="nav-item"><a href="#utility" class="nav-link" data-toggle="tab">使い勝手</a></li>
         <li class="nav-item"><a href="#power" class="nav-link" data-toggle="tab">パワー</a></li>
         <li class="nav-item"><a href="#condition" class="nav-link" data-toggle="tab">絶対条件</a></li>
-        <li class="nav-item"><a href="#fashion" class="nav-link" data-toggle="tab">流行り</a></li>
+        <li class="nav-item"><a href="#trend" class="nav-link" data-toggle="tab">流行り</a></li>
         <li class="nav-item"><a href="#cost" class="nav-link" data-toggle="tab">維持費</a></li>
         <li class="nav-item"><a href="#money" class="nav-link" data-toggle="tab">お金</a></li>
     </ul>
@@ -265,7 +265,7 @@
                 </table>
             </div>
 
-            <div id="fashion" class="tab-pane">
+            <div id="trend" class="tab-pane">
                 <table class="table table-striped">
                     <thead>
                         <tr>

@@ -24,7 +24,7 @@ Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 
 
-//
+//各ジャンルごとのページ
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
 //Route::get('car/{genre}/{spec}', [CarsController::class, 'year'])->name('car.year');
 Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('car.spec');

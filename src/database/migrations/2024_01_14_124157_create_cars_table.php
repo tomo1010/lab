@@ -52,11 +52,11 @@ return new class extends Migration
             $table->string('kinds');    //AJ 種類
             $table->string('fuel');    //AK 使用燃料
             $table->string('supercharger');    //AL 過給機
-            $table->string('fueltank');    //AM 燃料タンク
+            $table->integer('fueltank');    //AM 燃料タンク
             $table->string('cylinderdevice');    //AN 可変気筒装置
             $table->string('JC08');    //AO 燃費
             $table->string('displacement');    //AP 総排気量
-            $table->string('WLTC');    //AQ 燃費
+            $table->integer('WLTC');    //AQ 燃費
             $table->string('achievedfuel');    //AR 燃費基準達成
             $table->string('ps');    //AS 最高出力
             $table->string('torque');    //AT 最大トルク
@@ -66,11 +66,11 @@ return new class extends Migration
             $table->string('VGS');    //AX VGS/VGRS
             $table->string('Fsuspension');    //AY サスペンション形式　前
             $table->string('Rsuspension');    //AZ サスペンション形式　後
-            $table->string('Fttiresize');    //BA タイヤサイズ　前
+            $table->string('Ftiresize');    //BA タイヤサイズ　前
             $table->string('Rtiresize');    //BB タイヤサイズ　後
             $table->string('Fbraketype');    //BC ブレーキ形式　前
             $table->string('Rbraketype');    //BD ブレーキ形式　後
-            $table->string('year');    //BE 設定年
+            $table->date('year');    //BE 設定年
             $table->string('half');    //BF 上半期・下半期
             $table->text('minivan_flug')->nullable();    //BG ジャンル・ミニバン
             $table->text('minivan_size')->nullable();    //BH ジャンル・ミニバンサイズ

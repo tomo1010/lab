@@ -2,8 +2,10 @@
 
 @section('content')
 
+    <p>
     <h1>{{$year}}年ミニバンを車名で比較</h1>
-
+    </p>
+    
     @include('car.minivan.menubar')
 
             <table class="table table-striped">

@@ -2,8 +2,9 @@
 
 @section('content')
 
-    <h1>車種詳細</h1>
-
+        <p>
+        <h1>{{$car->name}}詳細ページ</h1>
+        </p>
             <table class="table table-striped">
 
                     <tr>
