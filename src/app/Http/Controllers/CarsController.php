@@ -108,28 +108,28 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function spec($genre,$spec,$year)
+    public function spec($genre,$spec,$year,$half)
     {
 
         //年度取得
         $thisYear = self::THISYEAR;
         //$year = Carbon('year');
 
-
         /*
         ジャンルと年を取得
         */
 
         if($genre == 'minivan' ){
-            $cars = Car::where('minivan_flug','=', '1')
+            $cars = Car::where([
+                ['minivan_flug','=', '1'],
+                ['half','=', $half]
+                ])
                 ->whereYear('year', '<=', $year)
                 ->get();
 
         }elseif($genre == 'suv'){
-            $cars = Car::where([
-                ['suv_flug','=', '1'],
-                ['year','=', $year]
-                ])
+            $cars = Car::where('suv_flug','=', '1')
+                ->whereYear('year', '<=', $year)
                 ->get();
         }
 
@@ -139,10 +139,10 @@ class CarsController extends Controller
         //*/
 
         //if($genre == 'minivan' ){
-        //    $cars = Car::where([
-        //        ['minivan_flug','=', '1'],
-        //        ['year','=', $year]
-        //        ])
+            //$cars = Car::where([
+            //    ['minivan_flug','=', '1'],
+            //    ['year','=', $year]
+            //    ])
         //        ->get();
 
         //}elseif($genre == 'suv'){
@@ -162,7 +162,7 @@ class CarsController extends Controller
         if($spec == 'maker'){
             $makers = $cars->sortBy('maker');       
             
-            return view('car.maker', compact('genre','year','spec','thisYear','makers'));
+            return view('car.maker', compact('genre','year','spec','half','thisYear','makers'));
         }
 
         //車名
@@ -460,8 +460,9 @@ class CarsController extends Controller
         //車種一覧ビューでそれを表示
         return view('car.genre', [
             'genre' => $genre,
-            'year' => $year,
             'spec' => $spec,
+            'year' => $year,
+            'half' => $half,
             'makers' => $makers,
             'names' => $names,
             'releases' => $releases,
@@ -486,6 +487,9 @@ class CarsController extends Controller
     public function genre($genre)
     {
 
+        //年度取得
+        $thisYear = self::THISYEAR;
+
         //ジャンルを取得
         if($genre == 'minivan' ){
             $cars = Car::where([
@@ -507,6 +511,7 @@ class CarsController extends Controller
         return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
+            'thisYear' => $thisYear,
         ]);
     }
 

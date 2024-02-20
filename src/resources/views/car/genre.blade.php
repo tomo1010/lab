@@ -73,7 +73,7 @@
                             <td>有名だからって選んでませんか？</td>
                         </tr>
                         <tr>
-                            <td>メーカー</td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'maker','year'=>$thisYear,'half'=>0]) }}">メーカー</a><br></td>
                             <td>たまにはいつもと違うメーカーから</td>
                         </tr>
                         <tr>

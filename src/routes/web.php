@@ -23,23 +23,15 @@ Route::get('/', function () {
 Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 
-
 //各ジャンルごとのページ
-Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
-//Route::get('car/{genre}/{spec}', [CarsController::class, 'year'])->name('car.year');
-Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('car.spec');
+Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー
+Route::get('car/{genre}/{spec}', [CarsController::class, 'spec'])->name('car.spec'); //スペックごとの年度表示
+Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'spec'])->name('car.spec'); //自動的に最新情報
+Route::get('car/{genre}/{spec}/{year}/{half}', [CarsController::class, 'spec'])->name('car.spec'); //上半期下半期を指定した最新情報
 
 //車種詳細ページ
 Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
 
-
-//Route::get('car/{genre}/{year}/maker', [CarsController::class, 'maker'])->name('car.maker');
-//Route::get('car/{genre}/{year}/name', [CarsController::class, 'name'])->name('car.name');
-//Route::get('car/{genre}/{year}/release', [CarsController::class, 'release'])->name('car.release');
-
-
-//SUV
-//Route::get('car/suv', [CarsController::class, 'suv'])->name('car.suv');
 
 //新車から3年後
 //Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');

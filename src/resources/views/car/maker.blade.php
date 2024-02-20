@@ -4,7 +4,15 @@
 
 @include('car.minivan.menubar')
 
-    <h1>{{$year}}年メーカーで比較</h1>
+    <h1>{{$year}}年
+        @if($half == 1)
+            上半期
+        @elseif($half == 2)
+            下半期
+        @else($half == 0)
+        @endif
+        メーカーで比較
+    </h1>
 
     @if($year == 2024)
     @include('car.minivan.contents_maker')
@@ -32,7 +40,7 @@
                 </table>
 
         @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'maker']) }}">{{$i}}年ミニバンをメーカーで比較</a><br>
+        <a href="{{-- route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'maker','half'=>'maker']) --}}">{{$i}}年ミニバンをメーカーで比較</a><br>
         @endfor
 
 @endsection
