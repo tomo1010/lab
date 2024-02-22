@@ -108,13 +108,23 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function spec($genre,$spec,$year,$half)
+    public function spec($genre,$spec,$year,$half=null)
     {
 
         //年度取得
         $thisYear = self::THISYEAR;
-        //$year = Carbon('year');
 
+        //$half未入力の場合、上半期と下半期でで常に最新のデータを表示させる処理
+        if(empty($half)){
+            $car = Car::whereYear('year', '<=', $year)->where('half', '=', '2')->first();
+//dd($car);            
+            if(empty($car)){
+                $half = 1;
+            }else{
+                $half = 2;
+            }
+        }
+//dd($half);
         /*
         ジャンルと年を取得
         */
