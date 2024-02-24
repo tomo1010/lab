@@ -1,11 +1,11 @@
-{{-- ジャンル別ヘッダ分岐--}}
-@if(Request::is('car/minivan*'))
-    @include('car.minivan.title')
-@elseif(Request::is('car/suv*'))
-    @include('car.suv.title')
-@else
-    @include('car.commons.title')
-@endif
+    {{-- ジャンル別ヘッダ分岐--}}
+    @if(Request::is('car/minivan*'))
+        @include('car.minivan.title')
+    @elseif(Request::is('car/suv*'))
+        @include('car.suv.title')
+    @else
+        @include('car.commons.title')
+    @endif
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
@@ -20,12 +20,12 @@
                 {{-- 一覧へのリンク--}}                
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">その他のジャンル一覧</a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"><a href="{{ route('car.category', ['genre'=>'minivan']) }}">ミニバン</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a href="{{ route('car.category', ['genre'=>'suv']) }}">SUV</a></li>
-                            <li class="dropdown-divider"></li>
-                        </ul>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-item"><a href="{{ route('car.category', ['genre'=>'minivan']) }}">ミニバン</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.category', ['genre'=>'suv']) }}">SUV</a></li>
+                        <li class="dropdown-divider"></li>
+                    </ul>
                 </li>
 
 

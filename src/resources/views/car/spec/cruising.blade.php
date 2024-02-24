@@ -4,15 +4,7 @@
 
 @include('car.minivan.menubar')
 
-    <h1>{{$year}}年
-        @if($half == 1)
-            上半期
-        @elseif($half == 2)
-            下半期
-        @else($half == 0)
-        @endif
-        メーカーで比較
-    </h1>
+    <h1>{{$year}}年航続距離で比較</h1>
 
     @if($year == 2024)
     @include('car.minivan.contents_maker')
@@ -22,17 +14,17 @@
                     <thead>
                         <tr>
                             <th>名前</th>
-                            <th>メーカー</th>                              
+                            <th>航続距離</th>                              
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($makers as $car)
+                        @foreach ($cruisings as $car)
                         <tr>
                             <td>
                                 @include('car.commons.name')
                             </td>
                             <td>
-                                {{ $car->maker }}
+                                {{ $car->cruising }}km
                             </td>
                         </tr>
                         @endforeach
@@ -40,7 +32,7 @@
                 </table>
 
         @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{-- route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'maker','half'=>'maker']) --}}">{{$i}}年ミニバンをメーカーで比較</a><br>
+        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'cruising']) }}">{{$i}}年ミニバンをkg単価で比較</a><br>
         @endfor
 
 @endsection

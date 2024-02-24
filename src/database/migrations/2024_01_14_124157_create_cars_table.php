@@ -55,8 +55,8 @@ return new class extends Migration
             $table->integer('fueltank');    //AM 燃料タンク
             $table->string('cylinderdevice');    //AN 可変気筒装置
             $table->string('JC08');    //AO 燃費
-            $table->string('displacement');    //AP 総排気量
-            $table->integer('WLTC');    //AQ 燃費
+            $table->string('displacement')->nullable();    //AP 総排気量
+            $table->integer('WLTC')->nullable();    //AQ 燃費
             $table->string('achievedfuel');    //AR 燃費基準達成
             $table->string('ps');    //AS 最高出力
             $table->string('torque');    //AT 最大トルク

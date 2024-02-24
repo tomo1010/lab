@@ -2,35 +2,34 @@
 
 @section('content')
 
-    <p>
-    <h1>{{$year}}年ミニバンを車名で比較</h1>
-    </p>
-    
-    @include('car.minivan.menubar')
+    <h1>{{$year}}年ミニバンを発売日で比較</h1>
 
-            <table class="table table-striped">
+    @include('car.commons.menubar')
+
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>名前</th>
-                                <th>グレード</th>                              
+                                <th>発売日</th>                              
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($names as $car)
+                            @foreach ($releases as $car)
                             <tr>
                                 <td>
                                     @include('car.commons.name')
                                 </td>
                                 <td>
-                                    {{ $car->grade }}
+                                    {{ $car->release }}
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
 
+
         @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'name']) }}">{{$i}}年ミニバンを車名で比較</a><br>
+        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'release']) }}">{{$i}}年ミニバンを発売日で比較</a><br>
         @endfor
 
 @endsection

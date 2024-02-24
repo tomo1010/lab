@@ -1,4 +1,5 @@
 <p>
+  
 <!-- Example single danger button -->
 <div class="btn-group">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -17,22 +18,28 @@
   </div>
 </div>
 
+
 <!-- Example single danger button -->
 <div class="btn-group">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     選ぶ楽しみ
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{-- route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'name']) --}}">車名</a>
-    <a class="dropdown-item" href="{{-- route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'maker']) --}}">メーカー</a>
-    <a class="dropdown-item" href="{{-- route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) --}}">発売日</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'name']) }}">車名</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'maker']) }}">メーカー</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日</a>
     <a class="dropdown-item" href="#">カラー</a>
     <a class="dropdown-item" href="#">燃料タンク容量</a>
     <a class="dropdown-item" href="#">発kg単価</a>
     <a class="dropdown-item" href="#">サイズ</a>
-    <a class="dropdown-item" href="#">スライドドア</a>
-    <a class="dropdown-item" href="#">３列目</a>
     <a class="dropdown-item" href="#">形</a>
+
+    {{-- ジャンル別分岐--}}
+    @if($genre == 'minivan')
+    <a class="dropdown-item" href="#">スライドドア※</a>
+    <a class="dropdown-item" href="#">３列目※</a>
+    @endif
+
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="#">Separated link</a>
   </div>
