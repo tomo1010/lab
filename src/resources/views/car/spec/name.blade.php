@@ -2,35 +2,37 @@
 
 @section('content')
 
-    <p>
-    <h1>{{$year}}年ミニバンを車名で比較</h1>
-    </p>
-    
-    @include('car.commons.menubar')
+    {{-- メニューバー --}}
+    @include('car.commons.menubar') 
 
-            <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>名前</th>
-                                <th>グレード</th>                              
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($names as $car)
-                            <tr>
-                                <td>
-                                    @include('car.commons.name')
-                                </td>
-                                <td>
-                                    {{ $car->grade }}
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+    {{-- ページタイトルを上半期下半期に分けて表示 --}}
+    @include('car.commons.titleHalf') 
 
-        @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'name']) }}">{{$i}}年ミニバンを車名で比較</a><br>
-        @endfor
+    {{-- 最新年度ならジャンル別のコラムを表示--}}
+    @include('car.commons.explanation') 
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>名前</th>
+                    <th>グレード</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($names as $car)
+                <tr>
+                    <td>
+                        @include('car.commons.nameCar')
+                    </td>
+                    <td>
+                        {{ $car->grade }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    {{-- 過去のランキング一覧を表示--}}
+    @include('car.commons.pastlist')
 
 @endsection

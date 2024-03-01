@@ -19,33 +19,33 @@ return new class extends Migration
             $table->string('maker');    //C メーカー
             $table->string('maker_kana');    //D メーカー英語
             $table->string('name');    //E 車名
-            $table->string('release');    //F 発売日
+            $table->date('release');    //F 発売日
             $table->string('grade');    //G グレード
-            $table->string('price');    //H 価格
+            $table->integer('price');    //H 価格
             $table->string('model');    //I 型式
-            $table->string('turningradius');    //J 最小回転半径
+            $table->float('turningradius');    //J 最小回転半径
             $table->string('drive');    //K 駆動方式
-            $table->string('size_length');    //L 全長
-            $table->string('size_width');    //M 全幅
-            $table->string('size_height');    //N 全高
-            $table->string('door');    //O ドア数
-            $table->string('wheeelbase');    //P ホイールベース
+            $table->float('size_length');    //L 全長
+            $table->float('size_width');    //M 全幅
+            $table->float('size_height');    //N 全高
+            $table->integer('door');    //O ドア数
+            $table->float('wheeelbase');    //P ホイールベース
             $table->string('mission');    //Q ミッション
             $table->string('tred');    //R 前トレッド/後トレッド
             $table->string('shift');    //S AI-SHIFT
-            $table->string('indoorsize_length');    //T 室内(全長)
-            $table->string('indoorsize_width');    //U 室内(全幅)
-            $table->string('indoorsize_height');    //V 室内(全高)
+            $table->float('indoorsize_length');    //T 室内(全長)
+            $table->float('indoorsize_width');    //U 室内(全幅)
+            $table->float('indoorsize_height');    //V 室内(全高)
             $table->string('fourws');    //W ４WS
-            $table->string('weight');    //X 車両重量
-            $table->string('seats');    //Y シート列数
-            $table->string('capacity');    //Z 最大積載量
-            $table->string('ridingcapacity');    //AA 乗車定員
-            $table->string('grossweight');    //AB 車輌総重量
+            $table->integer('weight');    //X 車両重量
+            $table->integer('seats');    //Y シート列数
+            $table->integer('capacity');    //Z 最大積載量
+            $table->integer('ridingcapacity');    //AA 乗車定員
+            $table->integer('grossweight');    //AB 車輌総重量
             $table->string('missionposition');    //AC ミッション位置
-            $table->string('groundclearance');    //AD 最低地上高
+            $table->float('groundclearance');    //AD 最低地上高
             $table->string('manualmode');    //AE マニュアルモード
-            $table->string('colors');    //AF 色数
+            $table->integer('colors');    //AF 色数
             $table->string('comment');    //AG 掲載コメント
             $table->string('enginemodel');    //AH エンジン型式
             $table->string('environmentalengine');    //AI 環境対策エンジン
@@ -54,11 +54,11 @@ return new class extends Migration
             $table->string('supercharger');    //AL 過給機
             $table->integer('fueltank');    //AM 燃料タンク
             $table->string('cylinderdevice');    //AN 可変気筒装置
-            $table->string('JC08');    //AO 燃費
-            $table->string('displacement')->nullable();    //AP 総排気量
-            $table->integer('WLTC')->nullable();    //AQ 燃費
+            $table->float('JC08');    //AO 燃費
+            $table->integer('displacement')->nullable();    //AP 総排気量
+            $table->float('WLTC')->nullable();    //AQ 燃費
             $table->string('achievedfuel');    //AR 燃費基準達成
-            $table->string('ps');    //AS 最高出力
+            $table->integer('ps');    //AS 最高出力
             $table->string('torque');    //AT 最大トルク
             $table->string('position');    //AU 位置
             $table->string('steeringgear');    //AV ステアリングギア方式

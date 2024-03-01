@@ -2,37 +2,37 @@
 
 @section('content')
 
-@include('car.minivan.menubar')
+    {{-- メニューバー --}}
+    @include('car.commons.menubar') 
 
-    <h1>{{$year}}年航続距離で比較</h1>
+    {{-- ページタイトルを上半期下半期に分けて表示 --}}
+    @include('car.commons.titleHalf') 
 
-    @if($year == 2024)
-    @include('car.minivan.contents_maker')
-    @endif
+    {{-- 最新年度ならジャンル別のコラムを表示--}}
+    @include('car.commons.explanation') 
 
-            <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>名前</th>
-                            <th>航続距離</th>                              
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($cruisings as $car)
-                        <tr>
-                            <td>
-                                @include('car.commons.name')
-                            </td>
-                            <td>
-                                {{ $car->cruising }}km
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>車種</th>
+                    <th>航続距離</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($cruisings as $car)
+                <tr>
+                    <td>
+                        @include('car.commons.nameCar')
+                    </td>
+                    <td>
+                        {{ $car->cruising }} km
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-        @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'cruising']) }}">{{$i}}年ミニバンをkg単価で比較</a><br>
-        @endfor
+    {{-- 過去のランキング一覧を表示--}}
+    @include('car.commons.pastlist')
 
 @endsection

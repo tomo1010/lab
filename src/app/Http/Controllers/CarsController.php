@@ -142,6 +142,11 @@ class CarsController extends Controller
             $cars = Car::where('suv_flug','=', '1')
                 ->whereYear('year', '<=', $year)
                 ->get();
+
+        }elseif($genre == 'compact'){
+            $cars = Car::where('compact_flug','=', '1')
+                ->whereYear('year', '<=', $year)
+                ->get();
         }
 
 
@@ -160,182 +165,182 @@ class CarsController extends Controller
         elseif($spec == 'name'){
             $names = $cars->sortBy('name');
 
-            return view('car.spec.name', compact('genre','year','spec','thisYear','names'));
+            return view('car.spec.name', compact('genre','year','spec','half','thisYear','names'));
         }
 
         //発売日
         elseif($spec == 'release'){
             $releases = $cars->sortByDesc('release');
 
-            return view('car.spec.release', compact('genre','year','spec','thisYear','releases'));
+            return view('car.spec.release', compact('genre','year','spec','half','thisYear','releases'));
         }
 
         //価格
         elseif($spec == 'plice'){
             $plices = $cars->sortBy('plice');
 
-            return view('car.spec.plice', compact('genre','year','spec','thisYear','plices'));
+            return view('car.spec.plice', compact('genre','year','spec','half','thisYear','plices'));
         }
 
         //小回り
         elseif($spec == 'turningradius'){
             $plices = $cars->sortBy('turningradius');
 
-            return view('car.spec.turningradius', compact('genre','year','spec','thisYear','turningradiuses')); //複数形OK？カラム名変更検討
+            return view('car.spec.turningradius', compact('genre','year','spec','half','thisYear','turningradiuses')); //複数形OK？カラム名変更検討
         }
 
         //車体 長さ
         elseif($spec == 'size_length'){
             $plices = $cars->sortBy('size_length');
 
-            return view('car.spec.size_length', compact('genre','year','spec','thisYear','size_lengths'));
+            return view('car.spec.size_length', compact('genre','year','spec','half','thisYear','size_lengths'));
         }        
 
         //車体　幅
         elseif($spec == 'size_width'){
             $plices = $cars->sortBy('size_width');
 
-            return view('car.spec.size_width', compact('genre','year','spec','thisYear','size_widths'));
+            return view('car.spec.size_width', compact('genre','year','spec','half','thisYear','size_widths'));
         }        
 
         //車体　高さ
         elseif($spec == 'size_height'){
             $plices = $cars->sortBy('size_height');
 
-            return view('car.spec.size_height', compact('genre','year','spec','thisYear','size_heights'));
+            return view('car.spec.size_height', compact('genre','year','spec','half','thisYear','size_heights'));
         }
 
         //車体　合計
         elseif($spec == 'size'){
             $plices = $cars->sortBy('size');
 
-            return view('car.spec.size', compact('genre','year','spec','thisYear','sizes'));
+            return view('car.spec.size', compact('genre','year','spec','half','thisYear','sizes'));
         }        
         
         //ホイールベース
         elseif($spec == 'wheelbase'){
             $plices = $cars->sortBy('wheelbase');
 
-            return view('car.spec.wheelbase', compact('genre','year','spec','thisYear','wheelbases'));
+            return view('car.spec.wheelbase', compact('genre','year','spec','half','thisYear','wheelbases'));
         }                
 
         //トレッド
         elseif($spec == 'tred'){
             $plices = $cars->sortBy('tred');
 
-            return view('car.spec.tred', compact('genre','year','spec','thisYear','treds'));
+            return view('car.spec.tred', compact('genre','year','spec','half','thisYear','treds'));
         }
 
         //室内　長さ
         elseif($spec == 'indoorsize_length'){
             $plices = $cars->sortBy('indoorsize_length');
 
-            return view('car.spec.indoorsize_length', compact('genre','year','spec','thisYear','indoorsize_lengths'));
+            return view('car.spec.indoorsize_length', compact('genre','year','spec','half','thisYear','indoorsize_lengths'));
         }
 
         //室内　幅
         elseif($spec == 'indoorsize_width'){
             $plices = $cars->sortBy('indoorsize_width');
 
-            return view('car.spec.indoorsize_width', compact('genre','year','spec','thisYear','indoorsize_widths'));
+            return view('car.spec.indoorsize_width', compact('genre','year','spec','half','thisYear','indoorsize_widths'));
         }
 
         //室内　高さ
         elseif($spec == 'indoorsize_height'){
             $plices = $cars->sortBy('indoorsize_height');
 
-            return view('car.spec.indoorsize_height', compact('genre','year','spec','thisYear','indoorsize_heights'));
+            return view('car.spec.indoorsize_height', compact('genre','year','spec','half','thisYear','indoorsize_heights'));
         }
 
         //室内　合計
         elseif($spec == 'indoorsize'){
             $plices = $cars->sortBy('indoorsize');
 
-            return view('car.spec.indoorsize', compact('genre','year','spec','thisYear','indoorsizes'));
+            return view('car.spec.indoorsize', compact('genre','year','spec','half','thisYear','indoorsizes'));
         }        
 
         //車輌重量
         elseif($spec == 'weight'){
             $plices = $cars->sortBy('weight');
 
-            return view('car.spec.weight', compact('genre','year','spec','thisYear','weights'));
+            return view('car.spec.weight', compact('genre','year','spec','half','thisYear','weights'));
         }
 
         //乗車人数
         elseif($spec == 'ridingcapacity'){
             $plices = $cars->sortBy('ridingcapacity');
 
-            return view('car.spec.ridingcapacity', compact('genre','year','spec','thisYear','ridingcapacitys'));
+            return view('car.spec.ridingcapacity', compact('genre','year','spec','half','thisYear','ridingcapacitys'));
         }
 
         //最低地上高
         elseif($spec == 'groundclearance'){
             $plices = $cars->sortBy('groundclearance');
 
-            return view('car.spec.groundclearance', compact('genre','year','spec','thisYear','groundclearances'));
+            return view('car.spec.groundclearance', compact('genre','year','spec','half','thisYear','groundclearances'));
         }
 
         //色数
         elseif($spec == 'color'){
             $plices = $cars->sortBy('color');
 
-            return view('car.spec.color', compact('genre','year','spec','thisYear','colors'));
+            return view('car.spec.color', compact('genre','year','spec','half','thisYear','colors'));
         }
 
         //燃料の種類
         elseif($spec == 'fuel'){
             $plices = $cars->sortBy('fuel');
 
-            return view('car.spec.fuel', compact('genre','year','spec','thisYear','fuels'));
+            return view('car.spec.fuel', compact('genre','year','spec','half','thisYear','fuels'));
         }        
 
         //燃料タンク容量
         elseif($spec == 'fueltank'){
             $plices = $cars->sortBy('fueltank');
 
-            return view('car.spec.fueltank', compact('genre','year','spec','thisYear','fueltanks'));
+            return view('car.spec.fueltank', compact('genre','year','spec','half','thisYear','fueltanks'));
         }
 
         //燃費JC08
         elseif($spec == 'JC08'){
             $plices = $cars->sortBy('JC08');
 
-            return view('car.spec.JC08', compact('genre','year','spec','thisYear','JC08s'));
+            return view('car.spec.JC08', compact('genre','year','spec','half','thisYear','JC08s'));
         }
 
         //排気量
         elseif($spec == 'displacement'){
             $plices = $cars->sortBy('displacement');
 
-            return view('car.spec.displacement', compact('genre','year','spec','thisYear','displacements'));
+            return view('car.spec.displacement', compact('genre','year','spec','half','thisYear','displacements'));
         }
 
         //燃費WTLC
         elseif($spec == 'WTLC'){
             $plices = $cars->sortBy('WTLC');
 
-            return view('car.spec.WTLC', compact('genre','year','spec','thisYear','WTLCs'));
+            return view('car.spec.WTLC', compact('genre','year','spec','half','thisYear','WTLCs'));
         }
 
         //馬力
         elseif($spec == 'ps'){
             $plices = $cars->sortBy('ps');
 
-            return view('car.spec.ps', compact('genre','year','spec','thisYear','pses')); //複数形OK？
+            return view('car.spec.ps', compact('genre','year','spec','half','thisYear','pses')); //複数形OK？
         }
 
         //トルク
         elseif($spec == 'torque'){
             $plices = $cars->sortBy('torque');
 
-            return view('car.spec.torque', compact('genre','year','spec','thisYear','torques'));
+            return view('car.spec.torque', compact('genre','year','spec','half','thisYear','torques'));
         }        
 
         //タイヤ
         elseif($spec == 'Ftiresize'){
             $plices = $cars->sortBy('Ftiresize');
 
-            return view('car.spec.Ftiresize', compact('genre','year','spec','thisYear','Ftiresizes')); //大文字FはOK？　マイグレーションファイルのカラム名間違ってます
+            return view('car.spec.Ftiresize', compact('genre','year','spec','half','thisYear','Ftiresizes')); //大文字FはOK？　マイグレーションファイルのカラム名間違ってます
         }
 
 
@@ -379,10 +384,10 @@ class CarsController extends Controller
                     }
                 }
 
-            return view('car.spec.tax', compact('genre','year','spec','thisYear','taxs'));
+            return view('car.spec.tax', compact('genre','year','spec','half','thisYear','taxs'));
         }
 
-        //自動車税
+        //重量税
         elseif($spec == 'jtax'){
 
             $jtaxs = $cars->sortBy('weight'); //車両重量を取得
@@ -406,37 +411,40 @@ class CarsController extends Controller
                     }
                 }
 
-            return view('car.spec.jtax', compact('genre','year','spec','thisYear','jtaxs'));
+            return view('car.spec.jtax', compact('genre','year','spec','half','thisYear','jtaxs'));
         }
 
         //kg単価
         elseif($spec == 'kg'){
 
-            $kgs = $cars->sortBy('weight'); //重量を取得
+            $kgs = $cars;
 
                 foreach($kgs as $car){
                     $price = ($car->price)*10000;
                     $weight = $car->weight;
                     $car->kg = floor($price/$weight);//本当はこの結果でソートしたい
                     }
+
+            $kgs = $cars->sortByDesc('kg'); //kg単価でソート    
                 
-            return view('car.spec.kg', compact('genre','year','spec','thisYear','kgs'));
+            return view('car.spec.kg', compact('genre','year','spec','half','thisYear','kgs'));
         }
 
 
         //航続距離
         elseif($spec == 'cruising'){
 
-            $cruisings = $cars->sortBy('fueltank'); //燃料タンク容量を取得
+            $cruisings = $cars;
 
                 foreach($cruisings as $car){
                     $fueltank = $car->fueltank;
                     $wltc = $car->WLTC;
-                    $car->cruising = $fueltank*$wltc;//本当はこの結果でソートしたい
-                    //$car->cruising = $fueltank; //bladeテスト用
+                    $car->cruising = $fueltank*$wltc;
                     }
+            
+            $cruisings = $cars->sortByDesc('cruising'); //航続距離でソート    
                 
-            return view('car.spec.cruising', compact('genre','year','spec','thisYear','cruisings'));
+            return view('car.spec.cruising', compact('genre','year','spec','half','thisYear','cruisings'));
         }
 
 

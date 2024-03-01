@@ -2,37 +2,37 @@
 
 @section('content')
 
-@include('car.commons.menubar')
+    {{-- メニューバー --}}
+    @include('car.commons.menubar') 
 
-    <h1>{{$year}}年自動車税で比較</h1>
+    {{-- ページタイトルを上半期下半期に分けて表示 --}}
+    @include('car.commons.titleHalf') 
 
-    @if($year == 2024)
-        @include('car.minivan.contents_maker')
-    @endif
+    {{-- 最新年度ならジャンル別のコラムを表示--}}
+    @include('car.commons.explanation') 
 
-            <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>名前</th>
-                            <th>自動車税</th>                              
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($taxs as $car)
-                        <tr>
-                            <td>
-                                @include('car.commons.name')
-                            </td>
-                            <td>
-                                {{ $car->tax }}
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>名前</th>
+                    <th>自動車税</th>                              
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($taxs as $car)
+                <tr>
+                    <td>
+                        @include('car.commons.nameCar')
+                    </td>
+                    <td>
+                        {{ $car->tax }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-        @for ($i = $thisYear; $i > 2019; $i--)
-        <a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$i,'spec'=>'tax']) }}">{{$i}}年ミニバンを自動車税で比較</a><br>
-        @endfor
+    {{-- 過去のランキング一覧を表示--}}
+    @include('car.commons.pastlist')
 
 @endsection
