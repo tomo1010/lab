@@ -19,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($taxs as $car)
+                @foreach ($size_heights as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->tax }}
+                        {{ $car->size_height }} m
                     </td>
                 </tr>
                 @endforeach

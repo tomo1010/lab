@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>車種</th>
-                    <th>航続距離</th>                              
+                    <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>

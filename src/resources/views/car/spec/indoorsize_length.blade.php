@@ -14,18 +14,22 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車種</th>
                     <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($taxs as $car)
+                @foreach ($indoorsize_lengths as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->tax }}
+                        @if(!is_null($car->indoorsize_length))
+                        {{ $car->indoorsize_length }} m
+                        @else
+                        - m
+                        @endif
                     </td>
                 </tr>
                 @endforeach

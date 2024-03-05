@@ -26,7 +26,7 @@
     大きさ
 @elseif($spec == 'door')
     ドア数
-@elseif($spec == 'wheeelbase')
+@elseif($spec == 'wheelbase')
     ホイールベース
 @elseif($spec == 'mission')
     ミッション
@@ -110,15 +110,15 @@ VGS/VGRS
 ブレーキ形式　前
 @elseif($spec == 'braketypeR')
 ブレーキ形式　後
-@elseif($spec == 'cruising')
 
 {{--計算必要なスペック--}}
-自動車税
 @elseif($spec == 'tax')
-重量税
+自動車税
 @elseif($spec == 'jtax')
-kg単価
+重量税
 @elseif($spec == 'kg')
+kg単価
+@elseif($spec == 'cruising')
 航続距離
 
 {{--その他--}}

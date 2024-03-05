@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     use HasFactory;
+    
+    //releaseカラムをviewでformat()を使えるようにするため追記
+    protected $dates = [
+        'release',
+    ];
 }

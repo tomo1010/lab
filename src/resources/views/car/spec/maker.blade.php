@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>名前</th>
-                    <th>メーカー</th>                              
+                    <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>

@@ -15,17 +15,17 @@
             <thead>
                 <tr>
                     <th>名前</th>
-                    <th>@include('car.commons.nameSpec')</th>                              
+                    <th>@include('car.commons.nameSpec')（小廻り）</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($taxs as $car)
+                @foreach ($turningradiuses as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->tax }}
+                        {{ $car->turningradius}} m
                     </td>
                 </tr>
                 @endforeach

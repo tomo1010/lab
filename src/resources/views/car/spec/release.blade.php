@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>名前</th>
-                    <th>発売日</th>                              
+                    <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->release }}
+                        {{ $car->release->format('Y年m月') }}
                     </td>
                 </tr>
                 @endforeach

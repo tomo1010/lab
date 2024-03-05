@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>名前</th>
-                    <th>kg単価</th>                              
+                    <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
