@@ -14,18 +14,18 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車種</th>
                     <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cars as $car)
+                @foreach ($treds as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->jtax }}
+                        {{ $car->tred }}
                     </td>
                 </tr>
                 @endforeach

@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($sizes as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')

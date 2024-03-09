@@ -14,23 +14,29 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車名</th>
                     <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cars as $car)
+                @foreach ($torques as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->jtax }}
+                        @if(!is_null($car->torque))
+                        {{ $car->torque }}
+                        @else
+                        - 
+                        @endif
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <p style="text-align: right">n・m（kg・m）/rpm</p>
 
     {{-- 過去のランキング一覧を表示--}}
     @include('car.commons.pastlist')

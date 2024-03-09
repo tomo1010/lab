@@ -60,7 +60,7 @@
 最低地上高
 @elseif($spec == 'manualmode')
 マニュアルモード
-@elseif($spec == 'colors')
+@elseif($spec == 'color')
 色数
 @elseif($spec == 'comment')
 掲載コメント
@@ -87,7 +87,7 @@
 @elseif($spec == 'achievedfuel')
 燃費基準達成
 @elseif($spec == 'ps')
-最高出力
+最高出力（馬力）
 @elseif($spec == 'torque')
 最大トルク
 @elseif($spec == 'position')
@@ -102,8 +102,8 @@ VGS/VGRS
 サスペンション形式　前
 @elseif($spec == 'suspensionR')
 サスペンション形式　後
-@elseif($spec == 'tiresizeF')
-タイヤサイズ　前
+@elseif($spec == 'Ftiresize')
+タイヤサイズ
 @elseif($spec == 'tiresizeR')
 タイヤサイズ　後
 @elseif($spec == 'braketypeF')

@@ -14,18 +14,22 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車名</th>
                     <th>@include('car.commons.nameSpec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cars as $car)
+                @foreach ($Ftiresizes as $car)
                 <tr>
                     <td>
                         @include('car.commons.nameCar')
                     </td>
                     <td>
-                        {{ $car->jtax }}
+                        @if(!is_null($car->Ftiresize))
+                        {{ $car->Ftiresize }}
+                        @else
+                        - 
+                        @endif
                     </td>
                 </tr>
                 @endforeach
