@@ -14,21 +14,29 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>車名</th>
-                    <th>@include('car.commons.nameSpec')</th>                              
+                    <th>名前</th>
+                    <th>@include('car.commons.name_spec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($Ftiresizes as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
-                        @include('car.commons.nameCar')
+                        @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if(!is_null($car->Ftiresize))
-                        {{ $car->Ftiresize }}
+                        @if($car->minivan_size == 1)
+                        XS
+                        @elseif($car->minivan_size == 2)
+                        S
+                        @elseif($car->minivan_size == 3)
+                        M
+                        @elseif($car->minivan_size == 4)
+                        L
+                        @elseif($car->minivan_size == 5)
+                        XL
                         @else
-                        - 
+                        -
                         @endif
                     </td>
                 </tr>

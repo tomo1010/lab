@@ -19,13 +19,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($size_heights as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->size_height }} m
+                        @if($car->minivan_slidedoor == 1)
+                        あり
+                        @elseif($car->minivan_slidedoor == NULL)
+                        -
+                        @endif
                     </td>
                 </tr>
                 @endforeach

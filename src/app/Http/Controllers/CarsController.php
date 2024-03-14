@@ -133,6 +133,7 @@ class CarsController extends Controller
         if($genre == 'minivan' ){
             $cars = Car::where([
                 ['minivan_flug','=', '1'],
+                ['ridingcapacity','>', '5'],
                 ['half','=', $half]
                 ])
                 ->whereYear('created_at', '<=', $year)
@@ -264,12 +265,12 @@ class CarsController extends Controller
             return view('car.spec.indoorsize_height', compact('genre','year','spec','half','thisYear','indoorsize_heights'));
         }
 
-        //室内　合計
-        elseif($spec == 'indoorsize'){
-            $plices = $cars->sortBy('indoorsize');
+        ////室内　合計
+        //elseif($spec == 'indoorsize'){
+        //    $plices = $cars->sortBy('indoorsize');
 
-            return view('car.spec.indoorsize', compact('genre','year','spec','half','thisYear','indoorsizes'));
-        }        
+        //    return view('car.spec.indoorsize', compact('genre','year','spec','half','thisYear','indoorsizes'));
+        //}        
 
         //車輌重量
         elseif($spec == 'weight'){
@@ -351,10 +352,10 @@ class CarsController extends Controller
         }        
 
         //タイヤ
-        elseif($spec == 'Ftiresize'){
-            $Ftiresizes = $cars->sortBy('Ftiresize');
+        elseif($spec == 'tiresize_front'){
+            $tiresize_fronts = $cars->sortBy('tiresize_front');
 
-            return view('car.spec.Ftiresize', compact('genre','year','spec','half','thisYear','Ftiresizes')); //大文字FはOK？　マイグレーションファイルのカラム名間違ってます
+            return view('car.spec.tiresize_front', compact('genre','year','spec','half','thisYear','tiresize_fronts')); //大文字FはOK？　マイグレーションファイルのカラム名間違ってます
         }
 
 
@@ -475,20 +476,81 @@ class CarsController extends Controller
         }
 
 
+        //室内の大きさ
+        elseif($spec == 'indoorsize'){
+
+            foreach($cars as $car){
+                $indoorsize_length = $car->indoorsize_length;
+                $indoorsize_width = $car->indoorsize_width;
+                $indoorsize_height = $car->indoorsize_height;
+
+                $car->indoorsize = $indoorsize_length + $indoorsize_width + $indoorsize_height;
+                }
+        
+            $cars = $cars->sortByDesc('indoorsize'); //サイズでソート    
+            
+            return view('car.spec.indoorsize', compact('genre','year','spec','half','thisYear','cars'));
+        }
+
+
+        /*
+        ミニバン独自スペック
+        */
+
+        //SML
+        elseif($spec == 'minivan_size'){
+            $cars = $cars->sortBy('minivan_size');
+
+            return view('car.spec.minivan_size', compact('genre','year','spec','half','thisYear','cars'));
+        }
+
+        //スライドドア有無
+        elseif($spec == 'minivan_slidedoor'){
+            $cars = $cars->sortBy('minivan_slidedoor');
+
+            return view('car.spec.minivan_slidedoor', compact('genre','year','spec','half','thisYear','cars'));
+        }
+
+        //スタイル
+        elseif($spec == 'minivan_style'){
+            $cars = $cars->sortBy('minivan_style');
+
+            return view('car.spec.minivan_style', compact('genre','year','spec','half','thisYear','cars'));
+        }        
+
+        //３列目の格納
+        elseif($spec == 'minivan_3rd'){
+            $cars = $cars->sortBy('minivan_3rd');
+
+            return view('car.spec.minivan_3rd', compact('genre','year','spec','half','thisYear','cars'));
+        }                
+
+
+        /*
+        SUV独自スペック
+        */
+
+        //サイズ
+        elseif($spec == 'minivan_size'){
+            $cars = $cars->sortBy('minivan_size');
+
+            return view('car.spec.minivan_size', compact('genre','year','spec','half','thisYear','cars'));
+        }
+
+        //スタイル
+        elseif($spec == 'minivan_style'){
+            $cars = $cars->sortBy('minivan_style');
+
+            return view('car.spec.minivan_style', compact('genre','year','spec','half','thisYear','cars'));
+        }        
+
+
+
 
 
         //車種一覧ビューでそれを表示
         return view('car.genre', [
             'genre' => $genre,
-            'spec' => $spec,
-            'year' => $year,
-            'half' => $half,
-            'makers' => $makers,
-            'names' => $names,
-            'releases' => $releases,
-            'prices' => $prices,
-            'taxs' => $taxs,
-            'jtaxs' => $taxs,
         ]);
     }
 

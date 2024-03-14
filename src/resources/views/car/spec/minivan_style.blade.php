@@ -19,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($size_heights as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->size_height }} m
+                        {{ $car->minivan_style }}
                     </td>
                 </tr>
                 @endforeach

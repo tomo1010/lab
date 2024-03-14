@@ -15,14 +15,14 @@
             <thead>
                 <tr>
                     <th>車名</th>
-                    <th>@include('car.commons.nameSpec')</th>                              
+                    <th>@include('car.commons.name_spec')</th>                              
                 </tr>
             </thead>
             <tbody>
                 @foreach ($fueltanks as $car)
                 <tr>
                     <td>
-                        @include('car.commons.nameCar')
+                        @include('car.commons.name_car')
                     </td>
                     <td>
                         @if(!is_null($car->fueltank))

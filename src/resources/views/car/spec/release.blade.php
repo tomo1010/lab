@@ -15,14 +15,14 @@
             <thead>
                 <tr>
                     <th>名前</th>
-                    <th>@include('car.commons.nameSpec')</th>                              
+                    <th>@include('car.commons.name_spec')</th>                              
                 </tr>
             </thead>
             <tbody>
                 @foreach ($releases as $car)
                 <tr>
                     <td>
-                        @include('car.commons.nameCar')
+                        @include('car.commons.name_car')
                     </td>
                     <td>
                         {{ $car->release->format('Y年m月') }}

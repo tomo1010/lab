@@ -14,18 +14,22 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車名</th>
                     <th>@include('car.commons.name_spec')</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($size_heights as $car)
+                @foreach ($tiresize_fronts as $car)
                 <tr>
                     <td>
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->size_height }} m
+                        @if(!is_null($car->tiresize_front))
+                        {{ $car->tiresize_front }}
+                        @else
+                        - 
+                        @endif
                     </td>
                 </tr>
                 @endforeach

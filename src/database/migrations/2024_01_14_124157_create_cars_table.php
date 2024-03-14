@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('name');    //E 車名
             $table->date('release');    //F 発売日
             $table->string('grade')->nullable();    //G グレード
-            $table->integer('price');    //H 価格
-            $table->string('model');    //I 型式
+            $table->integer('price')->nullable();    //H 価格
+            $table->string('model')->nullable();    //I 型式
             $table->float('turningradius')->nullable();    //J 最小回転半径
             $table->string('drive')->nullable();    //K 駆動方式
             $table->float('size_length')->nullable();    //L 全長
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('missionposition')->nullable();    //AC ミッション位置
             $table->float('groundclearance')->nullable();    //AD 最低地上高
             $table->string('manualmode')->nullable();    //AE マニュアルモード
-            $table->integer('colors')->nullable();    //AF 色数
+            $table->integer('color')->nullable();    //AF 色数
             $table->string('comment')->nullable();    //AG 掲載コメント
             $table->string('enginemodel')->nullable();    //AH エンジン型式
             $table->string('environmentalengine')->nullable();    //AI 環境対策エンジン
@@ -64,12 +64,12 @@ return new class extends Migration
             $table->string('steeringgear')->nullable();    //AV ステアリングギア方式
             $table->string('powersteering')->nullable();    //AW パワーステアリング
             $table->string('VGS')->nullable();    //AX VGS/VGRS
-            $table->string('Fsuspension')->nullable();    //AY サスペンション形式　前
-            $table->string('Rsuspension')->nullable();    //AZ サスペンション形式　後
-            $table->string('Ftiresize')->nullable();    //BA タイヤサイズ　前
-            $table->string('Rtiresize')->nullable();    //BB タイヤサイズ　後
-            $table->string('Fbraketype')->nullable();    //BC ブレーキ形式　前
-            $table->string('Rbraketype')->nullable();    //BD ブレーキ形式　後
+            $table->string('suspension_front')->nullable();    //AY サスペンション形式　前
+            $table->string('suspension_rear')->nullable();    //AZ サスペンション形式　後
+            $table->string('tiresize_front')->nullable();    //BA タイヤサイズ　前
+            $table->string('tiresize_rear')->nullable();    //BB タイヤサイズ　後
+            $table->string('raketype_front')->nullable();    //BC ブレーキ形式　前
+            $table->string('braketype_rear')->nullable();    //BD ブレーキ形式　後
             $table->date('year')->nullable();    //BE 設定年
             $table->string('half')->nullable();    //BF 上半期・下半期
             $table->text('minivan_flug')->nullable();    //BG ジャンル・ミニバン

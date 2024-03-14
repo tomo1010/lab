@@ -22,8 +22,6 @@
     全幅
 @elseif($spec == 'size_height')
     全高
-@elseif($spec == 'size')
-    大きさ
 @elseif($spec == 'door')
     ドア数
 @elseif($spec == 'wheelbase')
@@ -31,7 +29,7 @@
 @elseif($spec == 'mission')
     ミッション
 @elseif($spec == 'tred')
-    前トレッド/後トレッド
+    トレッド
 @elseif($spec == 'shift')
     AI-SHIFT
 @elseif($spec == 'indoorsize_length')
@@ -40,28 +38,26 @@
 室内幅
 @elseif($spec == 'indoorsize_height')
 室内高
-@elseif($spec == 'indoorsize')
-室内大きさ
 @elseif($spec == 'fourws')
 4WS
 @elseif($spec == 'weight')
-車輌重量
+重さ
 @elseif($spec == 'seats')
 シート数
 @elseif($spec == 'capacity')
 最大積載量
 @elseif($spec == 'ridingcapacity')
-乗車定員
+乗車人数
 @elseif($spec == 'grossweight')
 車輌総重量
 @elseif($spec == 'missionposition')
 ミッション位置
 @elseif($spec == 'groundclearance')
-最低地上高
+乗り降りの高さ（最低地上高）
 @elseif($spec == 'manualmode')
 マニュアルモード
 @elseif($spec == 'color')
-色数
+カラー
 @elseif($spec == 'comment')
 掲載コメント
 @elseif($spec == 'enginemodel')
@@ -75,13 +71,13 @@
 @elseif($spec == 'supercharger')
 過給機
 @elseif($spec == 'fueltank')
-燃料タンク
+燃料タンク容量
 @elseif($spec == 'cylinderdevice')
 可変気筒装置
 @elseif($spec == 'JC08')
 燃費（JC08）
 @elseif($spec == 'displacement')
-総排気量
+排気量
 @elseif($spec == 'WLTC')
 燃費（WLTC）
 @elseif($spec == 'achievedfuel')
@@ -89,7 +85,7 @@
 @elseif($spec == 'ps')
 最高出力（馬力）
 @elseif($spec == 'torque')
-最大トルク
+トルク
 @elseif($spec == 'position')
 位置
 @elseif($spec == 'steeringgear')
@@ -98,17 +94,17 @@
 パワーステアリング
 @elseif($spec == 'VGS')
 VGS/VGRS
-@elseif($spec == 'suspensionF')
+@elseif($spec == 'suspension_front')
 サスペンション形式　前
-@elseif($spec == 'suspensionR')
+@elseif($spec == 'suspension_rear')
 サスペンション形式　後
-@elseif($spec == 'Ftiresize')
+@elseif($spec == 'tiresize_front')
 タイヤサイズ
-@elseif($spec == 'tiresizeR')
+@elseif($spec == 'tiresize_rear')
 タイヤサイズ　後
-@elseif($spec == 'braketypeF')
+@elseif($spec == 'braketype_front')
 ブレーキ形式　前
-@elseif($spec == 'braketypeR')
+@elseif($spec == 'braketype_rear')
 ブレーキ形式　後
 
 {{--計算必要なスペック--}}
@@ -120,6 +116,26 @@ VGS/VGRS
 kg単価
 @elseif($spec == 'cruising')
 航続距離
+@elseif($spec == 'size')
+車体の大きさ(全長+全幅+全高の合計)
+@elseif($spec == 'indoorsize')
+室内の広さ(内長+内幅+内高の合計)
+
+{{--ミニバン独自スペック--}}
+@elseif($spec == 'minivan_size')
+サイズ(S/M/L)
+@elseif($spec == 'minivan_slidedoor')
+スライドドア有無
+@elseif($spec == 'minivan_style')
+形
+@elseif($spec == 'minivan_3rd')
+３列目の格納
+
+{{--SUV独自スペック--}}
+@elseif($spec == 'suv_size')
+サイズ(S/M/L)
+@elseif($spec == 'suv_style')
+形
 
 {{--その他--}}
 @elseif($spec == 'half')

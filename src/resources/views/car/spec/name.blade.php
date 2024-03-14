@@ -22,7 +22,7 @@
                 @foreach ($names as $car)
                 <tr>
                     <td>
-                        @include('car.commons.nameCar')
+                        @include('car.commons.name_car')
                     </td>
                     <td>
                         {{ $car->grade }}
