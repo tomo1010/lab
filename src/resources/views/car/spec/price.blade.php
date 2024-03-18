@@ -8,8 +8,8 @@
     {{-- ページタイトルを上半期下半期に分けて表示 --}}
     @include('car.commons.titleHalf') 
 
-    {{-- 最新年度ならジャンル別のコラムを表示--}}
-    @include('car.commons.explanation') 
+    {{-- 最新年度ならジャンル別のコラムを表示
+    @include('car.commons.explanation') --}}
 
         <table class="table table-striped">
             <thead>
@@ -25,7 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->price }}
+                        {{ $car->price }} 円
                     </td>
                 </tr>
                 @endforeach

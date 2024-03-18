@@ -1,5 +1,17 @@
-<header class="mb-4">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+{{-- ジャンル別ヘッダ分岐--}}
+
+@if(Request::is('car/minivan*'))
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#2981C0;">
+    <a class="navbar-brand" href="{{ route('car.category', ['genre'=>$genre]) }}"><img src="https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png"></a>
+
+@elseif(Request::is('car/suv*'))
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#748300;">
+    <a class="navbar-brand" href="{{ route('car.category', ['genre'=>$genre]) }}"><img src="https://about-car.net/suv/wp-content/uploads/tcd-w/logo.png"></a>
+    
+@else
+    @include('car.commons.title')
+@endif 
+
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
@@ -13,7 +25,7 @@
                 
                 {{-- 一覧へのリンク--}}                
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">その他のジャンル</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">比較一覧</a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-item"><a href="{{ route('car.category', ['genre'=>'minivan']) }}">ミニバン</a></li>
                         <li class="dropdown-divider"></li>
@@ -55,21 +67,3 @@
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>
-
-
-        <div class="collapse navbar-collapse" id="nav-bar">
-            <ul class="navbar-nav mr-auto"></ul>
-            <ul class="navbar-nav">
-                {{-- ユーザ登録ページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">サインアップ</a></li>
-                {{-- ログインページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">ログイン</a></li>
-            </ul>
-        </div>
-
-    </nav>
-
-    @include('car.commons.header')
-
-</header>
-

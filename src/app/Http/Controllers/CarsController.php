@@ -497,7 +497,7 @@ class CarsController extends Controller
         ミニバン独自スペック
         */
 
-        //SML
+        //サイズ
         elseif($spec == 'minivan_size'){
             $cars = $cars->sortBy('minivan_size');
 
@@ -592,6 +592,7 @@ class CarsController extends Controller
             'genre' => $genre,
             'cars' => $cars,
             'thisYear' => $thisYear,
+            'year' => $thisYear,
         ]);
     }
 
