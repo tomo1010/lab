@@ -72,29 +72,41 @@ return new class extends Migration
             $table->string('braketype_rear')->nullable();    //BD ブレーキ形式　後
             $table->date('year')->nullable();    //BE 設定年
             $table->string('half')->nullable();    //BF 上半期・下半期
+            /*
+            ジャンル別
+            */
+            //ミニバン
             $table->text('minivan_flug')->nullable();    //BG ジャンル・ミニバン
             $table->text('minivan_size')->nullable();    //BH ジャンル・ミニバンサイズ
             $table->text('minivan_slidedoor')->nullable();    //BI ジャンル・ミニバンスライドドア有無
             $table->text('minivan_style')->nullable();    //BJ ジャンル・ミニバン形
             $table->text('minivan_3rd')->nullable();    //BK ジャンル・ミニバン３列目
+            //プチバン
             $table->text('puchivan_flug')->nullable();    //BL ジャンル・プチバン
             $table->text('puchivan_doorsize')->nullable();    //BM ジャンル・プチバンスライドドア開口部サイズ
-            $table->text('pushivan_style')->nullable();    //BN ジャンル・ミニバン形
+            $table->text('puchivan_style')->nullable();    //BN ジャンル・プチバン形
+            //SUV
             $table->text('suv_flug')->nullable();    //BO ジャンル・SUV
             $table->text('suv_size')->nullable();    //BP ジャンル・SUVサイズ
             $table->text('suv_style')->nullable();    //BQ ジャンル・SUV形
+            //コンパクトカー
             $table->text('compact_flug')->nullable();    //BR ジャンル・コンパクトカー
             $table->text('compact_style')->nullable();    //BS ジャンル・コンパクトカー形
+            //セダン
             $table->text('sedan_flug')->nullable();    //BT ジャンル・セダン
             $table->text('sedan_size')->nullable();    //BU ジャンル・セダンサイズ
+            //ステーションワゴン
             $table->text('wagon_flug')->nullable();    //BV ジャンル・ステーションワゴン
             $table->text('wagon_luggage')->nullable();    //BW ジャンル・ステーションワゴン荷室サイズ
+            //クーペ
             $table->text('courpe_flug')->nullable();    //BX ジャンル・クーペ
             $table->text('courpe_open')->nullable();    //BY ジャンル・オープン有無
+            //軽
             $table->text('kei_flug')->nullable();    //BZ ジャンル・軽
             $table->text('kei_style')->nullable();    //CA ジャンル・軽形
             $table->text('kei_slidedoor')->nullable();    //CB ジャンル・軽スライド有無
             $table->text('kei_truck')->nullable();    //CC ジャンル・軽トラック
+            //EV
             $table->text('ev_flug')->nullable();    //CD ジャンル・電気自動車
             $table->timestamps();
         });

@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         @if(!is_null($car->groundclearance))
-                        {{ $car->groundclearance }} cm
+                        {{ $car->groundclearance }} m
                         @else
                         - cm
                         @endif
