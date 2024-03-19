@@ -216,15 +216,15 @@
                         {{-- ジャンル別分岐--}}
                         @if($genre == 'minivan')
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_slidedoor','year'=>$thisYear]) }}">スライドドア</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_slidedoor','year'=>$thisYear]) }}">スライドドア※</a></td>
                             <td>スライドドアの有無</td>
                         </tr>
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_3rd','year'=>$thisYear]) }}">３列目</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_3rd','year'=>$thisYear]) }}">３列目※</a></td>
                             <td>３列目シートの格納方法</td>
                         </tr>
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'ridingcapacity','year'=>$thisYear]) }}">乗車定員</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'ridingcapacity','year'=>$thisYear]) }}">乗車定員※</a></td>
                             <td>ミニバンは６人以上乗れるのが魅力のひとつ</td>
                         </tr>
                         @endif
@@ -270,16 +270,16 @@
                         {{-- ジャンル別分岐--}}
                         @if($genre == 'minivan')
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_slidedoor','year'=>$thisYear]) }}">スライドドア</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_style','year'=>$thisYear]) }}">形</a></td>
+                            <td>同じミニバンでも形が違います</td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_slidedoor','year'=>$thisYear]) }}">スライドドア※</a></td>
                             <td>スライドドアの有無</td>
                         </tr>
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_3rd','year'=>$thisYear]) }}">３列目</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_3rd','year'=>$thisYear]) }}">３列目※</a></td>
                             <td>３列目シートの格納方法</td>
-                        </tr>
-                        <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'minivan_style','year'=>$thisYear]) }}">形</a></td>
-                            <td>同じミニバンでも形が違います</td>
                         </tr>
                         @endif
                     </tbody>
@@ -316,7 +316,7 @@
                             <td>ミニバンでも形が違うます</td>
                         </tr>
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'ridingcapacity','year'=>$thisYear]) }}">乗車人数</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'ridingcapacity','year'=>$thisYear]) }}">乗車人数※</a></td>
                             <td>８人乗りよりも７人乗り？</td>
                         </tr>
                         @endif
@@ -392,7 +392,8 @@
                     </tbody>
                 </table>
             </div>
-
+            <Div Align="right">※ジャンル特有の比較項目</Div>
         </div>
+
 
 @endsection
