@@ -579,6 +579,12 @@ class CarsController extends Controller
                 ])
                 ->get();
 
+        }elseif($genre == 'puchivan'){
+            $cars = Car::where([
+                ['puchivan_flug','=', '1'],
+                ])
+                ->get();
+
         }elseif($genre == 'suv'){
             $cars = Car::where([
                 ['suv_flug','=', '1'],

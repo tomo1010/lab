@@ -5,16 +5,18 @@
 {{-- メニューバー --}}
 @include('car.commons.menubar') 
 
-{{-- トップコンテンツ --}}
+{{-- トップコンテンツ
 @if(Request::is('car/minivan*'))
-        @include('car.minivan.contents_top')
+    @include('car.minivan.contents_top')
 
 @elseif(Request::is('car/suv*'))
-        @include('car.suv.contents_top')
+    @include('car.suv.contents_top')
 
 @else
-        @include('car.commons.title')
+    @include('car.commons.title')
+    
 @endif
+--}}
 
     <p>
 
