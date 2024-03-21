@@ -24,7 +24,7 @@ Route::get('car', [CarsController::class, 'index'])->name('car.index');
 
 
 //各ジャンルごとのページ
-Route::get('car/{genre}', [CarsController::class, 'category'])->name('car.category'); //ジャンルごとのカテゴリー表示
+Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー表示
 //Route::get('car/{genre}/index', [CarsController::class, 'category'])->name('car.index'); //ジャンルごとのカテゴリー表示
 //Route::get('car/{genre}/{spec}', [CarsController::class, 'year'])->name('car.year'); //スペックごとの年度表示
 //Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'specLatest'])->name('car.specLatest'); //自動的に最新情報

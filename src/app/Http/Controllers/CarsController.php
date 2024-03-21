@@ -566,7 +566,7 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function category($genre)
+    public function genre($genre)
     {
 
         //年度取得
@@ -590,11 +590,35 @@ class CarsController extends Controller
                 ['suv_flug','=', '1'],
                 ])
                 ->get();
+
+        }elseif($genre == 'compact'){
+            $cars = Car::where([
+                ['compact_flug','=', '1'],
+                ])
+                ->get();        
+
+        }elseif($genre == 'sedan'){
+            $cars = Car::where([
+                ['sedan_flug','=', '1'],
+                ])
+                ->get();
+
+        }elseif($genre == 'wagon'){
+            $cars = Car::where([
+                ['wagon_flug','=', '1'],
+                ])
+                ->get();                
+
+        }elseif($genre == 'courpe'){
+            $cars = Car::where([
+                ['courpe_flug','=', '1'],
+                ])
+                ->get();                                
         }
 
 
         //車種一覧ビューでそれを表示
-        return view('car.category', [
+        return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
             'thisYear' => $thisYear,
