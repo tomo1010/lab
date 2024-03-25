@@ -139,6 +139,14 @@ class CarsController extends Controller
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
+        }elseif($genre == 'puchivan'){
+            $cars = Car::where([
+                ['puchivan_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();
+
         }elseif($genre == 'suv'){
             $cars = Car::where([
                 ['suv_flug','=', '1'],
@@ -154,6 +162,31 @@ class CarsController extends Controller
                 ])
                 ->whereYear('created_at', '<=', $year)
                 ->get();
+
+        }elseif($genre == 'sedan'){
+            $cars = Car::where([
+                ['sedan_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();  
+                
+        }elseif($genre == 'wagon'){
+            $cars = Car::where([
+                ['wagon_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                
+
+        }elseif($genre == 'courpe'){
+            $cars = Car::where([
+                ['courpe_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();
+
         }
 
 

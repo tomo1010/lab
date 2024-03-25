@@ -47,43 +47,69 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">比較一覧</a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'minivan']) }}">ミニバン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'size','year'=>$thisYear]) }}">車体の大きさ</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'puchivan']) }}">プチバン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'tred']) }}">トレッド</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv']) }}">SUV</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'indoorsize']) }}">室内の広さ</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'compact']) }}">コンパクトカー</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'displacement']) }}">排気量</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sedan']) }}">セダン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'tiresize_front']) }}">タイヤサイズ</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'wagon']) }}">ステーションワゴン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'turningradius']) }}">小廻り</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'courpe']) }}">クーペ</a></li>
-                        <li class="dropdown-divider"></li>
-                        <div class="dropdown-divider"></div>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽自動車</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽ハイトワゴン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽スライドドア</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽セダン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽トラック</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽バン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'name']) }}">車名</a></li>
                         <li class="dropdown-divider"></li>
                         <div class="dropdown-divider"></div>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">ロングセラー</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'maker']) }}">メーカー</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">3列シートSUV</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から3年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'color']) }}">カラー</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から5年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'fueltank']) }}">燃料タンク容量</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から7年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'kg']) }}">発kg単価</a></li>
                         <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wheelbase']) }}">ホイールベース</a></li>
+                        <li class="dropdown-divider"></li>
+                        <div class="dropdown-divider"></div>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'indoorsize']) }}">室内の広さ</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'groundclearance']) }}">乗り降りの高さ</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'weight']) }}">重さ</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ps']) }}">馬力</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'torque']) }}">トルク</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'price']) }}">価格</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'color']) }}">カラー</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'WLTC']) }}">燃費</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jtax']) }}">重量税</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'tax']) }}">自動車税</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'tiresize_front']) }}">タイヤサイズ</a></li>
+                        <li class="dropdown-divider"></li>
+                        @if($genre == 'minivan')
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_size']) }}">サイズ</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_slidedoor']) }}">スライドドア</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_3rd']) }}">３列目</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形</a></li>
+                        <li class="dropdown-divider"></li>
+                        @endif
                     </ul>
                 </li>

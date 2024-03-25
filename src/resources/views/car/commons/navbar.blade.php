@@ -25,7 +25,7 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'wagon']) }}">ステーションワゴン</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'seda']) }}">セダン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sedan']) }}">セダン</a></li>
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'courpe']) }}">クーペ</a></li>
                         <li class="dropdown-divider"></li>
