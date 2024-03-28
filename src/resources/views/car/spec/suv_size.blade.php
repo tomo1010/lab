@@ -25,19 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if($car->suv_size == 1)
-                        XS
-                        @elseif($car->suv_size == 2)
-                        S
-                        @elseif($car->suv_size == 3)
-                        M
-                        @elseif($car->suv_size == 4)
-                        L
-                        @elseif($car->suv_size == 5)
-                        XL
-                        @else
-                        -
-                        @endif
+                        {{$car->sml}}
                     </td>
                 </tr>
                 @endforeach

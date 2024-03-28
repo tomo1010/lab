@@ -25,7 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->size }} m/
+                        {{ $car->size }} m
                         {{ $car->sml }}
                     </td>
                 </tr>

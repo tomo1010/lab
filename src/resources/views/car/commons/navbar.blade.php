@@ -21,7 +21,7 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv']) }}">SUV</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'compact']) }}">コンパクトカー</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'hatchback']) }}">ハッチバック</a></li>
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'wagon']) }}">ステーションワゴン</a></li>
                         <li class="dropdown-divider"></li>
@@ -32,20 +32,30 @@
                         <div class="dropdown-divider"></div>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽自動車</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽ハイトワゴン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_wagon']) }}">軽ワゴン</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽スライドドア</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_heightwagon']) }}">軽ハイトワゴン</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽セダン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_slide']) }}">軽スライドドア</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽トラック</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_sedan']) }}">軽セダン</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽バン</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_sports']) }}">軽スポーツ</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_suv']) }}">軽SUV</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_truck']) }}">軽トラック</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_hako']) }}">軽箱（ケッパコ）</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_hakowagon']) }}">軽箱ワゴン</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_heightvan']) }}">軽ハイトバン</a></li>
                         <li class="dropdown-divider"></li>
                         <div class="dropdown-divider"></div>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">ロングセラー</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">3列シートSUV</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv_3rd']) }}">3列シートSUV</a></li>
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から3年落ち</a></li>
                         <li class="dropdown-divider"></li>

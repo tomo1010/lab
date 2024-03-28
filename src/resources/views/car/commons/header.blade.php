@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#748300;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/suv/wp-content/uploads/tcd-w/logo.png"></a>
 
-@elseif(Request::is('car/compact*'))
+@elseif(Request::is('car/hatchback*'))
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#FFAD35;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/compact/wp-content/uploads/tcd-w/logo.png"></a>
 
@@ -43,6 +43,7 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 
+            @unless(Request::is('car/detail*'))
                 {{-- 一覧へのリンク--}}                
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">比較一覧</a>
@@ -113,3 +114,4 @@
                         @endif
                     </ul>
                 </li>
+            @endunless

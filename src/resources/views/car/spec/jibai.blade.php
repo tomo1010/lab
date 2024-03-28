@@ -25,7 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{$car->sml}}
+                        {{ $car->jibai }} 円
                     </td>
                 </tr>
                 @endforeach

@@ -14,7 +14,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車名</th>
                     <th>@include('car.commons.name_spec')</th>                              
                 </tr>
             </thead>
@@ -25,7 +25,11 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{$car->sml}}
+                        @if(!empty($car->indoorsize))
+                        {{ $car->size }} - {{ $car->indoorsize }} = {{ $car->gap }}
+                        @else
+                        -
+                        @endif
                     </td>
                 </tr>
                 @endforeach
