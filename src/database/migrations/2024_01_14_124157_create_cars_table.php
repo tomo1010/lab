@@ -73,7 +73,7 @@ return new class extends Migration
             /*
             毎回追加
             */
-            $table->date('year')->nullable();    //BE 設定年
+            //$table->date('year')->nullable();    //BE 設定年
             $table->string('half')->nullable();    //BF 上半期・下半期
             /*
             ジャンル別
