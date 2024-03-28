@@ -563,15 +563,46 @@ class CarsController extends Controller
         SUV独自スペック
         */
 
-        //サイズ
-        elseif($spec == 'minivan_size'){
-            $cars = $cars->sortBy('minivan_size');
+        ////サイズ
+        //elseif($spec == 'suv_size'){
+        //    $cars = $cars->sortBy('minivan_size');
 
-            return view('car.spec.minivan_size', compact('genre','year','spec','half','thisYear','cars'));
-        }
+        //    return view('car.spec.minivan_size', compact('genre','year','spec','half','thisYear','cars'));
+        //}
+
+        //サイズ
+        elseif($spec == 'suv_size'){
+
+            foreach($cars as $car){
+                $size_length = $car->size_length;
+                $size_width = $car->size_width;
+                $size_height = $car->size_height;
+    
+                $car->size = $size_length + $size_width + $size_height;
+                    if($car->size <= 7.0){
+                        $car->sml = 'XS';
+                    }elseif($car->size <= 7.72){
+                        $car->sml = 'S';
+                    }elseif($car->size <= 7.95){
+                        $car->sml = 'M';
+                    }elseif($car->size <=8.47 ){
+                        $car->sml = 'L';
+                    }else{
+                    $car->sml = 'XL';    
+                    }
+                }
+        
+        $cars = $cars->sortByDesc('size'); //サイズでソート    
+
+            return view('car.spec.size', compact('genre','year','spec','half','thisYear','cars'));
+        }        
+
+
+
+
 
         //スタイル
-        elseif($spec == 'minivan_style'){
+        elseif($spec == 'suv_style'){
             $cars = $cars->sortBy('minivan_style');
 
             return view('car.spec.minivan_style', compact('genre','year','spec','half','thisYear','cars'));

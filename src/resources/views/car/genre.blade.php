@@ -341,7 +341,7 @@
                             <td>基本のき</td>
                         </tr>
                         <tr>
-                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'weght','year'=>$thisYear]) }}">重さ</a></td>
+                            <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'weight','year'=>$thisYear]) }}">重さ</a></td>
                             <td>実燃費に関係します</td>
                         </tr>
                         <tr>
