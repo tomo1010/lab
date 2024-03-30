@@ -12,9 +12,10 @@ class CarsController extends Controller
 
     const THISYEAR = 2024;
 
+
     /**
      * Display a listing of the resource.
-     *
+     *　車種CRUD操作
      * @return \Illuminate\Http\Response
      */
 
@@ -30,33 +31,19 @@ class CarsController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $car = Car::findOrFail($id);
@@ -67,35 +54,19 @@ class CarsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
@@ -103,9 +74,11 @@ class CarsController extends Controller
 
 
 
+
+
     /**
      * Remove the specified resource from storage.
-     *
+     *　スペック
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -126,6 +99,7 @@ class CarsController extends Controller
             }
         }
 
+
         /*
         ジャンルと年を取得
         */
@@ -133,11 +107,12 @@ class CarsController extends Controller
         if($genre == 'minivan' ){
             $cars = Car::where([
                 ['minivan_flug','=', '1'],
-                ['ridingcapacity','>', '5'],
                 ['half','=', $half]
                 ])
                 ->whereYear('created_at', '<=', $year)
                 ->get();
+
+            $count = $cars->count();    
 
         }elseif($genre == 'puchivan'){
             $cars = Car::where([
@@ -200,91 +175,93 @@ class CarsController extends Controller
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
-            }elseif($genre == 'kei_wagon'){
-                $cars = Car::where([
-                    ['kei_style','=', 'ワゴン'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                
+        }elseif($genre == 'kei_wagon'){
+            $cars = Car::where([
+                ['kei_style','=', 'ワゴン'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                
 
-            }elseif($genre == 'kei_heightwagon'){
-                $cars = Car::where([
-                    ['kei_style','=', 'ハイトワゴン'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                    
+        }elseif($genre == 'kei_heightwagon'){
+            $cars = Car::where([
+                ['kei_style','=', 'ハイトワゴン'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                    
 
-            }elseif($genre == 'kei_slide'){
-                $cars = Car::where([
-                    ['kei_flug','=', '1'],
-                    ['slidedoor','=', '1'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                    
+        }elseif($genre == 'kei_slide'){
+            $cars = Car::where([
+                ['kei_flug','=', '1'],
+                ['slidedoor','=', '1'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                    
 
-            }elseif($genre == 'kei_sedan'){
-                $cars = Car::where([
-                    ['kei_style','=', 'セダン'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                    
+        }elseif($genre == 'kei_sedan'){
+            $cars = Car::where([
+                ['kei_style','=', 'セダン'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                    
 
-            }elseif($genre == 'kei_sports'){
-                $cars = Car::where([
-                    ['kei_style','=', 'スポーツ'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                    
+        }elseif($genre == 'kei_sports'){
+            $cars = Car::where([
+                ['kei_style','=', 'スポーツ'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                    
 
-            }elseif($genre == 'kei_suv'){
-                $cars = Car::where([
-                    ['kei_style','=', 'SUV'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                     
+        }elseif($genre == 'kei_suv'){
+            $cars = Car::where([
+                ['kei_style','=', 'SUV'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                     
 
-            }elseif($genre == 'kei_truck'){
-                $cars = Car::where([
-                    ['kei_style','=', 'トラック'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                        
-                               
-            }elseif($genre == 'kei_hako'){
-                $cars = Car::where([
-                    ['kei_style','=', '軽箱'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();      
-                    
-            }elseif($genre == 'kei_hakowagon'){
-                $cars = Car::where([
-                    ['kei_style','=', '軽箱ワゴン'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();                                    
+        }elseif($genre == 'kei_truck'){
+            $cars = Car::where([
+                ['kei_style','=', 'トラック'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                        
+                            
+        }elseif($genre == 'kei_hako'){
+            $cars = Car::where([
+                ['kei_style','=', '軽箱'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();      
+                
+        }elseif($genre == 'kei_hakowagon'){
+            $cars = Car::where([
+                ['kei_style','=', '軽箱ワゴン'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();                                    
 
-            }elseif($genre == 'kei_heightvan'){
-                $cars = Car::where([
-                    ['kei_style','=', 'ハイトバン'],
-                    ['half','=', $half],
-                    ])
-                    ->whereYear('created_at', '<=', $year)
-                    ->get();              
+        }elseif($genre == 'kei_heightvan'){
+            $cars = Car::where([
+                ['kei_style','=', 'ハイトバン'],
+                ['half','=', $half],
+                ])
+                ->whereYear('created_at', '<=', $year)
+                ->get();              
+
 
         /*
         その他
         */
 
+        //ロングセラー                
         }elseif($genre == 'longseler'){
             $dt = new Carbon();
             $dt = $dt->subYear(10);
@@ -296,6 +273,7 @@ class CarsController extends Controller
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
+        //SUV３列シート                
         }elseif($genre == 'suv_3rd'){
             $cars = Car::where([
                 ['suv_3rd','=', '1'],
@@ -303,6 +281,18 @@ class CarsController extends Controller
                 ])
                 ->whereYear('created_at', '<=', $year)
                 ->get();
+
+        //コンパクトカー                
+        }elseif($genre == 'compact'){
+            $cars = Car::where([
+                //['kei_flug','<>', '1'],
+                ['size_length','<=', '4.70'],
+                ['size_width','<=', '1.70'],
+                ['size_height','<=', '2.00'],
+                ['half','=', $half],
+                ])
+                //->orWhereNull('kei_flug')
+                ->get();                                
 
         }
 
@@ -366,13 +356,6 @@ class CarsController extends Controller
 
             return view('car.spec.size_height', compact('genre','year','spec','half','thisYear','size_heights'));
         }
-
-        ////車体　合計
-        //elseif($spec == 'size'){
-        //    $plices = $cars->sortBy('size');
-
-        //    return view('car.spec.size', compact('genre','year','spec','half','thisYear','sizes'));
-        //}        
         
         //ホイールベース
         elseif($spec == 'wheelbase'){
@@ -414,13 +397,6 @@ class CarsController extends Controller
 
             return view('car.spec.indoorsize_height', compact('genre','year','spec','half','thisYear','indoorsize_heights'));
         }
-
-        ////室内　合計
-        //elseif($spec == 'indoorsize'){
-        //    $plices = $cars->sortBy('indoorsize');
-
-        //    return view('car.spec.indoorsize', compact('genre','year','spec','half','thisYear','indoorsizes'));
-        //}        
 
         //車輌重量
         elseif($spec == 'weight'){
@@ -516,7 +492,7 @@ class CarsController extends Controller
         //自動車税
         elseif($spec == 'tax'){
 
-                //排気量を自動車税へ変換し$taxへ格納
+                //排気量を　自動車税へ変換し　taxへ格納
                 foreach($cars as $car){
                     if($car->displacement == '-'){ //本番環境はnullへ変更？
                         $car->tax = '-';
@@ -629,14 +605,14 @@ class CarsController extends Controller
         //室内の大きさ
         elseif($spec == 'indoorsize'){
 
-            foreach($cars as $car){
-                $indoorsize_length = $car->indoorsize_length;
-                $indoorsize_width = $car->indoorsize_width;
-                $indoorsize_height = $car->indoorsize_height;
-                $car->indoorsize = $indoorsize_length + $indoorsize_width + $indoorsize_height;
+                foreach($cars as $car){
+                    $indoorsize_length = $car->indoorsize_length;
+                    $indoorsize_width = $car->indoorsize_width;
+                    $indoorsize_height = $car->indoorsize_height;
+                    $car->indoorsize = $indoorsize_length + $indoorsize_width + $indoorsize_height;
 
-                $indoorsize = $car->indoorsize;
-            }
+                    $indoorsize = $car->indoorsize;
+                }
         
             $cars = $cars->sortByDesc('indoorsize'); //サイズでソート    
             
@@ -647,19 +623,19 @@ class CarsController extends Controller
         //車は小さく、室内は広く
         elseif($spec == 'gap'){
 
-            foreach($cars as $car){
-                $size_length = $car->size_length;
-                $size_width = $car->size_width;
-                $size_height = $car->size_height;
-                $car->size = $size_length + $size_width + $size_height; //車輌の大きさ
+                foreach($cars as $car){
+                    $size_length = $car->size_length;
+                    $size_width = $car->size_width;
+                    $size_height = $car->size_height;
+                    $car->size = $size_length + $size_width + $size_height; //車輌の大きさ
 
-                $indoorsize_length = $car->indoorsize_length;
-                $indoorsize_width = $car->indoorsize_width;
-                $indoorsize_height = $car->indoorsize_height;
-                $car->indoorsize = $indoorsize_length + $indoorsize_width + $indoorsize_height; //室内の広さ
+                    $indoorsize_length = $car->indoorsize_length;
+                    $indoorsize_width = $car->indoorsize_width;
+                    $indoorsize_height = $car->indoorsize_height;
+                    $car->indoorsize = $indoorsize_length + $indoorsize_width + $indoorsize_height; //室内の広さ
 
-                $car->gap = $car->size - $car->indoorsize;  //車輌の大きさ　から　室内の広さ　の差
-            }
+                    $car->gap = $car->size - $car->indoorsize;  //車輌の大きさ　から　室内の広さ　の差
+                }
         
             $cars = $cars->sortByDesc('gap'); //サイズでソート    
             
@@ -670,16 +646,16 @@ class CarsController extends Controller
         //自賠責保険
         elseif($spec == 'jibai'){
 
-            //排気量を自動車税へ変換し$taxへ格納
-            foreach($cars as $car){
-                if($car->displacement == '-'){ //本番環境はnullへ変更？
-                    $car->jibai = '-';
-                }elseif($car->displacement < 660){
-                    $car->jibai = '17540';
-                }else{
-                    $car->jibai = '17650';
+                //排気量を自動車税へ変換し$taxへ格納
+                foreach($cars as $car){
+                    if($car->displacement == '-'){ //本番環境はnullへ変更？
+                        $car->jibai = '-';
+                    }elseif($car->displacement < 660){
+                        $car->jibai = '17540';
+                    }else{
+                        $car->jibai = '17650';
+                    }
                 }
-            }
 
         $cars = $cars->sortBy('displacement'); //排気量でソート
 
@@ -936,10 +912,11 @@ class CarsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     *　　ジャンル
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function genre($genre)
     {
 
@@ -952,6 +929,9 @@ class CarsController extends Controller
                 ['minivan_flug','=', '1'],
                 ])
                 ->get();
+
+            $count = $cars->count();
+            //dd($count);
 
         }elseif($genre == 'puchivan'){
             $cars = Car::where([
@@ -1076,6 +1056,7 @@ class CarsController extends Controller
 その他
 */
 
+        //ロングセラー
         }elseif($genre == 'longseler'){
             $dt = new Carbon();
             $dt = $dt->subYear(10);
@@ -1085,12 +1066,26 @@ class CarsController extends Controller
                 ])
                 ->get();    
 
+        //SUV３列シート                
         }elseif($genre == 'suv_3rd'){
         $cars = Car::where([
             ['suv_3rd','=', '1'],
             ])
             ->get();                                
+
+
+        //コンパクトカー                
+        }elseif($genre == 'compact'){
+        $cars = Car::where([
+            ['kei_flug','<>', '1'],
+            ['size_length','<=', '4.70'],
+            ['size_width','<=', '1.70'],
+            ['size_height','<=', '2.00'],
+            ])
+            ->get();                                
         }
+
+        //dd($cars[0]);
 
 
         //車種一覧ビューでそれを表示
@@ -1099,6 +1094,7 @@ class CarsController extends Controller
             'cars' => $cars,
             'thisYear' => $thisYear,
             'year' => $thisYear,
+            //'count' => $count,
         ]);
     }
 

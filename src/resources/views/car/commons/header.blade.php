@@ -1,6 +1,7 @@
 {{-- ジャンル別ヘッダ分岐--}}
 
 @if(Request::is('car/minivan*'))
+{{--全メーカー全{{$count}}車種比較ランキングサイト--}}
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#2981C0;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png"></a>
 
