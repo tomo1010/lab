@@ -14,12 +14,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>車名</th>
                     <th>グレード</th>                              
                 </tr>
             </thead>
             <tbody>
-                @foreach ($names as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
                         @include('car.commons.name_car')

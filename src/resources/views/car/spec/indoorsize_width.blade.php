@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($indoorsize_widths as $car)
+                @foreach ($cars as $car)
                 <tr>
                     <td>
                         @include('car.commons.name_car')
