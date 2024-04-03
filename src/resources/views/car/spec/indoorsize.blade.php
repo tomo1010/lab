@@ -25,7 +25,11 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->indoorsize }} m
+                        @if(!empty($car->indoorsize))
+                            {{ $car->indoorsize }} m
+                        @else
+                        -
+                        @endif
                     </td>
                 </tr>
                 @endforeach

@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>車名</th>
-                    <th>@include('car.commons.name_spec')</th>                              
+                    <th>@include('car.commons.name_spec')（重量税+自賠責保険）</th>                              
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         @if(!empty($car->overhead))
-                        {{ $car->jtax }} + {{ $car->jibai }} = {{ $car->overhead }} + 工賃 + 部品代
+                        {{ $car->jtax }} + {{ $car->jibai }} = {{ $car->overhead }}
                         @else
                         -
                         @endif
@@ -35,6 +35,7 @@
                 @endforeach
             </tbody>
         </table>
+        ※車検総額には諸費用とは別に 工賃 + 部品代 が必要です。<p>
 
     {{-- 過去のランキング一覧を表示--}}
     @include('car.commons.pastlist')

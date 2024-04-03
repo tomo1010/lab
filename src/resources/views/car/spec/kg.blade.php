@@ -25,7 +25,11 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->kg }} 円
+                        @if(!empty($car->kg))
+                            {{ $car->kg }} 円
+                        @else
+                        -
+                        @endif
                     </td>
                 </tr>
                 @endforeach

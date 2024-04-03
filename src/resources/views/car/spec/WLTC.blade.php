@@ -28,7 +28,7 @@
                         @if(!is_null($car->WLTC))
                         {{ $car->WLTC }} km/L
                         @else
-                        - km/L
+                        - 
                         @endif
                     </td>
                 </tr>

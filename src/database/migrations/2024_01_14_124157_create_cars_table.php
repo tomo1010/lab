@@ -70,57 +70,58 @@ return new class extends Migration
             $table->string('tiresize_rear')->nullable();    //BB タイヤサイズ　後
             $table->string('raketype_front')->nullable();    //BC ブレーキ形式　前
             $table->string('braketype_rear')->nullable();    //BD ブレーキ形式　後
+            
+            /*
+            ジャンル別
+            */
+            //ミニバン
+            $table->text('minivan_flug')->nullable();    //BE ジャンル・ミニバン
+            $table->text('minivan_style')->nullable();    //BJ ジャンル・ミニバン形
+            $table->text('minivan_3rd')->nullable();    //BK ジャンル・ミニバン３列目
+            //プチバン
+            $table->text('puchivan_flug')->nullable();    //BL ジャンル・プチバン
+            $table->integer('puchivan_doorsize')->nullable();    //BM ジャンル・プチバンスライドドア開口部サイズ
+            //SUV
+            $table->text('suv_flug')->nullable();    //BO ジャンル・SUV
+            $table->text('suv_style')->nullable();    //BQ ジャンル・SUV形
+            //ハッチバック
+            $table->text('hatchback_flug')->nullable();    //BR ジャンル・コンパクトカー
+            //セダン
+            $table->text('sedan_flug')->nullable();    //BT ジャンル・セダン
+            //ステーションワゴン
+            $table->text('wagon_flug')->nullable();    //BV ジャンル・ステーションワゴン
+            $table->integer('wagon_luggage')->nullable();    //BW ジャンル・ステーションワゴン荷室サイズ
+            //スポーツ
+            $table->text('sports_flug')->nullable();    //BX ジャンル・クーペ
+            //軽
+            $table->text('kei_flug')->nullable();    //BZ ジャンル・軽
+            $table->text('kei_style')->nullable();    //CA ジャンル・軽形
+
             /*
             毎回追加
             */
             $table->string('year')->nullable();    //BE 設定年
             $table->string('half')->nullable();    //BF 上半期・下半期
+
             /*
-            ジャンル別
+            その他
             */
-            //ミニバン
-            $table->text('minivan_flug')->nullable();    //BG ジャンル・ミニバン
-            //$table->text('minivan_size')->nullable();    //BH ジャンル・ミニバンサイズ
-            //$table->text('minivan_slidedoor')->nullable();    //BI ジャンル・ミニバンスライドドア有無
-            $table->text('minivan_style')->nullable();    //BJ ジャンル・ミニバン形
-            $table->text('minivan_3rd')->nullable();    //BK ジャンル・ミニバン３列目
-            //プチバン
-            $table->text('puchivan_flug')->nullable();    //BL ジャンル・プチバン
-            $table->text('puchivan_doorsize')->nullable();    //BM ジャンル・プチバンスライドドア開口部サイズ
-            //$table->text('puchivan_style')->nullable();    //BN ジャンル・プチバン形
-            //SUV
-            $table->text('suv_flug')->nullable();    //BO ジャンル・SUV
-            //$table->text('suv_size')->nullable();    //BP ジャンル・SUVサイズ
-            $table->text('suv_style')->nullable();    //BQ ジャンル・SUV形
-            //ハッチバック
-            $table->text('hatchback_flug')->nullable();    //BR ジャンル・コンパクトカー
-            //$table->text('compact_style')->nullable();    //BS ジャンル・コンパクトカー形
-            //セダン
-            $table->text('sedan_flug')->nullable();    //BT ジャンル・セダン
-            //$table->text('sedan_size')->nullable();    //BU ジャンル・セダンサイズ
-            //ステーションワゴン
-            $table->text('wagon_flug')->nullable();    //BV ジャンル・ステーションワゴン
-            $table->text('wagon_luggage')->nullable();    //BW ジャンル・ステーションワゴン荷室サイズ
-            //クーペ
-            $table->text('courpe_flug')->nullable();    //BX ジャンル・クーペ
-            $table->text('courpe_open')->nullable();    //BY ジャンル・オープン有無
-            //軽
-            $table->text('kei_flug')->nullable();    //BZ ジャンル・軽
-            $table->text('kei_style')->nullable();    //CA ジャンル・軽形
-            //$table->text('kei_slidedoor')->nullable();    //CB ジャンル・軽スライド有無
-            //$table->text('kei_truck')->nullable();    //CC ジャンル・軽トラック
-            //その他
-            $table->text('slidedoor')->nullable();    //スライドドア有無
-            $table->text('suv_3rd')->nullable();    //３列シートSUV
-            $table->text('mt')->nullable();    //MT設定有無
-            $table->text('ev')->nullable();    //CD ジャンル・電気自動車
-            $table->text('van')->nullable();    //バン
-            $table->text('hev')->nullable();    //HEV
-            $table->text('diesel')->nullable();    //ディーゼル
-            $table->text('oem')->nullable();    //OEM
-            $table->text('japan')->nullable();    //国産
-            $table->text('import')->nullable();    //主要輸入車
+            $table->text('japan_flug')->nullable();    //国産
+            $table->text('import_flug')->nullable();    //主要輸入車
+            $table->text('slidedoor_flug')->nullable();    //スライドドア有無
+            $table->text('open_flug')->nullable();    //オープン有無
+            $table->text('mt_flug')->nullable();    //MT設定有無
+            $table->text('van_flug')->nullable();    //バン
+            $table->text('truck_flug')->nullable();    //トラック
+            $table->text('diesel_flug')->nullable();    //ディーゼル
+            $table->text('hev_flug')->nullable();    //HEV
+            $table->text('ev_flug')->nullable();    //EV
+            $table->text('oem_flug')->nullable();    //OEM
+            $table->text('suv3rd_flug')->nullable();    //３列シートSUV
+            $table->text('headlight_flug')->nullable();    //丸ヘッドライト
+
             
+
             $table->timestamps();
         });
     }

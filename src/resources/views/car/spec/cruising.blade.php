@@ -25,7 +25,11 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->cruising }} km
+                        @if(!empty($car->cruising))
+                        {{ $car->cruising }} km/L
+                        @else
+                        - 
+                        @endif
                     </td>
                 </tr>
                 @endforeach

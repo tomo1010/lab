@@ -25,9 +25,9 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if($car->minivan_slidedoor == 1)
+                        @if($car->slidedoor == 1)
                         あり
-                        @elseif($car->minivan_slidedoor == NULL)
+                        @elseif($car->slidedoor == NULL)
                         -
                         @endif
                     </td>

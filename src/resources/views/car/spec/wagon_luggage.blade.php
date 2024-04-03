@@ -25,11 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if(!is_null($car->displacement))
-                        {{ $car->displacement }} cc
-                        @else
-                        - 
-                        @endif
+                        {{$car->wagon_luggage}} L
                     </td>
                 </tr>
                 @endforeach

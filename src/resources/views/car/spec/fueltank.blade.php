@@ -25,10 +25,10 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if(!is_null($car->fueltank))
+                        @if(!empty($car->fueltank))
                         {{ $car->fueltank }} L
                         @else
-                        - L
+                        -
                         @endif
                     </td>
                 </tr>

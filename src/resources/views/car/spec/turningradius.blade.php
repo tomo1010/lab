@@ -25,7 +25,11 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->turningradius}} m
+                        @if(!empty($car->turningradius))
+                        {{ $car->turningradius }} m
+                        @else
+                        -
+                        @endif
                     </td>
                 </tr>
                 @endforeach

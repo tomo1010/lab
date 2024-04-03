@@ -28,7 +28,7 @@
                         @if(!is_null($car->ps))
                         {{ $car->ps }} ps
                         @else
-                        - ps
+                        - 
                         @endif
                     </td>
                 </tr>

@@ -25,7 +25,12 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
+
+                        @if(!empty($car->minivan_3rd))
                         {{ $car->minivan_3rd }}
+                        @else
+                        ３列目なし
+                        @endif
                     </td>
                 </tr>
                 @endforeach

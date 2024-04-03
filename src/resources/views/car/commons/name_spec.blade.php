@@ -120,10 +120,14 @@ kg単価
 車体の大きさ(全長+全幅+全高の合計)
 @elseif($spec == 'indoorsize')
 室内の広さ(内長+内幅+内高の合計)
+@elseif($spec == 'gap')
+車体は小さく室内は広く
+@elseif($spec == 'overhead')
+車検諸費用
+@elseif($spec == 'jibai')
+自賠責保険
 
 {{--ミニバン独自スペック--}}
-@elseif($spec == 'minivan_size')
-サイズ(S/M/L)
 @elseif($spec == 'minivan_slidedoor')
 スライドドア有無
 @elseif($spec == 'minivan_style')
@@ -131,11 +135,17 @@ kg単価
 @elseif($spec == 'minivan_3rd')
 ３列目の格納
 
+{{--プチバン独自スペック--}}
+@elseif($spec == 'puchivan_doorsize')
+スライドドアの大きさ
+
 {{--SUV独自スペック--}}
-@elseif($spec == 'suv_size')
-サイズ(S/M/L)
 @elseif($spec == 'suv_style')
 形
+
+{{--ステーションワゴン独自スペック--}}
+@elseif($spec == 'wagon_luggage')
+荷室サイズ
 
 {{--その他--}}
 @elseif($spec == 'half')

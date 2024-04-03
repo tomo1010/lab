@@ -14,30 +14,27 @@
     <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'turningradius']) }}">小廻り</a>
     <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'gap']) }}">車体は小さく室内は広く</a>
 
-    {{-- ジャンル別分岐--}}
 
+    {{-- サイズ分岐--}}
     @if($genre == 'minivan')
     <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_size']) }}">サイズ</a>
-    @elseif($genre == 'puchivan')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）</a>
     @elseif($genre == 'suv')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_size']) }}">サイズ</a>
-    @elseif($genre == 'sedan')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ</a>
+    @elseif($genre == 'hatchback')
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'hatchback_size']) }}">サイズ</a>
     @elseif($genre == 'wagon')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_size']) }}">サイズ</a>
+    @elseif($genre == 'sedan')
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ</a>
     @elseif($genre == 'courpe')
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'courpe_size']) }}">サイズ</a>
+    @endif
+
+    {{-- ジャンル別分岐--}}
+    @if($genre == 'puchivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'courpe_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）※</a>
     @endif
 
   </div>
@@ -60,28 +57,27 @@
     {{-- ジャンル別分岐--}}
 
     @if($genre == 'minivan')
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_size']) }}">サイズ</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形※</a>
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_slidedoor']) }}">スライドドア</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_3rd']) }}">３列目</a>
-    @elseif($genre == 'puchivan')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_slidedoor']) }}">スライドドア※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_3rd']) }}">３列目※</a>
     @elseif($genre == 'suv')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_style']) }}">形※</a>
     @elseif($genre == 'hatchback')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形※</a>
+    @elseif($genre == 'sedan')
+    {{-- 仕切り線 --}}
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'drive']) }}">駆動方式※</a>
     @elseif($genre == 'courpe')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'drive']) }}">駆動方式</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'drive']) }}">駆動方式※</a>
     @endif
 
   </div>
@@ -108,34 +104,30 @@
     @if($genre == 'minivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_slidedoor']) }}">スライドドア</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_3rd']) }}">３列目</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_slidedoor']) }}">スライドドア※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_3rd']) }}">３列目※</a>
     @elseif($genre == 'puchivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数</a>
-    @elseif($genre == 'suv')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数※</a>
     @elseif($genre == 'compact')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形※</a>
     @elseif($genre == 'sedan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ※</a>
     @elseif($genre == 'wagon')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_size']) }}">サイズ</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_luggage']) }}">荷室サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_size']) }}">サイズ※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_luggage']) }}">荷室サイズ※</a>
     @elseif($genre == 'courpe')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'courpe_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'courpe_size']) }}">サイズ※</a>
     @endif
 
   </div>
@@ -170,28 +162,28 @@
 
     {{-- ジャンル別分岐--}}
     @if($genre == 'minivan')
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形※</a>
     @elseif($genre == 'puchivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_doorsize']) }}">開口部（スライドドアの大きさ）※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数※</a>
     @elseif($genre == 'suv')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'suv_style']) }}">形※</a>
     @elseif($genre == 'compact')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形※</a>
     @elseif($genre == 'wagon')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_laggage']) }}">荷室サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_luggage']) }}">荷室サイズ※</a>
     @elseif($genre == 'courpe')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'wagon_size']) }}">サイズ※</a>
     @endif
 
 
@@ -204,26 +196,22 @@
     流行り
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'color']) }}">カラー</a>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'WLTC']) }}">燃費</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'release']) }}">発売日※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'ridingcapacity']) }}">乗車人数※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'color']) }}">カラー※</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'WLTC']) }}">燃費※</a>
 
     {{-- ジャンル別分岐--}}
     @if($genre == 'minivan')
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形</a>
-    @elseif($genre == 'puchivan')
-    {{-- 仕切り線 --}}
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'puchivan_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'minivan_style']) }}">形※</a>
     @elseif($genre == 'compact')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'compact_style']) }}">形※</a>
     @elseif($genre == 'sedan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'sedan_size']) }}">サイズ※</a>
     @endif
 
   </div>
@@ -244,15 +232,15 @@
     @if($genre == 'puchivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @elseif($genre == 'suv')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @elseif($genre == 'courpe')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @endif
   </div>
 </div>
@@ -271,15 +259,15 @@
     @if($genre == 'puchivan')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @elseif($genre == 'suv')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @elseif($genre == 'courpe')
     {{-- 仕切り線 --}}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険</a>
+    <a class="dropdown-item" href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'jibai']) }}">自賠責保険※</a>
     @endif
   </div>
 </div>
