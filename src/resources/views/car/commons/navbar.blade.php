@@ -27,7 +27,7 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sedan']) }}">セダン</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'courpe']) }}">クーペ</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sports']) }}">スポーツカー</a></li>
                         <li class="dropdown-divider"></li>
                         <div class="dropdown-divider"></div>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽自動車</a></li>
@@ -57,11 +57,11 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv_3rd']) }}">3列シートSUV</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から3年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'3year']) }}">新車から3年落ち</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から5年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'5year']) }}">新車から5年落ち</a></li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">新車から7年落ち</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'7year']) }}">新車から7年落ち</a></li>
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>

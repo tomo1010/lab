@@ -261,20 +261,45 @@ class CarsController extends Controller
         その他
         */
 
-        //ロングセラー                
-        }elseif($genre == 'longseler'){
+        //新車から3年落ち              
+        }elseif($genre == '3year'){
             $dt = new Carbon();
-            $dt = $dt->subYear(10);
+            $dt = $dt->subYear(3)->format('Y');
 
-            $cars = Car::where([
-                ['release','<=', $dt],
-                ['half','=', $half],
-                ])
-                ->whereYear('created_at', '<=', $year)
+            $cars = Car::whereYear('release', $dt)
+                ->where('half','=', $half)
                 ->get();
 
+        //新車から5年落ち              
+        }elseif($genre == '5year'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(5)->format('Y');
+
+            $cars = Car::whereYear('release', $dt)
+                ->where('half','=', $half)
+                ->get();                
+
+        //新車から7年落ち              
+        }elseif($genre == '5year'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(7)->format('Y');
+
+            $cars = Car::whereYear('release', $dt)
+                ->where('half','=', $half)
+                ->get();                                
+
+        //ロングセラー 
+        }elseif($genre == 'longseler'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(10)->format('Y');
+
+            $cars = Car::whereYear('release','<=', $dt)
+                ->where('half', '<=', $half)
+                ->get();
+
+
         //SUV３列シート                
-        }elseif($genre == 'suv3rd'){
+        }elseif($genre == 'suv_3rd'){
             $cars = Car::where([
                 ['suv3rd_flug','=', '1'],
                 ['half','=', $half],
@@ -285,7 +310,6 @@ class CarsController extends Controller
         //コンパクトカー                
         }elseif($genre == 'compact'){
             $cars = Car::where([
-                ['japan','=', '1'],
                 ['size_length','<=', '4.70'],
                 ['size_width','<=', '1.70'],
                 ['size_height','<=', '2.00'],
@@ -305,6 +329,37 @@ class CarsController extends Controller
                 ->WhereNull('van') //バン以外
                 ->get();                                
 
+        //丸目ヘッドライト             
+        }elseif($genre == 'headlight'){
+            $cars = Car::where([
+                ['headlight_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->get();                                
+
+        //OEM     
+        }elseif($genre == 'oem'){
+            $cars = Car::where([
+                ['oem_flug','=', '1'],
+                ['half','=', $half],
+                ])
+                ->get();                                
+
+
+        //ファミリーカー
+        }elseif($genre == 'familly'){
+            $cars_ridingcapacity = Car::where([
+                ['ridingcapacity','>=', '6'],
+                ])
+                ->get();
+            
+            $cars_kei = Car::where([
+                ['kei_style','=', 'ハイトワゴン'],
+                ])
+                ->get();
+        
+            $cars = $cars_ridingcapacity->concat($cars_kei);
+
 
         }
 
@@ -317,7 +372,7 @@ class CarsController extends Controller
         if($spec == 'maker'){
             $cars = $cars->sortBy('maker');       
             
-            return view('car.spec.maker', compact('genre','year','spec','half','thisYear','cars'));
+            return view('car.spec.maker', compact('genre','year','spec','half','thisYear','cars','count'));
         }
 
         //車名
@@ -567,6 +622,34 @@ class CarsController extends Controller
         $cars = $cars->sortByDesc('size'); //サイズでソート    
 
             return view('car.spec.suv_size', compact('genre','year','spec','half','thisYear','cars'));
+        }        
+
+
+        //ハッチバック
+        elseif($spec == 'hatchback_size'){
+
+            foreach($cars as $car){
+                $size_length = $car->size_length;
+                $size_width = $car->size_width;
+                $size_height = $car->size_height;
+                $car->size = $size_length + $size_width + $size_height;
+
+                    if($car->size <= 5.33){
+                        $car->sml = 'XS';
+                    }elseif($car->size <= 6.97){
+                        $car->sml = 'S';
+                    }elseif($car->size <= 7.3){
+                        $car->sml = 'M';
+                    }elseif($car->size <=7.75 ){
+                        $car->sml = 'L';
+                    }else{
+                    $car->sml = 'XL';    
+                    }
+                }
+        
+        $cars = $cars->sortByDesc('size'); //サイズでソート    
+
+            return view('car.spec.wagon_size', compact('genre','year','spec','half','thisYear','cars'));
         }        
 
 
@@ -976,6 +1059,7 @@ class CarsController extends Controller
         //年度取得
         $thisYear = self::THISYEAR;
 
+
         //ジャンルを取得
         if($genre == 'minivan' ){
             $cars = Car::where([
@@ -984,7 +1068,6 @@ class CarsController extends Controller
                 ->get();
 
             $count = $cars->count();
-            //dd($count);
 
         }elseif($genre == 'puchivan'){
             $cars = Car::where([
@@ -992,11 +1075,15 @@ class CarsController extends Controller
                 ])
                 ->get();
 
+            $count = $cars->count();
+
         }elseif($genre == 'suv'){
             $cars = Car::where([
                 ['suv_flug','=', '1'],
                 ])
                 ->get();
+
+            $count = $cars->count();                
 
         }elseif($genre == 'hatchback'){
             $cars = Car::where([
@@ -1097,33 +1184,62 @@ class CarsController extends Controller
 /*
 その他
 */
+
+        //新車から3年落ち              
+        }elseif($genre == '3year'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(3)->format('Y');
+
+            $cars = Car::whereYear('release', $dt)
+                ->get();        
+
+        //新車から５年落ち              
+        }elseif($genre == '5year'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(5)->format('Y');
+
+            $cars = Car::whereYear([
+                ['release', $dt],
+                ])
+                ->get();        
+
+        //新車から7年落ち              
+        }elseif($genre == '7year'){
+            $dt = new Carbon();
+            $dt = $dt->subYear(7)->format('Y');
+
+            $cars = Car::whereYear([
+                ['release', $dt],
+                ])
+                ->get();        
+
         //ロングセラー
         }elseif($genre == 'longseler'){
             $dt = new Carbon();
-            $dt = $dt->subYear(10);
+            $dt = $dt->subYear(10)->format('Y');
 
-            $cars = Car::where([
+            $cars = Car::whereYear([
                 ['release','<=', $dt],
                 ])
                 ->get();    
 
-        //SUV３列シート                
-        }elseif($genre == 'suv_3rd'){
-        $cars = Car::where([
-            ['suv3rd_flug','=', '1'],
-            ])
-            ->get();                                
+        //SUV３列シート    
+            }elseif($genre == 'suv_3rd'){
+            $cars = Car::where([
+                ['suv3rd_flug','=', '1'],
+                ])
+                ->get();                                
 
 
         //コンパクトカー                
         }elseif($genre == 'compact'){
-        $cars = Car::where([
-            ['kei_flug','<>', '1'],
-            ['size_length','<=', '4.70'],
-            ['size_width','<=', '1.70'],
-            ['size_height','<=', '2.00'],
-            ])
-            ->get();                                
+            $cars = Car::where([
+                ['kei_flug','<>', '1'],
+                ['size_length','<=', '4.70'],
+                ['size_width','<=', '1.70'],
+                ['size_height','<=', '2.00'],
+                ])
+                ->get();                                
     
 
 
@@ -1136,16 +1252,48 @@ class CarsController extends Controller
                 ->WhereNull('van') //バン以外
                 ->get();                                
             
+
+
+        //丸目ヘッドライト             
+        }elseif($genre == 'headlight'){
+            $cars = Car::where([
+                ['headlight_flug','=', '1'],
+                ])
+                ->get();                                
+
+
+        //OEM
+        }elseif($genre == 'oem'){
+            $cars = Car::where([
+                ['oem_flug','=', '1'],
+                ])
+                ->get();
+
+                
+        //ファミリーカー
+        }elseif($genre == 'familly'){
+            $cars_ridingcapacity = Car::where([
+                ['ridingcapacity','>=', '6'],
+                ])
+                ->get();
+            
+            $cars_kei = Car::where([
+                ['kei_style','=', 'ハイトワゴン'],
+                ])
+                ->get();
         
+            $cars = $cars_ridingcapacity->concat($cars_kei);
+    
         }
+
 
         //車種一覧ビューでそれを表示
         return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
-            'thisYear' => $thisYear,
+            //'thisYear' => $thisYear,
             'year' => $thisYear,
-            //'count' => $count,
+            'count' => $count,
         ]);
     }
 
