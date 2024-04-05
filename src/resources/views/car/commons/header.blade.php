@@ -49,7 +49,7 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">比較一覧</a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>'size','year'=>$thisYear]) }}">車体の大きさ</a></li>
+                        <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'size']) }}">車体の大きさ</a></li>
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><a href="{{ route('car.spec', ['genre'=>$genre,'year'=>$year,'spec'=>'tred']) }}">トレッド</a></li>
                         <li class="dropdown-divider"></li>

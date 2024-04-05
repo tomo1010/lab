@@ -1291,7 +1291,7 @@ class CarsController extends Controller
         return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
-            //'thisYear' => $thisYear,
+            'thisYear' => $thisYear,
             'year' => $thisYear,
             'count' => $count,
         ]);
