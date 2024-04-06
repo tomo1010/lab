@@ -91,7 +91,7 @@ return new class extends Migration
             $table->text('suv_flug')->nullable();    //BO ジャンル・SUV
             $table->text('suv_style')->nullable();    //BQ ジャンル・SUV形
             //ハッチバック
-            $table->text('hatchback_flug')->nullable();    //BR ジャンル・コンパクトカー
+            $table->text('hatchback_flug')->nullable();    //BR ジャンル・ハッチバック
             //セダン
             $table->text('sedan_flug')->nullable();    //BT ジャンル・セダン
             //ステーションワゴン
