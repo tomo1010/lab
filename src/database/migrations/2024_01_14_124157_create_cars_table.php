@@ -72,6 +72,12 @@ return new class extends Migration
             $table->string('braketype_rear')->nullable();    //BD ブレーキ形式　後
             
             /*
+            毎回追加
+            */
+            //$table->string('year')->nullable();    //BE 設定年
+            $table->string('half')->nullable();    //BF 上半期・下半期
+
+            /*
             ジャンル別
             */
             //ミニバン
@@ -96,12 +102,6 @@ return new class extends Migration
             //軽
             $table->text('kei_flug')->nullable();    //BZ ジャンル・軽
             $table->text('kei_style')->nullable();    //CA ジャンル・軽形
-
-            /*
-            毎回追加
-            */
-            $table->string('year')->nullable();    //BE 設定年
-            $table->string('half')->nullable();    //BF 上半期・下半期
 
             /*
             その他

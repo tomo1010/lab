@@ -90,7 +90,7 @@ class CarsController extends Controller
 
         //$half未入力の場合、常に最新のデータを表示させる処理
         if(empty($half)){
-            $car = Car::whereYear('year', '<=', $year)->where('half', '=', '2')->first();
+            $car = Car::whereYear('created_at', '<=', $year)->where('half', '=', '2')->first();
 
             if(empty($car)){
                 $half = 1;
