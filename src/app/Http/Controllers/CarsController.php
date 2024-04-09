@@ -109,7 +109,7 @@ class CarsController extends Controller
                 ['minivan_flug','=', '1'],
                 ['half','=', $half]
                 ])
-                ->where('year', '=', $year)                
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -120,6 +120,7 @@ class CarsController extends Controller
                 ['puchivan_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -130,6 +131,7 @@ class CarsController extends Controller
                 ['suv_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -140,6 +142,7 @@ class CarsController extends Controller
                 ['hatchback_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -150,6 +153,7 @@ class CarsController extends Controller
                 ['sedan_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -160,6 +164,7 @@ class CarsController extends Controller
                 ['wagon_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -170,6 +175,7 @@ class CarsController extends Controller
                 ['sports_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -185,6 +191,7 @@ class CarsController extends Controller
                 ['kei_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
@@ -195,6 +202,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'ワゴン'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -205,6 +213,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'ハイトワゴン'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -216,6 +225,7 @@ class CarsController extends Controller
                 ['slidedoor_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -226,6 +236,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'セダン'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -236,6 +247,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'スポーツ'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -246,6 +258,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'SUV'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -256,6 +269,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'トラック'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -266,6 +280,7 @@ class CarsController extends Controller
                 ['kei_style','=', '軽箱'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -276,6 +291,7 @@ class CarsController extends Controller
                 ['kei_style','=', '軽箱ワゴン'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -286,6 +302,7 @@ class CarsController extends Controller
                 ['kei_style','=', 'ハイトバン'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
                 
@@ -347,6 +364,7 @@ class CarsController extends Controller
                 ['suv3rd_flug','=', '1'],
                 ['half','=', $half],
                 ])
+                ->where('year', '=', $year)
                 ->whereYear('created_at', '<=', $year)
                 ->get();
 
