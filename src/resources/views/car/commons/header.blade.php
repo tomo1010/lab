@@ -1,34 +1,44 @@
 {{-- ジャンル別ヘッダ分岐--}}
 
 @if(Request::is('car/minivan*'))
-　全メーカー全{{$count}}車種比較ランキングサイト
+    @include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#2981C0;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png"></a>
 
 @elseif(Request::is('car/puchivan*'))
+@include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#EF6C70;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/puchi/wp-content/uploads/tcd-w/logo.png"></a>
 
 @elseif(Request::is('car/suv*'))
+    @include('car.commons.subtitle')    
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#748300;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/suv/wp-content/uploads/tcd-w/logo.png"></a>
 
 @elseif(Request::is('car/hatchback*'))
+    @include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#FFAD35;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/compact/wp-content/uploads/tcd-w/logo.png"></a>
 
 @elseif(Request::is('car/sedan*'))
+    @include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#3E327B;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/sedan/wp-content/uploads/tcd-w/logo.png"></a>    
 
 @elseif(Request::is('car/wagon*'))
+    @include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#90374E;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/wagon/wp-content/uploads/tcd-w/logo.png"></a>    
 
 @elseif(Request::is('car/sports*'))
+    @include('car.commons.subtitle')
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#FE4500;">
     <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}"><img src="https://about-car.net/coupe/wp-content/uploads/tcd-w/logo.png?1710994445"></a>        
 
+@elseif(Request::is('car/kei*'))    
+    @include('car.commons.subtitle')
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#E8C605;">
+    <a class="navbar-brand" href="{{ route('car.genre', ['genre'=>$genre]) }}">軽自動車比較サイト</a>
 @else
     @include('car.commons.title')
 @endif 
