@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71eb98d8192236c2ea16d975e1b48866",
+    "content-hash": "fe6b624209c93b14c3706fe680cbf423",
     "packages": [
         {
             "name": "brick/math",
@@ -3019,6 +3019,62 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.0"
             },
             "time": "2023-12-20T15:28:09+00:00"
+        },
+        {
+            "name": "rakuten-ws/rws-php-sdk",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rakuten-ws/rws-php-sdk.git",
+                "reference": "54b0dc8cdc5a92335bc75d72c480e6b7bb127ca9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rakuten-ws/rws-php-sdk/zipball/54b0dc8cdc5a92335bc75d72c480e6b7bb127ca9",
+                "reference": "54b0dc8cdc5a92335bc75d72c480e6b7bb127ca9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": ">=5.2.3"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "pear-pear/HTTP_Client": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "RakutenRws_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shogo Kawahara",
+                    "email": "shogo.a.kawahara@mail.rakuten.com"
+                }
+            ],
+            "description": "The SDK of Rakuten Web Service",
+            "homepage": "http://webservice.rakuten.co.jp",
+            "keywords": [
+                "client",
+                "sdk",
+                "webapi"
+            ],
+            "support": {
+                "issues": "https://github.com/rakuten-ws/rws-php-sdk/issues",
+                "source": "https://github.com/rakuten-ws/rws-php-sdk/tree/master"
+            },
+            "time": "2015-06-08T05:45:03+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
