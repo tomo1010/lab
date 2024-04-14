@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
+use App\Http\Controllers\BabyController;
 
 
 /*
@@ -37,12 +38,10 @@ Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])
 Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
 
 
+
 /*
 baby in car
 */
-Route::get('baby', [CarsController::class, 'rakuten'])->name('baby.index');
-Route::get('baby/result', [CarsController::class, 'get_rakuten_items'])->name('baby.result');
-//Route::get('baby/test', function () {
-//    return view('test');
-//});
+Route::get('baby', [BabyController::class, 'rakuten'])->name('baby.index');
+Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('baby.result');
 
