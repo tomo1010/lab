@@ -12,7 +12,7 @@
 
                 <tr>
                     <td>
-                        <img src="{{ $item['mediumImageUrls'] }}">
+                    <img src="{{ $item['mediumImageUrls'] }}">
                     </td>
                 </tr>
                 <tr>

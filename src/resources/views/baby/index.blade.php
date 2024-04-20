@@ -6,7 +6,8 @@
   </span>
 </form>
 
-<table class="table table-striped">
+
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>車名</th>
@@ -18,17 +19,21 @@
 
                 <tr>
                     <td>
-                        <img src="{{ $item['mediumImageUrls'] }}">
+                        <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{ $item['itemName'] }}
+                        {{ $item['itemPrice'] }}円<br>
                     </td>
                 </tr>
 
                 @endforeach
-            </tbody>
+
+                {{ $page }}ページ　<a href="{{ route('baby.index', [$page+1]) }}">次のページ</a>
+
+
+              </tbody>
         </table>
 
 

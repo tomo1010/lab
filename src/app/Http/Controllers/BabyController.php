@@ -11,7 +11,7 @@ use Zaico\Domain\RakutenItem\RakutenItem;
 class BabyController extends Controller
 {
 
-    public function rakuten()
+    public function rakuten(Request $request)
     {
         //return view('baby.index', [
         //]);
@@ -27,38 +27,50 @@ class BabyController extends Controller
         //アプリIDをセット！
         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
 
-        //リクエストから検索キーワードを取り出し
-        $keyword = '生茶';
+        //ページ番号をセット
+        if(empty($request->page)){
+            $page = '1';
+        }else{
+            $page = $request->page;
+        }
 
-        // IchibaItemSearch API から、指定条件で検索
-        if(!empty($keyword)){ 
+
+        // ステッカー
+        //if(!empty($keyword)){ 
         $response = $client->execute('IchibaItemSearch', array(
             //入力パラメーター
-            'keyword' => $keyword,
+            'keyword' => 'ベイビーインカー ステッカー',
+            'page' => $page,
         ));
-        // レスポンスが正しいかを isOk() で確認することができます
-        if ($response->isOk()) {
-        $items = array();
-        //配列で結果をぶち込んで行きます
-        foreach ($response as $item){
-            //画像サイズを変えたかったのでURLを整形します
-            $str = str_replace("_ex=128x128", "_ex=175x175", $item['mediumImageUrls'][0]['imageUrl']);
-            $items[] = array(
-                'itemName' => $item['itemName'],
-                'itemPrice' => $item['itemPrice'],
-                'itemUrl' => $item['itemUrl'],
-                'mediumImageUrls' => $str,
-                'siteIcon' => "../images/rakuten_logo.png",
-            );
-           // dd($items[0]->itemName);
+
+        //dd($response['page']);
+        
+        //// レスポンスが正しいかを isOk() で確認することができます
+        //if ($response->isOk()) {
+        //$items = array();
+        ////配列で結果をぶち込んで行きます
+        //foreach ($response as $item){
+        //    //画像サイズを変えたかったのでURLを整形します
+        //    $str = str_replace("_ex=128x128", "_ex=175x175", $item['mediumImageUrls'][0]['imageUrl']);
+        //    $items[] = array(
+        //        'itemName' => $item['itemName'],
+        //        'itemPrice' => $item['itemPrice'],
+        //        'itemUrl' => $item['itemUrl'],
+        //        'mediumImageUrls' => $str,
+        //        'siteIcon' => "../images/rakuten_logo.png",
+        //    );
+
            return view('baby.index', [
-               'items' => $items,
+               'items' => $response,
+               'page' =>  $page,
+            //   'items' => $items,
            ]);
-        }
-        } else {
-            echo 'Error:'.$response->getMessage();
-          }
-        } 
+
+        //}
+        //} else {
+        //    echo 'Error:'.$response->getMessage();
+        //  }
+        //} 
 
 
     }
@@ -91,16 +103,20 @@ class BabyController extends Controller
         //配列で結果をぶち込んで行きます
         foreach ($response as $item){
             //画像サイズを変えたかったのでURLを整形します
-            $str = str_replace("_ex=128x128", "_ex=175x175", $item['mediumImageUrls'][0]['imageUrl']);
-            $items[] = array(
-                'itemName' => $item['itemName'],
-                'itemPrice' => $item['itemPrice'],
-                'itemUrl' => $item['itemUrl'],
-                'mediumImageUrls' => $str,
-                'siteIcon' => "../images/rakuten_logo.png",
-            );
-           // dd($items[0]->itemName);
-           return view('baby.show', [
+            //$str = str_replace("_ex=128x128", "_ex=175x175", $item['mediumImageUrls'][0]['imageUrl']);
+            //$items[] = array(
+            //    'itemName' => $item['itemName'],
+            //    'itemPrice' => $item['itemPrice'],
+            //    'itemUrl' => $item['itemUrl'],
+            //    'mediumImageUrls' => $str,
+            //    'siteIcon' => "../images/rakuten_logo.png",
+        //);
+
+            array_push($items, $item);
+
+            dd($items);
+
+            return view('baby.show', [
                'items' => $items,
            ]);
         }
