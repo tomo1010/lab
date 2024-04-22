@@ -16,12 +16,6 @@ services:
       #DOMAINS: 'localhost -> http://web'
       #STAGE: 'local'
 
-
-  app:
-    build: ./infra/php
-    volumes:
-      - ./src:/data
-
   web:
     image: nginx:1.15.6
     #ports:
@@ -29,8 +23,13 @@ services:
     depends_on: # 追加
       - app
     volumes:
-      - ./src:/data
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./src:/data
+      
+  app:
+    build: ./infra/php
+    volumes:
+      - ./src:/data
 
   db:
     build: ./infra/mysql
