@@ -36,17 +36,17 @@ services:
     volumes:
       - db-store:/var/lib/mysql
 
-  #phpmyadmin:
-  #  image: phpmyadmin
-  #  depends_on:
-  #    - db
-  #  environment:
-  #    - PMA_ARBITRARY=1
-  #    - PMA_HOSTS=db
-  #    - PMA_USER=phper
-  #    - PMA_PASSWORD=secret
-  #  ports:
-  #    - "3001:80"
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=phper
+      - PMA_PASSWORD=secret
+    ports:
+      - "3001:80"
 
 volumes:
   db-store:
