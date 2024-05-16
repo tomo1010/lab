@@ -13,8 +13,6 @@ class BabyController extends Controller
 
     public function rakuten(Request $request)
     {
-        //return view('baby.index', [
-        //]);
 
 
         //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
@@ -27,6 +25,7 @@ class BabyController extends Controller
         //アプリIDをセット！
         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
 
+
         //ページ番号をセット
         if(empty($request->page)){
             $page = '1';
@@ -35,13 +34,56 @@ class BabyController extends Controller
         }
 
 
-        // ステッカー
-        //if(!empty($keyword)){ 
-        $response = $client->execute('IchibaItemSearch', array(
-            //入力パラメーター
-            'keyword' => 'ベイビーインカー ステッカー',
-            'page' => $page,
-        ));
+        /*ステッカー、マグネット、吸盤のタイプ振り分け*/
+        //指定なし
+        if(empty($request->type)){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                //'page' => $page,
+            ));
+
+            return view('baby.index', [
+                'items' => $response,
+                //'page' =>  $page,
+            ]);
+
+        //ステッカー
+        }elseif(($request->type == 'sticker')){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                'NGKeyword' => 'マグネット 吸盤',
+                'page' => $page,
+            ));
+
+            return view('baby.type', [
+                'items' => $response,
+                'page' => $page,
+                'type' => $request->type,
+
+            ]);
+
+        }else{
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                'page' => $page,
+            ));
+
+            return view('baby.index', [
+                'items' => $response,
+                'page' =>  $page,
+
+            ]);
+        
+        }
+
+
+
 
         //dd($response['page']);
         
@@ -60,11 +102,12 @@ class BabyController extends Controller
         //        'siteIcon' => "../images/rakuten_logo.png",
         //    );
 
-           return view('baby.index', [
-               'items' => $response,
-               'page' =>  $page,
-            //   'items' => $items,
-           ]);
+
+        //   return view('baby.index', [
+        //       'items' => $response,
+        //       'page' =>  $page,
+        //    //   'items' => $items,
+        //   ]);
 
         //}
         //} else {

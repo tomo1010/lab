@@ -42,6 +42,7 @@ Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show')
 /*
 baby in car
 */
-Route::get('baby/{page?}', [BabyController::class, 'rakuten'])->name('baby.index');
+Route::get('baby', [BabyController::class, 'rakuten'])->name('baby.index');
+Route::get('baby/{type}/{page?}', [BabyController::class, 'rakuten'])->name('baby.type');
 Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('baby.result');
 
