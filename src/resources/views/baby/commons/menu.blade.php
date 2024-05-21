@@ -1,0 +1,1 @@
+<p><a href="{{ route('baby.type', ['type' => 'sticker',]) }}">ステッカータイプ</a>　マグネットタイプ　吸盤タイプ</p>

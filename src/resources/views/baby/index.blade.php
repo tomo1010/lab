@@ -1,3 +1,7 @@
+@extends('layouts.baby')
+
+@section('content')
+
 {{--検索BOX--}}
 <form class="input-group col-md-5" action="{{ route('baby.result')}}" method="GET"> 
   <input type="search" name="keyword" class="form-control input-group-prepend" placeholder="キーワード"></input>
@@ -6,7 +10,7 @@
   </span>
 </form>
 
-<p><a href="{{ route('baby.index',) }}">HOME</a>　<a href="{{ route('baby.type', ['type' => 'sticker',]) }}">ステッカータイプ</a>　マグネットタイプ　吸盤タイプ</p>
+@include('baby.commons.menu')
 
         <table class="table table-striped">
             <tbody>
@@ -32,3 +36,4 @@
               </tbody>
         </table>
 
+@endsection
