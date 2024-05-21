@@ -21,9 +21,11 @@ class BabyController extends Controller
         //定数化
         define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
         define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
+        define("RAKUTEN_AFFILIATE_ID"     , config('app.rakuten_aff'));
 
         //アプリIDをセット！
         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
+        $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
 
 
         //ページ番号をセット
