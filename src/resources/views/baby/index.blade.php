@@ -12,11 +12,14 @@
 
 @include('baby.commons.menu')
 
-        <table class="table table-striped">
-            <tbody>
+<div class="container">
+  <div class="row">
+
+<!--<table class="table table-striped">
+            <tbody>-->
                 @foreach ($items as $item)
 
-                <tr>
+                <!--<tr>
                     <td>
                         <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}">
                     </td>
@@ -29,11 +32,22 @@
                     {{ $item['itemPrice'] }}円<br>
                     {{ $item['reviewCount'] }}件<br>
                     </td>
-                </tr>
+                </tr>-->
+
+
+    <div class="col-md-3">
+        <a href="#" class="thumbnail">
+          <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}">
+        </a>
+    </div>
+
 
                 @endforeach
 
-              </tbody>
-        </table>
+                </div>
+</div>
+
+              <!--</tbody>
+        </table>-->
 
 @endsection
