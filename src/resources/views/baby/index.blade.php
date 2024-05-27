@@ -15,39 +15,19 @@
 <div class="container">
   <div class="row">
 
-<!--<table class="table table-striped">
-            <tbody>-->
-                @foreach ($items as $item)
+    @foreach ($items as $item)
 
-                <!--<tr>
-                    <td>
-                        <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}">
-                    </td>
+      <div class="col-xl-4">
+          <a href="{{ $item['itemUrl'] }}" class="thumbnail">
+            <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" align="left" hspace="20" vspace="20">
+            {{ $item['itemPrice'] }}円</br>
+            {{ $item['reviewCount'] }}件
+          </a>
+      </div>
 
-                    <td>
-                    <a href="{{ $item['itemUrl'] }}">{{ $item['itemName'] }}</a>
-                    </td>
+    @endforeach
 
-                    <td>
-                    {{ $item['itemPrice'] }}円<br>
-                    {{ $item['reviewCount'] }}件<br>
-                    </td>
-                </tr>-->
-
-
-    <div class="col-md-3">
-        <a href="#" class="thumbnail">
-          <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}">
-        </a>
-    </div>
-
-
-                @endforeach
-
-                </div>
+  </div>
 </div>
-
-              <!--</tbody>
-        </table>-->
 
 @endsection
