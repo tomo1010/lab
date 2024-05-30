@@ -68,6 +68,40 @@ class BabyController extends Controller
 
             ]);
 
+        //マグネット
+        }elseif(($request->type == 'magnet')){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー マグネット',
+                'NGKeyword' => 'ステッカー 吸盤',
+                'page' => $page,
+            ));
+
+            return view('baby.type', [
+                'items' => $response,
+                'page' => $page,
+                'type' => $request->type,
+
+            ]);
+
+        //吸盤
+            }elseif(($request->type == 'sucker')){
+
+                $response = $client->execute('IchibaItemSearch', array(
+                    //入力パラメーター
+                    'keyword' => 'ベイビーインカー 吸盤',
+                    'NGKeyword' => 'マグネット',
+                    'page' => $page,
+                ));
+
+                return view('baby.type', [
+                    'items' => $response,
+                    'page' => $page,
+                    'type' => $request->type,
+
+                ]);
+
         }else{
 
             $response = $client->execute('IchibaItemSearch', array(

@@ -2,14 +2,14 @@
 
 @section('content')
 
-<div class="card mb-3" style="max-width: 540px;">
+<div class="card mb-3" style="max-width: 95%;">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="../../babyincar.jpeg" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">車用BabyInCarを紹介するサイト</h5>
+        <h5 class="card-title">BabyInCarポータル</h5>
         <p class="card-text">子供が生まれたらマイカーに必ず貼りたい"子供が乗ってます"ステッカーのポータルサイトです。</p>
         <p class="card-text"><small class="text-body-secondary">そもそもBabyInCarステッカーが生まれた理由とは?</small></p>
       </div>
