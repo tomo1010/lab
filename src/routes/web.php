@@ -39,8 +39,21 @@ Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])
 //車種詳細ページ
 Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
 
-
 //新車から3年後
 //Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
+
+
+/*
+csv処理
+*/
+
+Route::controller(CsvController::class)->prefix('admin/csv')->middleware(['auth', 'can:admin-only'])->group(function () { 
+
+    // 芸人データ 
+    Route::get('car', 'uploadCar');
+    Route::post('car', 'importCar')->name('csv.importCar');
+    Route::get('car_dl', 'exportCar')->name('csv.exportCar');
+
+});
 
 
