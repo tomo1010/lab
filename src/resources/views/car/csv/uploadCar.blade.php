@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
 
     <h1>アップロード</h1>
 
@@ -24,5 +22,3 @@
             {!! Form::close() !!}
         </div>
     </div>
-    
-@endsection
