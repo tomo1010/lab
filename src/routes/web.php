@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
+use App\Http\Controllers\CsvController;
 
 
 /*
@@ -47,13 +48,19 @@ Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show')
 csv処理
 */
 
-Route::controller(CsvController::class)->prefix('admin/csv')->middleware(['auth', 'can:admin-only'])->group(function () { 
+    // CSVデータ 
+    Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
+    Route::post('car',  [CsvController::class, 'import'])->name('csv.import');
+    //Route::get('car_dl', 'exportCar')->name('csv.export');
 
-    // 芸人データ 
-    Route::get('car', 'uploadCar');
-    Route::post('car', 'importCar')->name('csv.importCar');
-    Route::get('car_dl', 'exportCar')->name('csv.exportCar');
 
-});
+//Route::controller(CsvController::class)->prefix('admin/csv')->middleware(['auth', 'can:admin-only'])->group(function () { 
+
+//    // 芸人データ 
+//    Route::get('car', 'uploadCar');
+//    Route::post('car', 'importCar')->name('csv.importCar');
+//    Route::get('car_dl', 'exportCar')->name('csv.exportCar');
+
+//});
 
 
