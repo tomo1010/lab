@@ -48,18 +48,20 @@ Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show')
 csv処理
 */
 
-    //// CSVデータ 
-    //Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
-    //Route::post('car/csv/upload',  [CsvController::class, 'importCar'])->name('csv.importCar');
-    ////Route::get('car_dl', 'exportCar')->name('csv.export');
+    // CSVデータ 
+    Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
+    Route::post('car/csv/upload',  [CsvController::class, 'importCar'])->name('csv.importCar');
+    //Route::get('car_dl', 'exportCar')->name('csv.export');
 
 
-Route::controller(CsvController::class)->prefix('admin/csv')->group(function () { 
+//Route::controller(CsvController::class)->prefix('admin/csv')->group(function () { 
 
-    // データ 
-    Route::get('car', 'uploadCar');
-    Route::post('car', 'importCar')->name('csv.importCar');
+//    // データ 
+//    Route::get('car', 'uploadCar');
+//    Route::post('car', 'importCar')->name('csv.importCar');
 
-});
+//});
+
+
 
 

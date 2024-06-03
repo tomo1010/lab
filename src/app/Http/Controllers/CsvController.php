@@ -27,6 +27,7 @@ class CsvController extends Controller
 
     public function importCar(Request $request)
     {
+        dd($request);
         // CSV ファイル保存
         $tmpName = mt_rand().".".$request->file('csv')->guessExtension(); //TMPファイル名
         $request->file('csv')->move(public_path()."/csv/tmp",$tmpName);
@@ -173,7 +174,7 @@ class CsvController extends Controller
             $count++;
         }
  
-        return redirect()->route('csv.importCar')->with('flash_message', $count . '件登録しました！');
+        return redirect()->route('csv.uploadCar')->with('flash_message', $count . '件登録しました！');
     }
     
 

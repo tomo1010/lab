@@ -1,11 +1,13 @@
+@extends('layouts.app')
 
+@section('content')
 
     <h1>アップロード</h1>
 
     <div class="row">
         <div class="col-6">
             {!! Form::open(['route' => 'csv.importCar','files'=>true]) !!}
-
+            @csrf
                 <div class="form-group">
                     {!! Form::label('csv', 'ｃｓｖ:') !!}
                     {!! Form::file('csv', null, ['class' => 'form-control']) !!}
@@ -23,3 +25,18 @@
             {!! Form::close() !!}
         </div>
     </div>
+
+
+{{--
+    <form action="{{ route('csv.importCar') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="file" name="csv">
+    <button type="submit">アップロード</button>
+    </form>
+    --}}
+
+
+
+
+
+@endsection
