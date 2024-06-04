@@ -50,7 +50,7 @@ csv処理
 
     // CSVデータ 
     Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
-    Route::post('car/csv/upload',  [CsvController::class, 'importCar'])->name('csv.importCar');
+    Route::post('car/',  [CsvController::class, 'importCar'])->name('csv.importCar');
     //Route::get('car_dl', 'exportCar')->name('csv.export');
 
 

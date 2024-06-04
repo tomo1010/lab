@@ -4,6 +4,7 @@
 
     <h1>アップロード</h1>
 
+
     <div class="row">
         <div class="col-6">
             {!! Form::open(['route' => 'csv.importCar','files'=>true]) !!}
@@ -26,15 +27,15 @@
         </div>
     </div>
 
+    {{--
 
-{{--
+
     <form action="{{ route('csv.importCar') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="file" name="csv">
     <button type="submit">アップロード</button>
     </form>
-    --}}
-
+    --}}    
 
 
 
