@@ -174,7 +174,7 @@ class CsvController extends Controller
             $count++;
         }
  
-        return redirect()->route('car.csv.uploadCar')->with('flash_message', $count . '件登録しました！');
+        return redirect()->route('csv.uploadCar')->with('flash_message', $count . '件登録しました！');
     }
     
 
