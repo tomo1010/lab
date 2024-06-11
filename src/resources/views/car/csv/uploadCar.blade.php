@@ -11,6 +11,8 @@
 
             {{--<form method="POST" action="https://localhost/car/csv/import" enctype="multipart/form-data">--}}
             @csrf
+
+            
                 <div class="form-group">
                     {!! Form::label('csv', 'ｃｓｖ:') !!}
                     {!! Form::file('csv', null, ['class' => 'form-control']) !!}
