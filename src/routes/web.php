@@ -65,6 +65,3 @@ Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show')
 
 
 
-
-
-
