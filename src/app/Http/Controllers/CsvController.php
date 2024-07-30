@@ -71,7 +71,7 @@ class CsvController extends Controller
                 'name' =>$row[2],    //C 車名
                 'release' => $row[3],    //D 発売日
                 'grade' => $row[4],    //E グレード
-                'price' => $row[5],    //F 価格
+                'price' => $row[5] == '' ? NULL : $row[5],    //F 価格
                 'url' => $row[6],    //G URL
                 'maker_kana' => $row[7],    //H メーカー英語
                 'model' => $row[8],    //I 型式
