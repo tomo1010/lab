@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');    //C 車名
             $table->date('release');    //D 発売日
             $table->string('grade')->nullable();    //E グレード
-            $table->integer('price')->nullable();    //F 価格
+            $table->numeric('price')->nullable();    //F 価格
             $table->string('url');    //G URL
             $table->string('maker_kana');    //H メーカー英語
             $table->string('model')->nullable();    //I 型式
