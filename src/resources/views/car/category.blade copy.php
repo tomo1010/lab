@@ -37,7 +37,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>大きさ</th>
+                            <th>大きさ.</th>
                             <th>コメント</th>                              
                         </tr>
                     </thead>

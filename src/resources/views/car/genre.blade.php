@@ -21,8 +21,8 @@
     <p>
 
     <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item"><a href="#size" class="nav-link active" data-toggle="tab">大きさ</a></li>
-        <li class="nav-item"><a href="#choose" class="nav-link" data-toggle="tab">選ぶ楽しみ</a></li>
+        <li class="nav-item"><a href="#size" class="nav-link active" data-toggle="tab">大きさ.</a></li>
+        <li class="nav-item"><a href="#choose" class="nav-link" data-toggle="tab">選ぶ楽しみ.</a></li>
         <li class="nav-item"><a href="#utility" class="nav-link" data-toggle="tab">使い勝手</a></li>
         <li class="nav-item"><a href="#power" class="nav-link" data-toggle="tab">パワー</a></li>
         <li class="nav-item"><a href="#condition" class="nav-link" data-toggle="tab">絶対条件</a></li>
