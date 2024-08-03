@@ -8,6 +8,11 @@
             <table class="table table-striped">
 
                     <tr>
+                    <th>画像</th>
+                    <td><img src="{{ asset('img/' . $car->model . '.jpg' ) }}" alt="{{$car->maker}}{{$car->name}}"></td>
+                    </tr>
+        
+                    <tr>
                     <th>id</th>
                     <td>{{ $car->id }}</td>
                     </tr>

@@ -347,7 +347,6 @@ class CarsController extends Controller
                 ['half','=', $half],
                 ])
                 ->where('year', '=', $year)
-                ->whereYear('created_at', '<=', $year)
                 ->get();
 
             $count = $cars->count();
