@@ -8,6 +8,11 @@
             <table class="table table-striped">
 
                     <tr>
+                    <th>画像</th>
+                    <td><img src="{{ asset('img/' . $car->model . '.jpg' ) }}" alt="{{$car->maker}}{{$car->name}}"></td>
+                    </tr>
+        
+                    <tr>
                     <th>id</th>
                     <td>{{ $car->id }}</td>
                     </tr>
@@ -24,7 +29,7 @@
 
                     <tr>                    
                     <th>発売日</th>
-                    <td>{{ $car->release }}</td>
+                    <td>{{ $car->release->format('Y年m月') }}</td>
                     </tr>
 
                     <tr>                    
@@ -34,7 +39,7 @@
 
                     <tr>                    
                     <th>価格</th>
-                    <td>{{ $car->price }}</td>
+                    <td>{{ $car->price }}万円〜</td>
                     </tr>
 
                     <tr>                    
@@ -44,7 +49,7 @@
 
                     <tr>                    
                     <th>最小回転半径</th>
-                    <td>{{ $car->turningradius }}</td>
+                    <td>{{ $car->turningradius }}m</td>
                     </tr>
 
                     <tr>                    
@@ -54,17 +59,17 @@
 
                     <tr>                    
                     <th>全長×全幅×全高</th>
-                    <td>{{ $car->size }}</td>
+                    <td>{{ $car->size }}cm</td>
                     </tr>
 
                     <tr>                    
                     <th>ドア数</th>
-                    <td>{{ $car->doors }}</td>
+                    <td>{{ $car->door }}</td>
                     </tr>
 
                     <tr>                    
                     <th>ホイールベース</th>
-                    <td>{{ $car->wheeelbase }}</td>
+                    <td>{{ $car->wheelbase }}m</td>
                     </tr>
 
                     <tr>                    
@@ -84,12 +89,12 @@
 
                     <tr>                    
                     <th>室内(全長×全幅×全高)</th>
-                    <td>{{ $car->indoorsize }}</td>
+                    <td>{{ $car->indoorsize }}cm</td>
                     </tr>
 
                     <tr>                    
                     <th>車両重量</th>
-                    <td>{{ $car->weight }}</td>
+                    <td>{{ $car->weight }}kg</td>
                     </tr>
 
                     <tr>                    
@@ -99,17 +104,17 @@
 
                     <tr>                    
                     <th>積載量</th>
-                    <td>{{ $car->capacity }}</td>
+                    <td>{{ $car->capacity }}kg</td>
                     </tr>
 
                     <tr>                    
                     <th>乗車定員</th>
-                    <td>{{ $car->ridingcapacity }}</td>
+                    <td>{{ $car->ridingcapacity }}人</td>
                     </tr>
 
                     <tr>                    
                     <th>総重量</th>
-                    <td>{{ $car->grossweight }}</td>
+                    <td>{{ $car->grossweight }}kg</td>
                     </tr>
 
                     <tr>                    
@@ -119,7 +124,7 @@
 
                     <tr>                    
                     <th>最低地上高</th>
-                    <td>{{ $car->groundclearance }}</td>
+                    <td>{{ $car->groundclearance }}cm</td>
                     </tr>
 
                     <tr>                    
@@ -159,7 +164,7 @@
 
                     <tr>                    
                     <th>燃料タンク</th>
-                    <td>{{ $car->fueltank }}</td>
+                    <td>{{ $car->fueltank }}L</td>
                     </tr>
 
                     <tr>                    
@@ -168,18 +173,19 @@
                     </tr>
 
                     <tr>                    
-                    <th>燃費</th>
+                    <th>燃費（JC08）</th>
                     <td>{{ $car->JC08 }}</td>
                     </tr>
 
                     <tr>                    
                     <th>総排気量</th>
-                    <td>{{ $car->displacement }}</td>
+                    <td>{{ $car->displacement }}cc</td>
                     </tr>
 
                     <tr>                    
-                    <th>燃費</th>
-                    <td>{{ $car->WLTC }}</td>
+                    <th>燃費（WLTC）
+                    </th>
+                    <td>{{ $car->WLTC }}km/L</td>
                     </tr>
 
                     <tr>                    
@@ -189,7 +195,7 @@
 
                     <tr>                    
                     <th>最高出力</th>
-                    <td>{{ $car->ps }}</td>
+                    <td>{{ $car->ps }}ps</td>
                     </tr>
 
                     <tr>                    
