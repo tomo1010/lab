@@ -6,5 +6,6 @@
         下半期
     @else($half == 0)
     @endif
+    <br>
     @include('car.commons.name_spec')で比較
 </h1></p>
