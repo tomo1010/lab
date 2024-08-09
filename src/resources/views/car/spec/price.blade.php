@@ -25,7 +25,7 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        {{ $car->price }} 万円
+                        {{ $car->price }} 万円〜
                     </td>
                 </tr>
                 @endforeach
