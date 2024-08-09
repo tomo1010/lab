@@ -25,10 +25,10 @@
                         @include('car.commons.name_car')
                     </td>
                     <td>
-                        @if($car->slidedoor == 1)
+                        @if($car->slidedoor_flug == 1)
                         あり
                         @elseif($car->slidedoor == NULL)
-                        -
+                        なし
                         @endif
                     </td>
                 </tr>
