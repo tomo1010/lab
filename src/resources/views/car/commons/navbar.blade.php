@@ -70,5 +70,23 @@
 
     @include('car.commons.header')
 
+
 </header>
+
+        {{--国産車のみ表示非表示のチェックBOX--}}
+        <p style="text-align: right">
+        <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)"  {{ request()->input('import') ? 'checked' : '' }}/> 輸入車含む　 
+        </p>
+
+        {{--国産車のみをコントローラへ渡す処理--}}
+        <script>
+            function myfunc(value) {
+                let element = document.getElementsByName('import');
+                if (element[0].checked) {
+                    location.href = location.pathname + '?import=1';
+                } else {
+                    location.href = location.pathname;
+                }
+            }
+        </script>
 
