@@ -12,9 +12,8 @@
     @include('car.commons.title')
 @endif 
 
-
+{{--
 <nav class="navbar  navbar-dark bg-white">
-
 
 <div class="container">
     <div class="row">
@@ -188,6 +187,8 @@
                             </div>
                             </div>
                             </div>
+
+--}}
 
             <div class="row mt-3">
             <div class="col-md-12 text-center">
