@@ -18,6 +18,7 @@ class BabyController extends Controller
         //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
         $client = new RakutenRws_Client();
 
+
         //定数化
         define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
         define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
