@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
+
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NGPVXLCZ');</script>
+        <!-- End Google Tag Manager -->
+
         <meta charset="utf-8">
         <title>車比較サイトランキング</title>
         <meta content="自動車スペックのデータベース。ミニバン比較ランキング、SUV比較ランキング、軽自動車比較ランキング、ファミリーカー比較ランキング、コンパクトカー比較ランキング" name="description">
@@ -9,6 +18,11 @@
     </head>
 
     <body>
+
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGPVXLCZ"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
         {{-- ナビゲーションバー --}}
         @include('car.commons.navbar')
