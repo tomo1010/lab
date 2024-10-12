@@ -12,7 +12,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "rakuten-ws/rws-php-sdk": "^1.1"
+        "rakuten-ws/rws-php-sdk": "^1.1",
         "laravelcollective/html": "^6.4"
     },
     "require-dev": {
