@@ -212,4 +212,10 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    //楽天API
+    'rakuten_id' => env('RAKUTEN_APPLICATION_ID', false), 
+    'rakuten_key' => env('RAKUTEN_APPLICATION_SEACRET', false),
+    'rakuten_aff' => env('RAKUTEN_AFFILIATE_ID', false),
+
+
 ];

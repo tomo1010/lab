@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Car;    // 追加
 use Carbon\Carbon;
 
+use RakutenRws_Client;
+use Zaico\Domain\RakutenItem\RakutenItem;
+
 
 class CarsController extends Controller
 {
@@ -2422,6 +2425,7 @@ class CarsController extends Controller
             'count' => $count,
         ]);
     }
+
 
 
 
