@@ -10,7 +10,7 @@
     <div class="p-6">
       <h5 class="text-2xl font-bold mb-2">Baby In Carポータル</h5>
       <p class="text-gray-700 mb-4">子供が生まれたらマイカーに必ず貼りたい"子供が乗ってます"ステッカーのポータルサイトです。</p>
-      <p class="text-sm text-gray-500">そもそもBabyInCarステッカーが生まれた理由とは?</p>
+      <p class="text-sm text-gray-500"><a href="https://www.saisoncard.co.jp/topic/entry/babyonboard_2306/">そもそもBabyInCarステッカーが生まれた理由とは?</a></p>
     </div>
   </div>
 </div>
