@@ -2,8 +2,9 @@
 
 @section('content')
 
-{{-- メニューバー --}}
+{{-- メニューバー
 @include('car.commons.menubar') 
+--}}
 
 {{-- トップコンテンツ
 @if(Request::is('car/minivan*'))

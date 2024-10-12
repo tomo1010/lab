@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\BabyController;
+use App\Http\Controllers\CsvController;
 
 
 /*
@@ -16,16 +17,37 @@ use App\Http\Controllers\BabyController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+//Route::get('/', function () {
+//    return view('welcome')->name(home);
+//});
 
 /*
 比較サイト
 */
 
 // 比較サイト
-Route::get('car', [CarsController::class, 'index'])->name('car.index');
+//Route::get('car', [CarsController::class, 'index'])->name('car.index');
+
+
+
+/*
+csv処理
+*/
+
+// CSVデータ 
+Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
+Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.importCar');
+//Route::get('car_dl', 'exportCar')->name('csv.export');
+
+
+//Route::controller(CsvController::class)->prefix('admin/csv')->group(function () { 
+
+//    // データ 
+//    Route::get('car', 'uploadCar');
+//    Route::post('car', 'importCar')->name('csv.importCar');
+
+//});
 
 //各ジャンルごとのページ
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー表示
@@ -37,7 +59,8 @@ Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])
 //車種詳細ページ
 Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
 
-
+//新車から3年後
+//Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
 
 /*
 baby in car
@@ -45,4 +68,5 @@ baby in car
 Route::get('baby', [BabyController::class, 'rakuten'])->name('baby.index');
 Route::get('baby/{type}/{page?}', [BabyController::class, 'rakuten'])->name('baby.type');
 Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('baby.result');
+
 

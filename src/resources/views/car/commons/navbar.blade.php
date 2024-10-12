@@ -66,20 +66,27 @@
                     </ul>
                 </li>
 
-
-        <div class="collapse navbar-collapse" id="nav-bar">
-            <ul class="navbar-nav mr-auto"></ul>
-            <ul class="navbar-nav">
-                {{-- ユーザ登録ページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">サインアップ</a></li>
-                {{-- ログインページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">ログイン</a></li>
-            </ul>
-        </div>
-
     </nav>
 
     @include('car.commons.header')
 
+
 </header>
+
+        {{--国産車のみ表示非表示のチェックBOX--}}
+        <p style="text-align: right">
+        <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)"  {{ request()->input('import') ? 'checked' : '' }}/> 輸入車含む　 
+        </p>
+
+        {{--国産車のみをコントローラへ渡す処理--}}
+        <script>
+            function myfunc(value) {
+                let element = document.getElementsByName('import');
+                if (element[0].checked) {
+                    location.href = location.pathname + '?import=1';
+                } else {
+                    location.href = location.pathname;
+                }
+            }
+        </script>
 
