@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\BabyController;
 use App\Http\Controllers\CsvController;
+use App\Http\Controllers\PdfController;
 
 
 /*
@@ -70,3 +71,7 @@ Route::get('baby/{type}/{page?}', [BabyController::class, 'rakuten'])->name('bab
 Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('baby.result');
 
 
+/*
+PDF印刷
+*/
+Route::get('pdf', [PdfController::class,'viewPdf']);
