@@ -111,10 +111,11 @@ class TireController extends Controller
         $data = [
             'itemName' => $request->itemName,
             'itemPrice' => $request->itemPrice,
+            'itemOption' => $request->itemOption,
         ];
 
         // PDF生成とビューにデータを渡す
-        $pdf = PDF::loadView('tire.setPdf', $data);
+        $pdf = PDF::loadView('tire.createPdf', $data);
 
         // PDFとして表示
         return $pdf->stream('laravel.pdf');

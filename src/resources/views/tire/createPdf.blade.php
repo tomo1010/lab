@@ -25,20 +25,9 @@
             <span class="ml-2">{{ $itemPrice }}円</span>
         </div>
 
-        <!-- セレクトボックス追加 -->
-        <div class="mt-3">
-            <label for="itemOption" class="form-label">粗利を選択:</label>
-            <select name="itemOption" id="itemOption" class="form-control" onchange="calculateTotal()">
-                <option value="0">選択してください</option>
-                <option value="10000">10,000円</option>
-                <option value="15000">15,000円</option>
-                <option value="20000">20,000円</option>
-            </select>
-        </div>
-
         <!-- 合計表示 -->
         <div class="mt-3">
-            <p class="h5">合計: <span id="totalPrice">{{ $itemPrice }}</span>円</p>
+            <p class="h5">合計: <span id="totalPrice">{{ $sumPrice }}</span>円</p>
         </div>
 
         <button type="submit" class="btn btn-primary mt-2">PDFに送信</button>
