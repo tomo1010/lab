@@ -108,10 +108,11 @@ class TireController extends Controller
         //    $itemPrice = $item['itemPrice'];
         //}
 
+        $sumPrice = $request->itemPrice + $request->itemOption;
+//dd($sumPrice);
         $data = [
             'itemName' => $request->itemName,
-            'itemPrice' => $request->itemPrice,
-            'itemOption' => $request->itemOption,
+            'sumPrice' => $sumPrice,
         ];
 
         // PDF生成とビューにデータを渡す
