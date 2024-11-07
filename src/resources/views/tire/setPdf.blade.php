@@ -47,7 +47,7 @@
                 <input type="number" name="items[{{ $index }}][wages]" id="wages_{{ $index }}" class="form-control" 
                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
 
-                <label for="wagesMultiplier_{{ $index }}" class="form-label mt-2">工賃の倍率を選択:</label>
+                <label for="wagesMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
                 <select name="items[{{ $index }}][wagesMultiplier]" id="wagesMultiplier_{{ $index }}" class="form-control"
                         onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
                   <option value="1">選択してください</option>
@@ -58,7 +58,97 @@
                 </select>
               </div>
 
+              <!-- 廃棄タイヤを入力するテキストボックスと倍率のセレクトボックス -->
+              <div class="mt-3">
+                <label for="wasteTire_{{ $index }}" class="form-label">廃タイヤ費用を入力:</label>
+                <input type="number" name="items[{{ $index }}][wasteTire]" id="wasteTire_{{ $index }}" class="form-control" 
+                       onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
+
+                <label for="wasteTireMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
+                <select name="items[{{ $index }}][wasteTireMultiplier]" id="wasteTireMultiplier_{{ $index }}" class="form-control"
+                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="1">選択してください</option>
+                  <option value="1">×1</option>
+                  <option value="2">×2</option>
+                  <option value="3">×3</option>
+                  <option value="4">×4</option>
+                </select>
+              </div>
+
+              <!-- ナット代を入力するテキストボックスと倍率のセレクトボックス -->
+              <div class="mt-3">
+                <label for="nut_{{ $index }}" class="form-label">ナット代を入力:</label>
+                <input type="number" name="items[{{ $index }}][nut]" id="nut_{{ $index }}" class="form-control" 
+                       onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
+
+                <label for="nutMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
+                <select name="items[{{ $index }}][nutMultiplier]" id="nutMultiplier_{{ $index }}" class="form-control"
+                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="1">選択してください</option>
+                  <option value="1">×1</option>
+                  <option value="2">×2</option>
+                  <option value="3">×3</option>
+                  <option value="4">×4</option>
+                </select>
+              </div>
+
+              <!-- バルブ代を入力するテキストボックスと倍率のセレクトボックス -->
+              <div class="mt-3">
+                <label for="valve_{{ $index }}" class="form-label">バルブ代を入力:</label>
+                <input type="number" name="items[{{ $index }}][valve]" id="valve_{{ $index }}" class="form-control" 
+                       onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
+
+                <label for="valveMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
+                <select name="items[{{ $index }}][valveMultiplier]" id="valveMultiplier_{{ $index }}" class="form-control"
+                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="1">選択してください</option>
+                  <option value="1">×1</option>
+                  <option value="2">×2</option>
+                  <option value="3">×3</option>
+                  <option value="4">×4</option>
+                </select>
+              </div>
+
+              <!-- 袋代を入力するテキストボックスと倍率のセレクトボックス -->
+              <div class="mt-3">
+                <label for="bag_{{ $index }}" class="form-label">袋代を入力:</label>
+                <input type="number" name="items[{{ $index }}][bag]" id="bag_{{ $index }}" class="form-control" 
+                       onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
+
+                <label for="bagMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
+                <select name="items[{{ $index }}][bagMultiplier]" id="bagMultiplier_{{ $index }}" class="form-control"
+                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="1">選択してください</option>
+                  <option value="1">×1</option>
+                  <option value="2">×2</option>
+                  <option value="3">×3</option>
+                  <option value="4">×4</option>
+                </select>
+              </div>
+              
+              <!-- その他を入力するテキストボックスと倍率のセレクトボックス -->
+              <div class="mt-3">
+                <label for="others_{{ $index }}" class="form-label">その他を入力:</label>
+                <input type="number" name="items[{{ $index }}][others]" id="others_{{ $index }}" class="form-control" 
+                       onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
+
+                <label for="othersMultiplier_{{ $index }}" class="form-label mt-2">倍率を選択:</label>
+                <select name="items[{{ $index }}][othersMultiplier]" id="othersMultiplier_{{ $index }}" class="form-control"
+                        onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="1">選択してください</option>
+                  <option value="1">×1</option>
+                  <option value="2">×2</option>
+                  <option value="3">×3</option>
+                  <option value="4">×4</option>
+                </select>
+              </div>
+              
               <hr>
+
+              <!-- 小計表示 -->
+              <div class="mt-3">
+                <p class="h5">小計: <span id="subtotalPrice_{{ $index }}">0</span>円</p>
+              </div>
 
               <!-- 商品ごとの合計表示 -->
               <div class="mt-3">
@@ -74,41 +164,59 @@
 </div>
 
 <script>
-  function toggleAndCalculate(index, itemPrice) {
+function toggleAndCalculate(index, itemPrice) {
     const optionA = document.getElementById(`itemOptionA_${index}`);
     const optionB = document.getElementById(`itemOptionB_${index}`);
     const wages = parseInt(document.getElementById(`wages_${index}`).value) || 0;
     const wagesMultiplier = parseInt(document.getElementById(`wagesMultiplier_${index}`).value) || 1;
 
-    let total = itemPrice; // 初期価格を合計のベースに設定
+    // 新しく追加された項目の取得
+    const wasteTire = parseInt(document.getElementById(`wasteTire_${index}`).value) || 0;
+    const wasteTireMultiplier = parseInt(document.getElementById(`wasteTireMultiplier_${index}`).value) || 1;
+    const nut = parseInt(document.getElementById(`nut_${index}`).value) || 0;
+    const nutMultiplier = parseInt(document.getElementById(`nutMultiplier_${index}`).value) || 1;
+    const valve = parseInt(document.getElementById(`valve_${index}`).value) || 0;
+    const valveMultiplier = parseInt(document.getElementById(`valveMultiplier_${index}`).value) || 1;
+    const bag = parseInt(document.getElementById(`bag_${index}`).value) || 0;
+    const bagMultiplier = parseInt(document.getElementById(`bagMultiplier_${index}`).value) || 1;
+    const others = parseInt(document.getElementById(`others_${index}`).value) || 0;
+    const othersMultiplier = parseInt(document.getElementById(`othersMultiplier_${index}`).value) || 1;
 
-    // Option A が選択されている場合、その値を合計に加算
+    // 小計の計算
+    let subtotal = (wages * wagesMultiplier) + 
+                   (wasteTire * wasteTireMultiplier) + 
+                   (nut * nutMultiplier) + 
+                   (valve * valveMultiplier) + 
+                   (bag * bagMultiplier) + 
+                   (others * othersMultiplier);
+
+    // 合計の計算
+    let total = itemPrice + subtotal;
+
+    // Option A が選択されている場合
     if (optionA.value !== "0") {
-      total += parseInt(optionA.value);
-      optionB.disabled = true; // Option Aが選択された場合はOption Bを無効化
-      optionB.classList.add('disabled-select');
+        total += parseInt(optionA.value);
+        optionB.disabled = true;
+        optionB.classList.add('disabled-select');
     } else {
-      optionB.disabled = false;
-      optionB.classList.remove('disabled-select');
+        optionB.disabled = false;
+        optionB.classList.remove('disabled-select');
     }
 
-    // Option B が選択されている場合、その倍率を適用
+    // Option B が選択されている場合
     if (optionB.value !== "0") {
-      total = Math.floor(total * parseFloat(optionB.value)); // Option Bの倍率で計算
-      optionA.disabled = true; // Option Bが選択された場合はOption Aを無効化
-      optionA.classList.add('disabled-select');
+        total = Math.floor(total * parseFloat(optionB.value));
+        optionA.disabled = true;
+        optionA.classList.add('disabled-select');
     } else {
-      optionA.disabled = false;
-      optionA.classList.remove('disabled-select');
+        optionA.disabled = false;
+        optionA.classList.remove('disabled-select');
     }
 
-    // 工賃に倍率を掛けて合計に加算
-    const adjustedWages = wages * wagesMultiplier;
-    total += adjustedWages;
-
-    // 計算結果を表示
+    // 小計と合計を表示
+    document.getElementById(`subtotalPrice_${index}`).innerText = subtotal;
     document.getElementById(`totalPrice_${index}`).innerText = total;
-  }
+}
 </script>
 
 <style>

@@ -89,22 +89,40 @@ class TireController extends Controller
             $itemName = $item['itemName'];
             $itemPrice = (int) $item['itemPrice'];
     
-            // 各オプションの初期値設定
+            // 各オプションと倍率の初期値設定
             $itemOptionA = isset($item['itemOptionA']) ? (int) $item['itemOptionA'] : 0;
             $itemOptionB = isset($item['itemOptionB']) ? (float) $item['itemOptionB'] : 1;
             $wages = isset($item['wages']) ? (int) $item['wages'] : 0;
             $wagesMultiplier = isset($item['wagesMultiplier']) ? (int) $item['wagesMultiplier'] : 1;
+            $wasteTire = isset($item['wasteTire']) ? (int) $item['wasteTire'] : 0;
+            $wasteTireMultiplier = isset($item['wasteTireMultiplier']) ? (int) $item['wasteTireMultiplier'] : 1;
+            $nut = isset($item['nut']) ? (int) $item['nut'] : 0;
+            $nutMultiplier = isset($item['nutMultiplier']) ? (int) $item['nutMultiplier'] : 1;
+            $valve = isset($item['valve']) ? (int) $item['valve'] : 0;
+            $valveMultiplier = isset($item['valveMultiplier']) ? (int) $item['valveMultiplier'] : 1;
+            $bag = isset($item['bag']) ? (int) $item['bag'] : 0;
+            $bagMultiplier = isset($item['bagMultiplier']) ? (int) $item['bagMultiplier'] : 1;
+            $others = isset($item['others']) ? (int) $item['others'] : 0;
+            $othersMultiplier = isset($item['othersMultiplier']) ? (int) $item['othersMultiplier'] : 1;
     
-            // 工賃に倍率を適用
+            // 各項目に倍率を適用
             $wagesWithMultiplier = $wages * $wagesMultiplier;
+            $wasteTireWithMultiplier = $wasteTire * $wasteTireMultiplier;
+            $nutWithMultiplier = $nut * $nutMultiplier;
+            $valveWithMultiplier = $valve * $valveMultiplier;
+            $bagWithMultiplier = $bag * $bagMultiplier;
+            $othersWithMultiplier = $others * $othersMultiplier;
     
-            // 合計計算ロジック
+            // 小計計算
+            $subtotalPrice = $wagesWithMultiplier + $wasteTireWithMultiplier + $nutWithMultiplier + $valveWithMultiplier + $bagWithMultiplier + $othersWithMultiplier;
+    
+            // 合計計算
             if ($itemOptionA > 0) {
-                $totalItemPrice = $itemPrice + $itemOptionA + $wagesWithMultiplier;
+                $totalItemPrice = $itemPrice + $itemOptionA + $subtotalPrice;
             } elseif ($itemOptionB > 1) {
-                $totalItemPrice = (int)($itemPrice * $itemOptionB) + $wagesWithMultiplier;
+                $totalItemPrice = (int)($itemPrice * $itemOptionB) + $subtotalPrice;
             } else {
-                $totalItemPrice = $itemPrice + $wagesWithMultiplier;
+                $totalItemPrice = $itemPrice + $subtotalPrice;
             }
     
             // 合計金額の更新
@@ -118,6 +136,17 @@ class TireController extends Controller
                 'itemOptionB' => $itemOptionB,
                 'wages' => $wages,
                 'wagesMultiplier' => $wagesMultiplier,
+                'wasteTire' => $wasteTire,
+                'wasteTireMultiplier' => $wasteTireMultiplier,
+                'nut' => $nut,
+                'nutMultiplier' => $nutMultiplier,
+                'valve' => $valve,
+                'valveMultiplier' => $valveMultiplier,
+                'bag' => $bag,
+                'bagMultiplier' => $bagMultiplier,
+                'others' => $others,
+                'othersMultiplier' => $othersMultiplier,
+                'subtotalPrice' => $subtotalPrice,
                 'totalItemPrice' => $totalItemPrice,
             ];
         }
@@ -131,6 +160,7 @@ class TireController extends Controller
         $pdf = PDF::loadView('tire.createPdf', $data);
         return $pdf->stream('laravel.pdf');
     }
+    
     
     
     
