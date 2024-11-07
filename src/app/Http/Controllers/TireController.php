@@ -43,85 +43,75 @@ class TireController extends Controller
 
     public function setPdf(Request $request)
     {
-         //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
-         $client = new RakutenRws_Client();
- 
- 
-         //定数化
-         define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
-         define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
-         define("RAKUTEN_AFFILIATE_ID"     , config('app.rakuten_aff'));
- 
-         //アプリIDをセット！
-         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
-         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
-
-        $response = $client->execute('IchibaItemSearch', array(
-            //入力パラメーター
-            'itemCode' => $request->itemCode,
-            //'page' => $page,
-        ));
-
-        $items = $response;
-
-        foreach ($items as $item){
-            $itemCode = $item['itemCode'];
-            $itemName = $item['itemName'];
-            $itemPrice = $item['itemPrice'];
+        // Rakuten APIクライアントのセットアップ
+        $client = new RakutenRws_Client();
+        $client->setApplicationId(config('app.rakuten_id'));
+        $client->setAffiliateId(config('app.rakuten_aff'));
+    
+        // 選択されたアイテムコードを取得
+        $itemCodes = $request->input('itemCodes', []);
+    
+        // アイテムの詳細を格納する配列
+        $items = [];
+    
+        // 各アイテムコードごとに詳細を取得
+        foreach ($itemCodes as $code) {
+            $response = $client->execute('IchibaItemSearch', [
+                'itemCode' => $code,
+            ]);
+    
+            if ($response->isOk()) {
+                foreach ($response as $item) {
+                    $items[] = [
+                        'itemCode' => $item['itemCode'],
+                        'itemName' => $item['itemName'],
+                        'itemPrice' => $item['itemPrice'],
+                    ];
+                }
+            }
         }
-
+    
+        // アイテム情報をビューに渡す
         return view('tire.setPdf', [
-            'itemCode' => $itemCode,
-            'itemName' => $itemName,
-            'itemPrice' => $itemPrice,
+            'items' => $items,
         ]);
-            
     }
+    
 
 
 
     public function createPdf(Request $request)
     {
-         //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
-         $client = new RakutenRws_Client();
- 
- 
-         //定数化
-         define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
-         define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
-         define("RAKUTEN_AFFILIATE_ID"     , config('app.rakuten_aff'));
- 
-         //アプリIDをセット！
-         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
-         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
-
-        $response = $client->execute('IchibaItemSearch', array(
-            //入力パラメーター
-            'itemCode' => $request->itemCode,
-            //'page' => $page,
-        ));
-
-        $items = $response;
-//dd($request);
-        //foreach ($items as $item){
-        //    $itemName = $item['itemName'];
-        //    $itemPrice = $item['itemPrice'];
-        //}
-
-        $sumPrice = $request->itemPrice + $request->itemOption;
-//dd($sumPrice);
+        $items = [];
+        $sumPrice = 0;
+    
+        foreach ($request->input('items', []) as $item) {
+            $itemName = $item['itemName'];
+            $itemPrice = (int) $item['itemPrice'];
+            $itemOption = (int) $item['itemOption'];
+            $totalItemPrice = $itemPrice + $itemOption;
+    
+            $sumPrice += $totalItemPrice;
+    
+            $items[] = [
+                'itemName' => $itemName,
+                'itemPrice' => $itemPrice,
+                'itemOption' => $itemOption,
+                'totalItemPrice' => $totalItemPrice,
+            ];
+        }
+    
         $data = [
-            'itemName' => $request->itemName,
+            'items' => $items,
             'sumPrice' => $sumPrice,
         ];
-
+    
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tire.createPdf', $data);
-
-        // PDFとして表示
+    
         return $pdf->stream('laravel.pdf');
-            
     }
+    
 
 
 }

@@ -1,80 +1,54 @@
-@extends('baby.layouts.app')
-
-@section('content')
-
-
 <div class="container">
   <div class="row">
-{{--   @foreach ($items as $item) --}}
-      <div class="col-12 col-sm-6 col-lg-4 mb-4">
-        <div class="card h-100 shadow-sm">
-
-        {{--<img class="card-img-top" src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" alt="Product Image">--}}
-
-        <div class="card-body">
     <form action="{{ route('tire.createPdf') }}" method="POST">
-        @csrf
-        <!-- セット項目 -->
-        <input type="hidden" name="itemName" value="{{ $itemName }}">
-        <input type="hidden" name="itemPrice" value="{{ $itemPrice }}">
+      @csrf
+      @foreach ($items as $index => $item)
+        <div class="col-12 col-sm-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <!-- 商品情報の入力項目 -->
+              <input type="hidden" name="items[{{ $index }}][itemName]" value="{{ $item['itemName'] }}">
+              <input type="hidden" name="items[{{ $index }}][itemPrice]" value="{{ $item['itemPrice'] }}">
 
-        {{--<input name="itemCode" type="checkbox" value="{{ $itemCode }}" >--}}
-        <p class="h5 text-danger font-weight-bold">{{ $itemName }}</p>
+              <p class="h5 text-danger font-weight-bold">{{ $item['itemName'] }}</p>
+              <div class="d-flex align-items-center mt-2 text-secondary">
+                <span class="ml-2">{{ $item['itemPrice'] }}円</span>
+              </div>
 
-        <div class="d-flex align-items-center mt-2 text-secondary">
-            <span class="ml-2">{{ $itemPrice }}円</span>
+              <!-- 粗利を選択するセレクトボックス -->
+              <div class="mt-3">
+                <label for="itemOption_{{ $index }}" class="form-label">粗利を選択:</label>
+                <select name="items[{{ $index }}][itemOption]" id="itemOption_{{ $index }}" class="form-control" 
+                        onchange="calculateItemTotal({{ $index }}, {{ $item['itemPrice'] }})">
+                  <option value="0">選択してください</option>
+                  <option value="10000">10,000円</option>
+                  <option value="15000">15,000円</option>
+                  <option value="20000">20,000円</option>
+                </select>
+              </div>
+
+              <!-- 商品ごとの合計表示 -->
+              <div class="mt-3">
+                <p class="h5">合計: <span id="totalPrice_{{ $index }}">0</span>円</p>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- セレクトボックス追加 -->
-        <div class="mt-3">
-            <label for="itemOption" class="form-label">粗利を選択:</label>
-            <select name="itemOption" id="itemOption" class="form-control" onchange="calculateTotal()">
-                <option value="0">選択してください</option>
-                <option value="10000">10,000円</option>
-                <option value="15000">15,000円</option>
-                <option value="20000">20,000円</option>
-            </select>
-        </div>
-
-        <!-- 合計表示 -->
-        <div class="mt-3">
-            <p class="h5">合計: <span id="totalPrice">{{ $itemPrice }}</span>円</p>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-2">PDFに送信</button>
+      @endforeach
+      <button type="submit" class="btn btn-primary mt-2">PDFに送信</button>
     </form>
-</div>
-
-<script>
-    // JavaScriptで合計を計算して表示する関数
-    function calculateTotal() {
-        // 元の価格を取得
-        const itemPrice = parseInt({{ $itemPrice }});
-        
-        // 選択された粗利の値を取得
-        const itemOption = document.getElementById("itemOption");
-        const selectedOption = parseInt(itemOption.value);
-
-        // 合計計算
-        const total = itemPrice + selectedOption;
-
-        // 合計を表示
-        document.getElementById("totalPrice").innerText = total;
-    }
-</script>
-
-        
-        </div>
-      </div>
-      {{--@endforeach --}}
   </div>
 </div>
 
+<script>
+  // セレクトボックスで粗利オプションが選択されたときに、合計を計算し表示する関数
+  function calculateItemTotal(index, itemPrice) {
+    const selectedOption = parseInt(document.getElementById(`itemOption_${index}`).value);
 
+    // itemPriceと選択された粗利オプションの合計を計算
+    const total = itemPrice + selectedOption;
 
-
-
-
-
-
-@endsection
+    // 計算結果を対応する合計欄に表示
+    document.getElementById(`totalPrice_${index}`).innerText = total;
+  }
+</script>
