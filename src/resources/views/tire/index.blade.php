@@ -5,7 +5,11 @@
 <div class="container">
   <div class="row">
     <form action="{{ route('tire.setPdf') }}" method="POST">
-      @csrf
+
+          <!-- 送信ボタン -->
+          <button type="submit" class="btn btn-primary mt-3">設定画面へ</button>
+
+          @csrf
       <div class="row">
         @foreach ($items as $item)
           <div class="col-12 col-sm-6 col-lg-4 mb-4">
@@ -27,8 +31,6 @@
         @endforeach
       </div>
 
-      <!-- 送信ボタン -->
-      <button type="submit" class="btn btn-primary mt-3">設定画面へ</button>
     </form>
   </div>
 </div>

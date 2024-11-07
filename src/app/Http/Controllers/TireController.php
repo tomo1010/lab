@@ -88,15 +88,36 @@ class TireController extends Controller
         foreach ($request->input('items', []) as $item) {
             $itemName = $item['itemName'];
             $itemPrice = (int) $item['itemPrice'];
-            $itemOption = (int) $item['itemOption'];
-            $totalItemPrice = $itemPrice + $itemOption;
     
+            // 各オプションの初期値設定
+            $itemOptionA = isset($item['itemOptionA']) ? (int) $item['itemOptionA'] : 0;
+            $itemOptionB = isset($item['itemOptionB']) ? (float) $item['itemOptionB'] : 1;
+            $wages = isset($item['wages']) ? (int) $item['wages'] : 0;
+            $wagesMultiplier = isset($item['wagesMultiplier']) ? (int) $item['wagesMultiplier'] : 1;
+    
+            // 工賃に倍率を適用
+            $wagesWithMultiplier = $wages * $wagesMultiplier;
+    
+            // 合計計算ロジック
+            if ($itemOptionA > 0) {
+                $totalItemPrice = $itemPrice + $itemOptionA + $wagesWithMultiplier;
+            } elseif ($itemOptionB > 1) {
+                $totalItemPrice = (int)($itemPrice * $itemOptionB) + $wagesWithMultiplier;
+            } else {
+                $totalItemPrice = $itemPrice + $wagesWithMultiplier;
+            }
+    
+            // 合計金額の更新
             $sumPrice += $totalItemPrice;
     
+            // 商品情報を配列に追加
             $items[] = [
                 'itemName' => $itemName,
                 'itemPrice' => $itemPrice,
-                'itemOption' => $itemOption,
+                'itemOptionA' => $itemOptionA,
+                'itemOptionB' => $itemOptionB,
+                'wages' => $wages,
+                'wagesMultiplier' => $wagesMultiplier,
                 'totalItemPrice' => $totalItemPrice,
             ];
         }
@@ -108,9 +129,11 @@ class TireController extends Controller
     
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tire.createPdf', $data);
-    
         return $pdf->stream('laravel.pdf');
     }
+    
+    
+    
     
 
 
