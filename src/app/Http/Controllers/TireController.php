@@ -102,8 +102,8 @@ class TireController extends Controller
             $valveMultiplier = isset($item['valveMultiplier']) ? (int) $item['valveMultiplier'] : 1;
             $bag = isset($item['bag']) ? (int) $item['bag'] : 0;
             $bagMultiplier = isset($item['bagMultiplier']) ? (int) $item['bagMultiplier'] : 1;
-            $others = isset($item['others']) ? (int) $item['others'] : 0;
-            $othersMultiplier = isset($item['othersMultiplier']) ? (int) $item['othersMultiplier'] : 1;
+            $detachment = isset($item['detachment']) ? (int) $item['detachment'] : 0;
+            $detachmentMultiplier = isset($item['detachmentMultiplier']) ? (int) $item['detachmentMultiplier'] : 1;
     
             // 各項目に倍率を適用
             $wagesWithMultiplier = $wages * $wagesMultiplier;
@@ -111,10 +111,10 @@ class TireController extends Controller
             $nutWithMultiplier = $nut * $nutMultiplier;
             $valveWithMultiplier = $valve * $valveMultiplier;
             $bagWithMultiplier = $bag * $bagMultiplier;
-            $othersWithMultiplier = $others * $othersMultiplier;
+            $detachmentWithMultiplier = $detachment * $detachmentMultiplier;
     
             // 小計計算
-            $subtotalPrice = $wagesWithMultiplier + $wasteTireWithMultiplier + $nutWithMultiplier + $valveWithMultiplier + $bagWithMultiplier + $othersWithMultiplier;
+            $subtotalPrice = $wagesWithMultiplier + $wasteTireWithMultiplier + $nutWithMultiplier + $valveWithMultiplier + $bagWithMultiplier + $detachmentWithMultiplier;
     
             // 合計計算
             if ($itemOptionA > 0) {
@@ -144,8 +144,8 @@ class TireController extends Controller
                 'valveMultiplier' => $valveMultiplier,
                 'bag' => $bag,
                 'bagMultiplier' => $bagMultiplier,
-                'others' => $others,
-                'othersMultiplier' => $othersMultiplier,
+                'detachment' => $detachment,
+                'detachmentMultiplier' => $detachmentMultiplier,
                 'subtotalPrice' => $subtotalPrice,
                 'totalItemPrice' => $totalItemPrice,
             ];
