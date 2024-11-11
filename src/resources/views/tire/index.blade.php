@@ -1,10 +1,9 @@
-
 <form action="{{ route('tire.indexPdf') }}" method="POST">
     <!-- 送信ボタン -->
     <button type="submit">検索結果へ</button>
     @csrf
         <label for="sizeA">サイズを選択:</label>
-        <select name="sizeA" id="sizeA">
+        <select name="sizeA" id="sizeA" onchange="toggleSizeFields()">
           <option value="0">選択してください</option>
           <option value="195/">195</option>
           <option value="200/">200</option>
@@ -12,7 +11,7 @@
         </select>
 
         <label for="sizeB">サイズを選択:</label>
-        <select name="sizeB" id="sizeB">
+        <select name="sizeB" id="sizeB" onchange="toggleSizeFields()">
           <option value="0">選択してください</option>
           <option value="55/">55</option>
           <option value="65/">65</option>
@@ -20,15 +19,20 @@
         </select>
 
         <label for="sizeC">サイズを選択:</label>
-        <select name="sizeC" id="sizeC">
+        <select name="sizeC" id="sizeC" onchange="toggleSizeFields()">
           <option value="0">選択してください</option>
           <option value="R14">14</option>
           <option value="R15">15</option>
           <option value="R16">16</option>
         </select>
 
+        <label for="sizeFree">サイズを選択:</label>
+        <select name="sizeFree" id="sizeFree" onchange="toggleSizeFields()">
+          <option value="0">汎用サイズ</option>
+          <option value="155/65R14">155/65R14</option>
+          <option value="195/65R15">195/65R15</option>
+        </select>
 </form>
-
 
 <div>
   <form action="{{ route('tire.setPdf') }}" method="POST">
@@ -59,27 +63,21 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const checkboxes = document.querySelectorAll('.limit-checkbox');
-    
-    // チェックボックスの制限をチェックする関数
-    function updateCheckboxState() {
-      const checkedBoxes = document.querySelectorAll('.limit-checkbox:checked');
-      const isMaxSelected = checkedBoxes.length >= 3;
+  function toggleSizeFields() {
+    const sizeA = document.getElementById('sizeA');
+    const sizeB = document.getElementById('sizeB');
+    const sizeC = document.getElementById('sizeC');
+    const sizeFree = document.getElementById('sizeFree');
 
-      checkboxes.forEach(checkbox => {
-        if (!checkbox.checked) {
-          checkbox.disabled = isMaxSelected;
-        }
-      });
-    }
+    const isSizeSelected = sizeA.value !== "0" || sizeB.value !== "0" || sizeC.value !== "0";
+    const isSizeFreeSelected = sizeFree.value !== "0";
 
-    // チェックボックスの状態が変わった時に関数を呼び出す
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', updateCheckboxState);
-    });
+    // sizeFreeが選択された場合はsizeA, sizeB, sizeCを無効化
+    sizeA.disabled = isSizeFreeSelected;
+    sizeB.disabled = isSizeFreeSelected;
+    sizeC.disabled = isSizeFreeSelected;
 
-    // 初回実行（ページ読み込み時）
-    updateCheckboxState();
-  });
+    // sizeA, sizeB, sizeCが選択された場合はsizeFreeを無効化
+    sizeFree.disabled = isSizeSelected;
+  }
 </script>

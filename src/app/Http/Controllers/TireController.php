@@ -24,13 +24,14 @@ class TireController extends Controller
         // アプリIDをセット！
         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
-    
+//dd($request);
         // リクエストからサイズ情報を取得し、キーワードに結合
         $sizeA = $request->input('sizeA', '');
         $sizeB = $request->input('sizeB', '');
         $sizeC = $request->input('sizeC', '');
-        
-        $keyword = "{$sizeA}.{$sizeB}.{$sizeC}";
+        $sizeFree = $request->input('sizeFree', '');
+
+        $keyword = "{$sizeA}.{$sizeB}.{$sizeC}.{$sizeFree}";
     
         // APIリクエスト実行
         $response = $client->execute('IchibaItemSearch', [
