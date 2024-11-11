@@ -77,6 +77,7 @@ Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('b
 タイヤ価格表
 */
 Route::get('tire', [TireController::class, 'index'])->name('tire.index');
+Route::post('tire', [TireController::class, 'index'])->name('tire.indexPdf');
 Route::post('tire/setPdf', [TireController::class, 'setPdf'])->name('tire.setPdf');
 Route::post('tire/createPdf', [TireController::class, 'createPdf'])->name('tire.createPdf');
 

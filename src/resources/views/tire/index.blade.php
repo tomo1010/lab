@@ -1,38 +1,61 @@
-@extends('tire.layouts.app')
 
-@section('content')
+<form action="{{ route('tire.indexPdf') }}" method="POST">
+    <!-- 送信ボタン -->
+    <button type="submit">検索結果へ</button>
+    @csrf
+        <label for="sizeA">サイズを選択:</label>
+        <select name="sizeA" id="sizeA">
+          <option value="0">選択してください</option>
+          <option value="195/">195</option>
+          <option value="200/">200</option>
+          <option value="205/">205</option>
+        </select>
 
-<div class="container">
-  <div class="row">
-    <form action="{{ route('tire.setPdf') }}" method="POST">
+        <label for="sizeB">サイズを選択:</label>
+        <select name="sizeB" id="sizeB">
+          <option value="0">選択してください</option>
+          <option value="55/">55</option>
+          <option value="65/">65</option>
+          <option value="70/">70</option>
+        </select>
 
-          <!-- 送信ボタン -->
-          <button type="submit" class="btn btn-primary mt-3">設定画面へ</button>
+        <label for="sizeC">サイズを選択:</label>
+        <select name="sizeC" id="sizeC">
+          <option value="0">選択してください</option>
+          <option value="R14">14</option>
+          <option value="R15">15</option>
+          <option value="R16">16</option>
+        </select>
 
-          @csrf
-      <div class="row">
-        @foreach ($items as $item)
-          <div class="col-12 col-sm-6 col-lg-4 mb-4">
-            <div class="card h-100 shadow-sm">
-              <a href="{{ $item['itemUrl'] }}" class="text-decoration-none">
-                <img class="card-img-top" src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" alt="Product Image">
-              </a>
-              <div class="card-body">
-                <!-- チェックボックス -->
-                <input type="checkbox" name="itemCodes[]" value="{{ $item['itemCode'] }}" class="limit-checkbox">
-                <p class="h5 text-danger font-weight-bold">{{ $item['itemPrice'] }}円</p>
-                <div class="d-flex align-items-center mt-2 text-secondary">
-                  <i class="far fa-comments fa-lg"></i>
-                  <span class="ml-2">{{ $item['reviewCount'] }}件</span>
-                </div>
+</form>
+
+
+<div>
+  <form action="{{ route('tire.setPdf') }}" method="POST">
+    <!-- 送信ボタン -->
+    <button type="submit">設定画面へ</button>
+
+    @csrf
+    <div>
+      @foreach ($items as $item)
+        <div>
+          <div>
+            <a href="{{ $item['itemUrl'] }}">
+              <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" alt="Product Image">
+            </a>
+            <div>
+              <!-- チェックボックス -->
+              <input type="checkbox" name="itemCodes[]" value="{{ $item['itemCode'] }}" class="limit-checkbox">
+              <p>{{ $item['itemPrice'] }}円</p>
+              <div>
+                <span>{{ $item['reviewCount'] }}件</span>
               </div>
             </div>
           </div>
-        @endforeach
-      </div>
-
-    </form>
-  </div>
+        </div>
+      @endforeach
+    </div>
+  </form>
 </div>
 
 <script>
@@ -45,10 +68,8 @@
       const isMaxSelected = checkedBoxes.length >= 3;
 
       checkboxes.forEach(checkbox => {
-        // すでに選択されたものを除き、最大数に達したら無効化する
         if (!checkbox.checked) {
           checkbox.disabled = isMaxSelected;
-          checkbox.classList.toggle('disabled-checkbox', isMaxSelected); // 無効時のスタイル適用
         }
       });
     }
@@ -62,13 +83,3 @@
     updateCheckboxState();
   });
 </script>
-
-<style>
-  /* 無効化されているチェックボックスのスタイル */
-  .disabled-checkbox {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-</style>
-
-@endsection

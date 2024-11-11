@@ -11,34 +11,45 @@ use PDF;
 
 class TireController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-         //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
-         $client = new RakutenRws_Client();
- 
- 
-         //定数化
-         define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
-         define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
-         define("RAKUTEN_AFFILIATE_ID"     , config('app.rakuten_aff'));
- 
-         //アプリIDをセット！
-         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
-         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
-  
-
-        $response = $client->execute('IchibaItemSearch', array(
-            //入力パラメーター
-            'keyword' => '軽自動車　スタッドレスタイヤ　セット',
-            //'page' => $page,
-        ));
-
-
-        return view('tire.index', [
-            'items' => $response,
-        ]);
+        // 楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
+        $client = new RakutenRws_Client();
+    
+        // 定数化
+        define("RAKUTEN_APPLICATION_ID", config('app.rakuten_id'));
+        define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
+        define("RAKUTEN_AFFILIATE_ID", config('app.rakuten_aff'));
+    
+        // アプリIDをセット！
+        $client->setApplicationId(RAKUTEN_APPLICATION_ID);
+        $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
+    
+        // リクエストからサイズ情報を取得し、キーワードに結合
+        $sizeA = $request->input('sizeA', '');
+        $sizeB = $request->input('sizeB', '');
+        $sizeC = $request->input('sizeC', '');
         
+        $keyword = "{$sizeA}.{$sizeB}.{$sizeC}";
+    
+        // APIリクエスト実行
+        $response = $client->execute('IchibaItemSearch', [
+            'keyword' => !empty(trim($keyword)) ? $keyword : '軽自動車　スタッドレスタイヤ　セット',
+        ]);
+    
+        // レスポンスが正しく取得できた場合のみビューに渡す
+        if ($response->isOk()) {
+            return view('tire.index', [
+                'items' => $response,
+            ]);
+        } else {
+            // エラーハンドリング、またはデフォルトビューを返す
+            return view('tire.index', [
+                'items' => [],
+            ])->withErrors('データの取得に失敗しました。');
+        }
     }
+    
     
 
     public function setPdf(Request $request)
