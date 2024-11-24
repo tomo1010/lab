@@ -24,23 +24,37 @@ class TireController extends Controller
         // アプリIDをセット！
         $client->setApplicationId(RAKUTEN_APPLICATION_ID);
         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
-//dd($request);
+
         // リクエストからサイズ情報を取得し、キーワードに結合
         $sizeA = $request->input('sizeA', '');
         $sizeB = $request->input('sizeB', '');
         $sizeC = $request->input('sizeC', '');
         $sizeFree = $request->input('sizeFree', '');
+        $selectTire = $request->input('selectTire', '');
+        $maker = $request->input('maker', '');
 
-        $keyword = "{$sizeA}.{$sizeB}.{$sizeC}.{$sizeFree}";
-    
+//        $keyword = "{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire} {$maker}";
+        $keyword = "$selectTire";
+
         // APIリクエスト実行
         $response = $client->execute('IchibaItemSearch', [
-            'keyword' => !empty(trim($keyword)) ? $keyword : '軽自動車　スタッドレスタイヤ　セット',
+            //'keyword' => !empty($keyword) ? $keyword : 'スタッドレス',
+            'keyword' => $keyword,
+            //'shopCode' => 'maluzen',
+            //'genreId' => '564508',
+            //'tagId' => '1002958,1042126,1002931', //155/65R14
+            //'tagId' => '1009464,1002958', //グッドイヤー、トーヨー
+            'field' => '0',
+            //'sort' => '-itemPrice',
+            
+            
+            
         ]);
-    
+
         // レスポンスが正しく取得できた場合のみビューに渡す
-        if ($response->isOk()) {
-            return view('tire.index', [
+        //if ($response->isOk()) {
+        if (empty($response)) {
+            return view('tire.searchResult', [
                 'items' => $response,
             ]);
         } else {
@@ -52,6 +66,70 @@ class TireController extends Controller
     }
     
     
+
+    public function searchResult(Request $request)
+    {
+        // 楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
+        $client = new RakutenRws_Client();
+    
+        // 定数化
+        define("RAKUTEN_APPLICATION_ID", config('app.rakuten_id'));
+        define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
+        define("RAKUTEN_AFFILIATE_ID", config('app.rakuten_aff'));
+    
+        // アプリIDをセット！
+        $client->setApplicationId(RAKUTEN_APPLICATION_ID);
+        $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
+    
+        // リクエストからサイズ情報を取得し、キーワードに結合
+        $sizeA = $request->input('sizeA', '');
+        $sizeB = $request->input('sizeB', '');
+        $sizeC = $request->input('sizeC', '');
+        $sizeFree = $request->input('sizeFree', '');
+        $selectTire = $request->input('selectTire', '');
+        $maker = $request->input('maker', '');
+        $page = $request->input('page', '1'); // デフォルトページは1
+        $sort = $request->input('sort', ''); // ソートのデフォルトは指定なし
+    
+        // キーワードの組み立て
+        $keyword = "{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire} {$maker}";
+    
+        // APIリクエスト実行
+        $params = [
+            'keyword' => !empty($keyword) ? $keyword : 'スタッドレス',
+            'field' => '0', // 部分一致
+            'page' => $page,
+        ];
+    
+        // ソートパラメータが指定されていれば追加
+        if (!empty($sort)) {
+            $params['sort'] = $sort;
+        }
+    
+        // APIリクエストを実行
+        $response = $client->execute('IchibaItemSearch', $params);
+    
+        // レスポンスが正しく取得できた場合のみビューに渡す
+        if ($response->isOk()) {
+            $count = $response['count']; // 総件数
+            $page = $response['page'];   // 現在のページ番号
+    
+            return view('tire.searchResult', [
+                'items' => $response,
+                'count' => $count,
+                'page' => $page,
+            ]);
+        } else {
+            // エラーハンドリング、またはデフォルトビューを返す
+            return view('tire.index', [
+                'items' => [],
+            ])->withErrors('データの取得に失敗しました。');
+        }
+    }
+    
+
+
+
 
     public function setPdf(Request $request)
     {

@@ -1,41 +1,12 @@
-<form action="{{ route('tire.indexPdf') }}" method="POST">
-    <!-- 送信ボタン -->
-    <button type="submit">検索結果へ</button>
-    @csrf
-        <label for="sizeA">サイズを選択:</label>
-        <select name="sizeA" id="sizeA" onchange="toggleSizeFields()">
-          <option value="0">選択してください</option>
-          <option value="195/">195</option>
-          <option value="200/">200</option>
-          <option value="205/">205</option>
-        </select>
+@include('tire.commons.search')
 
-        <label for="sizeB">サイズを選択:</label>
-        <select name="sizeB" id="sizeB" onchange="toggleSizeFields()">
-          <option value="0">選択してください</option>
-          <option value="55/">55</option>
-          <option value="65/">65</option>
-          <option value="70/">70</option>
-        </select>
 
-        <label for="sizeC">サイズを選択:</label>
-        <select name="sizeC" id="sizeC" onchange="toggleSizeFields()">
-          <option value="0">選択してください</option>
-          <option value="R14">14</option>
-          <option value="R15">15</option>
-          <option value="R16">16</option>
-        </select>
-
-        <label for="sizeFree">サイズを選択:</label>
-        <select name="sizeFree" id="sizeFree" onchange="toggleSizeFields()">
-          <option value="0">汎用サイズ</option>
-          <option value="155/65R14">155/65R14</option>
-          <option value="195/65R15">195/65R15</option>
-        </select>
-</form>
+<hr>
+使い方
+<hr>
 
 <div>
-  <form action="{{ route('tire.setPdf') }}" method="POST">
+  <form action="{{ route('tire.setPdf') }}" method="post">
     <!-- 送信ボタン -->
     <button type="submit">設定画面へ</button>
 
@@ -50,9 +21,9 @@
             <div>
               <!-- チェックボックス -->
               <input type="checkbox" name="itemCodes[]" value="{{ $item['itemCode'] }}" class="limit-checkbox">
-              <p>{{ $item['itemPrice'] }}円</p>
+              <p>{{ $item['itemPrice'] }}円 {{ $item['reviewCount'] }}件</p>
               <div>
-                <span>{{ $item['reviewCount'] }}件</span>
+                <span>{{ $item['catchcopy'] }}{{ $item['itemName'] }}</span>
               </div>
             </div>
           </div>
@@ -61,6 +32,8 @@
     </div>
   </form>
 </div>
+
+
 
 <script>
   function toggleSizeFields() {
