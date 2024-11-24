@@ -6,7 +6,7 @@
         <div>
           <h2>選択商品</h2>
           <input type="hidden" name="items[{{ $index }}][itemName]" value="{{ $item['itemName'] }}">
-          <input type="hidden" name="items[{{ $index }}][itemPrice]" id="itemPrice_{{ $index }}" value="{{ $item['itemPrice'] }}">
+          <input type="hidden" name="items[{{ $index }}][itemPrice]" value="{{ $item['itemPrice'] }}">
 
           <p>{{ $item['itemName'] }}</p>
           <div>
@@ -47,10 +47,10 @@
 
           <div>
             <label for="wages_{{ $index }}">工賃を入力:</label>
-            <input type="number" name="items[{{ $index }}][wages]" id="wages_{{ $index }}" placeholder="0">
+            <input type="number" name="items[{{ $index }}][wages]" id="wages_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
 
             <label for="wagesMultiplier_{{ $index }}">倍率を選択:</label>
-            <select name="items[{{ $index }}][wagesMultiplier]" id="wagesMultiplier_{{ $index }}">
+            <select name="items[{{ $index }}][wagesMultiplier]" id="wagesMultiplier_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="1">×1</option>
               <option value="2">×2</option>
               <option value="3">×3</option>
@@ -60,10 +60,10 @@
 
           <div>
             <label for="wasteTire_{{ $index }}">廃タイヤ費用を入力:</label>
-            <input type="number" name="items[{{ $index }}][wasteTire]" id="wasteTire_{{ $index }}" placeholder="0">
+            <input type="number" name="items[{{ $index }}][wasteTire]" id="wasteTire_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})" placeholder="0">
 
             <label for="wasteTireMultiplier_{{ $index }}">倍率を選択:</label>
-            <select name="items[{{ $index }}][wasteTireMultiplier]" id="wasteTireMultiplier_{{ $index }}">
+            <select name="items[{{ $index }}][wasteTireMultiplier]" id="wasteTireMultiplier_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="1">×1</option>
               <option value="2">×2</option>
               <option value="3">×3</option>
@@ -71,7 +71,11 @@
             </select>
           </div>
 
-          <button type="button" onclick="saveSettingsToCookie({{ $index }})">設定を保存</button>
+          <!-- 同じ工賃を他の商品に適用するチェックボックス -->
+          <div>
+            <label for="applySameWages_{{ $index }}">同じ工賃を他の商品に適用</label>
+            <input type="checkbox" id="applySameWages_{{ $index }}" onchange="applySameWagesToAll({{ $index }})">
+          </div>
           <hr>
         </div>
       </div>
@@ -111,38 +115,20 @@ function toggleAndCalculate(index, itemPrice) {
     document.getElementById(`totalPrice_${index}`).innerText = total;
 }
 
-function saveSettingsToCookie(index) {
+function applySameWagesToAll(index) {
     const wages = document.getElementById(`wages_${index}`).value;
     const wagesMultiplier = document.getElementById(`wagesMultiplier_${index}`).value;
     const wasteTire = document.getElementById(`wasteTire_${index}`).value;
     const wasteTireMultiplier = document.getElementById(`wasteTireMultiplier_${index}`).value;
 
-    const settings = {
-        wages,
-        wagesMultiplier,
-        wasteTire,
-        wasteTireMultiplier
-    };
-
-    document.cookie = `settings=${JSON.stringify(settings)}; path=/; max-age=31536000`; // 保存期間1年
+    document.querySelectorAll(`[id^="wages_"]`).forEach((input, i) => {
+        if (i !== index && document.getElementById(`applySameWages_${index}`).checked) {
+            document.getElementById(`wages_${i}`).value = wages;
+            document.getElementById(`wagesMultiplier_${i}`).value = wagesMultiplier;
+            document.getElementById(`wasteTire_${i}`).value = wasteTire;
+            document.getElementById(`wasteTireMultiplier_${i}`).value = wasteTireMultiplier;
+            toggleAndCalculate(i, parseInt(document.getElementById(`itemPrice_${i}`).value));
+        }
+    });
 }
-
-function loadSettingsFromCookie() {
-    const cookies = document.cookie.split(';');
-    const settingsCookie = cookies.find(cookie => cookie.trim().startsWith('settings='));
-
-    if (settingsCookie) {
-        const settings = JSON.parse(settingsCookie.split('=')[1]);
-
-        document.querySelectorAll(`[id^="wages_"]`).forEach((input, index) => {
-            document.getElementById(`wages_${index}`).value = settings.wages;
-            document.getElementById(`wagesMultiplier_${index}`).value = settings.wagesMultiplier;
-            document.getElementById(`wasteTire_${index}`).value = settings.wasteTire;
-            document.getElementById(`wasteTireMultiplier_${index}`).value = settings.wasteTireMultiplier;
-        });
-    }
-}
-
-// ページ読み込み時にCookieから設定をロード
-document.addEventListener('DOMContentLoaded', loadSettingsFromCookie);
 </script>
