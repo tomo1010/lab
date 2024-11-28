@@ -89,17 +89,19 @@ class TireController extends Controller
         $selectTire = $request->input('selectTire', '');
         $maker = $request->input('maker', '');
         $page = $request->input('page', '1'); // デフォルトページは1
-        $sort = $request->input('sort', ''); // ソートのデフォルトは指定なし
+        $sort = $request->input('sort', '');
     
         // キーワードの組み立て
-        $keyword = "{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire} {$maker}";
-    
+        $keyword = "{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire}";
+
         // APIリクエスト実行
         $params = [
             'keyword' => !empty($keyword) ? $keyword : 'スタッドレス',
+            'tagId' => $maker,
             'field' => '0', // 部分一致
             'page' => $page,
         ];
+//dd($params);    
     
         // ソートパラメータが指定されていれば追加
         if (!empty($sort)) {

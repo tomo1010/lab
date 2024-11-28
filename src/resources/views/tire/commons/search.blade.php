@@ -8,7 +8,7 @@
         <option value="205/" {{ request('sizeA') == '205/' ? 'selected' : '' }}>205</option>
     </select>
 
-    <label for="sizeB">サイズを選択:</label>
+    <label for="sizeB">/</label>
     <select name="sizeB" id="sizeB" onchange="toggleSizeFields()">
         <option value="0" {{ request('sizeB') == '0' ? 'selected' : '' }}>選択してください</option>
         <option value="55" {{ request('sizeB') == '55' ? 'selected' : '' }}>55</option>
@@ -16,7 +16,7 @@
         <option value="70" {{ request('sizeB') == '70' ? 'selected' : '' }}>70</option>
     </select>
 
-    <label for="sizeC">サイズを選択:</label>
+    <label for="sizeC">R</label>
     <select name="sizeC" id="sizeC" onchange="toggleSizeFields()">
         <option value="0" {{ request('sizeC') == '0' ? 'selected' : '' }}>選択してください</option>
         <option value="R14" {{ request('sizeC') == 'R14' ? 'selected' : '' }}>14</option>
@@ -25,7 +25,7 @@
     </select>
     <br>
 
-    <label for="sizeFree">サイズを選択:</label>
+    <label for="sizeFree">汎用サイズを選択:</label>
     <select name="sizeFree" id="sizeFree" onchange="toggleSizeFields()">
         <option value="0" {{ request('sizeFree') == '0' ? 'selected' : '' }}>汎用サイズ</option>
         <option value="155/65R14" {{ request('sizeFree') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
@@ -36,8 +36,8 @@
     <label for="maker">メーカーを選択:</label>
     <select name="maker" id="maker">
         <option value="" {{ request('maker') == '' ? 'selected' : '' }}>選択してください</option>
-        <option value="ブリヂストン" {{ request('maker') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-        <option value="トーヨー" {{ request('maker') == 'トーヨー' ? 'selected' : '' }}>トーヨー</option>
+        <option value="1002426" {{ request('maker') == '1002426' ? 'selected' : '' }}>ブリヂストン</option>
+        <option value="1002909" {{ request('maker') == '1002909' ? 'selected' : '' }}>トーヨー</option>
     </select>
     <hr>
 
@@ -47,6 +47,6 @@
     <input type="radio" name="selectTire" value="スタッドレス" {{ request('selectTire') == 'スタッドレス' ? 'checked' : '' }}>スタッドレスタイヤ
     <input type="radio" name="selectTire" value="スタッドレス セット" {{ request('selectTire') == 'スタッドレス セット' ? 'checked' : '' }}>スタッドレスタイヤ セット
     <br>
-    <button type="submit">検索結果へ</button>
+    <button type="submit">検索結果へ</button>　<a href="{{ route('tire.index') }}">リセット</a>
 </form>
 
