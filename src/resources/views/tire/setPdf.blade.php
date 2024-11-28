@@ -42,7 +42,9 @@
             <p>内工賃: <span id="subtotalPrice_{{ $index }}">0</span>円</p>
           </div>
           <div>
-            <p>合計-原価: <span id="subtotalPrice_{{ $index }}"-"{{ $item['itemPrice'] }}">0</span>円</p>
+            <p>合計-原価: <span id="profit_{{ $index }}">0</span>円</p>
+          </div>
+
           </div>
 
           <hr>
@@ -229,9 +231,14 @@ function toggleAndCalculate(index, itemPrice) {
         optionA.disabled = false;
     }
 
+    // 利益を計算
+    const profit = total - itemPrice;
+
     // 結果を表示
     document.getElementById(`subtotalPrice_${index}`).innerText = subtotal;
     document.getElementById(`totalPrice_${index}`).innerText = total;
+    document.getElementById(`profit_${index}`).innerText = profit;
+
 }
 
 function applySameWagesToAll(index) {
