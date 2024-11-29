@@ -10,7 +10,7 @@
 
           <p>{{ $item['itemName'] }}</p>
           <div>
-            <span>{{ $item['itemPrice'] }}円</span>
+            <span>原価：{{ $item['itemPrice'] }}円</span>
           </div>
 
           <hr>
@@ -45,10 +45,10 @@
             <p>合計: <span id="totalPrice_{{ $index }}">0</span>円</p>
           </div>
           <div>
-            <p>内工賃: <span id="subtotalPrice_{{ $index }}">0</span>円</p>
+            <p></p>
           </div>
           <div>
-            <p>合計-原価: <span id="profit_{{ $index }}">0</span>円</p>
+            <p>粗利: <span id="profit_{{ $index }}">0</span>円　（工賃: <span id="subtotalPrice_{{ $index }}">0</span>円）</p>
           </div>
 
           </div>
@@ -254,7 +254,7 @@ function updateProfitDisplay(index, itemPrice) {
     if (optionB.value !== "0") {
         const multiplier = parseFloat(optionB.value);
         const calculatedProfit = Math.floor(itemPrice * multiplier) - itemPrice;
-        profitDisplay.innerText = `利益: ${calculatedProfit}円`;
+        profitDisplay.innerText = `（原価+ ${calculatedProfit}円）`;
         toggleAndCalculate(index, itemPrice);
     } else {
         profitDisplay.innerText = ""; // 初期化
