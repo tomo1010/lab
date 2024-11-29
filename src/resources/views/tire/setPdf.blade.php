@@ -16,7 +16,7 @@
           <hr>
           <h3>粗利設定</h3>
           <div>
-            <label for="itemOptionA_{{ $index }}">粗利を選択:</label>
+            <label for="itemOptionA_{{ $index }}">粗利を選択A:</label>
             <select name="items[{{ $index }}][itemOptionA]" id="itemOptionA_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="0">選択してください</option>
               <option value="10000">10,000円</option>
@@ -26,14 +26,20 @@
           </div>
 
           <div>
-            <label for="itemOptionB_{{ $index }}">粗利を選択:</label>
-            <select name="items[{{ $index }}][itemOptionB]" id="itemOptionB_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
+            <label for="itemOptionB_{{ $index }}">粗利を選択B:</label>
+            <select name="items[{{ $index }}][itemOptionB]" id="itemOptionB_{{ $index }}" 
+              onchange="updateProfitDisplay({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="0">選択してください</option>
               <option value="1.1">×1.1</option>
               <option value="1.2">×1.2</option>
               <option value="1.3">×1.3</option>
             </select>
+            <span id="profitDisplay_{{ $index }}"></span>
           </div>
+
+
+
+
 
           <div>
             <p>合計: <span id="totalPrice_{{ $index }}">0</span>円</p>
@@ -193,8 +199,6 @@ function toggleAndCalculate(index, itemPrice) {
     const wagesMultiplier = parseInt(document.getElementById(`wagesMultiplier_${index}`).value) || 1;
     const wasteTire = parseInt(document.getElementById(`wasteTire_${index}`).value) || 0;
     const wasteTireMultiplier = parseInt(document.getElementById(`wasteTireMultiplier_${index}`).value) || 1;
-
-    // 追加項目の値を取得
     const nut = parseInt(document.getElementById(`nut_${index}`).value) || 0;
     const nutMultiplier = parseInt(document.getElementById(`nutMultiplier_${index}`).value) || 1;
     const valve = parseInt(document.getElementById(`valve_${index}`).value) || 0;
@@ -205,30 +209,31 @@ function toggleAndCalculate(index, itemPrice) {
     const detachmentMultiplier = parseInt(document.getElementById(`detachmentMultiplier_${index}`).value) || 1;
 
     // 小計を計算
-    let subtotal = (wages * wagesMultiplier) +
-                   (wasteTire * wasteTireMultiplier) +
-                   (nut * nutMultiplier) +
-                   (valve * valveMultiplier) +
-                   (bag * bagMultiplier) +
-                   (detachment * detachmentMultiplier);
+    let subtotal = 
+        (wages * wagesMultiplier) +
+        (wasteTire * wasteTireMultiplier) +
+        (nut * nutMultiplier) +
+        (valve * valveMultiplier) +
+        (bag * bagMultiplier) +
+        (detachment * detachmentMultiplier);
 
     // 合計を計算
     let total = itemPrice + subtotal;
 
     // OptionAの処理
-    if (optionA.value !== "0") {
+    if (optionA.value !== "0" && optionB.value === "0") {
         total += parseInt(optionA.value);
-        optionB.disabled = true;
+        optionB.disabled = true; // 選択Aが有効な場合、Bをロック
     } else {
-        optionB.disabled = false;
+        optionB.disabled = false; // Aが無効な場合、Bを再度有効に
     }
 
     // OptionBの処理
     if (optionB.value !== "0") {
         total = Math.floor(total * parseFloat(optionB.value));
-        optionA.disabled = true;
+        optionA.disabled = true; // 選択Bが有効な場合、Aをロック
     } else {
-        optionA.disabled = false;
+        optionA.disabled = false; // Bが無効な場合、Aを再度有効に
     }
 
     // 利益を計算
@@ -238,8 +243,25 @@ function toggleAndCalculate(index, itemPrice) {
     document.getElementById(`subtotalPrice_${index}`).innerText = subtotal;
     document.getElementById(`totalPrice_${index}`).innerText = total;
     document.getElementById(`profit_${index}`).innerText = profit;
-
 }
+
+
+function updateProfitDisplay(index, itemPrice) {
+    const optionB = document.getElementById(`itemOptionB_${index}`);
+    const profitDisplay = document.getElementById(`profitDisplay_${index}`);
+
+    // OptionBが選択されている場合の利益を表示
+    if (optionB.value !== "0") {
+        const multiplier = parseFloat(optionB.value);
+        const calculatedProfit = Math.floor(itemPrice * multiplier) - itemPrice;
+        profitDisplay.innerText = `利益: ${calculatedProfit}円`;
+        toggleAndCalculate(index, itemPrice);
+    } else {
+        profitDisplay.innerText = ""; // 初期化
+    }
+}
+
+
 
 function applySameWagesToAll(index) {
     // 元データを取得
