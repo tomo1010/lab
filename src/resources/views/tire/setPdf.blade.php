@@ -19,9 +19,9 @@
             <label for="itemOptionA_{{ $index }}">粗利を選択A:</label>
             <select name="items[{{ $index }}][itemOptionA]" id="itemOptionA_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="0">選択してください</option>
-              <option value="10000">10,000円</option>
-              <option value="15000">15,000円</option>
-              <option value="20000">20,000円</option>
+              <option value="10000">11,000円</option>
+              <option value="15000">16,500円</option>
+              <option value="20000">22,000円</option>
             </select>
           </div>
 
@@ -31,8 +31,10 @@
               onchange="updateProfitDisplay({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="0">選択してください</option>
               <option value="1.1">×1.1</option>
-              <option value="1.2">×1.2</option>
-              <option value="1.3">×1.3</option>
+              <option value="1.21">×1.21</option>
+              <option value="1.32">×1.32</option>
+              <option value="1.43">×1.43</option>
+              <option value="1.54">×1.54</option>
             </select>
             <span id="profitDisplay_{{ $index }}"></span>
           </div>
@@ -172,14 +174,14 @@
 
           <!-- 同じ工賃を他の商品に適用するチェックボックス -->
           <div>
-            <label for="applySameWages_{{ $index }}">同じ工賃を他の商品に適用</label>
             <input type="checkbox" id="applySameWages_{{ $index }}" onchange="applySameWagesToAll({{ $index }})">
+            <label for="applySameWages_{{ $index }}">同じ工賃を他の商品に適用</label>
           </div>
 
           <!-- Cookieに保存するチェックボックス -->
           <div>
-            <label for="saveToCookie_{{ $index }}">設定をCookieに保存</label>
             <input type="checkbox" id="saveToCookie_{{ $index }}" onchange="saveSettingsToCookie({{ $index }})">
+            <label for="saveToCookie_{{ $index }}">設定をCookieに保存</label>
           </div>
 
           <hr>
@@ -248,17 +250,22 @@ function toggleAndCalculate(index, itemPrice) {
 
 function updateProfitDisplay(index, itemPrice) {
     const optionB = document.getElementById(`itemOptionB_${index}`);
+    const optionA = document.getElementById(`itemOptionA_${index}`);
     const profitDisplay = document.getElementById(`profitDisplay_${index}`);
 
-    // OptionBが選択されている場合の利益を表示
-    if (optionB.value !== "0") {
-        const multiplier = parseFloat(optionB.value);
-        const calculatedProfit = Math.floor(itemPrice * multiplier) - itemPrice;
-        profitDisplay.innerText = `（原価+ ${calculatedProfit}円）`;
-        toggleAndCalculate(index, itemPrice);
-    } else {
+    // OptionBが「選択してください」を選んだ場合
+    if (optionB.value === "0") {
         profitDisplay.innerText = ""; // 初期化
+        optionA.disabled = false; // OptionAを有効化
+        toggleAndCalculate(index, itemPrice);
+        return;
     }
+
+    // OptionBが選択されている場合
+    const multiplier = parseFloat(optionB.value);
+    const calculatedProfit = Math.floor(itemPrice * multiplier) - itemPrice;
+    profitDisplay.innerText = `（原価 ${calculatedProfit}円）`;
+    toggleAndCalculate(index, itemPrice);
 }
 
 
