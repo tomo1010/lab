@@ -1,6 +1,6 @@
 @include('tire.commons.search')
 
-{{$count}}件取得
+{{$keyword}}：{{$count}}件取得
 
 
 <!-- ソートボタン -->

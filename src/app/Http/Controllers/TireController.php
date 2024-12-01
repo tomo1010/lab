@@ -101,7 +101,6 @@ class TireController extends Controller
             'field' => '0', // 部分一致
             'page' => $page,
         ];
-//dd($params);    
     
         // ソートパラメータが指定されていれば追加
         if (!empty($sort)) {
@@ -120,6 +119,7 @@ class TireController extends Controller
                 'items' => $response,
                 'count' => $count,
                 'page' => $page,
+                'keyword' => $keyword,
             ]);
         } else {
             // エラーハンドリング、またはデフォルトビューを返す
@@ -177,9 +177,21 @@ class TireController extends Controller
         $items = [];
         $sumPrice = 0;
     
+        // キーワードのリスト
+        $keywords = ['ブリヂストン', 'ダンロップ', 'ヨコハマ', 'トーヨー', 'グッドイヤー'];
+    
         foreach ($request->input('items', []) as $item) {
             $itemName = $item['itemName'];
             $itemPrice = (int) $item['itemPrice'];
+    
+            // キーワードが含まれているか確認
+            $maker = null; // 初期化
+            foreach ($keywords as $keyword) {
+                if (strpos($itemName, $keyword) !== false) {
+                    $maker = $keyword; // キーワードを $maker に代入
+                    break;
+                }
+            }
     
             // 各オプションと倍率の初期値設定
             $itemOptionA = isset($item['itemOptionA']) ? (int) $item['itemOptionA'] : 0;
@@ -240,6 +252,7 @@ class TireController extends Controller
                 'detachmentMultiplier' => $detachmentMultiplier,
                 'subtotalPrice' => $subtotalPrice,
                 'totalItemPrice' => $totalItemPrice,
+                'maker' => $maker, // メーカー情報を追加
             ];
         }
     
@@ -252,6 +265,9 @@ class TireController extends Controller
         $pdf = PDF::loadView('tire.createPdf', $data);
         return $pdf->stream('laravel.pdf');
     }
+    
+    
+    
     
     
     

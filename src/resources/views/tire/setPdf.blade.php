@@ -4,7 +4,7 @@
     @foreach ($items as $index => $item)
       <div>
         <div>
-          <h2>選択商品</h2>
+          <h2>（{{ $loop->iteration }}）選択商品</h2>
           <input type="hidden" name="items[{{ $index }}][itemName]" value="{{ $item['itemName'] }}">
           <input type="hidden" name="items[{{ $index }}][itemPrice]" id="itemPrice_{{ $index }}" value="{{ $item['itemPrice'] }}">
 
@@ -14,14 +14,15 @@
           </div>
 
           <hr>
-          <h3>粗利設定</h3>
+          <h3>（{{ $loop->iteration }}）粗利設定</h3>
           <div>
             <label for="itemOptionA_{{ $index }}">粗利を選択A:</label>
             <select name="items[{{ $index }}][itemOptionA]" id="itemOptionA_{{ $index }}" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
               <option value="0">選択してください</option>
-              <option value="10000">11,000円</option>
-              <option value="15000">16,500円</option>
-              <option value="20000">22,000円</option>
+              <option value="5500">5,500円</option>
+              <option value="11000">11,000円</option>
+              <option value="16500">16,500円</option>
+              <option value="22000">22,000円</option>
             </select>
           </div>
 
@@ -39,10 +40,6 @@
             <span id="profitDisplay_{{ $index }}"></span>
           </div>
 
-
-
-
-
           <div>
             <p>合計: <span id="totalPrice_{{ $index }}">0</span>円</p>
           </div>
@@ -56,10 +53,11 @@
           </div>
 
           <hr>
-          <h3>工賃その他設定</h3>
+          <h3>（{{ $loop->iteration }}）工賃その他設定</h3>
 
+          <!-- 組み替えバランス工賃を入力するテキストボックスと倍率のセレクトボックス -->
           <div>
-            <label for="wages_{{ $index }}">工賃を入力:</label>
+            <label for="wages_{{ $index }}">組替えバランス工賃を入力:</label>
             <input type="number" name="items[{{ $index }}][wages]" id="wages_{{ $index }}" placeholder="0" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
 
             <label for="wagesMultiplier_{{ $index }}">倍率を選択:</label>
@@ -71,6 +69,7 @@
             </select>
           </div>
 
+          <!-- 廃タイヤ費用を入力するテキストボックスと倍率のセレクトボックス -->
           <div>
             <label for="wasteTire_{{ $index }}">廃タイヤ費用を入力:</label>
             <input type="number" name="items[{{ $index }}][wasteTire]" id="wasteTire_{{ $index }}" placeholder="0" onchange="toggleAndCalculate({{ $index }}, {{ $item['itemPrice'] }})">
@@ -153,7 +152,7 @@
             </select>
           </div>
           
-          <!-- その他を入力するテキストボックスと倍率のセレクトボックス -->
+          <!-- 脱着工賃を入力するテキストボックスと倍率のセレクトボックス -->
           <div class="mt-3">
             <label for="detachment_{{ $index }}" class="form-label">脱着工賃:</label>
             <input type="number" name="items[{{ $index }}][detachment]" id="detachment_{{ $index }}" class="form-control" 
@@ -264,7 +263,7 @@ function updateProfitDisplay(index, itemPrice) {
     // OptionBが選択されている場合
     const multiplier = parseFloat(optionB.value);
     const calculatedProfit = Math.floor(itemPrice * multiplier) - itemPrice;
-    profitDisplay.innerText = `（原価 ${calculatedProfit}円）`;
+    profitDisplay.innerText = `（原価 +${calculatedProfit}円）`;
     toggleAndCalculate(index, itemPrice);
 }
 

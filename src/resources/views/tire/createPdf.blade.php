@@ -62,6 +62,8 @@
       <li class="product-item">
         <p class="product-name">{{ $item['itemName'] }}</p>
         <p class="product-price">{{ $item['totalItemPrice'] }}円</p>
+        <p class="subtotal-price">（内工賃{{ $item['subtotalPrice'] }}円）</p>
+        <p class="product-maker">{{  $item['maker'] }}</p>
       </li>
     @endforeach
   </ul>
