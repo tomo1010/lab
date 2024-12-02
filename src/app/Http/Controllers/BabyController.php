@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use RakutenRws_Client;
 use Zaico\Domain\RakutenItem\RakutenItem;
+use PDF;
 
 
 class BabyController extends Controller
@@ -116,7 +117,9 @@ class BabyController extends Controller
                 'page' =>  $page,
 
             ]);
-        
+
+
+
         }
 
 
@@ -206,6 +209,123 @@ class BabyController extends Controller
         } 
    }
 
+
+
+   public function viewPdf()
+   {
+        //楽天APIを扱うRakutenRws_Clientクラスのインスタンスを作成します
+        $client = new RakutenRws_Client();
+
+
+        //定数化
+        define("RAKUTEN_APPLICATION_ID"     , config('app.rakuten_id'));
+        define("RAKUTEN_APPLICATION_SEACRET", config('app.rakuten_key'));
+        define("RAKUTEN_AFFILIATE_ID"     , config('app.rakuten_aff'));
+
+        //アプリIDをセット！
+        $client->setApplicationId(RAKUTEN_APPLICATION_ID);
+        $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
+
+
+        //ページ番号をセット
+        if(empty($request->page)){
+            $page = '1';
+        }else{
+            $page = $request->page;
+        }
+
+
+        /*ステッカー、マグネット、吸盤のタイプ振り分け*/
+        //指定なし
+        if(empty($request->type)){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                //'page' => $page,
+            ));
+
+            //return view('baby.index', [
+            //    'items' => $response,
+            //    //'page' =>  $page,
+            //]);
+
+            // PDF生成とビューにデータを渡す
+            $pdf = PDF::loadView('baby.index', ['items' => $response->getData()]);
+
+            // PDFとして表示
+           return $pdf->stream('laravel.pdf');
+
+        //ステッカー
+        }elseif(($request->type == 'sticker')){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                'NGKeyword' => 'マグネット 吸盤',
+                'page' => $page,
+            ));
+
+            return view('baby.type', [
+                'items' => $response,
+                'page' => $page,
+                'type' => $request->type,
+
+            ]);
+
+        //マグネット
+        }elseif(($request->type == 'magnet')){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー マグネット',
+                'NGKeyword' => 'ステッカー 吸盤',
+                'page' => $page,
+            ));
+
+            return view('baby.type', [
+                'items' => $response,
+                'page' => $page,
+                'type' => $request->type,
+
+            ]);
+
+        //吸盤
+        }elseif(($request->type == 'sucker')){
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー 吸盤',
+                'NGKeyword' => 'マグネット',
+                'page' => $page,
+            ));
+
+            return view('baby.type', [
+                'items' => $response,
+                'page' => $page,
+                'type' => $request->type,
+
+            ]);
+
+        }else{
+
+            $response = $client->execute('IchibaItemSearch', array(
+                //入力パラメーター
+                'keyword' => 'ベイビーインカー ステッカー',
+                'page' => $page,
+            ));
+
+            return view('baby.index', [
+                'items' => $response,
+                'page' =>  $page,
+
+            ]);
+
+
+   }
+   
+}
+    
 
 
 

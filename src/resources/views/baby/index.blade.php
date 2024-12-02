@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-6">
   <div class="md:flex">
     <div class="md:flex-shrink-0">
@@ -37,6 +38,8 @@
 
   </div>
 </div>
+
+
 
 
 
