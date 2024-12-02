@@ -64,28 +64,32 @@
 
 <div>
   <form action="{{ route('tire.setPdf') }}" method="post">
-    <!-- 送信ボタン -->
-    <button type="submit">設定画面へ</button>
-
       @csrf
+
+      <!-- $keyword を送信するための隠しフィールド -->
+      <input type="hidden" name="keyword" value="{{ $keyword }}">
+
+      <!-- 送信ボタン -->
+      <button type="submit">設定画面へ</button>
+
       <div>
-        @foreach ($items as $item)
+          @foreach ($items as $item)
           <div>
-            <div>
-              <a href="{{ $item['itemUrl'] }}">
-                <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" alt="Product Image">
-              </a>
               <div>
-                <!-- チェックボックス -->
-                <input type="checkbox" name="itemCodes[]" value="{{ $item['itemCode'] }}" class="limit-checkbox">
-                <p>{{ $item['itemPrice'] }}円 {{ $item['reviewCount'] }}件</p>
-                <div>
-                  <span>{{ $item['catchcopy'] }}{{ $item['itemName'] }}</span>
-                </div>
+                  <a href="{{ $item['itemUrl'] }}">
+                      <img src="{{ $item['mediumImageUrls'][0]['imageUrl'] }}" alt="Product Image">
+                  </a>
+                  <div>
+                      <!-- チェックボックス -->
+                      <input type="checkbox" name="itemCodes[]" value="{{ $item['itemCode'] }}" class="limit-checkbox">
+                      <p>{{ $item['itemPrice'] }}円 {{ $item['reviewCount'] }}件</p>
+                      <div>
+                          <span>{{ $item['catchcopy'] }}{{ $item['itemName'] }}</span>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        @endforeach
+          @endforeach
       </div>
   </form>
 </div>

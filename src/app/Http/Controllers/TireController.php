@@ -135,6 +135,9 @@ class TireController extends Controller
 
     public function setPdf(Request $request)
     {
+
+        $keyword = $request->input('keyword'); // $keyword を受け取る
+
         // Rakuten APIクライアントのセットアップ
         $client = new RakutenRws_Client();
         $client->setApplicationId(config('app.rakuten_id'));
@@ -166,6 +169,7 @@ class TireController extends Controller
         // アイテム情報をビューに渡す
         return view('tire.setPdf', [
             'items' => $items,
+            'keyword' => $keyword,
         ]);
     }
     
@@ -174,21 +178,24 @@ class TireController extends Controller
 
     public function createPdf(Request $request)
     {
+        $keyword = $request->input('keyword'); // $keyword を受け取る
+
         $items = [];
         $sumPrice = 0;
     
-        // キーワードのリスト
-        $keywords = ['ブリヂストン', 'ダンロップ', 'ヨコハマ', 'トーヨー', 'グッドイヤー'];
+        // メーカー名のリスト
+        $makers = ['Bridgestone', 'Dunlop', 'Yokohama', 'Toyo', 'Goodyear', 'Michelin', 'Continental', 'Pirelli', 'Hankook', 'Kumho', 'Falken', 'Nokian', 'Maxxis', 'Uniroyal', 'BFGoodrich','BRIDGESTONE', 'DUNLOP', 'YOKOHAMA', 'TOYO', 'GOODYEAR', 'MICHELIN', 'CONTINENTAL', 'PIRELLI', 'HANKOOK', 'KUMHO', 'FALKEN', 'NOKIAN', 'MAXXIS', 'UNIROYAL', 'BFGOODRICH','ブリヂストン', 'ダンロップ', 'ヨコハマ', 'トーヨー', 'グッドイヤー', 'ミシュラン', 'コンチネンタル', 'ピレリ', 'ハンコック', 'クムホ', 'ファルケン', 'ノキアン', 'マキシス', 'ユニロイヤル', 'BFグッドリッチ',
+];
     
         foreach ($request->input('items', []) as $item) {
             $itemName = $item['itemName'];
             $itemPrice = (int) $item['itemPrice'];
     
-            // キーワードが含まれているか確認
+            // メーカー名が含まれているか確認
             $maker = null; // 初期化
-            foreach ($keywords as $keyword) {
-                if (strpos($itemName, $keyword) !== false) {
-                    $maker = $keyword; // キーワードを $maker に代入
+            foreach ($makers as $maker) {
+                if (strpos($itemName, $maker) !== false) {
+                    $maker = $maker; // メーカーを $maker に代入
                     break;
                 }
             }
@@ -259,6 +266,7 @@ class TireController extends Controller
         $data = [
             'items' => $items,
             'sumPrice' => $sumPrice,
+            'keyword' => $keyword,
         ];
     
         // PDF生成とビューにデータを渡す

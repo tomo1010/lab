@@ -1,6 +1,11 @@
 <div>
+{{$keyword}}
   <form action="{{ route('tire.createPdf') }}" method="POST">
     @csrf
+
+    <!-- $keyword を送信するための隠しフィールド -->
+    <input type="hidden" name="keyword" value="{{ $keyword }}">
+    
     @foreach ($items as $index => $item)
       <div>
         <div>
