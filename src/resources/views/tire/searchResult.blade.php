@@ -24,7 +24,7 @@
             {{-- 前へリンク --}}
             @if($page > 10)
                 <li style="margin-right: 5px;">
-                    <a href="{{ route('tire.searchResult', ['page' => max(1, $page - 10), 'sizeA' => request('sizeA'), 'sizeB' => request('sizeB'), 'sizeC' => request('sizeC'), 'sizeFree' => request('sizeFree'), 'maker' => request('maker'), 'selectTire' => request('selectTire')]) }}" 
+                    <a href="{{ route('tire.searchResult', array_merge(request()->all(), ['page' => max(1, $page - 10)])) }}" 
                        style="padding: 5px 10px; text-decoration: none; background-color: #ccc; color: white; border-radius: 3px;">
                         前へ
                     </a>
@@ -39,7 +39,7 @@
 
             @for($i = $startPage; $i <= $endPage; $i++)
                 <li style="margin-right: 5px;">
-                    <a href="{{ route('tire.searchResult', ['page' => $i, 'sizeA' => request('sizeA'), 'sizeB' => request('sizeB'), 'sizeC' => request('sizeC'), 'sizeFree' => request('sizeFree'), 'maker' => request('maker'), 'selectTire' => request('selectTire')]) }}" 
+                    <a href="{{ route('tire.searchResult', array_merge(request()->all(), ['page' => $i])) }}" 
                        style="padding: 5px 10px; text-decoration: none; background-color: {{ $i == $page ? '#007bff' : '#ccc' }}; color: white; border-radius: 3px;">
                         {{ $i }}
                     </a>
@@ -49,7 +49,7 @@
             {{-- 次へリンク --}}
             @if($page + 10 <= $items['pageCount'])
                 <li style="margin-right: 5px;">
-                    <a href="{{ route('tire.searchResult', ['page' => min($items['pageCount'], $page + 10), 'sizeA' => request('sizeA'), 'sizeB' => request('sizeB'), 'sizeC' => request('sizeC'), 'sizeFree' => request('sizeFree'), 'maker' => request('maker'), 'selectTire' => request('selectTire')]) }}" 
+                    <a href="{{ route('tire.searchResult', array_merge(request()->all(), ['page' => min($items['pageCount'], $page + 10)])) }}" 
                        style="padding: 5px 10px; text-decoration: none; background-color: #ccc; color: white; border-radius: 3px;">
                         次へ
                     </a>
@@ -59,6 +59,7 @@
         </ul>
     </div>
 @endif
+
 
 
 

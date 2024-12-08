@@ -120,6 +120,13 @@ class TireController extends Controller
                 'count' => $count,
                 'page' => $page,
                 'keyword' => $keyword,
+                'sort' => $sort, // ソート条件をビューに渡す
+                'maker' => $maker, // メーカー条件をビューに渡す
+                'sizeA' => $sizeA,
+                'sizeB' => $sizeB,
+                'sizeC' => $sizeC,
+                'sizeFree' => $sizeFree,
+                'selectTire' => $selectTire,
             ]);
         } else {
             // エラーハンドリング、またはデフォルトビューを返す
