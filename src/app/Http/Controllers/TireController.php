@@ -82,6 +82,7 @@ class TireController extends Controller
         $client->setAffiliateId(RAKUTEN_AFFILIATE_ID);
     
         // リクエストからサイズ情報を取得し、キーワードに結合
+        $sizeKeyword = $request->input('sizeKeyword', '');
         $sizeA = $request->input('sizeA', '');
         $sizeB = $request->input('sizeB', '');
         $sizeC = $request->input('sizeC', '');
@@ -92,8 +93,8 @@ class TireController extends Controller
         $sort = $request->input('sort', '');
     
         // キーワードの組み立て
-        $keyword = "{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire}";
-
+        $keyword = "{$sizeKeyword}{$sizeA}{$sizeB}{$sizeC}{$sizeFree} {$selectTire}";
+//dd($keyword);
         // APIリクエスト実行
         $params = [
             'keyword' => !empty($keyword) ? $keyword : 'スタッドレス',
