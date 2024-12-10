@@ -38,20 +38,39 @@
 
 <script>
   function toggleSizeFields() {
+    const sizeKeyword = document.getElementById('sizeKeyword');
     const sizeA = document.getElementById('sizeA');
     const sizeB = document.getElementById('sizeB');
     const sizeC = document.getElementById('sizeC');
     const sizeFree = document.getElementById('sizeFree');
 
-    const isSizeSelected = sizeA.value !== "0" || sizeB.value !== "0" || sizeC.value !== "0";
-    const isSizeFreeSelected = sizeFree.value !== "0";
+    const isSizeKeywordFilled = sizeKeyword.value.trim() !== ""; // sizeKeywordが入力された場合
+    const isSizeSelected = sizeA.value !== "0" || sizeB.value !== "0" || sizeC.value !== "0"; // sizeA, sizeB, sizeCが選択された場合
+    const isSizeFreeSelected = sizeFree.value !== "0"; // sizeFreeが選択された場合
 
-    // sizeFreeが選択された場合はsizeA, sizeB, sizeCを無効化
-    sizeA.disabled = isSizeFreeSelected;
-    sizeB.disabled = isSizeFreeSelected;
-    sizeC.disabled = isSizeFreeSelected;
-
-    // sizeA, sizeB, sizeCが選択された場合はsizeFreeを無効化
-    sizeFree.disabled = isSizeSelected;
+    // sizeKeywordが入力された場合
+    if (isSizeKeywordFilled) {
+      sizeA.disabled = true;
+      sizeB.disabled = true;
+      sizeC.disabled = true;
+      sizeFree.disabled = true;
+    } else if (isSizeSelected) {
+      // sizeA, sizeB, sizeCが選択された場合
+      sizeKeyword.disabled = true;
+      sizeFree.disabled = true;
+    } else if (isSizeFreeSelected) {
+      // sizeFreeが選択された場合
+      sizeKeyword.disabled = true;
+      sizeA.disabled = true;
+      sizeB.disabled = true;
+      sizeC.disabled = true;
+    } else {
+      // すべてクリアされた場合
+      sizeKeyword.disabled = false;
+      sizeA.disabled = false;
+      sizeB.disabled = false;
+      sizeC.disabled = false;
+      sizeFree.disabled = false;
+    }
   }
 </script>
