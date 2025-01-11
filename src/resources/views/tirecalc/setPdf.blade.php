@@ -91,7 +91,7 @@
     </div>
 
     <div>
-        <label for="set2">廃タイヤ費用を入力:</label>
+        <label for="set2">脱着工賃を入力:</label>
         <input type="number" name="set2" id="set2" placeholder="0" onchange="updateCalculation()">
         <label for="set2Multiplier">倍率を選択:</label>
         <select name="set2Multiplier" id="set2Multiplier" onchange="updateCalculation()">
@@ -103,7 +103,7 @@
     </div>
 
     <div>
-        <label for="set3">ナット代を入力:</label>
+        <label for="set3">廃タイヤ費用を入力:</label>
         <input type="number" name="set3" id="set3" placeholder="0" onchange="updateCalculation()">
         <label for="set3Multiplier">倍率を選択:</label>
         <select name="set3Multiplier" id="set3Multiplier" onchange="updateCalculation()">
@@ -115,7 +115,7 @@
     </div>
 
     <div>
-        <label for="set4">バルブ代を入力:</label>
+        <label for="set4">ナット代を入力:</label>
         <input type="number" name="set4" id="set4" placeholder="0" onchange="updateCalculation()">
         <label for="set4Multiplier">倍率を選択:</label>
         <select name="set4Multiplier" id="set4Multiplier" onchange="updateCalculation()">
@@ -127,7 +127,7 @@
     </div>
 
     <div>
-        <label for="set5">袋代を入力:</label>
+        <label for="set5">バルブ代を入力:</label>
         <input type="number" name="set5" id="set5" placeholder="0" onchange="updateCalculation()">
         <label for="set5Multiplier">倍率を選択:</label>
         <select name="set5Multiplier" id="set5Multiplier" onchange="updateCalculation()">
@@ -139,10 +139,22 @@
     </div>
 
     <div>
-        <label for="set6">その他入力:</label>
+        <label for="set6">袋代を入力:</label>
         <input type="number" name="set6" id="set6" placeholder="0" onchange="updateCalculation()">
         <label for="set6Multiplier">倍率を選択:</label>
         <select name="set6Multiplier" id="set6Multiplier" onchange="updateCalculation()">
+            <option value="1">×1</option>
+            <option value="2">×2</option>
+            <option value="3">×3</option>
+            <option value="4">×4</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="set7">その他入力:</label>
+        <input type="number" name="set7" id="set7" placeholder="0" onchange="updateCalculation()">
+        <label for="set7Multiplier">倍率を選択:</label>
+        <select name="set7Multiplier" id="set7Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
             <option value="3">×3</option>
@@ -179,7 +191,7 @@ function calculateProduct(productNumber) {
 }
 
 function calculateWagesTotal() {
-    const sets = [1, 2, 3, 4, 5, 6].map((set) => {
+    const sets = [1, 2, 3, 4, 5, 6, 7].map((set) => {
         const value = parseInt(document.getElementById(`set${set}`)?.value) || 0;
         const multiplier = parseInt(document.getElementById(`set${set}Multiplier`)?.value) || 1;
         return value * multiplier;
