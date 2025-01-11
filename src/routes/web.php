@@ -6,6 +6,7 @@ use App\Http\Controllers\BabyController;
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TireController;
+use App\Http\Controllers\TirecalcController;
 
 
 /*
@@ -82,6 +83,16 @@ Route::get('tire/searchResult', [TireController::class, 'searchResult'])->name('
 //Route::post('tire', [TireController::class, 'index'])->name('tire.indexPdf');
 Route::post('tire/setPdf', [TireController::class, 'setPdf'])->name('tire.setPdf');
 Route::post('tire/createPdf', [TireController::class, 'createPdf'])->name('tire.createPdf');
+
+/*
+タイヤ計算機
+*/
+Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.index');
+Route::post('tirecalc/searchResult', [TirecalcController::class, 'searchResult'])->name('tirecalc.searchResult');
+Route::get('tirecalc/searchResult', [TirecalcController::class, 'searchResult'])->name('tirecalc.searchResult');
+//Route::post('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.indexPdf');
+Route::get('tirecalc/setPdf', [TirecalcController::class, 'setPdf'])->name('tirecalc.setPdf');
+Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
 
 /*
 PDF印刷
