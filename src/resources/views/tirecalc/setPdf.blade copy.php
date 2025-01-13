@@ -6,31 +6,10 @@
         <!-- $keyword を送信するための隠しフィールド -->
         <input type="hidden" name="keyword" value="{{ $keyword }}">
 
-        <!-- 隠しフィールド（送信用） -->
-        <input type="hidden" name="productData[1][profitTotal]" id="hiddenProfitTotal1">
-        <input type="hidden" name="productData[1][wagesTotal]" id="hiddenWagesTotal1">
-        <input type="hidden" name="productData[1][taxExcludedTotal]" id="hiddenTotal1">
-        <input type="hidden" name="productData[1][taxIncludedTotal]" id="hiddenTotalWithTax1">
-        <input type="hidden" name="productData[2][profitTotal]" id="hiddenProfitTotal2">
-        <input type="hidden" name="productData[2][wagesTotal]" id="hiddenWagesTotal2">
-        <input type="hidden" name="productData[2][taxExcludedTotal]" id="hiddenTotal2">
-        <input type="hidden" name="productData[2][taxIncludedTotal]" id="hiddenTotalWithTax2">
-        <input type="hidden" name="productData[3][profitTotal]" id="hiddenProfitTotal3">
-        <input type="hidden" name="productData[3][wagesTotal]" id="hiddenWagesTotal3">
-        <input type="hidden" name="productData[3][taxExcludedTotal]" id="hiddenTotal3">
-        <input type="hidden" name="productData[3][taxIncludedTotal]" id="hiddenTotalWithTax3">
-
         <h3>商品１</h3>
         <div>
             <label for="cost1">商品１の原価を入力:</label>
             <input type="number" name="cost1" id="cost1" placeholder="0" onchange="updateCalculation()">
-            <label for="cost1Multiplier">倍率を選択:</label>
-            <select name="cost1Multiplier" id="cost1Multiplier" onchange="updateCalculation()">
-                <option value="1">×1</option>
-                <option value="2">×2</option>
-                <option value="3">×3</option>
-                <option value="4">×4</option>
-            </select>
         </div>
 
         <div>
@@ -45,13 +24,6 @@
         <div>
             <label for="cost2">商品２の原価を入力:</label>
             <input type="number" name="cost2" id="cost2" placeholder="0" onchange="updateCalculation()">
-            <label for="cost2Multiplier">倍率を選択:</label>
-            <select name="cost2Multiplier" id="cost2Multiplier" onchange="updateCalculation()">
-                <option value="1">×1</option>
-                <option value="2">×2</option>
-                <option value="3">×3</option>
-                <option value="4">×4</option>
-            </select>
         </div>
 
         <div>
@@ -66,13 +38,6 @@
         <div>
             <label for="cost3">商品３の原価を入力:</label>
             <input type="number" name="cost3" id="cost3" placeholder="0" onchange="updateCalculation()">
-            <label for="cost3Multiplier">倍率を選択:</label>
-            <select name="cost3Multiplier" id="cost3Multiplier" onchange="updateCalculation()">
-                <option value="1">×1</option>
-                <option value="2">×2</option>
-                <option value="3">×3</option>
-                <option value="4">×4</option>
-            </select>
         </div>
 
         <div>
@@ -111,6 +76,7 @@
     </div>
 
     <h3>工賃その他設定</h3>
+    <h4>工賃A</h4>
     <!-- 工賃入力項目 -->
     <div>
         <label for="set1">組替えバランス工賃を入力:</label>
@@ -157,27 +123,6 @@
             <option value="2">×2</option>
             <option value="3">×3</option>
             <option value="4">×4</option>
-            <option value="5">×5</option>
-            <option value="6">×6</option>
-            <option value="7">×7</option>
-            <option value="8">×8</option>
-            <option value="9">×9</option>
-            <option value="10">×10</option>
-            <option value="11">×11</option>
-            <option value="12">×12</option>
-            <option value="13">×13</option>
-            <option value="14">×14</option>
-            <option value="15">×15</option>
-            <option value="16">×16</option>
-            <option value="17">×17</option>
-            <option value="18">×18</option>
-            <option value="19">×19</option>
-            <option value="20">×20</option>
-            <option value="21">×21</option>
-            <option value="22">×22</option>
-            <option value="23">×23</option>
-            <option value="24">×24</option>
-            <option value="25">×25</option>
         </select>
     </div>
 
@@ -217,10 +162,6 @@
         </select>
     </div>
 
-    <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> クッキーに保存
-    </div>
-
     <button type="submit">PDFに送信</button>
     </form>
 </div>
@@ -230,20 +171,16 @@ function updateCalculation() {
     calculateProduct(1);
     calculateProduct(2);
     calculateProduct(3);
-    prepareFormData(); // 計算結果を隠しフィールドに設定
-
 }
 
 function calculateProduct(productNumber) {
     const cost = parseInt(document.getElementById(`cost${productNumber}`).value) || 0;
-    const costMultiplier = parseInt(document.getElementById(`cost${productNumber}Multiplier`).value) || 1;
-    const profitA = parseInt(document.getElementById('profitOptionA')?.value) || 0;
-    const profitBMultiplier = parseFloat(document.getElementById('profitOptionB')?.value) || 1;
+    const profitA = parseInt(document.getElementById('profitOptionA').value) || 0;
+    const profitBMultiplier = parseFloat(document.getElementById('profitOptionB').value) || 1;
 
     const wagesTotal = calculateWagesTotal();
-    const adjustedCost = cost * costMultiplier;
 
-    const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
+    const profitTotal = Math.floor((cost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
 
@@ -262,58 +199,4 @@ function calculateWagesTotal() {
 
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
-
-
-// 工賃設定をクッキーに保存する関数
-function saveSettingsToCookie() {
-    const isChecked = document.getElementById('saveToCookie').checked;
-    if (isChecked) {
-        const settings = {};
-
-        for (let i = 1; i <= 7; i++) {
-            const value = parseInt(document.getElementById(`set${i}`).value) || 0;
-            const multiplier = parseInt(document.getElementById(`set${i}Multiplier`).value) || 1;
-            settings[`set${i}`] = { value, multiplier };
-        }
-
-        document.cookie = `wageSettings=${JSON.stringify(settings)}; path=/; max-age=31536000;`;
-        alert('工賃設定がクッキーに保存されました。');
-    } else {
-        document.cookie = `wageSettings=; path=/; max-age=0;`;
-        alert('クッキーが削除されました。');
-    }
-}
-
-// クッキーから工賃設定を読み込む関数
-function loadSettingsFromCookie() {
-    const cookies = document.cookie.split('; ').reduce((acc, curr) => {
-        const [key, value] = curr.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-
-    if (cookies.wageSettings) {
-        const settings = JSON.parse(cookies.wageSettings);
-        for (let i = 1; i <= 7; i++) {
-            if (settings[`set${i}`]) {
-                document.getElementById(`set${i}`).value = settings[`set${i}`].value || 0;
-                document.getElementById(`set${i}Multiplier`).value = settings[`set${i}`].multiplier || 1;
-            }
-        }
-        alert('クッキーから工賃設定を読み込みました。');
-    }
-}
-
-// ページ読み込み時にクッキーから設定を読み込む
-window.onload = loadSettingsFromCookie;
-
-function prepareFormData() {
-    for (let i = 1; i <= 3; i++) {
-        document.getElementById(`hiddenProfitTotal${i}`).value = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
-        document.getElementById(`hiddenWagesTotal${i}`).value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
-        document.getElementById(`hiddenTotal${i}`).value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
-        document.getElementById(`hiddenTotalWithTax${i}`).value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
-    }
-}
-
 </script>
