@@ -6,6 +6,20 @@
         <!-- $keyword を送信するための隠しフィールド -->
         <input type="hidden" name="keyword" value="{{ $keyword }}">
 
+        <!-- 隠しフィールド（送信用） -->
+        <input type="hidden" name="productData[1][profitTotal]" id="hiddenProfitTotal1">
+        <input type="hidden" name="productData[1][wagesTotal]" id="hiddenWagesTotal1">
+        <input type="hidden" name="productData[1][taxExcludedTotal]" id="hiddenTotal1">
+        <input type="hidden" name="productData[1][taxIncludedTotal]" id="hiddenTotalWithTax1">
+        <input type="hidden" name="productData[2][profitTotal]" id="hiddenProfitTotal2">
+        <input type="hidden" name="productData[2][wagesTotal]" id="hiddenWagesTotal2">
+        <input type="hidden" name="productData[2][taxExcludedTotal]" id="hiddenTotal2">
+        <input type="hidden" name="productData[2][taxIncludedTotal]" id="hiddenTotalWithTax2">
+        <input type="hidden" name="productData[3][profitTotal]" id="hiddenProfitTotal3">
+        <input type="hidden" name="productData[3][wagesTotal]" id="hiddenWagesTotal3">
+        <input type="hidden" name="productData[3][taxExcludedTotal]" id="hiddenTotal3">
+        <input type="hidden" name="productData[3][taxIncludedTotal]" id="hiddenTotalWithTax3">
+
         <h3>商品１</h3>
         <div>
             <label for="cost1">商品１の原価を入力:</label>
@@ -216,6 +230,8 @@ function updateCalculation() {
     calculateProduct(1);
     calculateProduct(2);
     calculateProduct(3);
+    prepareFormData(); // 計算結果を隠しフィールドに設定
+
 }
 
 function calculateProduct(productNumber) {
@@ -290,5 +306,14 @@ function loadSettingsFromCookie() {
 
 // ページ読み込み時にクッキーから設定を読み込む
 window.onload = loadSettingsFromCookie;
+
+function prepareFormData() {
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById(`hiddenProfitTotal${i}`).value = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenWagesTotal${i}`).value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenTotal${i}`).value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenTotalWithTax${i}`).value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+    }
+}
 
 </script>
