@@ -10,6 +10,13 @@
         <div>
             <label for="cost1">商品１の原価を入力:</label>
             <input type="number" name="cost1" id="cost1" placeholder="0" onchange="updateCalculation()">
+            <label for="cost1Multiplier">倍率を選択:</label>
+            <select name="cost1Multiplier" id="cost1Multiplier" onchange="updateCalculation()">
+                <option value="1">×1</option>
+                <option value="2">×2</option>
+                <option value="3">×3</option>
+                <option value="4">×4</option>
+            </select>
         </div>
 
         <div>
@@ -24,6 +31,13 @@
         <div>
             <label for="cost2">商品２の原価を入力:</label>
             <input type="number" name="cost2" id="cost2" placeholder="0" onchange="updateCalculation()">
+            <label for="cost2Multiplier">倍率を選択:</label>
+            <select name="cost2Multiplier" id="cost2Multiplier" onchange="updateCalculation()">
+                <option value="1">×1</option>
+                <option value="2">×2</option>
+                <option value="3">×3</option>
+                <option value="4">×4</option>
+            </select>
         </div>
 
         <div>
@@ -38,6 +52,13 @@
         <div>
             <label for="cost3">商品３の原価を入力:</label>
             <input type="number" name="cost3" id="cost3" placeholder="0" onchange="updateCalculation()">
+            <label for="cost3Multiplier">倍率を選択:</label>
+            <select name="cost3Multiplier" id="cost3Multiplier" onchange="updateCalculation()">
+                <option value="1">×1</option>
+                <option value="2">×2</option>
+                <option value="3">×3</option>
+                <option value="4">×4</option>
+            </select>
         </div>
 
         <div>
@@ -178,12 +199,14 @@ function updateCalculation() {
 
 function calculateProduct(productNumber) {
     const cost = parseInt(document.getElementById(`cost${productNumber}`).value) || 0;
-    const profitA = parseInt(document.getElementById('profitOptionA').value) || 0;
-    const profitBMultiplier = parseFloat(document.getElementById('profitOptionB').value) || 1;
+    const costMultiplier = parseInt(document.getElementById(`cost${productNumber}Multiplier`).value) || 1;
+    const profitA = parseInt(document.getElementById('profitOptionA')?.value) || 0;
+    const profitBMultiplier = parseFloat(document.getElementById('profitOptionB')?.value) || 1;
 
     const wagesTotal = calculateWagesTotal();
+    const adjustedCost = cost * costMultiplier;
 
-    const profitTotal = Math.floor((cost + profitA) * profitBMultiplier);
+    const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
 
