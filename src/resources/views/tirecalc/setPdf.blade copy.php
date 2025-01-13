@@ -76,6 +76,7 @@
     </div>
 
     <h3>工賃その他設定</h3>
+    <h4>工賃A</h4>
     <!-- 工賃入力項目 -->
     <div>
         <label for="set1">組替えバランス工賃を入力:</label>
@@ -161,10 +162,6 @@
         </select>
     </div>
 
-    <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> クッキーに保存
-    </div>
-
     <button type="submit">PDFに送信</button>
     </form>
 </div>
@@ -202,49 +199,4 @@ function calculateWagesTotal() {
 
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
-
-
-// 工賃設定をクッキーに保存する関数
-function saveSettingsToCookie() {
-    const isChecked = document.getElementById('saveToCookie').checked;
-    if (isChecked) {
-        const settings = {};
-
-        for (let i = 1; i <= 7; i++) {
-            const value = parseInt(document.getElementById(`set${i}`).value) || 0;
-            const multiplier = parseInt(document.getElementById(`set${i}Multiplier`).value) || 1;
-            settings[`set${i}`] = { value, multiplier };
-        }
-
-        document.cookie = `wageSettings=${JSON.stringify(settings)}; path=/; max-age=31536000;`;
-        alert('工賃設定がクッキーに保存されました。');
-    } else {
-        document.cookie = `wageSettings=; path=/; max-age=0;`;
-        alert('クッキーが削除されました。');
-    }
-}
-
-// クッキーから工賃設定を読み込む関数
-function loadSettingsFromCookie() {
-    const cookies = document.cookie.split('; ').reduce((acc, curr) => {
-        const [key, value] = curr.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-
-    if (cookies.wageSettings) {
-        const settings = JSON.parse(cookies.wageSettings);
-        for (let i = 1; i <= 7; i++) {
-            if (settings[`set${i}`]) {
-                document.getElementById(`set${i}`).value = settings[`set${i}`].value || 0;
-                document.getElementById(`set${i}Multiplier`).value = settings[`set${i}`].multiplier || 1;
-            }
-        }
-        alert('クッキーから工賃設定を読み込みました。');
-    }
-}
-
-// ページ読み込み時にクッキーから設定を読み込む
-window.onload = loadSettingsFromCookie;
-
 </script>
