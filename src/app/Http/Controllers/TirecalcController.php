@@ -63,7 +63,8 @@ class TirecalcController extends Controller
         if (!$productData || !is_array($productData)) {
             return redirect()->back()->with('error', '商品のデータが不正です。');
         }
-    
+//dd($request->input('sizeKeyword'));
+
         // 商品データを整形
         $formattedProducts = [];
         foreach ($productData as $key => $product) {
