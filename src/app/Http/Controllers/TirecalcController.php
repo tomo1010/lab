@@ -76,7 +76,7 @@ class TirecalcController extends Controller
                 'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
             ];
         }
-    
+dd($formattedProducts);    
         // 印刷設定をデータに追加
         $data = [
             'keyword' => $keyword,
