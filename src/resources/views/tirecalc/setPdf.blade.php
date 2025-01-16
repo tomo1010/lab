@@ -338,6 +338,15 @@ function calculateProduct(productNumber) {
     const profitA = parseInt(document.getElementById('profitOptionA')?.value) || 0;
     const profitBMultiplier = parseFloat(document.getElementById('profitOptionB')?.value) || 1;
 
+    // 原価が0の場合は計算せずに終了
+    if (cost === 0) {
+        document.getElementById(`profitTotal${productNumber}`).innerText = '0';
+        document.getElementById(`wagesTotal${productNumber}`).innerText = '0';
+        document.getElementById(`Total${productNumber}`).innerText = '0';
+        document.getElementById(`TotalWithTax${productNumber}`).innerText = '0';
+        return; // ここで終了
+    }
+
     const wagesTotal = calculateWagesTotal();
     const adjustedCost = cost * costMultiplier;
 
@@ -351,6 +360,8 @@ function calculateProduct(productNumber) {
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
 }
 
+
+
 function calculateWagesTotal() {
     const sets = [1, 2, 3, 4, 5, 6, 7].map((set) => {
         const value = parseInt(document.getElementById(`set${set}`)?.value) || 0;
@@ -360,6 +371,43 @@ function calculateWagesTotal() {
 
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
+
+
+function prepareFormData() {
+    for (let i = 1; i <= 3; i++) {
+        const profitTotal = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
+        const hiddenProfitTotal = document.getElementById(`hiddenProfitTotal${i}`);
+        const hiddenWagesTotal = document.getElementById(`hiddenWagesTotal${i}`);
+        const hiddenTotal = document.getElementById(`hiddenTotal${i}`);
+        const hiddenTotalWithTax = document.getElementById(`hiddenTotalWithTax${i}`);
+
+        if (profitTotal > 0) {
+            // profitTotalが0より大きい場合、値を設定
+            hiddenProfitTotal.value = profitTotal;
+            hiddenWagesTotal.value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
+            hiddenTotal.value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
+            hiddenTotalWithTax.value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+
+            // name属性を再設定（必要に応じて）
+            hiddenProfitTotal.setAttribute('name', `productData[${i}][profitTotal]`);
+            hiddenWagesTotal.setAttribute('name', `productData[${i}][wagesTotal]`);
+            hiddenTotal.setAttribute('name', `productData[${i}][taxExcludedTotal]`);
+            hiddenTotalWithTax.setAttribute('name', `productData[${i}][taxIncludedTotal]`);
+        } else {
+            // profitTotalが0の場合、name属性を削除して送信しない
+            hiddenProfitTotal.removeAttribute('name');
+            hiddenWagesTotal.removeAttribute('name');
+            hiddenTotal.removeAttribute('name');
+            hiddenTotalWithTax.removeAttribute('name');
+        }
+    }
+}
+
+// フォーム送信時にprepareFormDataを呼び出す
+document.querySelector('form').addEventListener('submit', (event) => {
+    prepareFormData();
+});
+
 
 
 // 工賃設定をクッキーに保存する関数

@@ -56,15 +56,15 @@ class TirecalcController extends Controller
     public function createPdf(Request $request)
     {
         // フォームから送信されたデータを受け取る
-        $keyword = $request->input('keyword'); // $keyword を受け取る
+        $keyword = $request->input('keyword');
+        $productData = $request->input('productData'); 
+        $maker1 = $request->input('maker1');
+        $maker2 = $request->input('maker2');
+        $maker3 = $request->input('maker3');
+        $sizeFree = $request->input('sizeFree');
+        $sizeKeyword = $request->input('sizeKeyword');
+        $selectTire = $request->input('selectTire');
     
-        $productData = $request->input('productData'); // 商品データを受け取る
-        // 商品データが正しい形式か確認
-        if (!$productData || !is_array($productData)) {
-            return redirect()->back()->with('error', '商品のデータが不正です。');
-        }
-//dd($request->input('sizeKeyword'));
-
         // 商品データを整形
         $formattedProducts = [];
         foreach ($productData as $key => $product) {
@@ -76,17 +76,28 @@ class TirecalcController extends Controller
                 'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
             ];
         }
-//dd($formattedProducts);    
-        // PDF生成に渡すデータを構築
+    
+        // 印刷設定をデータに追加
         $data = [
             'keyword' => $keyword,
             'products' => $formattedProducts,
+            'makers' => [
+                'maker1' => $maker1,
+                'maker2' => $maker2,
+                'maker3' => $maker3,
+            ],
+            'size' => [
+                'sizeFree' => $sizeFree,
+                'sizeKeyword' => $sizeKeyword,
+            ],
+            'selectTire' => $selectTire,
         ];
     
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
         return $pdf->stream('laravel.pdf');
     }
+    
     
 }
 
