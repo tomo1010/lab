@@ -62,9 +62,23 @@ class TirecalcController extends Controller
         $maker2 = $request->input('maker2');
         $maker3 = $request->input('maker3');
         $sizeFree = $request->input('sizeFree');
-        $sizeKeyword = $request->input('sizeKeyword');
+        $sizeGeneral = $request->input('sizeGeneral');
         $selectTire = $request->input('selectTire');
-    
+
+    // selectTireに応じた画像パスを決定
+    $tireImages = [
+        '夏タイヤ' => 'img/tirecalc/summer.png',
+        '夏タイヤAWセット' => 'img/tirecalc/summerSet.png',
+        '冬タイヤ' => 'public/img/tirecalc/studless.png',
+        '冬タイヤAWセット' => 'public/img/tirecalc/studlessSet.png',
+        'オールシーズンタイヤ' => 'public/img/tirecalc/summer.png',
+        'オールシーズンタイヤAWセット' => 'public/img/tirecalc/summerSet.png',
+    ];
+
+    // 画像パスを取得（未定義の場合はnull）
+    $imagePath = $tireImages[$selectTire] ?? null;
+
+
         // 商品データを整形
         $formattedProducts = [];
         foreach ($productData as $key => $product) {
@@ -76,7 +90,8 @@ class TirecalcController extends Controller
                 'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
             ];
         }
-dd($formattedProducts);    
+
+//dd($formattedProducts);    
         // 印刷設定をデータに追加
         $data = [
             'keyword' => $keyword,
@@ -86,11 +101,11 @@ dd($formattedProducts);
                 'maker2' => $maker2,
                 'maker3' => $maker3,
             ],
-            'size' => [
-                'sizeFree' => $sizeFree,
-                'sizeKeyword' => $sizeKeyword,
-            ],
+            'sizeFree' => $sizeFree,
+            'sizeGeneral' => $sizeGeneral,
             'selectTire' => $selectTire,
+            'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
+
         ];
     
         // PDF生成とビューにデータを渡す

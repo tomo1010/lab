@@ -260,66 +260,72 @@
     </div>
 
     <div>
-        <label for="sizeFree">汎用サイズを選択:</label>
-        <select name="sizeFree" id="sizeFree" onchange="toggleSizeFields()">
-        <option value="0" {{ request('sizeFree') == '0' ? 'selected' : '' }}>汎用サイズ</option>
+        <label for="sizeGeneral">汎用サイズを選択:</label>
+        <select name="sizeGeneral" id="sizeGeneral" onchange="toggleSizeFields()">
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
 
         <!-- 軽自動車 -->
-        <option value="155/65R14" {{ request('sizeFree') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
-        <option value="165/55R15" {{ request('sizeFree') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
-        <option value="145/80R13" {{ request('sizeFree') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
-        <option value="155/55R14" {{ request('sizeFree') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
+        <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
+        <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
+        <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
+        <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
 
         <!-- コンパクトカー -->
-        <option value="175/65R15" {{ request('sizeFree') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
-        <option value="185/60R15" {{ request('sizeFree') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
-        <option value="185/55R16" {{ request('sizeFree') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
-        <option value="195/65R15" {{ request('sizeFree') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+        <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
+        <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
+        <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
 
         <!-- セダン -->
-        <option value="205/60R16" {{ request('sizeFree') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/55R17" {{ request('sizeFree') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
-        <option value="225/45R18" {{ request('sizeFree') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
-        <option value="215/50R17" {{ request('sizeFree') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
+        <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
+        <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
 
         <!-- ミニバン -->
-        <option value="195/65R15" {{ request('sizeFree') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
-        <option value="205/60R16" {{ request('sizeFree') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/60R16" {{ request('sizeFree') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
-        <option value="225/55R17" {{ request('sizeFree') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
+        <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
 
         <!-- SUV -->
-        <option value="215/65R16" {{ request('sizeFree') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
-        <option value="225/60R17" {{ request('sizeFree') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
-        <option value="235/55R18" {{ request('sizeFree') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
-        <option value="245/45R20" {{ request('sizeFree') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
+        <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
+        <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
+        <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
+        <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
 
         <!-- スポーツカー -->
-        <option value="225/45R17" {{ request('sizeFree') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
-        <option value="235/40R18" {{ request('sizeFree') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
-        <option value="245/40R18" {{ request('sizeFree') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
-        <option value="255/35R19" {{ request('sizeFree') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
+        <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
+        <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
+        <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
+        <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
 
         <!-- 商用車 -->
-        <option value="195/80R15" {{ request('sizeFree') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
-        <option value="185/75R15" {{ request('sizeFree') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
-        <option value="175/80R14" {{ request('sizeFree') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
-        <option value="205/70R15" {{ request('sizeFree') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
+        <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
+        <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
+        <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
+        <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
         </select>
 
-        <label for="sizeKeyword">サイズを入力:</label>
-        <input type="text" name="sizeKeyword" id="sizeKeyword" value="{{ request('sizeKeyword') }}" oninput="toggleSizeFields()">
+        <label for="sizeFree">サイズを入力:</label>
+        <input type="text" name="sizeFree" id="sizeFree" value="{{ request('sizeFree') }}" oninput="toggleSizeFields()">
     </div>
-        <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == '夏タイヤ' ? 'checked' : '' }}>夏タイヤのみ
-        <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == '夏タイヤセット' ? 'checked' : '' }}>夏タイヤ AWセット
+
+        <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == 'summer' ? 'checked' : '' }}>夏タイヤのみ
+        <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == 'summerSet' ? 'checked' : '' }}>夏タイヤ AWセット
         <br>
-        <input type="radio" name="selectTire" value="冬タイヤ" {{ request('selectTire') == '冬タイヤ' ? 'checked' : '' }}>冬タイヤのみ
-        <input type="radio" name="selectTire" value="冬タイヤAWセット" {{ request('selectTire') == '冬タイヤセット' ? 'checked' : '' }}>冬タイヤ AWセット
+        <input type="radio" name="selectTire" value="冬タイヤ" {{ request('selectTire') == 'studless' ? 'checked' : '' }}>冬タイヤのみ
+        <input type="radio" name="selectTire" value="冬タイヤAWセット" {{ request('selectTire') == 'studlessSet' ? 'checked' : '' }}>冬タイヤ AWセット
         <br>
-        <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'オールシーズンタイヤ' ? 'checked' : '' }}>オールシーズンタイヤのみ
-        <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'オールシーズンタイヤセット' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
+        <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>オールシーズンタイヤのみ
+        <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'allseasenSet' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
         <br>
+
+        <div>
         <button type="submit">PDFに送信</button>
+        <button type="button" onclick="copyToClipboard()">コピーする</button>
+        </div>
+
     </form>
 </div>
 
@@ -360,8 +366,14 @@ function calculateProduct(productNumber) {
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
 }
 
+function updateCalculation() {
+    calculateProduct(1);
+    calculateProduct(2);
+    calculateProduct(3);
+    prepareFormData(); // 隠しフィールドに値を設定
+}
 
-//工賃の計算
+
 function calculateWagesTotal() {
     const sets = [1, 2, 3, 4, 5, 6, 7].map((set) => {
         const value = parseInt(document.getElementById(`set${set}`)?.value) || 0;
@@ -372,6 +384,41 @@ function calculateWagesTotal() {
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
 
+
+function prepareFormData() {
+    for (let i = 1; i <= 3; i++) {
+        const profitTotal = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
+        const hiddenProfitTotal = document.getElementById(`hiddenProfitTotal${i}`);
+        const hiddenWagesTotal = document.getElementById(`hiddenWagesTotal${i}`);
+        const hiddenTotal = document.getElementById(`hiddenTotal${i}`);
+        const hiddenTotalWithTax = document.getElementById(`hiddenTotalWithTax${i}`);
+
+        if (profitTotal > 0) {
+            // profitTotalが0より大きい場合、値を設定
+            hiddenProfitTotal.value = profitTotal;
+            hiddenWagesTotal.value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
+            hiddenTotal.value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
+            hiddenTotalWithTax.value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+
+            // name属性を再設定（必要に応じて）
+            hiddenProfitTotal.setAttribute('name', `productData[${i}][profitTotal]`);
+            hiddenWagesTotal.setAttribute('name', `productData[${i}][wagesTotal]`);
+            hiddenTotal.setAttribute('name', `productData[${i}][taxExcludedTotal]`);
+            hiddenTotalWithTax.setAttribute('name', `productData[${i}][taxIncludedTotal]`);
+        } else {
+            // profitTotalが0の場合、name属性を削除して送信しない
+            hiddenProfitTotal.removeAttribute('name');
+            hiddenWagesTotal.removeAttribute('name');
+            hiddenTotal.removeAttribute('name');
+            hiddenTotalWithTax.removeAttribute('name');
+        }
+    }
+}
+
+// フォーム送信時にprepareFormDataを呼び出す
+document.querySelector('form').addEventListener('submit', (event) => {
+    prepareFormData();
+});
 
 
 
@@ -425,6 +472,53 @@ function prepareFormData() {
         document.getElementById(`hiddenTotal${i}`).value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
         document.getElementById(`hiddenTotalWithTax${i}`).value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
     }
+}
+
+function copyToClipboard() {
+    // コピーするデータを取得
+    const data = [
+    { label: 'サイズ：', value: document.getElementById('sizeGeneral')?.value || '' },
+    { label: 'サイズ：', value: document.getElementById('sizeFree')?.value || '' },
+    { label: '', value: document.querySelector('input[name="selectTire"]:checked')?.value || '' },
+    { label: '▼', value: document.getElementById('maker1')?.value || '' },
+    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax1')?.innerText || '') },
+    { label: '▼', value: document.getElementById('maker2')?.value || '' },
+    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax2')?.innerText || '') },
+    { label: '▼', value: document.getElementById('maker3')?.value || '' },
+    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') }
+];
+
+// "円"を追加する関数
+function addYenSuffix(value) {
+    // 値が空または0の場合はそのまま返す
+    if (value === '' || value === '0') {
+        return value;
+    }
+    // 値に "円" を追加して返す
+    return `${value} 円`;
+}
+
+    // 0 や空文字の項目を除外
+    const filteredData = data
+        .filter(item => item.value !== '0' && item.value !== '' && item.value !== '未入力' && item.value !== '未選択')
+        .map(item => `${item.label}${item.value}`);
+
+    // コピーする内容が空の場合は通知して終了
+    if (filteredData.length === 0) {
+        alert('コピーするデータがありません。');
+        return;
+    }
+
+    // コピーする内容を整形
+    const copyText = filteredData.join('\n');
+
+    // クリップボードにコピー
+    navigator.clipboard.writeText(copyText).then(() => {
+        alert('データをコピーしました！');
+    }).catch(err => {
+        alert('コピーに失敗しました。');
+        console.error('コピーエラー:', err);
+    });
 }
 
 </script>
