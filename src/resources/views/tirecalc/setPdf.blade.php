@@ -481,11 +481,11 @@ function copyToClipboard() {
     { label: 'サイズ：', value: document.getElementById('sizeFree')?.value || '' },
     { label: '', value: document.querySelector('input[name="selectTire"]:checked')?.value || '' },
     { label: '▼', value: document.getElementById('maker1')?.value || '' },
-    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax1')?.innerText || '') },
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax1')?.innerText || '') },
     { label: '▼', value: document.getElementById('maker2')?.value || '' },
-    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax2')?.innerText || '') },
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax2')?.innerText || '') },
     { label: '▼', value: document.getElementById('maker3')?.value || '' },
-    { label: '税込合計', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') }
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') }
 ];
 
 // "円"を追加する関数
