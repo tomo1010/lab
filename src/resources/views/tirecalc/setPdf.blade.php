@@ -1,10 +1,9 @@
 <div>
-    {{$keyword}}
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
         @csrf
 
-        <!-- $keyword を送信するための隠しフィールド -->
-        <input type="hidden" name="keyword" value="{{ $keyword }}">
+        <!-- $comment を送信するための隠しフィールド -->
+        <input type="hidden" name="comment" value="{{ $comment }}">
 
         <!-- 隠しフィールド（送信用） -->
         <input type="hidden" name="productData[1][profitTotal]" id="hiddenProfitTotal1">
@@ -24,7 +23,7 @@
         <div>
             <label for="cost1">商品１の原価を入力:</label>
             <input type="number" name="cost1" id="cost1" placeholder="0" onchange="updateCalculation()">
-            <label for="cost1Multiplier">倍率を選択:</label>
+            <label for="cost1Multiplier">:</label>
             <select name="cost1Multiplier" id="cost1Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -34,7 +33,6 @@
         </div>
 
         <div>
-            <h4>商品１計算結果</h4>
             <p>商品代金: <span id="profitTotal1">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
             <p>税抜合計: <span id="Total1">0</span> 円</p>
@@ -45,7 +43,7 @@
         <div>
             <label for="cost2">商品２の原価を入力:</label>
             <input type="number" name="cost2" id="cost2" placeholder="0" onchange="updateCalculation()">
-            <label for="cost2Multiplier">倍率を選択:</label>
+            <label for="cost2Multiplier">:</label>
             <select name="cost2Multiplier" id="cost2Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -55,7 +53,6 @@
         </div>
 
         <div>
-            <h4>商品２計算結果</h4>
             <p>商品代金: <span id="profitTotal2">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
             <p>税抜合計: <span id="Total2">0</span> 円</p>
@@ -66,7 +63,7 @@
         <div>
             <label for="cost3">商品３の原価を入力:</label>
             <input type="number" name="cost3" id="cost3" placeholder="0" onchange="updateCalculation()">
-            <label for="cost3Multiplier">倍率を選択:</label>
+            <label for="cost3Multiplier">:</label>
             <select name="cost3Multiplier" id="cost3Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -76,7 +73,6 @@
         </div>
 
         <div>
-            <h4>商品３計算結果</h4>
             <p>商品代金: <span id="profitTotal3">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
             <p>税抜合計: <span id="Total3">0</span> 円</p>
@@ -109,6 +105,7 @@
             <option value="1.5">×1.5</option>
         </select>
     </div>
+    <hr>
 
     <h3>工賃その他設定</h3>
     <!-- 工賃入力項目 -->
@@ -220,8 +217,116 @@
     <div>
         <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> クッキーに保存
     </div>
+<hr>
+    <h3>印刷設定</h3>
+    <div>
+        商品１：
+        <select name="maker1" id="maker1">
+            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>メーカー選択</option>
+            <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+        </select><br>
+        商品２：
+        <select name="maker2" id="maker2">
+            <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>メーカー選択</option>
+            <option value="ブリヂストン" {{ request('maker2') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker2') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="トーヨータイヤ" {{ request('maker2') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ピレリ" {{ request('maker2') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="ヨコハマ" {{ request('maker2') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="グッドイヤー" {{ request('maker2') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker2') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+        </select><br>
+        商品３：
+        <select name="maker3" id="maker3">
+            <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>メーカー選択</option>
+            <option value="ブリヂストン" {{ request('maker3') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker3') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="トーヨータイヤ" {{ request('maker3') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ピレリ" {{ request('maker3') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="ヨコハマ" {{ request('maker3') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="グッドイヤー" {{ request('maker3') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker3') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+        </select>
+    </div>
 
-    <button type="submit">PDFに送信</button>
+    <div>
+        <label for="sizeGeneral">汎用サイズを選択:</label>
+        <select name="sizeGeneral" id="sizeGeneral" onchange="toggleSizeFields()">
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
+
+        <!-- 軽自動車 -->
+        <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
+        <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
+        <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
+        <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
+
+        <!-- コンパクトカー -->
+        <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
+        <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
+        <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+
+        <!-- セダン -->
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
+        <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
+        <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
+
+        <!-- ミニバン -->
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
+        <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
+
+        <!-- SUV -->
+        <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
+        <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
+        <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
+        <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
+
+        <!-- スポーツカー -->
+        <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
+        <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
+        <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
+        <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
+
+        <!-- 商用車 -->
+        <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
+        <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
+        <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
+        <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
+        </select>
+
+        <label for="sizeFree">サイズを入力:</label>
+        <input type="text" name="sizeFree" id="sizeFree" value="{{ request('sizeFree') }}" oninput="toggleSizeFields()">
+<br>
+        <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == 'summer' ? 'checked' : '' }}>夏タイヤのみ
+        <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == 'summerSet' ? 'checked' : '' }}>夏タイヤ AWセット
+        <br>
+        <input type="radio" name="selectTire" value="冬タイヤ" {{ request('selectTire') == 'studless' ? 'checked' : '' }}>冬タイヤのみ
+        <input type="radio" name="selectTire" value="冬タイヤAWセット" {{ request('selectTire') == 'studlessSet' ? 'checked' : '' }}>冬タイヤ AWセット
+        <br>
+        <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>オールシーズンタイヤのみ
+        <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'allseasenSet' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
+        <br>
+
+        <label for="comment">コメント:</label><br>
+        <textarea id="comment" name="comment" rows="5" cols="33">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
+        </textarea>
+       
+    </div>
+
+        <div>
+        <button type="submit">PDFに送信</button>
+        <button type="button" onclick="copyToClipboard()">コピーする</button>
+        </div>
+
     </form>
 </div>
 
@@ -240,6 +345,15 @@ function calculateProduct(productNumber) {
     const profitA = parseInt(document.getElementById('profitOptionA')?.value) || 0;
     const profitBMultiplier = parseFloat(document.getElementById('profitOptionB')?.value) || 1;
 
+    // 原価が0の場合は計算せずに終了
+    if (cost === 0) {
+        document.getElementById(`profitTotal${productNumber}`).innerText = '0';
+        document.getElementById(`wagesTotal${productNumber}`).innerText = '0';
+        document.getElementById(`Total${productNumber}`).innerText = '0';
+        document.getElementById(`TotalWithTax${productNumber}`).innerText = '0';
+        return; // ここで終了
+    }
+
     const wagesTotal = calculateWagesTotal();
     const adjustedCost = cost * costMultiplier;
 
@@ -253,6 +367,14 @@ function calculateProduct(productNumber) {
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
 }
 
+function updateCalculation() {
+    calculateProduct(1);
+    calculateProduct(2);
+    calculateProduct(3);
+    prepareFormData(); // 隠しフィールドに値を設定
+}
+
+
 function calculateWagesTotal() {
     const sets = [1, 2, 3, 4, 5, 6, 7].map((set) => {
         const value = parseInt(document.getElementById(`set${set}`)?.value) || 0;
@@ -262,6 +384,43 @@ function calculateWagesTotal() {
 
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
+
+
+function prepareFormData() {
+    for (let i = 1; i <= 3; i++) {
+        const profitTotal = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
+        const hiddenProfitTotal = document.getElementById(`hiddenProfitTotal${i}`);
+        const hiddenWagesTotal = document.getElementById(`hiddenWagesTotal${i}`);
+        const hiddenTotal = document.getElementById(`hiddenTotal${i}`);
+        const hiddenTotalWithTax = document.getElementById(`hiddenTotalWithTax${i}`);
+
+        if (profitTotal > 0) {
+            // profitTotalが0より大きい場合、値を設定
+            hiddenProfitTotal.value = profitTotal;
+            hiddenWagesTotal.value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
+            hiddenTotal.value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
+            hiddenTotalWithTax.value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+
+            // name属性を再設定（必要に応じて）
+            hiddenProfitTotal.setAttribute('name', `productData[${i}][profitTotal]`);
+            hiddenWagesTotal.setAttribute('name', `productData[${i}][wagesTotal]`);
+            hiddenTotal.setAttribute('name', `productData[${i}][taxExcludedTotal]`);
+            hiddenTotalWithTax.setAttribute('name', `productData[${i}][taxIncludedTotal]`);
+        } else {
+            // profitTotalが0の場合、name属性を削除して送信しない
+            hiddenProfitTotal.removeAttribute('name');
+            hiddenWagesTotal.removeAttribute('name');
+            hiddenTotal.removeAttribute('name');
+            hiddenTotalWithTax.removeAttribute('name');
+        }
+    }
+}
+
+// フォーム送信時にprepareFormDataを呼び出す
+document.querySelector('form').addEventListener('submit', (event) => {
+    prepareFormData();
+});
+
 
 
 // 工賃設定をクッキーに保存する関数
@@ -314,6 +473,61 @@ function prepareFormData() {
         document.getElementById(`hiddenTotal${i}`).value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
         document.getElementById(`hiddenTotalWithTax${i}`).value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
     }
+}
+
+function copyToClipboard() {
+    // コピーするデータを取得
+    const data = [
+    //選択したタイヤ
+    { label: '', value: document.querySelector('input[name="selectTire"]:checked')?.value || '' },
+    //サイズ
+    { label: 'サイズ：', value: document.getElementById('sizeGeneral')?.value || '' },
+    { label: 'サイズ：', value: document.getElementById('sizeFree')?.value || '' },
+    //商品１
+    { label: '▼', value: document.getElementById('maker1')?.value || '' },
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax1')?.innerText || '') },
+    //商品２
+    { label: '▼', value: document.getElementById('maker2')?.value || '' },
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax2')?.innerText || '') },
+    //商品３
+    { label: '▼', value: document.getElementById('maker3')?.value || '' },
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') },
+    //コメント
+    { label: '', value: document.getElementById('comment')?.value.trim() || '' } 
+
+];
+
+// "円"を追加する関数
+function addYenSuffix(value) {
+    // 値が空または0の場合はそのまま返す
+    if (value === '' || value === '0') {
+        return value;
+    }
+    // 値に "円" を追加して返す
+    return `${value} 円`;
+}
+
+    // 0 や空文字の項目を除外
+    const filteredData = data
+        .filter(item => item.value !== '0' && item.value !== '' && item.value !== '未入力' && item.value !== '未選択')
+        .map(item => `${item.label}${item.value}`);
+
+    // コピーする内容が空の場合は通知して終了
+    if (filteredData.length === 0) {
+        alert('コピーするデータがありません。');
+        return;
+    }
+
+    // コピーする内容を整形
+    const copyText = filteredData.join('\n');
+
+    // クリップボードにコピー
+    navigator.clipboard.writeText(copyText).then(() => {
+        alert('データをコピーしました！');
+    }).catch(err => {
+        alert('コピーに失敗しました。');
+        console.error('コピーエラー:', err);
+    });
 }
 
 </script>

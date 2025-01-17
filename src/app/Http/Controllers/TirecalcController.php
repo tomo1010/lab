@@ -14,7 +14,7 @@ class TirecalcController extends Controller
     public function setPdf(Request $request)
     {
 
-        $keyword = $request->input('keyword'); // $keyword を受け取る
+        $comment = $request->input('comment'); // $comment を受け取る
 
         // Rakuten APIクライアントのセットアップ
         $client = new RakutenRws_Client();
@@ -47,7 +47,7 @@ class TirecalcController extends Controller
         // アイテム情報をビューに渡す
         return view('tirecalc.setPdf', [
             'items' => $items,
-            'keyword' => $keyword,
+            'comment' => $comment,
         ]);
     }
 
@@ -56,14 +56,29 @@ class TirecalcController extends Controller
     public function createPdf(Request $request)
     {
         // フォームから送信されたデータを受け取る
-        $keyword = $request->input('keyword'); // $keyword を受け取る
-    
-        $productData = $request->input('productData'); // 商品データを受け取る
-        // 商品データが正しい形式か確認
-        if (!$productData || !is_array($productData)) {
-            return redirect()->back()->with('error', '商品のデータが不正です。');
-        }
-    
+        $comment = $request->input('comment');
+        $productData = $request->input('productData'); 
+        $maker1 = $request->input('maker1');
+        $maker2 = $request->input('maker2');
+        $maker3 = $request->input('maker3');
+        $sizeFree = $request->input('sizeFree');
+        $sizeGeneral = $request->input('sizeGeneral');
+        $selectTire = $request->input('selectTire');
+
+    // selectTireに応じた画像パスを決定
+    $tireImages = [
+        '夏タイヤ' => 'img/tirecalc/summer.png',
+        '夏タイヤAWセット' => 'img/tirecalc/summerSet.png',
+        '冬タイヤ' => 'public/img/tirecalc/studless.png',
+        '冬タイヤAWセット' => 'public/img/tirecalc/studlessSet.png',
+        'オールシーズンタイヤ' => 'public/img/tirecalc/summer.png',
+        'オールシーズンタイヤAWセット' => 'public/img/tirecalc/summerSet.png',
+    ];
+
+    // 画像パスを取得（未定義の場合はnull）
+    $imagePath = $tireImages[$selectTire] ?? null;
+
+
         // 商品データを整形
         $formattedProducts = [];
         foreach ($productData as $key => $product) {
@@ -75,17 +90,29 @@ class TirecalcController extends Controller
                 'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
             ];
         }
-//dd($formattedProducts);    
-        // PDF生成に渡すデータを構築
+
+//dd($comment);    
+        // 印刷設定をデータに追加
         $data = [
-            'keyword' => $keyword,
             'products' => $formattedProducts,
+            'makers' => [
+                'maker1' => $maker1,
+                'maker2' => $maker2,
+                'maker3' => $maker3,
+            ],
+            'sizeFree' => $sizeFree,
+            'sizeGeneral' => $sizeGeneral,
+            'selectTire' => $selectTire,
+            'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
+            'comment' => $comment,
+
         ];
     
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
         return $pdf->stream('laravel.pdf');
     }
+    
     
 }
 
