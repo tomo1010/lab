@@ -14,7 +14,7 @@ class TirecalcController extends Controller
     public function setPdf(Request $request)
     {
 
-        $keyword = $request->input('keyword'); // $keyword を受け取る
+        $comment = $request->input('comment'); // $comment を受け取る
 
         // Rakuten APIクライアントのセットアップ
         $client = new RakutenRws_Client();
@@ -47,7 +47,7 @@ class TirecalcController extends Controller
         // アイテム情報をビューに渡す
         return view('tirecalc.setPdf', [
             'items' => $items,
-            'keyword' => $keyword,
+            'comment' => $comment,
         ]);
     }
 
@@ -56,7 +56,7 @@ class TirecalcController extends Controller
     public function createPdf(Request $request)
     {
         // フォームから送信されたデータを受け取る
-        $keyword = $request->input('keyword');
+        $comment = $request->input('comment');
         $productData = $request->input('productData'); 
         $maker1 = $request->input('maker1');
         $maker2 = $request->input('maker2');
@@ -91,10 +91,9 @@ class TirecalcController extends Controller
             ];
         }
 
-//dd($formattedProducts);    
+//dd($comment);    
         // 印刷設定をデータに追加
         $data = [
-            'keyword' => $keyword,
             'products' => $formattedProducts,
             'makers' => [
                 'maker1' => $maker1,
@@ -105,6 +104,7 @@ class TirecalcController extends Controller
             'sizeGeneral' => $sizeGeneral,
             'selectTire' => $selectTire,
             'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
+            'comment' => $comment,
 
         ];
     

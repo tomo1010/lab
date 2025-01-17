@@ -1,10 +1,9 @@
 <div>
-    {{$keyword}}
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
         @csrf
 
-        <!-- $keyword を送信するための隠しフィールド -->
-        <input type="hidden" name="keyword" value="{{ $keyword }}">
+        <!-- $comment を送信するための隠しフィールド -->
+        <input type="hidden" name="comment" value="{{ $comment }}">
 
         <!-- 隠しフィールド（送信用） -->
         <input type="hidden" name="productData[1][profitTotal]" id="hiddenProfitTotal1">
@@ -24,7 +23,7 @@
         <div>
             <label for="cost1">商品１の原価を入力:</label>
             <input type="number" name="cost1" id="cost1" placeholder="0" onchange="updateCalculation()">
-            <label for="cost1Multiplier">倍率を選択:</label>
+            <label for="cost1Multiplier">:</label>
             <select name="cost1Multiplier" id="cost1Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -34,7 +33,6 @@
         </div>
 
         <div>
-            <h4>商品１計算結果</h4>
             <p>商品代金: <span id="profitTotal1">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
             <p>税抜合計: <span id="Total1">0</span> 円</p>
@@ -45,7 +43,7 @@
         <div>
             <label for="cost2">商品２の原価を入力:</label>
             <input type="number" name="cost2" id="cost2" placeholder="0" onchange="updateCalculation()">
-            <label for="cost2Multiplier">倍率を選択:</label>
+            <label for="cost2Multiplier">:</label>
             <select name="cost2Multiplier" id="cost2Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -55,7 +53,6 @@
         </div>
 
         <div>
-            <h4>商品２計算結果</h4>
             <p>商品代金: <span id="profitTotal2">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
             <p>税抜合計: <span id="Total2">0</span> 円</p>
@@ -66,7 +63,7 @@
         <div>
             <label for="cost3">商品３の原価を入力:</label>
             <input type="number" name="cost3" id="cost3" placeholder="0" onchange="updateCalculation()">
-            <label for="cost3Multiplier">倍率を選択:</label>
+            <label for="cost3Multiplier">:</label>
             <select name="cost3Multiplier" id="cost3Multiplier" onchange="updateCalculation()">
                 <option value="1">×1</option>
                 <option value="2">×2</option>
@@ -76,7 +73,6 @@
         </div>
 
         <div>
-            <h4>商品３計算結果</h4>
             <p>商品代金: <span id="profitTotal3">0</span> 円</p>
             <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
             <p>税抜合計: <span id="Total3">0</span> 円</p>
@@ -309,8 +305,7 @@
 
         <label for="sizeFree">サイズを入力:</label>
         <input type="text" name="sizeFree" id="sizeFree" value="{{ request('sizeFree') }}" oninput="toggleSizeFields()">
-    </div>
-
+<br>
         <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == 'summer' ? 'checked' : '' }}>夏タイヤのみ
         <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == 'summerSet' ? 'checked' : '' }}>夏タイヤ AWセット
         <br>
@@ -320,6 +315,12 @@
         <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>オールシーズンタイヤのみ
         <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'allseasenSet' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
         <br>
+
+        <label for="comment">コメント:</label><br>
+        <textarea id="comment" name="comment" rows="5" cols="33">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
+        </textarea>
+       
+    </div>
 
         <div>
         <button type="submit">PDFに送信</button>
@@ -477,15 +478,23 @@ function prepareFormData() {
 function copyToClipboard() {
     // コピーするデータを取得
     const data = [
+    //選択したタイヤ
+    { label: '', value: document.querySelector('input[name="selectTire"]:checked')?.value || '' },
+    //サイズ
     { label: 'サイズ：', value: document.getElementById('sizeGeneral')?.value || '' },
     { label: 'サイズ：', value: document.getElementById('sizeFree')?.value || '' },
-    { label: '', value: document.querySelector('input[name="selectTire"]:checked')?.value || '' },
+    //商品１
     { label: '▼', value: document.getElementById('maker1')?.value || '' },
     { label: '', value: addYenSuffix(document.getElementById('TotalWithTax1')?.innerText || '') },
+    //商品２
     { label: '▼', value: document.getElementById('maker2')?.value || '' },
     { label: '', value: addYenSuffix(document.getElementById('TotalWithTax2')?.innerText || '') },
+    //商品３
     { label: '▼', value: document.getElementById('maker3')?.value || '' },
-    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') }
+    { label: '', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') },
+    //コメント
+    { label: '', value: document.getElementById('comment')?.value.trim() || '' } 
+
 ];
 
 // "円"を追加する関数
