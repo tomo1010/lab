@@ -35,10 +35,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal1">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal1">0</span> 円（粗利: <span id="grossProfit1">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
-            <p>税抜合計: <span id="Total1">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax1">0</span> 円</p>
+            <p>税抜合計: <span id="Total1">0</span> 円（税込合計: <span id="TotalWithTax1">0</span> 円）</p>
         </div>
 
         <h3>商品２</h3>
@@ -55,10 +54,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal2">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal2">0</span> 円（粗利: <span id="grossProfit2">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
-            <p>税抜合計: <span id="Total2">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax2">0</span> 円</p>
+            <p>税抜合計: <span id="Total2">0</span> 円（税込合計: <span id="TotalWithTax2">0</span> 円）</p>
         </div>
 
         <h3>商品３</h3>
@@ -75,10 +73,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal3">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal3">0</span> 円（粗利: <span id="grossProfit3">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
-            <p>税抜合計: <span id="Total3">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax3">0</span> 円</p>
+            <p>税抜合計: <span id="Total3">0</span> 円（税込合計: <span id="TotalWithTax3">0</span> 円）</p>
         </div>
 
     </div>
@@ -353,6 +350,7 @@ function calculateProduct(productNumber) {
         document.getElementById(`wagesTotal${productNumber}`).innerText = '0';
         document.getElementById(`Total${productNumber}`).innerText = '0';
         document.getElementById(`TotalWithTax${productNumber}`).innerText = '0';
+        document.getElementById(`grossProfit${productNumber}`).innerText = '0'; 
         return; // ここで終了
     }
 
@@ -362,11 +360,13 @@ function calculateProduct(productNumber) {
     const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
+    const grossProfit = profitTotal - adjustedCost; // 粗利を計算
 
     document.getElementById(`profitTotal${productNumber}`).innerText = profitTotal.toLocaleString();
     document.getElementById(`wagesTotal${productNumber}`).innerText = wagesTotal.toLocaleString();
     document.getElementById(`Total${productNumber}`).innerText = total.toLocaleString();
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
+    document.getElementById(`grossProfit${productNumber}`).innerText = grossProfit.toLocaleString(); // 粗利を表示
 }
 
 function updateCalculation() {
