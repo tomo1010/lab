@@ -1,3 +1,5 @@
+<h1>タイヤ代の計算機、見積りサイト</h1>
+
 <div>
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
         @csrf
@@ -215,7 +217,7 @@
     </div>
 
     <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> クッキーに保存
+        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 工賃設定を保存
     </div>
 <hr>
     <h3>印刷設定</h3>
@@ -436,10 +438,10 @@ function saveSettingsToCookie() {
         }
 
         document.cookie = `wageSettings=${JSON.stringify(settings)}; path=/; max-age=31536000;`;
-        alert('工賃設定がクッキーに保存されました。');
+        alert('工賃設定が保存されました。');
     } else {
         document.cookie = `wageSettings=; path=/; max-age=0;`;
-        alert('クッキーが削除されました。');
+        alert('工賃設定が削除されました。');
     }
 }
 
@@ -459,7 +461,7 @@ function loadSettingsFromCookie() {
                 document.getElementById(`set${i}Multiplier`).value = settings[`set${i}`].multiplier || 1;
             }
         }
-        alert('クッキーから工賃設定を読み込みました。');
+        alert('工賃設定を読み込みました。');
     }
 }
 
@@ -497,7 +499,7 @@ function copyToClipboard() {
 
 ];
 
-// "円"を追加する関数
+// コピーボタンに"円"を追加する関数
 function addYenSuffix(value) {
     // 値が空または0の場合はそのまま返す
     if (value === '' || value === '0') {
