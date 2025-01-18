@@ -1,3 +1,5 @@
+<h1>タイヤ代の計算機、見積りサイト</h1>
+
 <div>
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
         @csrf
@@ -33,10 +35,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal1">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal1">0</span> 円（粗利: <span id="grossProfit1">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
-            <p>税抜合計: <span id="Total1">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax1">0</span> 円</p>
+            <p>税抜合計: <span id="Total1">0</span> 円（税込合計: <span id="TotalWithTax1">0</span> 円）</p>
         </div>
 
         <h3>商品２</h3>
@@ -53,10 +54,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal2">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal2">0</span> 円（粗利: <span id="grossProfit2">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
-            <p>税抜合計: <span id="Total2">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax2">0</span> 円</p>
+            <p>税抜合計: <span id="Total2">0</span> 円（税込合計: <span id="TotalWithTax2">0</span> 円）</p>
         </div>
 
         <h3>商品３</h3>
@@ -73,10 +73,9 @@
         </div>
 
         <div>
-            <p>商品代金: <span id="profitTotal3">0</span> 円</p>
+            <p>商品代金: <span id="profitTotal3">0</span> 円（粗利: <span id="grossProfit3">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
-            <p>税抜合計: <span id="Total3">0</span> 円</p>
-            <p>税込合計: <span id="TotalWithTax3">0</span> 円</p>
+            <p>税抜合計: <span id="Total3">0</span> 円（税込合計: <span id="TotalWithTax3">0</span> 円）</p>
         </div>
 
     </div>
@@ -215,7 +214,7 @@
     </div>
 
     <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> クッキーに保存
+        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 工賃設定を保存
     </div>
 <hr>
     <h3>印刷設定</h3>
@@ -351,6 +350,7 @@ function calculateProduct(productNumber) {
         document.getElementById(`wagesTotal${productNumber}`).innerText = '0';
         document.getElementById(`Total${productNumber}`).innerText = '0';
         document.getElementById(`TotalWithTax${productNumber}`).innerText = '0';
+        document.getElementById(`grossProfit${productNumber}`).innerText = '0'; 
         return; // ここで終了
     }
 
@@ -360,11 +360,13 @@ function calculateProduct(productNumber) {
     const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
+    const grossProfit = profitTotal - adjustedCost; // 粗利を計算
 
     document.getElementById(`profitTotal${productNumber}`).innerText = profitTotal.toLocaleString();
     document.getElementById(`wagesTotal${productNumber}`).innerText = wagesTotal.toLocaleString();
     document.getElementById(`Total${productNumber}`).innerText = total.toLocaleString();
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
+    document.getElementById(`grossProfit${productNumber}`).innerText = grossProfit.toLocaleString(); // 粗利を表示
 }
 
 function updateCalculation() {
@@ -436,10 +438,10 @@ function saveSettingsToCookie() {
         }
 
         document.cookie = `wageSettings=${JSON.stringify(settings)}; path=/; max-age=31536000;`;
-        alert('工賃設定がクッキーに保存されました。');
+        alert('工賃設定が保存されました。');
     } else {
         document.cookie = `wageSettings=; path=/; max-age=0;`;
-        alert('クッキーが削除されました。');
+        alert('工賃設定が削除されました。');
     }
 }
 
@@ -459,7 +461,7 @@ function loadSettingsFromCookie() {
                 document.getElementById(`set${i}Multiplier`).value = settings[`set${i}`].multiplier || 1;
             }
         }
-        alert('クッキーから工賃設定を読み込みました。');
+        alert('工賃設定を読み込みました。');
     }
 }
 
@@ -497,7 +499,7 @@ function copyToClipboard() {
 
 ];
 
-// "円"を追加する関数
+// コピーボタンに"円"を追加する関数
 function addYenSuffix(value) {
     // 値が空または0の場合はそのまま返す
     if (value === '' || value === '0') {
