@@ -212,7 +212,10 @@
             <option value="4">×4</option>
         </select>
     </div>
-
+    <!-- 工賃の設定をクリアするボタン -->
+    <div>
+        <button type="button" onclick="clearWagesSettings()">工賃設定をクリア</button>
+    </div>
     <div>
         <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 設定を保存
     </div>
@@ -228,6 +231,8 @@
         <br>
         <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>オールシーズンタイヤのみ
         <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'allseasenSet' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
+        <br>
+        <input type="radio" name="selectTire" value="AWのみ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>AWのみ
     </div>    
 
     <div>
@@ -594,6 +599,31 @@ function addYenSuffix(value) {
         alert('コピーに失敗しました。');
         console.error('コピーエラー:', err);
     });
+}
+
+
+function clearWagesSettings() {
+    // 工賃と倍率のIDを列挙
+    const wageFields = [
+        { inputId: 'set1', multiplierId: 'set1Multiplier' },
+        { inputId: 'set2', multiplierId: 'set2Multiplier' },
+        { inputId: 'set3', multiplierId: 'set3Multiplier' },
+        { inputId: 'set4', multiplierId: 'set4Multiplier' },
+        { inputId: 'set5', multiplierId: 'set5Multiplier' },
+        { inputId: 'set6', multiplierId: 'set6Multiplier' },
+        { inputId: 'set7', multiplierId: 'set7Multiplier' }
+    ];
+
+    // 各フィールドをゼロにリセット
+    wageFields.forEach(field => {
+        document.getElementById(field.inputId).value = 0;
+        document.getElementById(field.multiplierId).value = 1; // デフォルトの倍率にリセット
+    });
+
+    // 設定が変更されたので再計算を実行
+    updateCalculation();
+
+    alert('工賃設定をクリアしました。');
 }
 
 </script>

@@ -64,6 +64,10 @@ class TirecalcController extends Controller
         $sizeFree = $request->input('sizeFree');
         $sizeGeneral = $request->input('sizeGeneral');
         $selectTire = $request->input('selectTire');
+        $address = $request->input('address');
+        $honorific = $request->input('honorific');
+
+        
 
     // selectTireに応じた画像パスを決定
     $tireImages = [
@@ -91,7 +95,12 @@ class TirecalcController extends Controller
             ];
         }
 
-//dd($comment);    
+        // 現在日時を取得
+        $now = Carbon::now();
+        // 現在日時を××××-××-××に変換
+        $date = $now->format('Y-m-d');
+
+
         // 印刷設定をデータに追加
         $data = [
             'products' => $formattedProducts,
@@ -105,6 +114,9 @@ class TirecalcController extends Controller
             'selectTire' => $selectTire,
             'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
             'comment' => $comment,
+            'address' => $address,
+            'honorific' => $honorific,
+            'date' => $date,
 
         ];
     

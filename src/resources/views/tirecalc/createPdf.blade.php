@@ -4,6 +4,13 @@
     <title>PDF</title>
 </head>
 <body>
+
+    @if(!empty($address) || !empty($honorific))
+        {{ $address ?? '　　　　　' }} {{ $honorific ?? '' }}
+    @endif
+
+    {{ $date }}
+
     <h1> {{ $selectTire }}</h1>
     <h1>
     @if(!empty($sizeFree) || !empty($sizeGeneral))
@@ -72,6 +79,9 @@
     </table>
 
     <p>{{ $comment }}</p>
+    <br>
+    ※見積もり有効期限は発行から１週間<br>
+    {{$code}}
 
 </body>
 </html>
