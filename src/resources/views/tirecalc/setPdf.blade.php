@@ -1,4 +1,4 @@
-<h1>タイヤ代の計算機、見積りサイト</h1>
+<h1>タイヤ代の計算機・見積りサイト</h1>
 
 <div>
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
@@ -21,9 +21,9 @@
         <input type="hidden" name="productData[3][taxExcludedTotal]" id="hiddenTotal3">
         <input type="hidden" name="productData[3][taxIncludedTotal]" id="hiddenTotalWithTax3">
 
-        <h3>商品１</h3>
+        <h2>商品１</h2>
         <div>
-            <label for="cost1">商品１の原価を入力:</label>
+            <label for="cost1">原価を入力:</label>
             <input type="number" name="cost1" id="cost1" placeholder="0" onchange="updateCalculation()">
             <label for="cost1Multiplier">:</label>
             <select name="cost1Multiplier" id="cost1Multiplier" onchange="updateCalculation()">
@@ -40,9 +40,9 @@
             <p>税抜合計: <span id="Total1">0</span> 円（税込合計: <span id="TotalWithTax1">0</span> 円）</p>
         </div>
 
-        <h3>商品２</h3>
+        <h2>商品２</h2>
         <div>
-            <label for="cost2">商品２の原価を入力:</label>
+            <label for="cost2">原価を入力:</label>
             <input type="number" name="cost2" id="cost2" placeholder="0" onchange="updateCalculation()">
             <label for="cost2Multiplier">:</label>
             <select name="cost2Multiplier" id="cost2Multiplier" onchange="updateCalculation()">
@@ -59,9 +59,9 @@
             <p>税抜合計: <span id="Total2">0</span> 円（税込合計: <span id="TotalWithTax2">0</span> 円）</p>
         </div>
 
-        <h3>商品３</h3>
+        <h2>商品３</h2>
         <div>
-            <label for="cost3">商品３の原価を入力:</label>
+            <label for="cost3">原価を入力:</label>
             <input type="number" name="cost3" id="cost3" placeholder="0" onchange="updateCalculation()">
             <label for="cost3Multiplier">:</label>
             <select name="cost3Multiplier" id="cost3Multiplier" onchange="updateCalculation()">
@@ -81,7 +81,7 @@
     </div>
 
     <hr>
-    <h3>粗利設定</h3>
+    <h2>粗利設定</h2>
     <div>
         <label for="profitOptionA">粗利A:</label>
         <select name="profitOptionA" id="profitOptionA" onchange="updateCalculation()">
@@ -106,12 +106,12 @@
     </div>
     <hr>
 
-    <h3>工賃その他設定</h3>
+    <h2>工賃その他設定</h2>
     <!-- 工賃入力項目 -->
     <div>
         <label for="set1">組替えバランス工賃を入力:</label>
         <input type="number" name="set1" id="set1" placeholder="0" onchange="updateCalculation()">
-        <label for="set1Multiplier">倍率を選択:</label>
+        <label for="set1Multiplier">:</label>
         <select name="set1Multiplier" id="set1Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -123,7 +123,7 @@
     <div>
         <label for="set2">脱着工賃を入力:</label>
         <input type="number" name="set2" id="set2" placeholder="0" onchange="updateCalculation()">
-        <label for="set2Multiplier">倍率を選択:</label>
+        <label for="set2Multiplier">:</label>
         <select name="set2Multiplier" id="set2Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -135,7 +135,7 @@
     <div>
         <label for="set3">廃タイヤ費用を入力:</label>
         <input type="number" name="set3" id="set3" placeholder="0" onchange="updateCalculation()">
-        <label for="set3Multiplier">倍率を選択:</label>
+        <label for="set3Multiplier">:</label>
         <select name="set3Multiplier" id="set3Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -147,7 +147,7 @@
     <div>
         <label for="set4">ナット代を入力:</label>
         <input type="number" name="set4" id="set4" placeholder="0" onchange="updateCalculation()">
-        <label for="set4Multiplier">倍率を選択:</label>
+        <label for="set4Multiplier">:</label>
         <select name="set4Multiplier" id="set4Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -180,7 +180,7 @@
     <div>
         <label for="set5">バルブ代を入力:</label>
         <input type="number" name="set5" id="set5" placeholder="0" onchange="updateCalculation()">
-        <label for="set5Multiplier">倍率を選択:</label>
+        <label for="set5Multiplier">:</label>
         <select name="set5Multiplier" id="set5Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -192,7 +192,7 @@
     <div>
         <label for="set6">袋代を入力:</label>
         <input type="number" name="set6" id="set6" placeholder="0" onchange="updateCalculation()">
-        <label for="set6Multiplier">倍率を選択:</label>
+        <label for="set6Multiplier">:</label>
         <select name="set6Multiplier" id="set6Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -204,7 +204,7 @@
     <div>
         <label for="set7">その他入力:</label>
         <input type="number" name="set7" id="set7" placeholder="0" onchange="updateCalculation()">
-        <label for="set7Multiplier">倍率を選択:</label>
+        <label for="set7Multiplier">:</label>
         <select name="set7Multiplier" id="set7Multiplier" onchange="updateCalculation()">
             <option value="1">×1</option>
             <option value="2">×2</option>
@@ -214,97 +214,12 @@
     </div>
 
     <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 工賃設定を保存
+        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 設定を保存
     </div>
 <hr>
-    <h3>印刷設定</h3>
+    <h2>印刷設定</h2>
     <div>
-        商品１：
-        <select name="maker1" id="maker1">
-            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>メーカー選択</option>
-            <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-            <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
-            <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
-            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-            <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
-            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-        </select><br>
-        商品２：
-        <select name="maker2" id="maker2">
-            <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>メーカー選択</option>
-            <option value="ブリヂストン" {{ request('maker2') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-            <option value="ダンロップ" {{ request('maker2') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
-            <option value="トーヨータイヤ" {{ request('maker2') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
-            <option value="ピレリ" {{ request('maker2') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-            <option value="ヨコハマ" {{ request('maker2') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
-            <option value="グッドイヤー" {{ request('maker2') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-            <option value="ミシュラン" {{ request('maker2') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-        </select><br>
-        商品３：
-        <select name="maker3" id="maker3">
-            <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>メーカー選択</option>
-            <option value="ブリヂストン" {{ request('maker3') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-            <option value="ダンロップ" {{ request('maker3') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
-            <option value="トーヨータイヤ" {{ request('maker3') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
-            <option value="ピレリ" {{ request('maker3') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-            <option value="ヨコハマ" {{ request('maker3') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
-            <option value="グッドイヤー" {{ request('maker3') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-            <option value="ミシュラン" {{ request('maker3') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="sizeGeneral">汎用サイズを選択:</label>
-        <select name="sizeGeneral" id="sizeGeneral" onchange="toggleSizeFields()">
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
-
-        <!-- 軽自動車 -->
-        <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
-        <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
-        <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
-        <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
-
-        <!-- コンパクトカー -->
-        <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
-        <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
-        <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
-        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
-
-        <!-- セダン -->
-        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
-        <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
-        <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
-
-        <!-- ミニバン -->
-        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
-        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
-        <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
-
-        <!-- SUV -->
-        <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
-        <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
-        <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
-        <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
-
-        <!-- スポーツカー -->
-        <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
-        <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
-        <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
-        <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
-
-        <!-- 商用車 -->
-        <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
-        <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
-        <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
-        <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
-        </select>
-
-        <label for="sizeFree">サイズを入力:</label>
-        <input type="text" name="sizeFree" id="sizeFree" value="{{ request('sizeFree') }}" oninput="toggleSizeFields()">
-<br>
+        <h3>タイトル</h3>
         <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == 'summer' ? 'checked' : '' }}>夏タイヤのみ
         <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == 'summerSet' ? 'checked' : '' }}>夏タイヤ AWセット
         <br>
@@ -313,18 +228,167 @@
         <br>
         <input type="radio" name="selectTire" value="オールシーズンタイヤ" {{ request('selectTire') == 'allseasen' ? 'checked' : '' }}>オールシーズンタイヤのみ
         <input type="radio" name="selectTire" value="オールシーズンタイヤAWセット" {{ request('selectTire') == 'allseasenSet' ? 'checked' : '' }}>オールシーズンタイヤ AWセット
-        <br>
+    </div>    
 
-        <label for="comment">コメント:</label><br>
-        <textarea id="comment" name="comment" rows="5" cols="33">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
-        </textarea>
+    <div>
+        <h3>メーカー</h3>
+        <select name="maker1" id="maker1">
+            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
+            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
+            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
+            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
+            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
+            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+        </select>
+
+        <br>
+        <select name="maker2" id="maker2">
+            <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>商品２</option>
+            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
+            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
+            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
+            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
+            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
+            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+        </select>
+        <br>
+        <select name="maker3" id="maker3">
+            <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>商品３</option>
+            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
+            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+            <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+            <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+            <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+            <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
+            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
+            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
+            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
+            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+        </select>
+    </div>
+
+    <div>
+        <h3>タイヤサイズ</h3>
+        <label for="sizeGeneral"></label>
+        <select name="sizeGeneral" id="sizeGeneral" onchange="toggleSizeFields()">
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
+
+        <!-- 軽自動車 -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼軽自動車</option>
+        <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
+        <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
+        <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
+        <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
+
+        <!-- ミニバン -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼ミニバン</option>
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
+        <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
+
+        <!-- SUV -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼SUV</option>
+        <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
+        <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
+        <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
+        <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
+
+        <!-- コンパクトカー -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼コンパクトカー</option>
+        <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
+        <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
+        <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
+        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+
+        <!-- セダン -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼セダン</option>
+        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+        <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
+        <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
+        <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
+
+        <!-- スポーツカー -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼スポーツ</option>
+        <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
+        <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
+        <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
+        <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
+
+        <!-- 商用車 -->
+        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼商用車</option>
+        <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
+        <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
+        <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
+        <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
+        </select>
+
+        <label for="sizeFree">フリー入力</label>
+        <input type="text" name="sizeFree" id="sizeFree" value="{{ request('sizeFree') }}" oninput="toggleSizeFields()">
        
     </div>
 
-        <div>
-        <button type="submit">PDFに送信</button>
+    <div>
+        <h3>宛名</h3>
+        <label for="address">宛名入力</label>
+        <input type="text" name="address" id="address" value="{{ request('address') }}" >
+        <select name="honorific" id="honorific" onchange="updateCalculation()">
+            <option value="様">様</option>
+            <option value="御中">御中</option>
+        </select>
+    </div>
+
+    <div>
+        <h3>コメント</h3>
+        <label for="comment"></label>
+        <textarea id="comment" name="comment" rows="5" cols="33">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
+        </textarea>
+    </div>
+    
+    <br>
+    
+    <div>
+        <button type="submit">PDF印刷</button>
         <button type="button" onclick="copyToClipboard()">コピーする</button>
-        </div>
+    </div>
 
     </form>
 </div>
