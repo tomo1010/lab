@@ -64,6 +64,10 @@ class TirecalcController extends Controller
         $sizeFree = $request->input('sizeFree');
         $sizeGeneral = $request->input('sizeGeneral');
         $selectTire = $request->input('selectTire');
+        $address = $request->input('address');
+        $honorific = $request->input('honorific');
+
+        
 
     // selectTireに応じた画像パスを決定
     $tireImages = [
@@ -78,7 +82,12 @@ class TirecalcController extends Controller
     // 画像パスを取得（未定義の場合はnull）
     $imagePath = $tireImages[$selectTire] ?? null;
 
+    // "profitTotal" が "0" の要素を削除
+    $productData = array_filter($productData, function ($product) {
+        return isset($product['profitTotal']) && $product['profitTotal'] != 0;
+    });
 
+//dd($productData);
         // 商品データを整形
         $formattedProducts = [];
         foreach ($productData as $key => $product) {
@@ -88,10 +97,16 @@ class TirecalcController extends Controller
                 'wagesTotal' => $product['wagesTotal'] ?? 0,
                 'taxExcludedTotal' => $product['taxExcludedTotal'] ?? 0,
                 'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
+                'tax' => $product['tax'] ?? 0, // 消費税を追加
             ];
         }
 
-//dd($comment);    
+        // 現在日時を取得
+        $now = Carbon::now();
+        // 現在日時を××××-××-××に変換
+        $date = $now->format('Y-m-d');
+
+//dd($formattedProducts);
         // 印刷設定をデータに追加
         $data = [
             'products' => $formattedProducts,
@@ -105,12 +120,20 @@ class TirecalcController extends Controller
             'selectTire' => $selectTire,
             'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
             'comment' => $comment,
+            'address' => $address,
+            'honorific' => $honorific,
+            'date' => $date,
 
         ];
     
+        // 動的なPDFファイル名を生成
+        $fileName = "{$date}{$address}{$sizeFree}{$sizeGeneral}.pdf";
+
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
-        return $pdf->stream('laravel.pdf');
+        
+        // PDFをダウンロード（ファイル名を指定）
+        return $pdf->download($fileName);
     }
     
     
