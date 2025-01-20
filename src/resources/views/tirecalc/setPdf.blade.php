@@ -435,7 +435,6 @@ function calculateProduct(productNumber) {
 
     const wagesTotal = calculateWagesTotal();
     const adjustedCost = cost * costMultiplier;
-
     const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
@@ -472,8 +471,6 @@ function prepareFormData() {
 
         // 税額を計算
         const tax = taxIncludedTotal - taxExcludedTotal;
-
-
 
         // 隠しフィールドに値を設定
         document.getElementById(`hiddenProfitTotal${i}`).value = profitTotal;
@@ -571,7 +568,7 @@ function copyToClipboard() {
     { label: '▼', value: document.getElementById('maker3')?.value || '' },
     { label: '', value: addYenSuffix(document.getElementById('TotalWithTax3')?.innerText || '') },
     //コメント
-    { label: '', value: document.getElementById('comment')?.value.trim() || '' } 
+    { label: '', value: document.getElementById('comment')?.value.trim() || '' },
 
 ];
 
