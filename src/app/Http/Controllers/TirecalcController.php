@@ -82,6 +82,11 @@ class TirecalcController extends Controller
     // 画像パスを取得（未定義の場合はnull）
     $imagePath = $tireImages[$selectTire] ?? null;
 
+    // "profitTotal" が "0" の要素を削除
+    $productData = array_filter($productData, function ($product) {
+        return isset($product['profitTotal']) && $product['profitTotal'] != 0;
+    });
+
 //dd($productData);
         // 商品データを整形
         $formattedProducts = [];

@@ -472,7 +472,6 @@ function prepareFormData() {
 
         // 税額を計算
         const tax = taxIncludedTotal - taxExcludedTotal;
-        debugger; // デバッグポイント
 
 
 
