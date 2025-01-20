@@ -1,4 +1,4 @@
-<h1>タイヤ代の計算機・見積りサイト</h1>
+<h1>タイヤ代の計算機・見積りサイトβ版</h1>
 
 <div>
     <form action="{{ route('tirecalc.createPdf') }}" method="POST">
