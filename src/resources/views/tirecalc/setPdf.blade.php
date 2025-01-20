@@ -115,7 +115,8 @@
     </div>
     <hr>
 
-    <h2>工賃その他設定</h2>
+    <h2>工賃その他設定</h2>    
+
     <!-- 工賃入力項目 -->
     <div>
         <label for="set1">組替えバランス工賃:</label>
@@ -221,17 +222,19 @@
             <option value="4">×4</option>
         </select>
     </div>
-    <!-- 工賃の設定をクリアするボタン -->
+
+    <br>
     <div>
-        <button type="button" onclick="clearWagesSettings()">工賃設定をクリア</button>
+        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 設定を保存　<button type="button" onclick="clearWagesSettings()">工賃設定をクリア</button>
     </div>
     <div>
-        <input type="checkbox" id="saveToCookie" onchange="saveSettingsToCookie()"> 設定を保存
+
     </div>
+
 <hr>
-    <h2>印刷設定</h2>
+    <h2>PDF印刷・コピー設定</h2>
     <div>
-        <h3>タイトル</h3>
+        <h3>タイトル：</h3>
         <input type="radio" name="selectTire" value="夏タイヤ" {{ request('selectTire') == 'summer' ? 'checked' : '' }}>夏タイヤのみ
         <input type="radio" name="selectTire" value="夏タイヤAWセット" {{ request('selectTire') == 'summerSet' ? 'checked' : '' }}>夏タイヤ AWセット
         <br>
@@ -245,7 +248,7 @@
     </div>    
 
     <div>
-        <h3>メーカー</h3>
+        <h3>メーカー：</h3>
         <select name="maker1" id="maker1">
             <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
             <optgroup label="分類">
@@ -345,59 +348,62 @@
     </div>
 
     <div>
-        <h3>タイヤサイズ</h3>
+        <h3>タイヤサイズ：</h3>
         <label for="sizeGeneral"></label>
         <select name="sizeGeneral" id="sizeGeneral" onchange="toggleSizeFields()">
         <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
 
-        <!-- 軽自動車 -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼軽自動車</option>
-        <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
-        <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
-        <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
-        <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
+        <optgroup label="軽自動車">
+            <option value="145/80R12" {{ request('sizeGeneral') == '145R/8012' ? 'selected' : '' }}>145R/8012</option>
+            <option value="145/80R13" {{ request('sizeGeneral') == '145/80R13' ? 'selected' : '' }}>145/80R13</option>
+            <option value="155/65R14" {{ request('sizeGeneral') == '155/65R14' ? 'selected' : '' }}>155/65R14</option>
+            <option value="155/55R14" {{ request('sizeGeneral') == '155/55R14' ? 'selected' : '' }}>155/55R14</option>
+            <option value="165/55R15" {{ request('sizeGeneral') == '165/55R15' ? 'selected' : '' }}>165/55R15</option>
+        </optgroup>
 
-        <!-- ミニバン -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼ミニバン</option>
-        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
-        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
-        <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
+        <optgroup label="ミニバン">
+            <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+            <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+            <option value="215/60R16" {{ request('sizeGeneral') == '215/60R16' ? 'selected' : '' }}>215/60R16</option>
+            <option value="225/55R17" {{ request('sizeGeneral') == '225/55R17' ? 'selected' : '' }}>225/55R17</option>
+        </optgroup>
 
-        <!-- SUV -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼SUV</option>
-        <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
-        <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
-        <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
-        <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
+        <optgroup label="SUV">
+            <option value="215/65R16" {{ request('sizeGeneral') == '215/65R16' ? 'selected' : '' }}>215/65R16</option>
+            <option value="225/60R17" {{ request('sizeGeneral') == '225/60R17' ? 'selected' : '' }}>225/60R17</option>
+            <option value="235/55R18" {{ request('sizeGeneral') == '235/55R18' ? 'selected' : '' }}>235/55R18</option>
+            <option value="245/45R20" {{ request('sizeGeneral') == '245/45R20' ? 'selected' : '' }}>245/45R20</option>
+        </optgroup>
 
-        <!-- コンパクトカー -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼コンパクトカー</option>
-        <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
-        <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
-        <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
-        <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+        <optgroup label="コンパクトカー">
+            <option value="175/65R15" {{ request('sizeGeneral') == '175/65R15' ? 'selected' : '' }}>175/65R15</option>
+            <option value="185/60R15" {{ request('sizeGeneral') == '185/60R15' ? 'selected' : '' }}>185/60R15</option>
+            <option value="195/65R15" {{ request('sizeGeneral') == '195/65R15' ? 'selected' : '' }}>195/65R15</option>
+            <option value="185/55R16" {{ request('sizeGeneral') == '185/55R16' ? 'selected' : '' }}>185/55R16</option>
+        </optgroup>
 
-        <!-- セダン -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼セダン</option>
-        <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
-        <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
-        <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
-        <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
+        <optgroup label="セダン">
+            <option value="205/60R16" {{ request('sizeGeneral') == '205/60R16' ? 'selected' : '' }}>205/60R16</option>
+            <option value="215/50R17" {{ request('sizeGeneral') == '215/50R17' ? 'selected' : '' }}>215/50R17</option>
+            <option value="215/55R17" {{ request('sizeGeneral') == '215/55R17' ? 'selected' : '' }}>215/55R17</option>
+            <option value="225/45R18" {{ request('sizeGeneral') == '225/45R18' ? 'selected' : '' }}>225/45R18</option>
+        </optgroup>
 
-        <!-- スポーツカー -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼スポーツ</option>
-        <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
-        <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
-        <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
-        <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
+        <optgroup label="スポーツ">
+            <option value="225/45R17" {{ request('sizeGeneral') == '225/45R17' ? 'selected' : '' }}>225/45R17</option>
+            <option value="235/40R18" {{ request('sizeGeneral') == '235/40R18' ? 'selected' : '' }}>235/40R18</option>
+            <option value="245/40R18" {{ request('sizeGeneral') == '245/40R18' ? 'selected' : '' }}>245/40R18</option>
+            <option value="255/35R19" {{ request('sizeGeneral') == '255/35R19' ? 'selected' : '' }}>255/35R19</option>
+        </optgroup>
 
-        <!-- 商用車 -->
-        <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>▼商用車</option>
-        <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
-        <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
-        <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
-        <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
+        <optgroup label="商用車">
+            <option value="145/80R12" {{ request('sizeGeneral') == '145R/8012' ? 'selected' : '' }}>145R/8012</option>
+            <option value="175/80R14" {{ request('sizeGeneral') == '175/80R14' ? 'selected' : '' }}>175/80R14</option>
+            <option value="185/75R15" {{ request('sizeGeneral') == '185/75R15' ? 'selected' : '' }}>185/75R15</option>
+            <option value="195/80R15" {{ request('sizeGeneral') == '195/80R15' ? 'selected' : '' }}>195/80R15</option>
+            <option value="205/70R15" {{ request('sizeGeneral') == '205/70R15' ? 'selected' : '' }}>205/70R15</option>
+        </optgroup>
+    
         </select>
 
         <label for="sizeFree">フリー入力</label>
@@ -406,7 +412,7 @@
     </div>
 
     <div>
-        <h3>宛名</h3>
+        <h3>宛名：</h3>
         <label for="address">宛名入力</label>
         <input type="text" name="address" id="address" value="{{ request('address') }}" >
         <select name="honorific" id="honorific" onchange="updateCalculation()">
@@ -416,7 +422,7 @@
     </div>
 
     <div>
-        <h3>コメント</h3>
+        <h3>コメント：</h3>
         <label for="comment"></label>
         <textarea id="comment" name="comment" rows="5" cols="33">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
         </textarea>
