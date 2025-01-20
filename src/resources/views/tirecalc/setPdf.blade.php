@@ -20,6 +20,12 @@
         <input type="hidden" name="productData[3][wagesTotal]" id="hiddenWagesTotal3">
         <input type="hidden" name="productData[3][taxExcludedTotal]" id="hiddenTotal3">
         <input type="hidden" name="productData[3][taxIncludedTotal]" id="hiddenTotalWithTax3">
+        <!-- 消費税 -->
+        <input type="hidden" name="productData[1][tax]" id="hiddenTax1">
+        <input type="hidden" name="productData[2][tax]" id="hiddenTax2">
+        <input type="hidden" name="productData[3][tax]" id="hiddenTax3">
+
+
 
         <h2>商品１</h2>
         <div>
@@ -37,7 +43,8 @@
         <div>
             <p>商品代金: <span id="profitTotal1">0</span> 円（粗利: <span id="grossProfit1">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
-            <p>税抜合計: <span id="Total1">0</span> 円（税込合計: <span id="TotalWithTax1">0</span> 円）</p>
+            <p>税抜合計: <span id="Total1">0</span> 円
+            <p><b>税込合計: <span id="TotalWithTax1">0</span> 円</b>（内消費税: <span id="tax1">0</span> 円）</p>
         </div>
 
         <h2>商品２</h2>
@@ -56,7 +63,8 @@
         <div>
             <p>商品代金: <span id="profitTotal2">0</span> 円（粗利: <span id="grossProfit2">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
-            <p>税抜合計: <span id="Total2">0</span> 円（税込合計: <span id="TotalWithTax2">0</span> 円）</p>
+            <p>税抜合計: <span id="Total2">0</span> 円</p>
+            <p><b>税込合計: <span id="TotalWithTax2">0</span> 円</b>（内消費税: <span id="tax2">0</span> 円）</p>
         </div>
 
         <h2>商品３</h2>
@@ -75,7 +83,8 @@
         <div>
             <p>商品代金: <span id="profitTotal3">0</span> 円（粗利: <span id="grossProfit3">0</span> 円）</p>
             <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
-            <p>税抜合計: <span id="Total3">0</span> 円（税込合計: <span id="TotalWithTax3">0</span> 円）</p>
+            <p>税抜合計: <span id="Total3">0</span> 円</p>
+            <p><b>税込合計: <span id="TotalWithTax3">0</span> 円</b>（内消費税: <span id="tax3">0</span> 円）</p>
         </div>
 
     </div>
@@ -407,6 +416,7 @@ function updateCalculation() {
 
 }
 
+//htmlへ計算結果を表示する
 function calculateProduct(productNumber) {
     const cost = parseInt(document.getElementById(`cost${productNumber}`).value) || 0;
     const costMultiplier = parseInt(document.getElementById(`cost${productNumber}Multiplier`).value) || 1;
@@ -429,23 +439,19 @@ function calculateProduct(productNumber) {
     const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
+    const tax = totalWithTax - total;
     const grossProfit = profitTotal - adjustedCost; // 粗利を計算
 
     document.getElementById(`profitTotal${productNumber}`).innerText = profitTotal.toLocaleString();
     document.getElementById(`wagesTotal${productNumber}`).innerText = wagesTotal.toLocaleString();
     document.getElementById(`Total${productNumber}`).innerText = total.toLocaleString();
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
+    document.getElementById(`tax${productNumber}`).innerText = tax.toLocaleString();
     document.getElementById(`grossProfit${productNumber}`).innerText = grossProfit.toLocaleString(); // 粗利を表示
 }
 
-function updateCalculation() {
-    calculateProduct(1);
-    calculateProduct(2);
-    calculateProduct(3);
-    prepareFormData(); // 隠しフィールドに値を設定
-}
 
-
+//工賃計算
 function calculateWagesTotal() {
     const sets = [1, 2, 3, 4, 5, 6, 7].map((set) => {
         const value = parseInt(document.getElementById(`set${set}`)?.value) || 0;
@@ -456,36 +462,38 @@ function calculateWagesTotal() {
     return sets.reduce((acc, curr) => acc + curr, 0);
 }
 
-
+//フォームへデータを送る準備
 function prepareFormData() {
     for (let i = 1; i <= 3; i++) {
-        const profitTotal = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
-        const hiddenProfitTotal = document.getElementById(`hiddenProfitTotal${i}`);
-        const hiddenWagesTotal = document.getElementById(`hiddenWagesTotal${i}`);
-        const hiddenTotal = document.getElementById(`hiddenTotal${i}`);
-        const hiddenTotalWithTax = document.getElementById(`hiddenTotalWithTax${i}`);
+        const profitTotal = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '') || 0;
+        const wagesTotal = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '') || 0;
+        const taxExcludedTotal = document.getElementById(`Total${i}`).innerText.replace(/,/g, '') || 0;
+        const taxIncludedTotal = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '') || 0;
 
-        if (profitTotal > 0) {
-            // profitTotalが0より大きい場合、値を設定
-            hiddenProfitTotal.value = profitTotal;
-            hiddenWagesTotal.value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
-            hiddenTotal.value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
-            hiddenTotalWithTax.value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+        // 税額を計算
+        const tax = taxIncludedTotal - taxExcludedTotal;
+        debugger; // デバッグポイント
 
-            // name属性を再設定（必要に応じて）
-            hiddenProfitTotal.setAttribute('name', `productData[${i}][profitTotal]`);
-            hiddenWagesTotal.setAttribute('name', `productData[${i}][wagesTotal]`);
-            hiddenTotal.setAttribute('name', `productData[${i}][taxExcludedTotal]`);
-            hiddenTotalWithTax.setAttribute('name', `productData[${i}][taxIncludedTotal]`);
-        } else {
-            // profitTotalが0の場合、name属性を削除して送信しない
-            hiddenProfitTotal.removeAttribute('name');
-            hiddenWagesTotal.removeAttribute('name');
-            hiddenTotal.removeAttribute('name');
-            hiddenTotalWithTax.removeAttribute('name');
-        }
+
+
+        // 隠しフィールドに値を設定
+        document.getElementById(`hiddenProfitTotal${i}`).value = profitTotal;
+        document.getElementById(`hiddenWagesTotal${i}`).value = wagesTotal;
+        document.getElementById(`hiddenTotal${i}`).value = taxExcludedTotal;
+        document.getElementById(`hiddenTotalWithTax${i}`).value = taxIncludedTotal;
+        document.getElementById(`hiddenTax${i}`).value = tax; // 税額を設定
+
+        // name 属性の設定（送信用）
+        document.getElementById(`hiddenProfitTotal${i}`).setAttribute('name', `productData[${i}][profitTotal]`);
+        document.getElementById(`hiddenWagesTotal${i}`).setAttribute('name', `productData[${i}][wagesTotal]`);
+        document.getElementById(`hiddenTotal${i}`).setAttribute('name', `productData[${i}][taxExcludedTotal]`);
+        document.getElementById(`hiddenTotalWithTax${i}`).setAttribute('name', `productData[${i}][taxIncludedTotal]`);
+        document.getElementById(`hiddenTax${i}`).setAttribute('name', `productData[${i}][tax]`);
     }
 }
+
+
+
 
 // フォーム送信時にprepareFormDataを呼び出す
 document.querySelector('form').addEventListener('submit', (event) => {
