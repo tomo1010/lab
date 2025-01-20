@@ -118,7 +118,7 @@
     <h2>工賃その他設定</h2>
     <!-- 工賃入力項目 -->
     <div>
-        <label for="set1">組替えバランス工賃を入力:</label>
+        <label for="set1">組替えバランス工賃:</label>
         <input type="number" name="set1" id="set1" placeholder="0" onchange="updateCalculation()">
         <label for="set1Multiplier">:</label>
         <select name="set1Multiplier" id="set1Multiplier" onchange="updateCalculation()">
@@ -130,7 +130,7 @@
     </div>
 
     <div>
-        <label for="set2">脱着工賃を入力:</label>
+        <label for="set2">脱着工賃:</label>
         <input type="number" name="set2" id="set2" placeholder="0" onchange="updateCalculation()">
         <label for="set2Multiplier">:</label>
         <select name="set2Multiplier" id="set2Multiplier" onchange="updateCalculation()">
@@ -142,7 +142,7 @@
     </div>
 
     <div>
-        <label for="set3">廃タイヤ費用を入力:</label>
+        <label for="set3">廃タイヤ費用:</label>
         <input type="number" name="set3" id="set3" placeholder="0" onchange="updateCalculation()">
         <label for="set3Multiplier">:</label>
         <select name="set3Multiplier" id="set3Multiplier" onchange="updateCalculation()">
@@ -154,7 +154,7 @@
     </div>
 
     <div>
-        <label for="set4">ナット代を入力:</label>
+        <label for="set4">ナット代:</label>
         <input type="number" name="set4" id="set4" placeholder="0" onchange="updateCalculation()">
         <label for="set4Multiplier">:</label>
         <select name="set4Multiplier" id="set4Multiplier" onchange="updateCalculation()">
@@ -187,7 +187,7 @@
     </div>
 
     <div>
-        <label for="set5">バルブ代を入力:</label>
+        <label for="set5">バルブ代:</label>
         <input type="number" name="set5" id="set5" placeholder="0" onchange="updateCalculation()">
         <label for="set5Multiplier">:</label>
         <select name="set5Multiplier" id="set5Multiplier" onchange="updateCalculation()">
@@ -199,7 +199,7 @@
     </div>
 
     <div>
-        <label for="set6">袋代を入力:</label>
+        <label for="set6">袋代:</label>
         <input type="number" name="set6" id="set6" placeholder="0" onchange="updateCalculation()">
         <label for="set6Multiplier">:</label>
         <select name="set6Multiplier" id="set6Multiplier" onchange="updateCalculation()">
@@ -211,7 +211,7 @@
     </div>
 
     <div>
-        <label for="set7">その他入力:</label>
+        <label for="set7">その他:</label>
         <input type="number" name="set7" id="set7" placeholder="0" onchange="updateCalculation()">
         <label for="set7Multiplier">:</label>
         <select name="set7Multiplier" id="set7Multiplier" onchange="updateCalculation()">
@@ -248,74 +248,99 @@
         <h3>メーカー</h3>
         <select name="maker1" id="maker1">
             <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
-            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
-            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <optgroup label="分類">
+            <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
             <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            </optgroup>
+            <optgroup label="国内メーカー">
             <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
             <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
             <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
             <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="セーバリング" {{ request('maker1') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
             <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            </optgroup>
+            <optgroup label="海外メーカー">
             <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
             <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
             <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
             <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
-            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
-            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
-            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
-            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
-            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
-            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
-            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+            </optgroup>
+            <optgroup label="アジアンタイヤ">
+            <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
+            <option value="ハンコック（韓国）" {{ request('maker1') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
+            <option value="クムホ（韓国）" {{ request('maker1') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
+            <option value="マキシス（台湾）" {{ request('maker1') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
+            <option value="ジーテックス（中国）" {{ request('maker1') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
+            <option value="トライアングル（中国）" {{ request('maker1') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
+            </optgroup>
         </select>
 
         <br>
         <select name="maker2" id="maker2">
             <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>商品２</option>
-            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
-            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
-            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <optgroup label="分類">
+            <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
             <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            </optgroup>
+            <optgroup label="国内メーカー">
             <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
             <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
             <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
             <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="セーバリング" {{ request('maker1') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
             <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            </optgroup>
+            <optgroup label="海外メーカー">
             <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
             <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
             <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
             <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
-            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
-            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
-            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
-            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
-            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
-            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
-            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+            </optgroup>
+            <optgroup label="アジアンタイヤ">
+            <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
+            <option value="ハンコック（韓国）" {{ request('maker1') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
+            <option value="クムホ（韓国）" {{ request('maker1') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
+            <option value="マキシス（台湾）" {{ request('maker1') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
+            <option value="ジーテックス（中国）" {{ request('maker1') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
+            <option value="トライアングル（中国）" {{ request('maker1') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
+            </optgroup>
         </select>
         <br>
         <select name="maker3" id="maker3">
             <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>商品３</option>
-            <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
-            <option value="国産メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
-            <option value="輸入メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+            <optgroup label="分類">
+            <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+            <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
             <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+            </optgroup>
+            <optgroup label="国内メーカー">
             <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
             <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
             <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
             <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+            <option value="セーバリング" {{ request('maker1') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
             <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+            </optgroup>
+            <optgroup label="海外メーカー">
             <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
             <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
             <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
             <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
-            <option value="ナンカン" {{ request('maker1') == 'ナンカン' ? 'selected' : '' }}>ナンカン</option>
-            <option value="ハンコック" {{ request('maker1') == 'ハンコック' ? 'selected' : '' }}>ハンコック</option>
-            <option value="クムホ" {{ request('maker1') == 'クムホ' ? 'selected' : '' }}>クムホ</option>
-            <option value="マキシス" {{ request('maker1') == 'マキシス' ? 'selected' : '' }}>マキシス</option>
-            <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
-            <option value="ジーテックス" {{ request('maker1') == 'ジーテックス' ? 'selected' : '' }}>ジーテックス</option>
-            <option value="トライアングル" {{ request('maker1') == 'トライアングル' ? 'selected' : '' }}>トライアングル</option>
+            </optgroup>
+            <optgroup label="アジアンタイヤ">
+            <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
+            <option value="ハンコック（韓国）" {{ request('maker1') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
+            <option value="クムホ（韓国）" {{ request('maker1') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
+            <option value="マキシス（台湾）" {{ request('maker1') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
+            <option value="ジーテックス（中国）" {{ request('maker1') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
+            <option value="トライアングル（中国）" {{ request('maker1') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
+            </optgroup>
         </select>
     </div>
 
@@ -438,6 +463,7 @@ function calculateProduct(productNumber) {
     const profitTotal = Math.floor((adjustedCost + profitA) * profitBMultiplier);
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
+
     const tax = totalWithTax - total;
     const grossProfit = profitTotal - adjustedCost; // 粗利を計算
 
@@ -445,6 +471,7 @@ function calculateProduct(productNumber) {
     document.getElementById(`wagesTotal${productNumber}`).innerText = wagesTotal.toLocaleString();
     document.getElementById(`Total${productNumber}`).innerText = total.toLocaleString();
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
+
     document.getElementById(`tax${productNumber}`).innerText = tax.toLocaleString();
     document.getElementById(`grossProfit${productNumber}`).innerText = grossProfit.toLocaleString(); // 粗利を表示
 }
@@ -534,7 +561,7 @@ function loadSettingsFromCookie() {
                 document.getElementById(`set${i}Multiplier`).value = settings[`set${i}`].multiplier || 1;
             }
         }
-        alert('工賃設定を読み込みました。');
+        //alert('工賃設定を読み込みました。');
     }
 }
 
