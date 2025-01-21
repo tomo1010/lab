@@ -449,6 +449,7 @@ function updateCalculation() {
 
 //htmlへ計算結果を表示する
 function calculateProduct(productNumber) {
+
     const cost = parseInt(document.getElementById(`cost${productNumber}`).value) || 0;
     const costMultiplier = parseInt(document.getElementById(`cost${productNumber}Multiplier`).value) || 1;
     const profitA = parseInt(document.getElementById('profitOptionA')?.value) || 0;
@@ -470,7 +471,7 @@ function calculateProduct(productNumber) {
     const total = profitTotal + wagesTotal;
     const totalWithTax = Math.floor(total * 1.1);
 
-    const tax = totalWithTax - total;
+    const tax = totalWithTax - total; // 消費税を計算
     const grossProfit = profitTotal - adjustedCost; // 粗利を計算
 
     document.getElementById(`profitTotal${productNumber}`).innerText = profitTotal.toLocaleString();
@@ -478,7 +479,7 @@ function calculateProduct(productNumber) {
     document.getElementById(`Total${productNumber}`).innerText = total.toLocaleString();
     document.getElementById(`TotalWithTax${productNumber}`).innerText = totalWithTax.toLocaleString();
 
-    document.getElementById(`tax${productNumber}`).innerText = tax.toLocaleString();
+    document.getElementById(`tax${productNumber}`).innerText = tax.toLocaleString(); // 消費税を表示
     document.getElementById(`grossProfit${productNumber}`).innerText = grossProfit.toLocaleString(); // 粗利を表示
 }
 
@@ -501,9 +502,7 @@ function prepareFormData() {
         const wagesTotal = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '') || 0;
         const taxExcludedTotal = document.getElementById(`Total${i}`).innerText.replace(/,/g, '') || 0;
         const taxIncludedTotal = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '') || 0;
-
-        // 税額を計算
-        const tax = taxIncludedTotal - taxExcludedTotal;
+        const tax = taxIncludedTotal - taxExcludedTotal;        // 税額を計算
 
         // 隠しフィールドに値を設定
         document.getElementById(`hiddenProfitTotal${i}`).value = profitTotal;
