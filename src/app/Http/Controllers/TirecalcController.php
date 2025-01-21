@@ -67,7 +67,7 @@ class TirecalcController extends Controller
         $address = $request->input('address');
         $honorific = $request->input('honorific');
 
-        
+dd($productData);        
 
     // selectTireに応じた画像パスを決定
     $tireImages = [
