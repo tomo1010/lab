@@ -88,7 +88,7 @@ Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('b
 タイヤ計算機
 */
 Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.index');
-Route::get('tirecalc/setPdf', [TirecalcController::class, 'setPdf'])->name('tirecalc.setPdf');
+//Route::get('tirecalc/setPdf', [TirecalcController::class, 'setPdf'])->name('tirecalc.setPdf');
 Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
 
 /*

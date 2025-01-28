@@ -61,7 +61,7 @@
         <br>
         <div class="section flex">
             <div>
-                <strong>宛名:</strong> {{ $address ?? '　　　　　' }} {{ $honorific ?? '' }}
+                <u>{{ $address ?? '　　　　　' }} {{ $honorific ?? '' }}</u>
             </div>
             <br>
             <div style="text-align: right;">
@@ -100,7 +100,7 @@
                 </div>
             @endif
         @endforeach
-
+<br>
         <div class="section">
             <strong>備考:</strong> {{ $comment }}
         </div>

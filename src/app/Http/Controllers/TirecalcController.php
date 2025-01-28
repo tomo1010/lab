@@ -11,7 +11,7 @@ use PDF;
 
 class TirecalcController extends Controller
 {
-    public function setPdf(Request $request)
+    public function index(Request $request)
     {
 
         $comment = $request->input('comment'); // $comment を受け取る
@@ -45,7 +45,7 @@ class TirecalcController extends Controller
         }
 
         // アイテム情報をビューに渡す
-        return view('tirecalc.setPdf', [
+        return view('tirecalc.index', [
             'items' => $items,
             'comment' => $comment,
         ]);
