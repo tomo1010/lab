@@ -5,6 +5,23 @@
 
     <!-- $keyword を送信するための隠しフィールド -->
     <input type="hidden" name="keyword" value="{{ $keyword }}">
+
+    <!-- 隠しフィールド（送信用） -->
+    <input type="hidden" name="productData[1][profitTotal]" id="hiddenProfitTotal1">
+    <input type="hidden" name="productData[1][wagesTotal]" id="hiddenWagesTotal1">
+    <input type="hidden" name="productData[1][taxExcludedTotal]" id="hiddenTotal1">
+    <input type="hidden" name="productData[1][taxIncludedTotal]" id="hiddenTotalWithTax1">
+
+    <input type="hidden" name="productData[2][profitTotal]" id="hiddenProfitTotal2">
+    <input type="hidden" name="productData[2][wagesTotal]" id="hiddenWagesTotal2">
+    <input type="hidden" name="productData[2][taxExcludedTotal]" id="hiddenTotal2">
+    <input type="hidden" name="productData[2][taxIncludedTotal]" id="hiddenTotalWithTax2">
+
+    <input type="hidden" name="productData[3][profitTotal]" id="hiddenProfitTotal3">
+    <input type="hidden" name="productData[3][wagesTotal]" id="hiddenWagesTotal3">
+    <input type="hidden" name="productData[3][taxExcludedTotal]" id="hiddenTotal3">
+    <input type="hidden" name="productData[3][taxIncludedTotal]" id="hiddenTotalWithTax3">
+
     
     @foreach ($items as $index => $item)
       <div>
@@ -369,5 +386,15 @@ function loadSettingsFromCookie() {
 
 // ページ読み込み時に設定を反映
 document.addEventListener('DOMContentLoaded', loadSettingsFromCookie);
+
+
+function prepareFormData() {
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById(`hiddenProfitTotal${i}`).value = document.getElementById(`profitTotal${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenWagesTotal${i}`).value = document.getElementById(`wagesTotal${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenTotal${i}`).value = document.getElementById(`Total${i}`).innerText.replace(/,/g, '');
+        document.getElementById(`hiddenTotalWithTax${i}`).value = document.getElementById(`TotalWithTax${i}`).innerText.replace(/,/g, '');
+    }
+}
 
 </script>
