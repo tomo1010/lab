@@ -44,9 +44,9 @@
             <div class="bg-gray-50 p-5 rounded-lg shadow-md">
                 <h2 class="text-lg font-semibold text-center mb-3">商品 1</h2>
                 <div class="flex flex-col gap-2">
-                    <label for="cost1">原価:</label>
-                    <input type="number" name="cost1" id="cost1" class="border px-4 py-2 rounded-lg w-full" placeholder="0" onchange="updateCalculation()">
-                    <label for="cost1Multiplier">倍率:</label>
+                    <label for="cost1"></label>
+                    <input type="number" name="cost1" id="cost1" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                    <label for="cost1Multiplier"></label>
                     <select name="cost1Multiplier" id="cost1Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                         <option value="1">×1</option>
                         <option value="2">×2</option>
@@ -55,20 +55,26 @@
                     </select>
                 </div>
                 <div class="mt-3">
-                    <p>商品代金: <span id="profitTotal1">0</span> 円（粗利: <span id="grossProfit1">0</span> 円）</p>
+                    <p>商品代金: <span id="profitTotal1">0</span> 円
+                        <span class="text-sm text-gray-600 sm:block">（粗利: <span id="grossProfit1">0</span> 円）</span>
+                    </p>
                     <p>工賃合計: <span id="wagesTotal1">0</span> 円</p>
                     <p>税抜合計: <span id="Total1">0</span> 円</p>
-                    <p class="font-bold">税込合計: <span id="TotalWithTax1">0</span> 円（内消費税: <span id="tax1">0</span> 円）</p>
+                    <p class="font-bold">税込合計: <span id="TotalWithTax1">0</span> 円
+                        <span class="text-sm text-gray-600 font-normal sm:block">（内消費税: <span id="tax1">0</span> 円）</span>
+                    </p>
                 </div>
+
+
             </div>
 
             <!-- 商品 2 -->
             <div class="bg-gray-50 p-5 rounded-lg shadow-md">
                 <h2 class="text-lg font-semibold text-center mb-3">商品 2</h2>
                 <div class="flex flex-col gap-2">
-                    <label for="cost2">原価:</label>
-                    <input type="number" name="cost2" id="cost2" class="border px-4 py-2 rounded-lg w-full" placeholder="0" onchange="updateCalculation()">
-                    <label for="cost2Multiplier">倍率:</label>
+                    <label for="cost2"></label>
+                    <input type="number" name="cost2" id="cost2" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                    <label for="cost2Multiplier"></label>
                     <select name="cost2Multiplier" id="cost2Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                         <option value="1">×1</option>
                         <option value="2">×2</option>
@@ -77,20 +83,25 @@
                     </select>
                 </div>
                 <div class="mt-3">
-                    <p>商品代金: <span id="profitTotal2">0</span> 円（粗利: <span id="grossProfit2">0</span> 円）</p>
+                    <p>商品代金: <span id="profitTotal2">0</span> 円
+                        <span class="text-sm text-gray-600 sm:block">（粗利: <span id="grossProfit2">0</span> 円）</span>
+                    </p>
                     <p>工賃合計: <span id="wagesTotal2">0</span> 円</p>
                     <p>税抜合計: <span id="Total2">0</span> 円</p>
-                    <p class="font-bold">税込合計: <span id="TotalWithTax2">0</span> 円（内消費税: <span id="tax2">0</span> 円）</p>
+                    <p class="font-bold">税込合計: <span id="TotalWithTax2">0</span> 円
+                        <span class="text-sm text-gray-600 font-normal sm:block">（内消費税: <span id="tax2">0</span> 円）</span>
+                    </p>
                 </div>
+
             </div>
 
             <!-- 商品 3 -->
             <div class="bg-gray-50 p-5 rounded-lg shadow-md">
                 <h2 class="text-lg font-semibold text-center mb-3">商品 3</h2>
                 <div class="flex flex-col gap-2">
-                    <label for="cost3">原価:</label>
-                    <input type="number" name="cost3" id="cost3" class="border px-4 py-2 rounded-lg w-full" placeholder="0" onchange="updateCalculation()">
-                    <label for="cost3Multiplier">倍率:</label>
+                    <label for="cost3"></label>
+                    <input type="number" name="cost3" id="cost3" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                    <label for="cost3Multiplier"></label>
                     <select name="cost3Multiplier" id="cost3Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                         <option value="1">×1</option>
                         <option value="2">×2</option>
@@ -99,11 +110,16 @@
                     </select>
                 </div>
                 <div class="mt-3">
-                    <p>商品代金: <span id="profitTotal3">0</span> 円（粗利: <span id="grossProfit3">0</span> 円）</p>
+                    <p>商品代金: <span id="profitTotal3">0</span> 円
+                        <span class="text-sm text-gray-600 sm:block">（粗利: <span id="grossProfit3">0</span> 円）</span>
+                    </p>
                     <p>工賃合計: <span id="wagesTotal3">0</span> 円</p>
                     <p>税抜合計: <span id="Total3">0</span> 円</p>
-                    <p class="font-bold">税込合計: <span id="TotalWithTax3">0</span> 円（内消費税: <span id="tax3">0</span> 円）</p>
+                    <p class="font-bold">税込合計: <span id="TotalWithTax3">0</span> 円
+                        <span class="text-sm text-gray-600 font-normal sm:block">（内消費税: <span id="tax3">0</span> 円）</span>
+                    </p>
                 </div>
+
             </div>
 </div>
 
@@ -453,8 +469,8 @@
             </optgroup>
         </select>
         <div class="mt-3">
-            <label for="sizeFree" class="block text-gray-700 font-semibold">フリー入力:</label>
-            <input type="text" name="sizeFree" id="sizeFree" class="w-full px-4 py-2 border rounded-lg">
+            <label for="sizeFree" class="block text-gray-700 font-semibold"></label>
+            <input type="text" name="sizeFree" id="sizeFree" placeholder="サイズフリー入力" class="w-full px-4 py-2 border rounded-lg">
         </div>
     </div>
 
