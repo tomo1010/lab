@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#2981C0;">
     {{-- トップページへのリンク --}}
-    <a class="navbar-brand" href="/"><img src="https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png"></a>
+    <a class="navbar-brand" href="/">TOP</a>
 
         {{-- ハンバーガーメニュー --}}
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
