@@ -95,3 +95,9 @@ Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->nam
 PDF印刷
 */
 //Route::get('pdf', [PdfController::class,'viewPdf']);
+
+
+/*
+見積もりサイト
+*/
+Route::get('quote', [QuotecalcController::class, 'index'])->name('quote.index');
