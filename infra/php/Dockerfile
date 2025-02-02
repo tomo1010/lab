@@ -14,7 +14,8 @@ RUN apk update && apk add --no-cache \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-install intl pdo_mysql zip bcmath && \
   docker-php-ext-configure gd --with-freetype --with-jpeg && \ ←追加
-  docker-php-ext-install gd &&\ ←追加
+  docker-php-ext-install gd &&\ ←追加PDFに画像を追加するため
+
 
 
 COPY ./php.ini /usr/local/etc/php/php.ini
