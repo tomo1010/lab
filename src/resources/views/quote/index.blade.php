@@ -1,58 +1,101 @@
-<div class="container">
-    <h2>投稿一覧</h2>
-    
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            投稿一覧
+        </h2>
+    </x-slot>
 
-    @auth
-        <form action="{{ route('quotes.store') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="content" class="form-label">投稿内容</label>
-                <input type="text" name="content" id="content" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">投稿</button>
-        </form>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
-        @if(isset($quotes) && $quotes->count())
-            <ul class="list-group mt-4">
-                @foreach ($quotes as $quote)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ $quote->content }}
-                        <div>
-                            <a href="{{ route('quotes.edit', $quote->id) }}" class="btn btn-sm btn-warning">編集</a>
-                            
-                            <!-- コピー機能 -->
-                            <form action="{{ route('quotes.copy', $quote->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-info">コピー</button>
-                            </form>
+                <!-- 成功・エラーメッセージ -->
+                @if(session('success'))
+                    <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
-                            <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('本当に削除しますか？');">削除</button>
-                            </form>
+                @if(session('error'))
+                    <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <!-- ログイン済みユーザーのみ表示 -->
+                @auth
+                    <!-- 投稿フォーム -->
+                    <form action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="content" class="block text-gray-700 font-semibold mb-1">投稿内容</label>
+                            <input type="text" name="content" id="content" class="w-full px-4 py-2 border rounded-lg" required>
                         </div>
-                    </li>
-                @endforeach
-            </ul>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            投稿
+                        </button>
+                    </form>
 
-            <div class="mt-3">
-                {{ $quotes->links() }}
+                    <!-- 投稿一覧 -->
+                    @if(isset($quotes) && $quotes->count())
+                    <ul class="mt-6 space-y-4">
+                        @foreach ($quotes as $quote)
+                            <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
+                                <span>{{ $quote->content }}</span>
+                                <div class="flex flex-col space-y-2 w-28">
+                                    <!-- 編集 -->
+                                    <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
+                                        <button type="submit" class="w-full bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
+                                            編集
+                                        </button>
+                                    </form>
+
+                                    <!-- コピー -->
+                                    <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
+                                            コピー
+                                        </button>
+                                    </form>
+
+                                    <!-- 削除 -->
+                                    <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
+                                            削除
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+
+
+
+                        <!-- ページネーション -->
+                        <div class="mt-6">
+                            {{ $quotes->links() }}
+                        </div>
+                    @else
+                        <p class="mt-6 text-gray-500">投稿はありません。</p>
+                    @endif
+                @endauth
+
+                <!-- 未ログインユーザー向けの表示 -->
+                @guest
+                    <p class="text-center mt-4 text-gray-700">投稿を見るにはログインしてください。</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            ログイン
+                        </a>
+                        <a href="{{ route('register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                            新規登録
+                        </a>
+                    </div>
+                @endguest
+
             </div>
-        @else
-            <p class="mt-3">投稿はありません。</p>
-        @endif
-    @else
-        <p class="text-center mt-4">投稿を見るにはログインしてください。</p>
-        <div class="text-center">
-            <a href="{{ route('login') }}" class="btn btn-primary">ログイン</a>
-            <a href="{{ route('register') }}" class="btn btn-secondary">新規登録</a>
         </div>
-    @endauth
-</div>
+    </div>
+</x-app-layout>
