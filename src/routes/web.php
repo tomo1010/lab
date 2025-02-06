@@ -9,6 +9,8 @@ use App\Http\Controllers\CsvController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TireController;
 use App\Http\Controllers\TirecalcController;
+use App\Http\Controllers\QuoteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +79,7 @@ Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show')
 //新車から3年後
 //Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
 
+
 /*
 baby in car
 */
@@ -96,6 +99,7 @@ Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('b
 //Route::post('tire/setPdf', [TireController::class, 'setPdf'])->name('tire.setPdf');
 //Route::post('tire/createPdf', [TireController::class, 'createPdf'])->name('tire.createPdf');
 
+
 /*
 タイヤ計算機
 */
@@ -103,8 +107,19 @@ Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.ind
 //Route::get('tirecalc/setPdf', [TirecalcController::class, 'setPdf'])->name('tirecalc.setPdf');
 Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
 
+
 /*
 PDF印刷
 */
 //Route::get('pdf', [PdfController::class,'viewPdf']);
+
+
+/*
+見積もり
+*/
+Route::get('quote', [QuoteController::class, 'index'])->name('quote.index');
+Route::middleware('auth')->group(function () {
+    Route::resource('quotes', QuoteController::class)->only(['store', 'destroy', 'edit', 'update']);
+});
+Route::post('quotes/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('quotes.copy');
 
