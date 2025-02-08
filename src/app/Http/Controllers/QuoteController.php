@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\User;
+use PDF;
+use Carbon\Carbon;
+
+
 
 class QuoteController extends Controller
 {
@@ -44,23 +48,38 @@ class QuoteController extends Controller
     public function store(Request $request)
     {
         \Log::info('投稿処理開始');
-
+    //dd($request);
         // バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'name' => 'required|max:255',
+            'car' => 'required|max:255',
+            'price' => 'required|numeric|min:0',
+            'tax' => 'required|numeric|min:0',
+            'total' => 'required|numeric|min:0',
         ]);
     
-        \Log::info('バリデーション通過', ['content' => $request->content]);
+        \Log::info('バリデーション通過', [
+            'name' => $request->name,
+            'car' => $request->car,
+            'price' => $request->price,
+            'tax' => $request->tax,
+            'total' => $request->total
+        ]);
     
         // 認証済みユーザ（閲覧者）の投稿として作成
         $request->user()->quotes()->create([
-            'content' => $request->content,
+            'name' => $request->name,
+            'car' => $request->car,
+            'price' => $request->price,
+            'tax' => $request->tax,
+            'total' => $request->total,
         ]);
     
         \Log::info('投稿データ作成成功');
     
         return back()->with('success', '投稿が完了しました');
     }
+    
 
 
     /**
@@ -111,23 +130,32 @@ class QuoteController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'name' => 'required|string|max:255',
+            'car' => 'required|string|max:255',
+            'price' => 'required|integer|min:0',
+            'tax' => 'required|integer|min:0',
+            'total' => 'required|integer|min:0',
         ]);
-
+    
         $quote = Quote::findOrFail($id);
-
+    
         // 投稿の所有者のみ更新可能
         if (\Auth::id() !== $quote->user_id) {
             return redirect()->route('quote.index')->with('error', '不正な操作です');
         }
-
+    
         // 内容を更新
         $quote->update([
-            'content' => $request->content,
+            'name' => $request->name,
+            'car' => $request->car,
+            'price' => $request->price,
+            'tax' => $request->tax,
+            'total' => $request->total,
         ]);
-
+    
         return redirect()->route('quote.index')->with('success', '投稿を更新しました');
     }
+    
 
 
     /**
@@ -153,13 +181,69 @@ class QuoteController extends Controller
     {
         // コピー元の投稿を取得
         $quote = Quote::findOrFail($id);
-
+    
         // 認証済みユーザーの投稿として新しいレコードを作成
         $newQuote = new Quote();
         $newQuote->user_id = auth()->id();
-        $newQuote->content = $quote->content;
+        $newQuote->name = $quote->name;
+        $newQuote->car = $quote->car;
+        $newQuote->price = $quote->price;
+        $newQuote->tax = $quote->tax;
+        $newQuote->total = $quote->total;
         $newQuote->save();
-
+    
         return redirect()->route('quote.index')->with('success', '投稿をコピーしました。');
     }
+
+
+    public function createPdf(Request $request)
+    {
+        // フォームから送信されたデータを受け取る
+        $comment = $request->input('comment');
+        $productData = $request->input('productData'); 
+        $maker1 = $request->input('maker1');
+        $maker2 = $request->input('maker2');
+        $maker3 = $request->input('maker3');
+        $sizeFree = $request->input('sizeFree');
+        $sizeGeneral = $request->input('sizeGeneral');
+        $selectTire = $request->input('selectTire');
+        $address = $request->input('address');
+        $honorific = $request->input('honorific');
+
+
+        // 現在日時を取得
+        $now = Carbon::now();
+        // 現在日時を××××-××-××に変換
+        $date = $now->format('Y-m-d');
+
+
+        // 印刷設定をデータに追加
+        $data = [
+            'products' => $formattedProducts,
+            'makers' => [
+                'maker1' => $maker1,
+                'maker2' => $maker2,
+                'maker3' => $maker3,
+            ],
+            'sizeFree' => $sizeFree,
+            'sizeGeneral' => $sizeGeneral,
+            'selectTire' => $selectTire,
+            'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
+            'comment' => $comment,
+            'address' => $address,
+            'honorific' => $honorific,
+            'date' => $date,
+
+        ];
+    
+        // 動的なPDFファイル名を生成
+        $fileName = "{$date}{$address}{$sizeFree}{$sizeGeneral}.pdf";
+
+        // PDF生成とビューにデータを渡す
+        $pdf = PDF::loadView('tirecalc.createPdf', $data);
+        
+        // PDFをダウンロード（ファイル名を指定）
+        return $pdf->download($fileName);
+    }
+    
 }

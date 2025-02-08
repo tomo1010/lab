@@ -24,52 +24,100 @@
 
                 <!-- ログイン済みユーザーのみ表示 -->
                 @auth
-                    <!-- 投稿フォーム -->
-                    <form action="{{ route('quotes.store') }}" method="POST" class="mb-6">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="content" class="block text-gray-700 font-semibold mb-1">投稿内容</label>
-                            <input type="text" name="content" id="content" class="w-full px-4 py-2 border rounded-lg" required>
-                        </div>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                            投稿
-                        </button>
-                    </form>
 
-                    <!-- 投稿一覧 -->
-                    @if(isset($quotes) && $quotes->count())
-                    <ul class="mt-6 space-y-4">
-                        @foreach ($quotes as $quote)
-                            <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
-                                <span>{{ $quote->content }}</span>
-                                <div class="flex flex-col space-y-2 w-28">
-                                    <!-- 編集 -->
-                                    <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                                        <button type="submit" class="w-full bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
-                                            編集
-                                        </button>
-                                    </form>
 
-                                    <!-- コピー -->
-                                    <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="w-full bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
-                                            コピー
-                                        </button>
-                                    </form>
+<!-- 投稿フォーム -->
+<form action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+    @csrf
 
-                                    <!-- 削除 -->
-                                    <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
-                                            削除
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
+    <!-- 名前 -->
+    <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-semibold mb-1">名前</label>
+        <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg" required>
+    </div>
+
+    <!-- 車種 -->
+    <div class="mb-4">
+        <label for="car" class="block text-gray-700 font-semibold mb-1">車種</label>
+        <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
+    </div>
+
+    <!-- 価格 -->
+    <div class="mb-4">
+        <label for="price" class="block text-gray-700 font-semibold mb-1">価格（税抜）</label>
+        <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+    </div>
+
+    <!-- 消費税 -->
+    <div class="mb-4">
+        <label for="tax" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
+        <input type="number" name="tax" id="tax" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+    </div>
+
+    <!-- 合計 -->
+    <div class="mb-4">
+        <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
+        <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+    </div>
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        投稿
+    </button>
+</form>
+
+<!-- 価格入力時に自動計算するJavaScript -->
+<script>
+function calculateTotal() {
+    let price = document.getElementById('price').value;
+    let tax = Math.floor(price * 0.10); // 消費税10%
+    let total = parseInt(price) + tax;
+
+    document.getElementById('tax').value = isNaN(tax) ? 0 : tax;
+    document.getElementById('total').value = isNaN(total) ? 0 : total;
+}
+</script>
+
+
+<!-- 投稿一覧 -->
+@if(isset($quotes) && $quotes->count())
+<ul class="mt-6 space-y-4">
+    @foreach ($quotes as $quote)
+        <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
+            <!-- 名前・車名・更新日時 -->
+            <div>
+                <span class="text-lg font-semibold">{{ $quote->name }} {{ $quote->car }}</span>
+                <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
+            </div>
+
+            <!-- 編集・コピー・削除ボタン（横並び） -->
+            <div class="flex space-x-2">
+                <!-- 編集 -->
+                <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
+                    <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
+                        編集
+                    </button>
+                </form>
+
+                <!-- コピー -->
+                <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
+                        コピー
+                    </button>
+                </form>
+
+                <!-- 削除 -->
+                <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
+                        削除
+                    </button>
+                </form>
+            </div>
+        </li>
+    @endforeach
+</ul>
 
 
 

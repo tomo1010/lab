@@ -16,7 +16,11 @@ return new class extends Migration
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('content');
+            $table->string('name');
+            $table->string('car');
+            $table->integer('price');
+            $table->integer('tax');
+            $table->integer('total');
             $table->timestamps();
 
             // 外部キー制約

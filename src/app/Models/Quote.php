@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quote extends Model
 {
-    protected $fillable = ['content'];
+    
+    protected $fillable = ['user_id', 'name', 'car', 'price', 'tax', 'total'];
 
     /**
      * この投稿を所有するユーザ。（ Userモデルとの関係を定義）
