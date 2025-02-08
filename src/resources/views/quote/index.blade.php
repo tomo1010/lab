@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            投稿一覧
+            見積もり作成
         </h2>
     </x-slot>
 
@@ -27,8 +27,11 @@
 
 
 <!-- 投稿フォーム -->
-<form action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+<form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
     @csrf
+
+    <!-- アクションを指定するための hidden input -->
+    <input type="hidden" id="action" name="action" value="save">
 
     <!-- 名前 -->
     <div class="mb-4">
@@ -60,10 +63,26 @@
         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-        投稿
-    </button>
+
+
+
+    <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
+    <div class="flex space-x-2">
+        <!-- 保存ボタン -->
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            onclick="document.getElementById('quoteForm').action='{{ route('quotes.store') }}'; document.getElementById('action').value='save';">
+            保存
+        </button>
+
+        <!-- PDFボタン (保存も実行) -->
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            onclick="document.getElementById('quoteForm').action='{{ route('quotes.createPdf') }}'; document.getElementById('action').value='pdf';">
+            PDF
+        </button>
+    </div>
+
 </form>
+
 
 <!-- 価格入力時に自動計算するJavaScript -->
 <script>

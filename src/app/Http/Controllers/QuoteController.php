@@ -43,31 +43,25 @@ class QuoteController extends Controller
 
 
     /**
-     * 投稿の作成
+     * 見積もりの作成
      */
     public function store(Request $request)
     {
         \Log::info('投稿処理開始');
-    //dd($request);
+    
         // バリデーション
         $request->validate([
             'name' => 'required|max:255',
             'car' => 'required|max:255',
-            'price' => 'required|numeric|min:0',
-            'tax' => 'required|numeric|min:0',
-            'total' => 'required|numeric|min:0',
+            'price' => 'required|integer',
+            'tax' => 'required|integer',
+            'total' => 'required|integer',
         ]);
     
-        \Log::info('バリデーション通過', [
-            'name' => $request->name,
-            'car' => $request->car,
-            'price' => $request->price,
-            'tax' => $request->tax,
-            'total' => $request->total
-        ]);
+        \Log::info('バリデーション通過', $request->all());
     
-        // 認証済みユーザ（閲覧者）の投稿として作成
-        $request->user()->quotes()->create([
+        // 投稿を保存
+        $quote = $request->user()->quotes()->create([
             'name' => $request->name,
             'car' => $request->car,
             'price' => $request->price,
@@ -77,8 +71,15 @@ class QuoteController extends Controller
     
         \Log::info('投稿データ作成成功');
     
-        return back()->with('success', '投稿が完了しました');
+
+        // PDF作成をリクエストされた場合
+        if ($request->input('action') === 'pdf') {
+            return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
+        }
+    
+        return redirect()->route('quote.index')->with('success', '投稿が完了しました');
     }
+    
     
 
 
@@ -119,7 +120,10 @@ class QuoteController extends Controller
             return redirect()->route('quote.index')->with('error', '不正な操作です');
         }
 
-        return view('quote.edit', compact('quote'));
+        // ログインユーザーの投稿一覧を取得
+        $quotes = Quote::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->paginate(10);
+
+        return view('quote.edit', compact('quote', 'quotes'));
     }
 
 
@@ -196,54 +200,45 @@ class QuoteController extends Controller
     }
 
 
+    /**
+     * PDF作成
+     */
     public function createPdf(Request $request)
     {
-        // フォームから送信されたデータを受け取る
-        $comment = $request->input('comment');
-        $productData = $request->input('productData'); 
-        $maker1 = $request->input('maker1');
-        $maker2 = $request->input('maker2');
-        $maker3 = $request->input('maker3');
-        $sizeFree = $request->input('sizeFree');
-        $sizeGeneral = $request->input('sizeGeneral');
-        $selectTire = $request->input('selectTire');
-        $address = $request->input('address');
-        $honorific = $request->input('honorific');
-
-
-        // 現在日時を取得
+        // フォームから送信されたデータを取得
+        $name = $request->input('name');
+        $car = $request->input('car');
+        $price = $request->input('price');
+        $tax = $request->input('tax');
+        $total = $request->input('total');
+    
+        // 現在日時を取得してフォーマット
         $now = Carbon::now();
-        // 現在日時を××××-××-××に変換
         $date = $now->format('Y-m-d');
-
-
-        // 印刷設定をデータに追加
+    
+        // PDF用データを作成
         $data = [
-            'products' => $formattedProducts,
-            'makers' => [
-                'maker1' => $maker1,
-                'maker2' => $maker2,
-                'maker3' => $maker3,
-            ],
-            'sizeFree' => $sizeFree,
-            'sizeGeneral' => $sizeGeneral,
-            'selectTire' => $selectTire,
-            'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
-            'comment' => $comment,
-            'address' => $address,
-            'honorific' => $honorific,
+            'name' => $name,
+            'car' => $car,
+            'price' => $price,
+            'tax' => $tax,
+            'total' => $total,
             'date' => $date,
-
         ];
     
         // 動的なPDFファイル名を生成
-        $fileName = "{$date}{$address}{$sizeFree}{$sizeGeneral}.pdf";
-
-        // PDF生成とビューにデータを渡す
-        $pdf = PDF::loadView('tirecalc.createPdf', $data);
-        
+        $fileName = "{$date}_{$name}_{$car}.pdf";
+    
+        // PDFを生成
+        $pdf = PDF::loadView('quote.createPdf', $data);
+    
         // PDFをダウンロード（ファイル名を指定）
         return $pdf->download($fileName);
     }
+
+
+    
+
+    
     
 }

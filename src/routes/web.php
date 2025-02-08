@@ -122,4 +122,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('quotes', QuoteController::class)->only(['store', 'destroy', 'edit', 'update']);
 });
 Route::post('quotes/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('quotes.copy');
+Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('quotes.createPdf');
 
