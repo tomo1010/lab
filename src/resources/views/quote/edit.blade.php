@@ -20,7 +20,7 @@
                     </div>
                 @endif
 
-                <!-- 編集フォーム -->
+                <!-- 更新フォーム (PUTメソッド) -->
                 <form action="{{ route('quotes.update', $quote->id) }}" method="POST" class="space-y-4">
                     @csrf
                     @method('PUT')
@@ -50,6 +50,7 @@
                         <input type="number" name="total" id="total" value="{{ old('total', $quote->total) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
                     </div>
 
+                    <!-- ボタンエリア（更新 & キャンセル） -->
                     <div class="flex space-x-4">
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                             更新
@@ -58,6 +59,20 @@
                             キャンセル
                         </a>
                     </div>
+                </form>
+
+                <!-- PDF生成用フォーム (POSTメソッド) -->
+                <form action="{{ route('quotes.createPdf') }}" method="POST" class="mt-4">
+                    @csrf
+                    <input type="hidden" name="name" value="{{ $quote->name }}">
+                    <input type="hidden" name="car" value="{{ $quote->car }}">
+                    <input type="hidden" name="price" value="{{ $quote->price }}">
+                    <input type="hidden" name="tax" value="{{ $quote->tax }}">
+                    <input type="hidden" name="total" value="{{ $quote->total }}">
+
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        PDF
+                    </button>
                 </form>
 
             </div>
