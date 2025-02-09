@@ -212,11 +212,10 @@ class QuoteController extends Controller
         $tax = $request->input('tax');
         $total = $request->input('total');
     
-        // 現在日時を取得してフォーマット
-        $now = Carbon::now();
-        $date = $now->format('Y-m-d');
+        // 現在日時を取得
+        $date = now()->format('Y-m-d');
     
-        // PDF用データを作成
+        // PDFデータを用意
         $data = [
             'name' => $name,
             'car' => $car,
@@ -226,15 +225,31 @@ class QuoteController extends Controller
             'date' => $date,
         ];
     
-        // 動的なPDFファイル名を生成
-        $fileName = "{$date}_{$name}_{$car}.pdf";
+        // Mpdf インスタンス作成
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P' // 縦向き
+        ]);
     
-        // PDFを生成
-        $pdf = PDF::loadView('quote.createPdf', $data);
+        // 1ページ目
+        $html1 = view('quote.template.one', $data)->render();
+        $mpdf->WriteHTML($html1);
     
-        // PDFをダウンロード（ファイル名を指定）
-        return $pdf->download($fileName);
+        // 2ページ目を追加
+        $mpdf->AddPage();
+        $html2 = view('quote.template.one', $data)->render();
+        $mpdf->WriteHTML($html2);
+    
+        // 3ページ目を追加
+        $mpdf->AddPage();
+        $html3 = view('quote.template.one', $data)->render();
+        $mpdf->WriteHTML($html3);
+    
+        // PDFをダウンロード
+        return $mpdf->Output("{$date}_{$name}_見積書.pdf", 'D');
     }
+    
 
 
     
