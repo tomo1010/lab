@@ -45,11 +45,33 @@
         <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
     </div>
 
-    <!-- 価格 -->
-    <div class="mb-4">
-        <label for="price" class="block text-gray-700 font-semibold mb-1">価格（税抜）</label>
-        <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+<!-- 価格 -->
+<div class="mb-4">
+    <label for="price" class="block text-gray-700 font-semibold mb-1 flex items-center">
+        価格（税抜）
+        <!-- ポップアップアイコンボタン -->
+        <button type="button" onclick="openPricePopup()" class="ml-2 text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
+            </svg>
+        </button>
+    </label>
+    <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+</div>
+
+<!-- ポップアップウィンドウ（価格表） -->
+<div id="pricePopup" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-lg font-semibold mb-4">価格表</h2>
+        <ul class="space-y-2">
+            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectPrice(10000)">10,000 円</button></li>
+            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectPrice(20000)">20,000 円</button></li>
+            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectPrice(30000)">30,000 円</button></li>
+        </ul>
+        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closePricePopup()">閉じる</button>
     </div>
+</div>
+
 
     <!-- 消費税 -->
     <div class="mb-4">
@@ -84,8 +106,9 @@
 </form>
 
 
-<!-- 価格入力時に自動計算するJavaScript -->
+
 <script>
+// 合計を計算
 function calculateTotal() {
     let price = document.getElementById('price').value;
     let tax = Math.floor(price * 0.10); // 消費税10%
@@ -93,6 +116,21 @@ function calculateTotal() {
 
     document.getElementById('tax').value = isNaN(tax) ? 0 : tax;
     document.getElementById('total').value = isNaN(total) ? 0 : total;
+}
+
+// ポップアップウインドウ操作
+function openPricePopup() {
+    document.getElementById('pricePopup').classList.remove('hidden');
+}
+
+function closePricePopup() {
+    document.getElementById('pricePopup').classList.add('hidden');
+}
+
+function selectPrice(price) {
+    document.getElementById('price').value = price;
+    calculateTotal(); // 価格選択時に税込価格も更新
+    closePricePopup(); // 価格選択後ポップアップを閉じる
 }
 </script>
 

@@ -227,11 +227,13 @@ class QuoteController extends Controller
     
         // Mpdf インスタンス作成
         $mpdf = new \Mpdf\Mpdf([
-            'mode' => 'utf-8',
+            'mode' => 'ja+aCJK', // 日本語フォント組み込み
             'format' => 'A4',
-            'orientation' => 'P' // 縦向き
+            'orientation' => 'P', // 縦向き
+            'default_font' => 'ipag' // 日本語フォントを指定
         ]);
-    
+
+
         // 1ページ目
         $html1 = view('quote.template.one', $data)->render();
         $mpdf->WriteHTML($html1);

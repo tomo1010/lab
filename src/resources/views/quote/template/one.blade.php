@@ -4,7 +4,7 @@
     <title>見積書</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: ipag, sans-serif;
         }
         .container {
             width: 90%;
