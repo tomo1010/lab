@@ -39,32 +39,11 @@
         <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg" required>
     </div>
 
-<!-- 車種 -->
-<div class="mb-4">
-    <label for="car" class="block text-gray-700 font-semibold mb-1 flex items-center">
-        車種
-        <!-- ポップアップアイコンボタン -->
-        <button type="button" onclick="openCarPopup()" class="ml-2 text-gray-500 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
-            </svg>
-        </button>
-    </label>
-    <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
-</div>
-
-<!-- 車種一覧ポップアップウィンドウ -->
-<div id="carPopup" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 class="text-lg font-semibold mb-4">車種一覧</h2>
-        <ul class="space-y-2">
-            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectCar('アクア')">アクア</button></li>
-            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectCar('プリウス')">プリウス</button></li>
-            <li><button type="button" class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded" onclick="selectCar('N-BOX')">N-BOX</button></li>
-        </ul>
-        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeCarPopup()">閉じる</button>
+    <!-- 車種 -->
+    <div class="mb-4">
+        <label for="car" class="block text-gray-700 font-semibold mb-1">車種</label>
+        <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
     </div>
-</div>
 
 <!-- 価格 -->
 <div class="mb-4">
@@ -152,19 +131,6 @@ function selectPrice(price) {
     document.getElementById('price').value = price;
     calculateTotal(); // 価格選択時に税込価格も更新
     closePricePopup(); // 価格選択後ポップアップを閉じる
-}
-
-function openCarPopup() {
-    document.getElementById('carPopup').classList.remove('hidden');
-}
-
-function closeCarPopup() {
-    document.getElementById('carPopup').classList.add('hidden');
-}
-
-function selectCar(car) {
-    document.getElementById('car').value = car;
-    closeCarPopup();
 }
 </script>
 
