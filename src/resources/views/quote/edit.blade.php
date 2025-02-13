@@ -41,8 +41,13 @@
                     </div>
 
                     <div>
-                        <label for="tax" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
-                        <input type="number" name="tax" id="tax" value="{{ old('tax', $quote->tax) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                        <label for="tax_2" class="block text-gray-700 font-semibold mb-1">自動車税 (月割)</label>
+                        <input type="number" name="tax_2" id="tax_2" value="{{ old('tax_2', $quote->tax_2) }}" class="w-full px-4 py-2 border rounded-lg " required>
+                    </div>
+
+                    <div>
+                        <label for="tax_1" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
+                        <input type="number" name="tax_1" id="tax_1" value="{{ old('tax_1', $quote->tax_1) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
                     </div>
 
                     <div>
@@ -86,7 +91,7 @@
             let tax = Math.floor(price * 0.10); // 消費税10%
             let total = parseInt(price) + tax;
 
-            document.getElementById('tax').value = isNaN(tax) ? 0 : tax;
+            document.getElementById('tax_1').value = isNaN(tax) ? 0 : tax;
             document.getElementById('total').value = isNaN(total) ? 0 : total;
         }
     </script>

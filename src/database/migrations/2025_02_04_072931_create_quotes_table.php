@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('car');
             $table->integer('price');
-            $table->integer('tax_1');
-            $table->integer('tax_2');
-            $table->integer('tax_3');
-            $table->integer('tax_4');
+            $table->integer('tax_1')->default(0); // デフォルト値を 0 に設定
+            $table->integer('tax_2')->default(0);
+            $table->integer('tax_3')->default(0);
+            $table->integer('tax_4')->default(0);
             $table->integer('total');
             $table->timestamps();
 

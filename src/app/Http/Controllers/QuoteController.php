@@ -54,7 +54,8 @@ class QuoteController extends Controller
             'name' => 'required|max:255',
             'car' => 'required|max:255',
             'price' => 'required|integer',
-            'tax' => 'required|integer',
+            'tax_1' => 'required|integer',
+            'tax_2' => 'required|integer',
             'total' => 'required|integer',
         ]);
     
@@ -65,7 +66,8 @@ class QuoteController extends Controller
             'name' => $request->name,
             'car' => $request->car,
             'price' => $request->price,
-            'tax' => $request->tax,
+            'tax_1' => $request->tax_1,
+            'tax_2' => $request->tax_2,
             'total' => $request->total,
         ]);
     
@@ -137,7 +139,8 @@ class QuoteController extends Controller
             'name' => 'required|string|max:255',
             'car' => 'required|string|max:255',
             'price' => 'required|integer|min:0',
-            'tax' => 'required|integer|min:0',
+            'tax_1' => 'required|integer|min:0',
+            'tax_2' => 'required|integer|min:0',
             'total' => 'required|integer|min:0',
         ]);
     
@@ -153,7 +156,8 @@ class QuoteController extends Controller
             'name' => $request->name,
             'car' => $request->car,
             'price' => $request->price,
-            'tax' => $request->tax,
+            'tax_1' => $request->tax_1,
+            'tax_2' => $request->tax_2,
             'total' => $request->total,
         ]);
     
@@ -192,7 +196,8 @@ class QuoteController extends Controller
         $newQuote->name = $quote->name;
         $newQuote->car = $quote->car;
         $newQuote->price = $quote->price;
-        $newQuote->tax = $quote->tax;
+        $newQuote->tax_1 = $quote->tax_1;
+        $newQuote->tax_2 = $quote->tax_2;
         $newQuote->total = $quote->total;
         $newQuote->save();
     
@@ -209,7 +214,8 @@ class QuoteController extends Controller
         $name = $request->input('name');
         $car = $request->input('car');
         $price = $request->input('price');
-        $tax = $request->input('tax');
+        $tax_1 = $request->input('tax_1');
+        $tax_2 = $request->input('tax_2');
         $total = $request->input('total');
     
         // 現在日時を取得
@@ -220,7 +226,8 @@ class QuoteController extends Controller
             'name' => $name,
             'car' => $car,
             'price' => $price,
-            'tax' => $tax,
+            'tax_1' => $tax_1,
+            'tax_2' => $tax_2,
             'total' => $total,
             'date' => $date,
         ];
