@@ -180,58 +180,7 @@
 
 
 
-<script>
-// 合計を計算
-function calculateTotal() {
-    let price = document.getElementById('price').value;
-    let tax = Math.floor(price * 0.10); // 消費税10%
-    let total = parseInt(price) + tax;
 
-    document.getElementById('tax_1').value = isNaN(tax) ? 0 : tax;
-    document.getElementById('total').value = isNaN(total) ? 0 : total;
-}
-
-// ポップアップウインドウ操作
-function openPricePopup() {
-    document.getElementById('pricePopup').classList.remove('hidden');
-}
-
-function closePricePopup() {
-    document.getElementById('pricePopup').classList.add('hidden');
-}
-
-function selectPrice(price) {
-    document.getElementById('price').value = price;
-    calculateTotal(); // 価格選択時に税込価格も更新
-    closePricePopup(); // 価格選択後ポップアップを閉じる
-}
-
-
-// ポップアップウインドウ操作（自動車税）
-function openTaxPopup() {
-    document.getElementById('taxPopup').classList.remove('hidden');
-}
-
-function closeTaxPopup() {
-    document.getElementById('taxPopup').classList.add('hidden');
-}
-
-function selectTax(amount) {
-    document.getElementById('tax_2').value = amount;
-    closeTaxPopup(); // クリック後ポップアップを閉じる
-}
-
-//当月のみ背景色変更
-document.addEventListener("DOMContentLoaded", function () {
-    let currentMonth = new Date().getMonth() + 1; // 現在の月（1月 = 1, 2月 = 2, ...）
-    
-    // ヘッダーの月と一致する列の背景色を変更
-    document.querySelectorAll(`th[data-month="${currentMonth}"]`).forEach(th => {
-        th.classList.add("bg-yellow-300"); // 当月のヘッダーを黄色に
-    });
-
-});
-</script>
 
 
 <!-- 投稿一覧 -->
@@ -302,4 +251,72 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         </div>
     </div>
+
+
+    <script>
+// 合計を計算
+function calculateTotal() {
+    let price = document.getElementById('price').value;
+    let tax = Math.floor(price * 0.10); // 消費税10%
+    let total = parseInt(price) + tax;
+
+    document.getElementById('tax_1').value = isNaN(tax) ? 0 : tax;
+    document.getElementById('total').value = isNaN(total) ? 0 : total;
+}
+
+ ポップアップウインドウ操作
+function openPricePopup() {
+    document.getElementById('pricePopup').classList.remove('hidden');
+}
+
+function closePricePopup() {
+    document.getElementById('pricePopup').classList.add('hidden');
+}
+
+function selectPrice(price) {
+    document.getElementById('price').value = price;
+    calculateTotal(); // 価格選択時に税込価格も更新
+    closePricePopup(); // 価格選択後ポップアップを閉じる
+}
+
+
+// ポップアップウインドウ操作（自動車税）
+// ポップアップウインドウ操作（自動車税）
+function openTaxPopup() {
+    document.getElementById('taxPopup').classList.remove('hidden');
+    highlightCurrentMonth(); // ポップアップを開くときに当月をハイライト
+}
+
+function closeTaxPopup() {
+    document.getElementById('taxPopup').classList.add('hidden');
+}
+
+function selectTax(amount) {
+    document.getElementById('tax_2').value = amount;
+    closeTaxPopup(); // クリック後ポップアップを閉じる
+}
+
+function highlightCurrentMonth() {
+    // 現在の月を取得（1月 = 1, 2月 = 2, ..., 12月 = 12）
+    const currentMonth = new Date().getMonth() + 1;
+    
+    // すべてのthのハイライトをリセット
+    document.querySelectorAll('#taxPopup th[data-month]').forEach(th => {
+        th.classList.remove('bg-yellow-300', 'text-black');
+    });
+
+    // 該当するthにハイライトを適用
+    const currentTh = document.querySelector(`#taxPopup th[data-month="${currentMonth}"]`);
+    if (currentTh) {
+        currentTh.classList.add('bg-yellow-300', 'text-black');
+    }
+}
+
+
+
+
+
+</script>
+
+
 </x-app-layout>

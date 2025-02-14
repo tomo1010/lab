@@ -56,6 +56,8 @@ class QuoteController extends Controller
             'price' => 'required|integer',
             'tax_1' => 'required|integer',
             'tax_2' => 'required|integer',
+            'tax_3' => 'required|integer',
+            'tax_4' => 'required|integer',
             'total' => 'required|integer',
         ]);
     
@@ -68,6 +70,8 @@ class QuoteController extends Controller
             'price' => $request->price,
             'tax_1' => $request->tax_1,
             'tax_2' => $request->tax_2,
+            'tax_3' => $request->tax_3,
+            'tax_4' => $request->tax_4,
             'total' => $request->total,
         ]);
     
@@ -141,6 +145,8 @@ class QuoteController extends Controller
             'price' => 'required|integer|min:0',
             'tax_1' => 'required|integer|min:0',
             'tax_2' => 'required|integer|min:0',
+            'tax_3' => 'required|integer|min:0',
+            'tax_4' => 'required|integer|min:0',
             'total' => 'required|integer|min:0',
         ]);
     
@@ -198,6 +204,8 @@ class QuoteController extends Controller
         $newQuote->price = $quote->price;
         $newQuote->tax_1 = $quote->tax_1;
         $newQuote->tax_2 = $quote->tax_2;
+        $newQuote->tax_3 = $quote->tax_3;
+        $newQuote->tax_4 = $quote->tax_4;
         $newQuote->total = $quote->total;
         $newQuote->save();
     
@@ -228,6 +236,8 @@ class QuoteController extends Controller
             'price' => $price,
             'tax_1' => $tax_1,
             'tax_2' => $tax_2,
+            'tax_3' => $tax_3,
+            'tax_4' => $tax_4,
             'total' => $total,
             'date' => $date,
         ];
