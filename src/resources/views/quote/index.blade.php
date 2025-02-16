@@ -56,26 +56,25 @@
 
 <!-- ポップアップウィンドウ（自動車税月割表） -->
 <div class="mb-4">
-    <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
+    <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
         自動車税（月割）
         <!-- ポップアップアイコンボタン -->
-        <button type="button" onclick="openTaxPopup()" class="ml-2 text-gray-500 hover:text-gray-700">
+        <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
             </svg>
         </button>
     </label>
-    <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" required>
+    <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg">
 </div>
 
 <!-- ポップアップウィンドウ（自動車税月割表） -->
-<div id="taxPopup2" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+<div id="taxPopup1" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl overflow-auto max-h-full">
         <h2 class="text-lg font-semibold mb-4">自動車税（月割）</h2>
         <table class="w-full border-collapse">
         <thead>
     <tr>
-        <th class="border px-2 py-1">排気量</th>
         <th class="border px-2 py-1" data-month="4">4月</th>
         <th class="border px-2 py-1" data-month="5">5月</th>
         <th class="border px-2 py-1" data-month="6">6月</th>
@@ -89,39 +88,23 @@
         <th class="border px-2 py-1" data-month="2">2月</th>
     </tr>
 </thead>
-            <tbody>
-                <!-- 例: 661〜1000ccの行 -->
-                <tr>
-                    <td class="border px-2 py-1">661〜1000</td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(22900)">22,900円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(20800)">20,800円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(18700)">18,700円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(16600)">16,600円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(14500)">14,500円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(12500)">12,500円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(10400)">10,400円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(8300)">8,300円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(6200)">6,200円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(4100)">4,100円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(2000)">2,000円</button></td>
-                </tr>
-                <tr>
-                    <td class="border px-2 py-1">1001〜1500</td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(27900)">27,900円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(25400)">25,400円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(22800)">22,800円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(20300)">20,300円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(17700)">17,700円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(15200)">15,200円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(12700)">12,700円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(10100)">10,100円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(7600)">7,600円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(5000)">5,000円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(2500)">2,500円</button></td>
-                </tr>
-            </tbody>
+<tbody>
+    <tr>
+        <td class="border px-2 py-1"><button onclick="selectTax(40, 'tax_1')">4月 40円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(50, 'tax_1')">5月 50円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(60, 'tax_1')">6月 60円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(70, 'tax_1')">7月 70円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(80, 'tax_1')">8月 80円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(90, 'tax_1')">9月 90円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(100, 'tax_1')">10月 100円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(110, 'tax_1')">11月 110円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(120, 'tax_1')">12月 120円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(130, 'tax_1')">1月 10円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(140, 'tax_1')">2月 20円</button></td>
+    </tr>
+</tbody>
         </table>
-        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup()">閉じる</button>
+        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup('tax_1')">閉じる</button>
     </div>
 </div>
 
@@ -132,13 +115,13 @@
     <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
         自賠責保険（月割）
         <!-- ポップアップアイコンボタン -->
-        <button type="button" onclick="openTaxPopup()" class="ml-2 text-gray-500 hover:text-gray-700">
+        <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
             </svg>
         </button>
     </label>
-    <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" required>
+    <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg">
 </div>
 
 <!-- ポップアップウィンドウ（自賠責保険の月割表） -->
@@ -161,23 +144,25 @@
         <th class="border px-2 py-1" data-month="2">2月</th>
     </tr>
 </thead>
-            <tbody>
-                <tr>
-                    <td class="border px-2 py-1"><button onclick="selectTax(22900)">12,900円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(20800)">10,800円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(18700)">28,700円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(16600)">36,600円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(14500)">44,500円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(12500)">52,500円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(10400)">50,400円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(8300)">6,300円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(6200)">5,200円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(4100)">5,100円</button></td>
-                    <td class="border px-2 py-1"><button onclick="selectTax(2000)">4,000円</button></td>
-                </tr>
-            </tbody>
+<tbody>
+    <tr>
+        <td class="border px-2 py-1"><button onclick="selectTax(400, 'tax_3')">4月 400円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(500, 'tax_3')">5月 500円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(600, 'tax_3')">6月 600円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(700, 'tax_3')">7月 700円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(800, 'tax_3')">8月 800円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(900, 'tax_3')">9月 900円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(1000, 'tax_3')">10月 1000円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(1100, 'tax_3')">11月 1100円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(1200, 'tax_3')">12月 1200円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(1300, 'tax_3')">1月 100円</button></td>
+        <td class="border px-2 py-1"><button onclick="selectTax(1400, 'tax_3')">2月 200円</button></td>
+
+
+    </tr>
+</tbody>
         </table>
-        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup()">閉じる</button>
+        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup('tax_3')">閉じる</button>
     </div>
 </div>
 
@@ -187,8 +172,8 @@
 
     <!-- 消費税 -->
     <div class="mb-4">
-        <label for="tax_1" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
-        <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+        <label for="tax_0" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
+        <input type="number" name="tax_0" id="tax_0" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
     <!-- 合計 -->
@@ -299,29 +284,31 @@ function calculateTotal() {
     let tax = Math.floor(price * 0.10); // 消費税10%
     let total = parseInt(price) + tax;
 
-    document.getElementById('tax_1').value = isNaN(tax) ? 0 : tax;
+    document.getElementById('tax_0').value = isNaN(tax) ? 0 : tax;
     document.getElementById('total').value = isNaN(total) ? 0 : total;
 }
 
 
 // ポップアップウインドウ操作（税金）
 function openTaxPopup(taxType) {
-    const popupId = taxType === 'tax_2' ? 'taxPopup2' : 'taxPopup3';
+    const popupId = `taxPopup${taxType.replace('tax_', '')}`;
     document.getElementById(popupId).classList.remove('hidden');
     highlightCurrentMonth(popupId); // ポップアップを開くときに当月をハイライト    
-
 }
 
 function closeTaxPopup(taxType) {
-    const popupId = taxType === 'tax_2' ? 'taxPopup2' : 'taxPopup3';
+    const popupId = `taxPopup${taxType.replace('tax_', '')}`;
     document.getElementById(popupId).classList.add('hidden');
 }
 
 function selectTax(amount, taxType) {
-    const inputId = taxType === 'tax_2' ? 'tax_2' : 'tax_3';
+    const inputId = taxType;
     document.getElementById(inputId).value = amount;
     closeTaxPopup(taxType); // クリック後ポップアップを閉じる
 }
+
+
+
 
 function highlightCurrentMonth(popupId) {
     // 現在の月を取得（1月 = 1, 2月 = 2, ..., 12月 = 12）
@@ -337,6 +324,7 @@ function highlightCurrentMonth(popupId) {
     if (currentTh) {
         currentTh.classList.add('bg-yellow-300', 'text-black');
     }
+    
 }
 
 
