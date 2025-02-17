@@ -16,14 +16,109 @@ return new class extends Migration
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('car');
+            //ユーザ情報
+            $table->string('name')->nullable(); //お客様名
+            $table->string('post')->nullable(); //郵便番号
+            $table->string('address')->nullable(); //住所
+            $table->string('tell')->nullable(); //電話番号
+            //購入車種
+            $table->string('maker')->nullable(); //メーカー
+            $table->string('car')->nullable(); //車名
+            $table->string('grade')->nullable(); //グレード
+            $table->string('displacement')->nullable(); //排気量
+            $table->string('transmission')->nullable(); //ミッション
+            $table->string('color')->nullable(); //色
+            $table->string('drive')->nullable(); //駆動
+            $table->string('model')->nullable(); //型式
+            $table->string('number')->nullable(); //車台番号
+            $table->string('year')->nullable(); //年式
+            $table->string('inspection')->nullable(); //車検
+            $table->string('mileage')->nullable(); //走行距離
             $table->integer('price');
+
+            //税金
             $table->integer('tax_1')->default(0); // デフォルト値を 0 に設定
             $table->integer('tax_2')->default(0);
             $table->integer('tax_3')->default(0);
             $table->integer('tax_4')->default(0);
+            $table->integer('tax_5')->default(0);
+            $table->integer('tax_total')->default(0);
+            //オプション
+            $table->integer('option_1')->default(0);
+            $table->integer('option_2')->default(0);
+            $table->integer('option_3')->default(0);
+            $table->integer('option_4')->default(0);
+            $table->integer('option_5')->default(0);
+            $table->integer('option_6')->default(0);
+            $table->integer('option_7')->default(0);
+            $table->integer('option_8')->default(0);
+            $table->integer('option_9')->default(0);
+            $table->integer('option_10')->default(0);
+            $table->integer('option_11')->default(0);
+            $table->integer('option_12')->default(0);
+            $table->integer('option_13')->default(0);
+            $table->integer('option_14')->default(0);
+            $table->integer('option_15')->default(0);
+            $table->integer('option_16')->default(0);
+            $table->integer('option_17')->default(0);
+            $table->integer('option_18')->default(0);
+            $table->integer('option_19')->default(0);
+            $table->integer('option_20')->default(0);
+            $table->integer('option_total')->default(0);
+            //諸費用
+            $table->integer('overhead_1')->default(0);
+            $table->integer('overhead_2')->default(0);
+            $table->integer('overhead_3')->default(0);
+            $table->integer('overhead_4')->default(0);
+            $table->integer('overhead_5')->default(0);
+            $table->integer('overhead_6')->default(0);
+            $table->integer('overhead_7')->default(0);
+            $table->integer('overhead_8')->default(0);
+            $table->integer('overhead_9')->default(0);
+            $table->integer('overhead_10')->default(0);
+            $table->integer('overhead_11')->default(0);
+            $table->integer('overhead_12')->default(0);
+            $table->integer('overhead_13')->default(0);
+            $table->integer('overhead_14')->default(0);
+            $table->integer('overhead_15')->default(0);
+            $table->integer('overhead_total')->default(0);
+            //非課税　諸費用
+            $table->integer('exempt_1')->default(0);
+            $table->integer('exempt_2')->default(0);
+            $table->integer('exempt_3')->default(0);
+            $table->integer('exempt_4')->default(0);
+            $table->integer('exempt_5')->default(0);
+            $table->integer('exempt_total')->default(0);
+            //合計
+            $table->integer('subtotal');
             $table->integer('total');
+            //下取り
+            $table->string('trade_maker')->nullable(); //メーカー
+            $table->string('trade_car')->nullable(); //車名
+            $table->string('trade_grade')->nullable(); //下取りグレード
+            $table->string('trade_displacement')->nullable(); //排気量
+            $table->string('trade_transmission')->nullable(); //ミッション
+            $table->string('trade_color')->nullable(); //色
+            $table->string('trade_drive')->nullable(); //駆動
+            $table->string('trade_model')->nullable(); //型式
+            $table->string('trade_number')->nullable(); //車台番号
+            $table->string('trade_year')->nullable(); //年式
+            $table->string('trade_inspection')->nullable(); //車検
+            $table->string('trade_mileage')->nullable(); //走行距離
+            $table->integer('trade_price')->nullable();
+            
+            //支払い条件
+            $table->integer('payments')->nullable(); //支払い回数
+            $table->integer('first')->nullable(); //初回
+            $table->integer('second')->nullable(); //2回目以降
+            $table->integer('bonus')->nullable(); //ボーナス払い
+            $table->integer('months')->nullable(); //月数
+            $table->integer('residual')->nullable(); //残価設定
+            $table->integer('cash')->nullable(); //頭金
+            
+            //メモ
+            $table->string('memmo')->nullable(); //メモ
+
             $table->timestamps();
 
             // 外部キー制約
