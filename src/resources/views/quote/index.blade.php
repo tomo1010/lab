@@ -102,7 +102,6 @@
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
 
-
         <!-- 車輌価格 -->
         <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
             <div class="mb-4">
@@ -140,24 +139,10 @@
             <!-- 税金保険料の合計 -->
             <div class="mb-4">
                 <label for="tax_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-                <input type="number" name="tax_total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                <input type="number" name="tax_total" id="tax_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
             </div>
         </div>
         
-
-
-        <script>
-            function calculateTaxTotal() {
-                let tax1 = parseFloat(document.getElementById('tax_1').value) || 0;
-                let tax2 = parseFloat(document.getElementById('tax_2').value) || 0;
-                let tax3 = parseFloat(document.getElementById('tax_3').value) || 0;
-                let tax4 = parseFloat(document.getElementById('tax_4').value) || 0;
-                let tax5 = parseFloat(document.getElementById('tax_5').value) || 0;
-                
-                let total = tax1 + tax2 + tax3 + tax4 + tax5;
-                document.getElementById('total').value = total;
-            }
-        </script>
 
 
         <!-- 諸費用 -->
@@ -173,21 +158,10 @@
             <!-- 諸費用の合計 -->
             <div class="mb-4">
                 <label for="overhead_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-                <input type="number" name="overhead_total" id="overhead_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                <input type="number" name="overhead_total" id="overhead_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
             </div>
         </div>
 
-
-
-        <script>
-            function calculateOverheadTotal() {
-                let overhead1 = parseFloat(document.getElementById('overhead_1').value) || 0;
-                let overhead2 = parseFloat(document.getElementById('overhead_2').value) || 0;
-                
-                let total = overhead1 + overhead2;
-                document.getElementById('overhead_total').value = total;
-            }
-        </script>
 
 
 <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプションその他</h3>
@@ -230,42 +204,28 @@
         <div class="mb-4">
             <input type="number" name="option_5" id="option_5" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
+
+        <!-- オプション合計 -->
+        <div class="mb-4">
+            <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
+            <input type="number" name="option_total" id="option_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
+        </div>
     </div>
-
-<!-- オプション合計 -->
-<div class="mb-4">
-    <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-    <input type="number" name="option_total" id="option_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
-</div>
 </div>
 
 
 
-<script>
-    function calculateOptionTotal() {
-        let total = 0;
-        for (let i = 1; i <= 5; i++) {
-            total += parseFloat(document.getElementById(`option_${i}`).value) || 0;
-        }
-        document.getElementById('option_total').value = total;
-    }
-</script>
 
 
-
-
-
-    <!-- 消費税 -->
-    <div class="mb-4">
-        <label for="tax_0" class="block text-gray-700 font-semibold mb-1">消費税 (10%)</label>
-        <input type="number" name="tax_0" id="tax_0" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
-    </div>
-
-    <!-- 合計 -->
     <div class="mb-4">
         <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
+
+
+
+
+
 
     <div class="mb-4">
         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
@@ -370,17 +330,72 @@
     </div>
 
 
+
     <script>
-// 合計を計算
-function calculateTotal() {
-    let price = document.getElementById('price').value;
-    let tax = Math.floor(price * 0.10); // 消費税10%
-    let total = parseInt(price) + tax;
+        function calculateTaxTotal() {
+            let tax1 = parseFloat(document.getElementById('tax_1')?.value) || 0;
+            let tax2 = parseFloat(document.getElementById('tax_2')?.value) || 0;
+            let tax3 = parseFloat(document.getElementById('tax_3')?.value) || 0;
+            let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
+            let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
 
-    document.getElementById('tax_0').value = isNaN(tax) ? 0 : tax;
-    document.getElementById('total').value = isNaN(total) ? 0 : total;
-}
+            let tax_total = tax1 + tax2 + tax3 + tax4 + tax5;
+            document.getElementById('tax_total').value = tax_total;
+        }
 
+        function calculateOptionTotal() {
+            let option1 = parseFloat(document.getElementById('option_1')?.value) || 0;
+            let option2 = parseFloat(document.getElementById('option_2')?.value) || 0;
+            let option3 = parseFloat(document.getElementById('option_3')?.value) || 0;
+            let option4 = parseFloat(document.getElementById('option_4')?.value) || 0;
+            let option5 = parseFloat(document.getElementById('option_5')?.value) || 0;
+
+            let option_total = option1 + option2 + option3 + option4 + option5;
+            document.getElementById('option_total').value = option_total;
+        }
+
+        function calculateOverheadTotal() {
+            let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
+            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
+
+            let overhead_total = overhead1 + overhead2;
+            document.getElementById('overhead_total').value = overhead_total;
+        }
+
+        function calculateTotal() {
+            let price = parseFloat(document.getElementById('price')?.value) || 0;
+            let tax_total = parseFloat(document.getElementById('tax_total')?.value) || 0;
+            let overhead_total = parseFloat(document.getElementById('overhead_total')?.value) || 0;
+            let option_total = parseFloat(document.getElementById('option_total')?.value) || 0;
+
+            let total = price + tax_total + overhead_total + option_total;
+            document.getElementById('total').value = total;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_2', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
+            inputs.forEach(id => {
+                let element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', function () {
+                        if (id.startsWith('tax_')) {
+                            calculateTaxTotal();
+                        } else if (id.startsWith('overhead_')) {
+                            calculateOverheadTotal();
+                        } else if (id.startsWith('option_')) {
+                            calculateOptionTotal();
+                        }
+                        calculateTotal();
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
+<script>
 
 // ポップアップウインドウ操作（税金）
 function openTaxPopup(taxType) {
