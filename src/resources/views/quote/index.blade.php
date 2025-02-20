@@ -109,11 +109,8 @@
                 <label for="price" class="block text-gray-700 font-semibold mb-1">価格</label>
                 <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
             </div>
-            <div class="mb-4">
-                <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-                <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
-            </div>
         </div>
+
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
 
@@ -121,82 +118,138 @@
         <div class="mb-4 bg-green-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label>
-                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
-                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
-                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
-                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
-                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+            </div>
+
+            <!-- 税金保険料の合計 -->
+            <div class="mb-4">
+                <label for="tax_total" class="block text-gray-700 font-semibold mb-1">小計</label>
+                <input type="number" name="tax_total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
             </div>
         </div>
+        
+
+
+        <script>
+            function calculateTaxTotal() {
+                let tax1 = parseFloat(document.getElementById('tax_1').value) || 0;
+                let tax2 = parseFloat(document.getElementById('tax_2').value) || 0;
+                let tax3 = parseFloat(document.getElementById('tax_3').value) || 0;
+                let tax4 = parseFloat(document.getElementById('tax_4').value) || 0;
+                let tax5 = parseFloat(document.getElementById('tax_5').value) || 0;
+                
+                let total = tax1 + tax2 + tax3 + tax4 + tax5;
+                document.getElementById('total').value = total;
+            }
+        </script>
+
 
         <!-- 諸費用 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
-                <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
             <div class="mb-4">
                 <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
-                <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg">
+                <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
+            <!-- 諸費用の合計 -->
+            <div class="mb-4">
+                <label for="overhead_total" class="block text-gray-700 font-semibold mb-1">小計</label>
+                <input type="number" name="overhead_total" id="overhead_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
             </div>
         </div>
 
 
 
-        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプション</h3>
+        <script>
+            function calculateOverheadTotal() {
+                let overhead1 = parseFloat(document.getElementById('overhead_1').value) || 0;
+                let overhead2 = parseFloat(document.getElementById('overhead_2').value) || 0;
+                
+                let total = overhead1 + overhead2;
+                document.getElementById('overhead_total').value = total;
+            }
+        </script>
 
-        <!-- オプション -->
-        <div class="mb-4 bg-blue-200 p-6 rounded-lg">
-        <div class="grid grid-cols-2 gap-4">
-                <div class="mb-4">
-                    <label for="optionName_1" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="optionName_1" id="optionName_1" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 1">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="option_1" id="option_1" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
-                </div>
-                <div class="mb-4">
-                    <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="optionName_2" id="optionName_2" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 2">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="option_2" id="option_2" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
-                </div>
-                <div class="mb-4">
-                    <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="optionName_3" id="optionName_3" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 3">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="option_3" id="option_3" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
-                </div>
-                <div class="mb-4">
-                    <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="optionName_4" id="optionName_4" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 4">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="option_4" id="option_4" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
-                </div>
-                <div class="mb-4">
-                    <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="optionName_5" id="optionName_5" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 5">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="option_5" id="option_5" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
-                </div>
-            </div>
+
+<h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプションその他</h3>
+
+<!-- オプション -->
+<div class="mb-4 bg-blue-200 p-6 rounded-lg">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="mb-4">
+            <label for="optionName_1" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="optionName_1" id="optionName_1" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
+        <div class="mb-4">
+            <input type="number" name="option_1" id="option_1" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+        </div>
+        <div class="mb-4">
+            <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="optionName_2" id="optionName_2" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
+        </div>
+        <div class="mb-4">
+            <input type="number" name="option_2" id="option_2" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+        </div>
+        <div class="mb-4">
+            <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="optionName_3" id="optionName_3" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
+        </div>
+        <div class="mb-4">
+            <input type="number" name="option_3" id="option_3" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+        </div>
+        <div class="mb-4">
+            <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="optionName_4" id="optionName_4" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
+        </div>
+        <div class="mb-4">
+            <input type="number" name="option_4" id="option_4" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+        </div>
+        <div class="mb-4">
+            <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="optionName_5" id="optionName_5" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
+        </div>
+        <div class="mb-4">
+            <input type="number" name="option_5" id="option_5" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+        </div>
+    </div>
+
+<!-- オプション合計 -->
+<div class="mb-4">
+    <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
+    <input type="number" name="option_total" id="option_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+</div>
+</div>
+
+
+
+<script>
+    function calculateOptionTotal() {
+        let total = 0;
+        for (let i = 1; i <= 5; i++) {
+            total += parseFloat(document.getElementById(`option_${i}`).value) || 0;
+        }
+        document.getElementById('option_total').value = total;
+    }
+</script>
 
 
 
@@ -214,8 +267,16 @@
         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
+    <div class="mb-4">
+        <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
+        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" required>
+    </div>
 
-
+    <!-- 値引き -->
+    <div class="mb-4">
+        <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
+        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required>
+    </div>
 
     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
     <div class="flex space-x-2">
