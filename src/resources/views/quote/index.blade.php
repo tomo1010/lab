@@ -216,27 +216,30 @@
 
 
 
-
+    <!-- 車両コミコミ合計 -->
     <div class="mb-4">
         <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
-
-
-
-
-
+    <!-- 下取り -->
     <div class="mb-4">
         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" required>
+        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculatePayment()">
     </div>
 
     <!-- 値引き -->
     <div class="mb-4">
         <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required>
+        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required oninput="calculatePayment()">
     </div>
+
+    <!-- お支払い総額 -->
+    <div class="mb-4">
+        <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
+        <input type="number" name="payment" id="payment" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+    </div>
+
 
     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
     <div class="flex space-x-2">
@@ -390,6 +393,27 @@
                 }
             });
         });
+
+
+        function calculatePayment() {
+            let total = parseFloat(document.getElementById('total')?.value) || 0;
+            let trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
+            let discount = parseFloat(document.getElementById('discount')?.value) || 0;
+            
+            let payment = total - trade_price - discount;
+            document.getElementById('payment').value = payment;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputs = ['total', 'trade_price', 'discount'];
+            inputs.forEach(id => {
+                let element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculatePayment);
+                }
+            });
+        });
+
     </script>
 
 
