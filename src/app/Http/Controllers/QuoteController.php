@@ -212,35 +212,24 @@ class QuoteController extends Controller
         return redirect()->route('quote.index')->with('success', '投稿をコピーしました。');
     }
 
-
+    
     /**
      * PDF作成
      */
     public function createPdf(Request $request)
     {
         // フォームから送信されたデータを取得
-        $name = $request->input('name');
-        $car = $request->input('car');
-        $price = $request->input('price');
-        $tax_1 = $request->input('tax_1');
-        $tax_2 = $request->input('tax_2');
-        $total = $request->input('total');
+        $data = $request->only([
+            'name', 'post', 'address', 'tell',
+            'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection',
+            'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
+            'tax_total', 'overhead_1', 'overhead_2', 'overhead_total',
+            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
+            'total', 'trade_price', 'discount', 'payment'
+        ]);
     
         // 現在日時を取得
-        $date = now()->format('Y-m-d');
-    
-        // PDFデータを用意
-        $data = [
-            'name' => $name,
-            'car' => $car,
-            'price' => $price,
-            'tax_1' => $tax_1,
-            'tax_2' => $tax_2,
-            'tax_3' => $tax_3,
-            'tax_4' => $tax_4,
-            'total' => $total,
-            'date' => $date,
-        ];
+        $data['date'] = now()->format('Y-m-d');
     
         // Mpdf インスタンス作成
         $mpdf = new \Mpdf\Mpdf([
@@ -249,25 +238,26 @@ class QuoteController extends Controller
             'orientation' => 'P', // 縦向き
             'default_font' => 'ipag' // 日本語フォントを指定
         ]);
-
-
+    
         // 1ページ目
         $html1 = view('quote.template.one', $data)->render();
         $mpdf->WriteHTML($html1);
     
-        // 2ページ目を追加
-        $mpdf->AddPage();
-        $html2 = view('quote.template.one', $data)->render();
-        $mpdf->WriteHTML($html2);
+        //// 2ページ目を追加
+        //$mpdf->AddPage();
+        //$html2 = view('quote.template.two', $data)->render();
+        //$mpdf->WriteHTML($html2);
     
-        // 3ページ目を追加
-        $mpdf->AddPage();
-        $html3 = view('quote.template.one', $data)->render();
-        $mpdf->WriteHTML($html3);
+        //// 3ページ目を追加
+        //$mpdf->AddPage();
+        //$html3 = view('quote.template.three', $data)->render();
+        //$mpdf->WriteHTML($html3);
     
         // PDFをダウンロード
-        return $mpdf->Output("{$date}_{$name}_見積書.pdf", 'D');
+        return $mpdf->Output("{$data['date']}_{$data['name']}_見積書.pdf", 'D');
     }
+
+
     
 
 

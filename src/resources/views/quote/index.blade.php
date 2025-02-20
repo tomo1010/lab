@@ -39,7 +39,7 @@
         <div class="mb-4 bg-gray-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-semibold mb-1">お客様名</label>
-                <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg" required>
+                <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg">
             </div>
             <div class="mb-4">
                 <label for="post" class="block text-gray-700 font-semibold mb-1">郵便番号</label>
@@ -62,7 +62,7 @@
         <div class="mb-4 bg-blue-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="car" class="block text-gray-700 font-semibold mb-1">車名</label>
-                <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
+                <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg">
             </div>
             <div class="mb-4">
                 <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
@@ -225,13 +225,13 @@
     <!-- 下取り -->
     <div class="mb-4">
         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculatePayment()">
+        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
     </div>
 
     <!-- 値引き -->
     <div class="mb-4">
         <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required oninput="calculatePayment()">
+        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
     </div>
 
     <!-- お支払い総額 -->
