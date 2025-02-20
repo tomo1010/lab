@@ -32,8 +32,8 @@ return new class extends Migration
             $table->string('model')->nullable(); //型式
             $table->string('number')->nullable(); //車台番号
             $table->string('year')->nullable(); //年式
-            $table->string('inspection')->nullable(); //車検日
             $table->string('mileage')->nullable(); //走行距離
+            $table->string('inspection')->nullable(); //車検日
 
             //車輌価格
             $table->integer('price');
@@ -61,6 +61,28 @@ return new class extends Migration
             $table->integer('option_19')->default(0);
             $table->integer('option_20')->default(0);
             $table->integer('option_total')->default(0);
+
+            //オプション名称
+            $table->string('optionName_1')->default(0);
+            $table->string('optionName_2')->default(0);
+            $table->string('optionName_3')->default(0);
+            $table->string('optionName_4')->default(0);
+            $table->string('optionName_5')->default(0);
+            $table->string('optionName_6')->default(0);
+            $table->string('optionName_7')->default(0);
+            $table->string('optionName_8')->default(0);
+            $table->string('optionName_9')->default(0);
+            $table->string('optionName_10')->default(0);
+            $table->string('optionName_11')->default(0);
+            $table->string('optionName_12')->default(0);
+            $table->string('optionName_13')->default(0);
+            $table->string('optionName_14')->default(0);
+            $table->string('optionName_15')->default(0);
+            $table->string('optionName_16')->default(0);
+            $table->string('optionName_17')->default(0);
+            $table->string('optionName_18')->default(0);
+            $table->string('optionName_19')->default(0);
+            $table->string('optionName_20')->default(0);
 
             //税金・保険料
             $table->integer('tax_1')->default(0); //自動車税

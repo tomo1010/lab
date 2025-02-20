@@ -26,145 +26,177 @@
                 @auth
 
 
-<!-- 投稿フォーム -->
-<form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
-    @csrf
+    <!-- 投稿フォーム -->
+    <form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+        @csrf
 
-    <!-- アクションを指定するための hidden input -->
-    <input type="hidden" id="action" name="action" value="save">
+        <!-- アクションを指定するための hidden input -->
+        <input type="hidden" id="action" name="action" value="save">
 
-    <!-- 名前 -->
-    <div class="mb-4">
-        <label for="name" class="block text-gray-700 font-semibold mb-1">名前</label>
-        <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg" required>
-    </div>
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お客様情報</h3>
 
-    <!-- 車種 -->
-    <div class="mb-4">
-        <label for="car" class="block text-gray-700 font-semibold mb-1">車種</label>
-        <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
-    </div>
+        <!-- ユーザ情報 -->
+        <div class="mb-4 bg-gray-100 p-6 rounded-lg">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-semibold mb-1">お客様名</label>
+                <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label for="post" class="block text-gray-700 font-semibold mb-1">郵便番号</label>
+                <input type="text" name="post" id="post" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="address" class="block text-gray-700 font-semibold mb-1">住所</label>
+                <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="tell" class="block text-gray-700 font-semibold mb-1">電話番号</label>
+                <input type="text" name="tell" id="tell" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+        </div>
 
 
-        <!-- 価格 -->
-        <div class="mb-4">
-        <label for="price" class="block text-gray-700 font-semibold mb-1">価格</label>
-        <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
-    </div>
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
 
-
-
-<!-- ポップアップウィンドウ（自動車税月割表） -->
-<div class="mb-4">
-    <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-        自動車税（月割）
-        <!-- ポップアップアイコンボタン -->
-        <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
-            </svg>
-        </button>
-    </label>
-    <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg">
-</div>
-
-<!-- ポップアップウィンドウ（自動車税月割表） -->
-<div id="taxPopup1" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl overflow-auto max-h-full">
-        <h2 class="text-lg font-semibold mb-4">自動車税（月割）</h2>
-        <table class="w-full border-collapse">
-        <thead>
-    <tr>
-        <th class="border px-2 py-1" data-month="4">4月</th>
-        <th class="border px-2 py-1" data-month="5">5月</th>
-        <th class="border px-2 py-1" data-month="6">6月</th>
-        <th class="border px-2 py-1" data-month="7">7月</th>
-        <th class="border px-2 py-1" data-month="8">8月</th>
-        <th class="border px-2 py-1" data-month="9">9月</th>
-        <th class="border px-2 py-1" data-month="10">10月</th>
-        <th class="border px-2 py-1" data-month="11">11月</th>
-        <th class="border px-2 py-1" data-month="12">12月</th>
-        <th class="border px-2 py-1" data-month="1">1月</th>
-        <th class="border px-2 py-1" data-month="2">2月</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td class="border px-2 py-1"><button onclick="selectTax(40, 'tax_1')">4月 40円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(50, 'tax_1')">5月 50円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(60, 'tax_1')">6月 60円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(70, 'tax_1')">7月 70円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(80, 'tax_1')">8月 80円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(90, 'tax_1')">9月 90円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(100, 'tax_1')">10月 100円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(110, 'tax_1')">11月 110円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(120, 'tax_1')">12月 120円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(130, 'tax_1')">1月 10円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(140, 'tax_1')">2月 20円</button></td>
-    </tr>
-</tbody>
-        </table>
-        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup('tax_1')">閉じる</button>
-    </div>
-</div>
+        <!-- 購入車種 -->
+        <div class="mb-4 bg-blue-100 p-6 rounded-lg">
+            <div class="mb-4">
+                <label for="car" class="block text-gray-700 font-semibold mb-1">車名</label>
+                <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
+                <input type="text" name="grade" id="grade" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="displacement" class="block text-gray-700 font-semibold mb-1">排気量</label>
+                <input type="text" name="displacement" id="displacement" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+                <input type="text" name="transmission" id="transmission" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
+                <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+                <input type="text" name="drive" id="drive" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
+                <input type="text" name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
+                <input type="text" name="mileage" id="mileage" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="inspection" class="block text-gray-700 font-semibold mb-1">車検日</label>
+                <input type="text" name="inspection" id="inspection" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+        </div>
 
 
 
-<!-- ポップアップウィンドウ（自動車税月割表） -->
-<div class="mb-4">
-    <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
-        自賠責保険（月割）
-        <!-- ポップアップアイコンボタン -->
-        <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 11-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"/>
-            </svg>
-        </button>
-    </label>
-    <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg">
-</div>
-
-<!-- ポップアップウィンドウ（自賠責保険の月割表） -->
-<div id="taxPopup3" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl overflow-auto max-h-full">
-        <h2 class="text-lg font-semibold mb-4">自賠責保険（月割）</h2>
-        <table class="w-full border-collapse">
-        <thead>
-    <tr>
-        <th class="border px-2 py-1" data-month="4">4月</th>
-        <th class="border px-2 py-1" data-month="5">5月</th>
-        <th class="border px-2 py-1" data-month="6">6月</th>
-        <th class="border px-2 py-1" data-month="7">7月</th>
-        <th class="border px-2 py-1" data-month="8">8月</th>
-        <th class="border px-2 py-1" data-month="9">9月</th>
-        <th class="border px-2 py-1" data-month="10">10月</th>
-        <th class="border px-2 py-1" data-month="11">11月</th>
-        <th class="border px-2 py-1" data-month="12">12月</th>
-        <th class="border px-2 py-1" data-month="1">1月</th>
-        <th class="border px-2 py-1" data-month="2">2月</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td class="border px-2 py-1"><button onclick="selectTax(400, 'tax_3')">4月 400円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(500, 'tax_3')">5月 500円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(600, 'tax_3')">6月 600円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(700, 'tax_3')">7月 700円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(800, 'tax_3')">8月 800円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(900, 'tax_3')">9月 900円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(1000, 'tax_3')">10月 1000円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(1100, 'tax_3')">11月 1100円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(1200, 'tax_3')">12月 1200円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(1300, 'tax_3')">1月 100円</button></td>
-        <td class="border px-2 py-1"><button onclick="selectTax(1400, 'tax_3')">2月 200円</button></td>
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
 
 
-    </tr>
-</tbody>
-        </table>
-        <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup('tax_3')">閉じる</button>
-    </div>
-</div>
+        <!-- 車輌価格 -->
+        <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
+            <div class="mb-4">
+                <label for="price" class="block text-gray-700 font-semibold mb-1">価格</label>
+                <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+            </div>
+            <div class="mb-4">
+                <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
+                <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+            </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
+
+        <!-- 税金・保険料 -->
+        <div class="mb-4 bg-green-100 p-6 rounded-lg">
+            <div class="mb-4">
+                <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label>
+                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
+                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
+                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
+                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
+                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+        </div>
+
+        <!-- 諸費用 -->
+        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+            <div class="mb-4">
+                <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
+                <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
+                <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+        </div>
+
+
+
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプション</h3>
+
+        <!-- オプション -->
+        <div class="mb-4 bg-blue-200 p-6 rounded-lg">
+        <div class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label for="optionName_1" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="optionName_1" id="optionName_1" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 1">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="option_1" id="option_1" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
+                </div>
+                <div class="mb-4">
+                    <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="optionName_2" id="optionName_2" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 2">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="option_2" id="option_2" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
+                </div>
+                <div class="mb-4">
+                    <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="optionName_3" id="optionName_3" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 3">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="option_3" id="option_3" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
+                </div>
+                <div class="mb-4">
+                    <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="optionName_4" id="optionName_4" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 4">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="option_4" id="option_4" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
+                </div>
+                <div class="mb-4">
+                    <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="optionName_5" id="optionName_5" class="w-full px-4 py-2 border rounded-lg" placeholder="オプション 5">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="option_5" id="option_5" class="w-full px-4 py-2 border rounded-lg" placeholder="価格">
+                </div>
+            </div>
+        </div>
 
 
 
@@ -306,8 +338,6 @@ function selectTax(amount, taxType) {
     document.getElementById(inputId).value = amount;
     closeTaxPopup(taxType); // クリック後ポップアップを閉じる
 }
-
-
 
 
 function highlightCurrentMonth(popupId) {
