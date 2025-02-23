@@ -13,6 +13,7 @@ class TirecalcController extends Controller
 {
     public function index(Request $request)
     {
+        // test用コメント //
 
         $comment = $request->input('comment'); // $comment を受け取る
 
