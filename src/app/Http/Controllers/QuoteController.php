@@ -38,53 +38,123 @@ class QuoteController extends Controller
      */
     public function create()
     {
-;
+
     }
 
 
     /**
-     * 見積もりの作成
+     * 見積もりの保存
      */
     public function store(Request $request)
     {
         \Log::info('投稿処理開始');
-    
+//dd($request->user());
+
+//dd($request->user()->quotes()->get()); // 全レコード取得
         // バリデーション
         $request->validate([
             'name' => 'required|max:255',
+            'post' => 'nullable|max:10',
+            'address' => 'nullable|max:255',
+            'tell' => 'nullable|max:20',
             'car' => 'required|max:255',
+            'grade' => 'nullable|max:255',
+            'displacement' => 'nullable|max:255',
+            'transmission' => 'nullable|max:255',
+            'color' => 'nullable|max:255',
+            'drive' => 'nullable|max:255',
+            'year' => 'nullable|max:255',
+            'mileage' => 'nullable|max:255',
+            'inspection' => 'nullable|max:255',
             'price' => 'required|integer',
             'tax_1' => 'required|integer',
             'tax_2' => 'required|integer',
             'tax_3' => 'required|integer',
             'tax_4' => 'required|integer',
+            'tax_5' => 'nullable|integer',
+            'tax_total' => 'required|integer',
+            'overhead_1' => 'nullable|integer',
+            'overhead_2' => 'nullable|integer',
+            'overhead_total' => 'nullable|integer',
+            'option_1' => 'nullable|integer',
+            'option_2' => 'nullable|integer',
+            'option_3' => 'nullable|integer',
+            'option_4' => 'nullable|integer',
+            'option_5' => 'nullable|integer',
+            'option_total' => 'nullable|integer',
             'total' => 'required|integer',
+            'trade_price' => 'nullable|integer',
+            'discount' => 'nullable|integer',
+            'payment' => 'required|integer',
         ]);
     
         \Log::info('バリデーション通過', $request->all());
-    
+
+dd($request->user()->quotes());
+
         // 投稿を保存
-        $quote = $request->user()->quotes()->create([
+        $request->user()->quotes()->create([
+            //'user_id' => $request->user()->id, // 追加
+
+            // ユーザー情報
             'name' => $request->name,
+            'post' => $request->post,
+            'address' => $request->address,
+            'tell' => $request->tell,
+
+            // 車両情報
             'car' => $request->car,
+            'grade' => $request->grade,
+            'displacement' => $request->displacement,
+            'transmission' => $request->transmission,
+            'color' => $request->color,
+            'drive' => $request->drive,
+            'year' => $request->year,
+            'mileage' => $request->mileage,
+            'inspection' => $request->inspection,
+
+            // 車両価格
             'price' => $request->price,
+            'discount' => $request->discount,
+
+            // オプション
+            'option_1' => $request->option_1,
+            'option_2' => $request->option_2,
+            'option_3' => $request->option_3,
+            'option_4' => $request->option_4,
+            'option_5' => $request->option_5,
+            'option_total' => $request->option_total,
+
+            // 税金・保険料
             'tax_1' => $request->tax_1,
             'tax_2' => $request->tax_2,
             'tax_3' => $request->tax_3,
             'tax_4' => $request->tax_4,
+            'tax_5' => $request->tax_5,
+            'tax_total' => $request->tax_total,
+
+            // 諸費用
+            'overhead_1' => $request->overhead_1,
+            'overhead_2' => $request->overhead_2,
+            'overhead_total' => $request->overhead_total,
+
+            // 支払い総額
             'total' => $request->total,
+            'trade_price' => $request->trade_price,
+            'payment' => $request->payment,
         ]);
-    
+
+
         \Log::info('投稿データ作成成功');
     
-
-        // PDF作成をリクエストされた場合
-        if ($request->input('action') === 'pdf') {
-            return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
-        }
+        //// PDF作成をリクエストされた場合
+        //if ($request->input('action') === 'pdf') {
+        //    return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
+        //}
     
         return redirect()->route('quote.index')->with('success', '投稿が完了しました');
     }
+
     
     
 

@@ -37,7 +37,7 @@ return new class extends Migration
 
             //車輌価格
             $table->integer('price');
-            $table->integer('discount');
+            $table->integer('discount')->default(0);
 
             //オプション
             $table->integer('option_1')->default(0);
@@ -121,8 +121,8 @@ return new class extends Migration
             $table->integer('exempt_5')->default(0);
             $table->integer('exempt_total')->default(0);
             //合計
-            $table->integer('subtotal');
-            $table->integer('total');
+            $table->integer('subtotal')->default(0);
+            $table->integer('total')->default(0);
 
             //下取り
             $table->string('trade_maker')->nullable(); //メーカー

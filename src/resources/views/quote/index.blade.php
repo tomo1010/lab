@@ -241,8 +241,9 @@
     </div>
 
 
-    <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
-    <div class="flex space-x-2">
+
+  <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
+  <div class="flex space-x-2">
         <!-- 保存ボタン -->
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             onclick="document.getElementById('quoteForm').action='{{ route('quotes.store') }}'; document.getElementById('action').value='save';">
@@ -255,6 +256,7 @@
             PDF
         </button>
     </div>
+
 
 </form>
 
@@ -413,6 +415,20 @@
                 }
             });
         });
+
+
+        ////保存・PDFボタン処理
+        //function setFormAction(action) {
+        //const form = document.getElementById('quoteForm');
+        //if (action === 'save') {
+        //    form.action = "{{ route('quotes.store') }}";
+        //} else if (action === 'pdf') {
+        //    form.action = "{{ route('quotes.createPdf') }}";
+        //}
+        //document.getElementById('action').value = action;
+        //}
+
+
 
     </script>
 
