@@ -48,49 +48,49 @@ class QuoteController extends Controller
     public function store(Request $request)
     {
         \Log::info('投稿処理開始');
-//dd($request->user());
 
-//dd($request->user()->quotes()->get()); // 全レコード取得
         // バリデーション
-        $request->validate([
-            'name' => 'required|max:255',
-            'post' => 'nullable|max:10',
-            'address' => 'nullable|max:255',
-            'tell' => 'nullable|max:20',
-            'car' => 'required|max:255',
-            'grade' => 'nullable|max:255',
-            'displacement' => 'nullable|max:255',
-            'transmission' => 'nullable|max:255',
-            'color' => 'nullable|max:255',
-            'drive' => 'nullable|max:255',
-            'year' => 'nullable|max:255',
-            'mileage' => 'nullable|max:255',
-            'inspection' => 'nullable|max:255',
-            'price' => 'required|integer',
-            'tax_1' => 'required|integer',
-            'tax_2' => 'required|integer',
-            'tax_3' => 'required|integer',
-            'tax_4' => 'required|integer',
-            'tax_5' => 'nullable|integer',
-            'tax_total' => 'required|integer',
-            'overhead_1' => 'nullable|integer',
-            'overhead_2' => 'nullable|integer',
-            'overhead_total' => 'nullable|integer',
-            'option_1' => 'nullable|integer',
-            'option_2' => 'nullable|integer',
-            'option_3' => 'nullable|integer',
-            'option_4' => 'nullable|integer',
-            'option_5' => 'nullable|integer',
-            'option_total' => 'nullable|integer',
-            'total' => 'required|integer',
-            'trade_price' => 'nullable|integer',
-            'discount' => 'nullable|integer',
-            'payment' => 'required|integer',
-        ]);
+        //$request->validate([
+            //'name' => 'required|max:255',
+            //'post' => 'nullable|max:10',
+            //'address' => 'nullable|max:255',
+            //'tell' => 'nullable|max:20',
+            //'car' => 'required|max:255',
+            //'grade' => 'nullable|max:255',
+            //'displacement' => 'nullable|max:255',
+            //'transmission' => 'nullable|max:255',
+            //'color' => 'nullable|max:255',
+            //'drive' => 'nullable|max:255',
+            //'year' => 'nullable|max:255',
+            //'mileage' => 'nullable|max:255',
+            //'inspection' => 'nullable|max:255',
+            //'price' => 'required|integer',
+            //'tax_1' => 'required|integer',
+            //'tax_2' => 'required|integer',
+            //'tax_3' => 'required|integer',
+            //'tax_4' => 'required|integer',
+            //'tax_5' => 'nullable|integer',
+            //'tax_total' => 'required|integer',
+            //'overhead_1' => 'nullable|integer',
+            //'overhead_2' => 'nullable|integer',
+            //'overhead_total' => 'nullable|integer',
+            //'option_1' => 'nullable|integer',
+            //'option_2' => 'nullable|integer',
+            //'option_3' => 'nullable|integer',
+            //'option_4' => 'nullable|integer',
+            //'option_5' => 'nullable|integer',
+            //'option_total' => 'nullable|integer',
+            //'total' => 'required|integer',
+            //'trade_price' => 'nullable|integer',
+            //'discount' => 'nullable|integer',
+            //'payment' => 'required|integer',
+        //]);
     
-        \Log::info('バリデーション通過', $request->all());
+        //\Log::info('バリデーション通過', $request->all());
 
-dd($request->user()->quotes());
+//dd($request->user());
+//dd($request->all());
+
 
         // 投稿を保存
         $request->user()->quotes()->create([
@@ -115,33 +115,33 @@ dd($request->user()->quotes());
 
             // 車両価格
             'price' => $request->price,
-            'discount' => $request->discount,
 
             // オプション
-            'option_1' => $request->option_1,
-            'option_2' => $request->option_2,
-            'option_3' => $request->option_3,
-            'option_4' => $request->option_4,
-            'option_5' => $request->option_5,
-            'option_total' => $request->option_total,
+            'option_1' => $request->input('option_1') ?? '0',
+            'option_2' => $request->input('option_2') ?? '0',
+            'option_3' => $request->input('option_3') ?? '0',
+            'option_4' => $request->input('option_4') ?? '0',
+            'option_5' => $request->input('option_5') ?? '0',
+            'option_total' => $request->input('option_total') ?? '0',
 
             // 税金・保険料
-            'tax_1' => $request->tax_1,
-            'tax_2' => $request->tax_2,
-            'tax_3' => $request->tax_3,
-            'tax_4' => $request->tax_4,
-            'tax_5' => $request->tax_5,
-            'tax_total' => $request->tax_total,
+            'tax_1' => $request->input('tax_1') ?? '0',
+            'tax_2' => $request->input('tax_2') ?? '0',
+            'tax_3' => $request->input('tax_3') ?? '0',
+            'tax_4' => $request->input('tax_4') ?? '0',
+            'tax_5' => $request->input('tax_5') ?? '0',
+            'tax_total' => $request->input('tax_total') ?? '0',
 
             // 諸費用
-            'overhead_1' => $request->overhead_1,
-            'overhead_2' => $request->overhead_2,
-            'overhead_total' => $request->overhead_total,
+            'overhead_1' => $request->input('overhead_1') ?? '0',
+            'overhead_2' => $request->input('overhead_2') ?? '0',
+            'overhead_total' => $request->input('overhead_total') ?? '0',
 
             // 支払い総額
-            'total' => $request->total,
-            'trade_price' => $request->trade_price,
-            'payment' => $request->payment,
+            'total' => $request->input('total') ?? '0',
+            'trade_price' => $request->input('trade_price') ?? '0',
+            'discount' => $request->input('discount') ?? '0',
+            'payment' => $request->input('payment') ?? '0',
         ]);
 
 
@@ -297,41 +297,20 @@ dd($request->user()->quotes());
             'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
             'total', 'trade_price', 'discount', 'payment'
         ]);
+        
+        
     
         // 現在日時を取得
-        $data['date'] = now()->format('Y-m-d');
-    
-        // Mpdf インスタンス作成
-        $mpdf = new \Mpdf\Mpdf([
-            'mode' => 'ja+aCJK', // 日本語フォント組み込み
-            'format' => 'A4',
-            'orientation' => 'P', // 縦向き
-            'default_font' => 'ipag' // 日本語フォントを指定
-        ]);
-    
-        // 1ページ目
-        $html1 = view('quote.template.one', $data)->render();
-        $mpdf->WriteHTML($html1);
-    
-        //// 2ページ目を追加
-        //$mpdf->AddPage();
-        //$html2 = view('quote.template.two', $data)->render();
-        //$mpdf->WriteHTML($html2);
-    
-        //// 3ページ目を追加
-        //$mpdf->AddPage();
-        //$html3 = view('quote.template.three', $data)->render();
-        //$mpdf->WriteHTML($html3);
-    
-        // PDFをダウンロード
-        return $mpdf->Output("{$data['date']}_{$data['name']}_見積書.pdf", 'D');
+        $date['date'] = now()->format('Y-m-d');
+       
+        // PDF生成とビューにデータを渡す
+        $pdf = PDF::loadView('quote.createPdf', $data);
+       
+        // PDFをダウンロード（ファイル名を指定）
+        return $pdf->download('quote_' . $date['date'] . '.pdf');
     }
 
 
-    
-
-
-    
 
     
     

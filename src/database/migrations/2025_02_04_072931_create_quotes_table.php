@@ -137,16 +137,18 @@ return new class extends Migration
             $table->string('trade_year')->nullable(); //年式
             $table->string('trade_inspection')->nullable(); //車検
             $table->string('trade_mileage')->nullable(); //走行距離
-            $table->integer('trade_price')->nullable();
+            $table->integer('trade_price')->default(0);
             
             //支払い条件
-            $table->integer('payments')->nullable(); //支払い回数
-            $table->integer('first')->nullable(); //初回
-            $table->integer('second')->nullable(); //2回目以降
-            $table->integer('bonus')->nullable(); //ボーナス払い
-            $table->integer('months')->nullable(); //月数
-            $table->integer('residual')->nullable(); //残価設定
-            $table->integer('cash')->nullable(); //頭金
+            $table->integer('payments')->default(0); //支払い回数
+            $table->integer('first')->default(0); //初回
+            $table->integer('second')->default(0); //2回目以降
+            $table->integer('bonus')->default(0); //ボーナス払い
+            $table->integer('months')->default(0); //月数
+            $table->integer('residual')->default(0); //残価設定
+            $table->integer('cash')->default(0); //頭金
+
+            $table->integer('payment')->default(0); //最終支払い総額
             
             //メモ
             $table->string('memmo')->nullable(); //メモ
