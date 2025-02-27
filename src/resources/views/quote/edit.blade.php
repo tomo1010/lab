@@ -25,28 +25,6 @@
                     @csrf
                     @method('PUT')
 
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お客様情報</h3>
-
-                    <!-- ユーザ情報 -->
-                    <div class="mb-4 bg-gray-100 p-6 rounded-lg">
-                        <div class="mb-4">
-                            <label for="name" class="block text-gray-700 font-semibold mb-1">お客様名</label>
-                            <input type="text" name="name" id="name" value="{{ old('name', $quote->name) }}" class="w-full px-4 py-2 border rounded-lg">
-                        </div>
-                        <div class="mb-4">
-                            <label for="post" class="block text-gray-700 font-semibold mb-1">郵便番号</label>
-                            <input type="text" name="post" id="post" value="{{ old('post', $quote->post) }}" class="w-full px-4 py-2 border rounded-lg">
-                        </div>
-                        <div class="mb-4">
-                            <label for="address" class="block text-gray-700 font-semibold mb-1">住所</label>
-                            <input type="text" name="address" id="address" value="{{ old('address', $quote->address) }}" class="w-full px-4 py-2 border rounded-lg">
-                        </div>
-                        <div class="mb-4">
-                            <label for="tell" class="block text-gray-700 font-semibold mb-1">電話番号</label>
-                            <input type="text" name="tell" id="tell" value="{{ old('tell', $quote->tell) }}" class="w-full px-4 py-2 border rounded-lg">
-                        </div>
-                    </div>
-
 
                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
 

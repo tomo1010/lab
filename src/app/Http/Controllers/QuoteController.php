@@ -50,10 +50,6 @@ class QuoteController extends Controller
 
         // バリデーション
         $request->validate([
-            'name' => 'nullable|max:255',
-            'post' => 'nullable|max:10',
-            'address' => 'nullable|max:255',
-            'tell' => 'nullable|max:20',
             'car' => 'nullable|max:255',
             'grade' => 'nullable|max:255',
             'displacement' => 'nullable|max:255',
@@ -93,14 +89,6 @@ class QuoteController extends Controller
 //dd($request->optionName_1);
         // 投稿を保存
         $request->user()->quotes()->create([
-            //'user_id' => $request->user()->id, // 追加
-
-            // ユーザー情報
-            'name' => $request->name,
-            'post' => $request->post,
-            'address' => $request->address,
-            'tell' => $request->tell,
-
             // 車両情報
             'car' => $request->car,
             'grade' => $request->grade,
@@ -216,10 +204,6 @@ class QuoteController extends Controller
     {
         // バリデーション
         $request->validate([
-            'name' => 'nullable|max:255',
-            'post' => 'nullable|max:10',
-            'address' => 'nullable|max:255',
-            'tell' => 'nullable|max:20',
             'car' => 'nullable|max:255',
             'grade' => 'nullable|max:255',
             'displacement' => 'nullable|max:255',
@@ -265,11 +249,6 @@ class QuoteController extends Controller
     
         // 内容を更新
         $quote->update([
-            // ユーザー情報
-            'name' => $request->name,
-            'post' => $request->post,
-            'address' => $request->address,
-            'tell' => $request->tell,
 
             // 車両情報
             'car' => $request->car,
@@ -351,11 +330,7 @@ class QuoteController extends Controller
         // 認証済みユーザーの投稿として新しいレコードを作成
         $newQuote = new Quote();
         $newQuote->user_id = auth()->id();
-        // ユーザー情報
-        $newQuote->name = $quote->name;
-        $newQuote->post = $quote->post;
-        $newQuote->address = $quote->address;
-        $newQuote->tell = $quote->tell;
+
         // 車両情報
         $newQuote->car = $quote->car;
         $newQuote->grade = $quote->grade;
@@ -410,7 +385,6 @@ class QuoteController extends Controller
     {
         // フォームから送信されたデータを取得
         $data = $request->only([
-            'name', 'post', 'address', 'tell',
             'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
             'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
             'tax_total', 'overhead_1', 'overhead_2', 'overhead_total',
