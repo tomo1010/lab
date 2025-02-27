@@ -4,20 +4,33 @@
     <title>見積書</title>
     <style>
         body {
-            font-family: ipag, sans-serif;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        @page {
+            margin: 20px;
         }
         .container {
-            width: 90%;
-            margin: auto;
+            width: 100%;
+            padding: 10px;
         }
         .header {
-            font-size: 24px;
+            background-color: #d82c2c;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
         }
         .section {
             margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .flex {
+            display: flex;
+            justify-content: space-between;
         }
         .table {
             width: 100%;
@@ -25,17 +38,19 @@
             margin-top: 10px;
         }
         .table th, .table td {
-            border: 1px solid #000;
+            border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
         }
+        .table th {
+            background-color: #f4f4f4;
+        }
         .highlight {
-            font-weight: bold;
             color: red;
+            font-weight: bold;
         }
         .footer {
-            font-size: 12px;
-            text-align: right;
+            font-size: 10px;
             margin-top: 20px;
         }
     </style>
@@ -51,14 +66,14 @@
         </div>
 
         <div class="section">
-            <p><strong>車種:</strong> {{ $car }}</p>
-            <p><strong>排気量:</strong> {{ $displacement }}</p>
-            <p><strong>ミッション:</strong> {{ $transmission }}</p>
-            <p><strong>色:</strong> {{ $color }}</p>
-            <p><strong>駆動:</strong> {{ $drive }}</p>
-            <p><strong>年式:</strong> {{ $year }}</p>
-            <p><strong>走行距離:</strong> {{ $mileage }}</p>
-            <p><strong>車検日:</strong> {{ $inspection }}</p>
+            <p><strong>車種:</strong> {{ $car ?? '' }}</p>
+            <p><strong>排気量:</strong> {{ $displacement ?? '' }}</p>
+            <p><strong>ミッション:</strong> {{ $transmission ?? '' }}</p>
+            <p><strong>色:</strong> {{ $color ?? '' }}</p>
+            <p><strong>駆動:</strong> {{ $drive ?? '' }}</p>
+            <p><strong>年式:</strong> {{ $year ?? '' }}</p>
+            <p><strong>走行距離:</strong> {{ $mileage ?? '' }}</p>
+            <p><strong>車検日:</strong> {{ $inspection ?? '' }}</p>
         </div>
 
         <div class="section">
@@ -72,20 +87,20 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ number_format($price) }} 円</td>
-                        <td>{{ number_format($tax_total) }} 円</td>
-                        <td class="highlight">{{ number_format($total) }} 円</td>
+                        <td>{{ number_format($price ?? 0) }} 円</td>
+                        <td>{{ number_format($tax_total ?? 0) }} 円</td>
+                        <td class="highlight">{{ number_format($total ?? 0) }} 円</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
-            <p><strong>諸費用合計:</strong> {{ number_format($overhead_total) }} 円</p>
-            <p><strong>オプション合計:</strong> {{ number_format($option_total) }} 円</p>
-            <p><strong>下取り価格:</strong> {{ number_format($trade_price) }} 円</p>
-            <p><strong>値引き:</strong> {{ number_format($discount) }} 円</p>
-            <p><strong>お支払い総額:</strong> <span class="highlight">{{ number_format($payment) }} 円</span></p>
+            <p><strong>諸費用合計:</strong> {{ number_format($overhead_total ?? 0) }} 円</p>
+            <p><strong>オプション合計:</strong> {{ number_format($option_total ?? 0) }} 円</p>
+            <p><strong>下取り価格:</strong> {{ number_format($trade_price ?? 0) }} 円</p>
+            <p><strong>値引き:</strong> {{ number_format($discount ?? 0) }} 円</p>
+            <p><strong>お支払い総額:</strong> <span class="highlight">{{ number_format($payment ?? 0) }} 円</span></p>
         </div>
 
         <div class="footer">

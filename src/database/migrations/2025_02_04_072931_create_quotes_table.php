@@ -63,26 +63,26 @@ return new class extends Migration
             $table->integer('option_total')->default(0);
 
             //オプション名称
-            $table->string('optionName_1')->default(0);
-            $table->string('optionName_2')->default(0);
-            $table->string('optionName_3')->default(0);
-            $table->string('optionName_4')->default(0);
-            $table->string('optionName_5')->default(0);
-            $table->string('optionName_6')->default(0);
-            $table->string('optionName_7')->default(0);
-            $table->string('optionName_8')->default(0);
-            $table->string('optionName_9')->default(0);
-            $table->string('optionName_10')->default(0);
-            $table->string('optionName_11')->default(0);
-            $table->string('optionName_12')->default(0);
-            $table->string('optionName_13')->default(0);
-            $table->string('optionName_14')->default(0);
-            $table->string('optionName_15')->default(0);
-            $table->string('optionName_16')->default(0);
-            $table->string('optionName_17')->default(0);
-            $table->string('optionName_18')->default(0);
-            $table->string('optionName_19')->default(0);
-            $table->string('optionName_20')->default(0);
+            $table->string('optionName_1')->nullable();
+            $table->string('optionName_2')->nullable();
+            $table->string('optionName_3')->nullable();
+            $table->string('optionName_4')->nullable();
+            $table->string('optionName_5')->nullable();
+            $table->string('optionName_6')->nullable();
+            $table->string('optionName_7')->nullable();
+            $table->string('optionName_8')->nullable();
+            $table->string('optionName_9')->nullable();
+            $table->string('optionName_10')->nullable();
+            $table->string('optionName_11')->nullable();
+            $table->string('optionName_12')->nullable();
+            $table->string('optionName_13')->nullable();
+            $table->string('optionName_14')->nullable();
+            $table->string('optionName_15')->nullable();
+            $table->string('optionName_16')->nullable();
+            $table->string('optionName_17')->nullable();
+            $table->string('optionName_18')->nullable();
+            $table->string('optionName_19')->nullable();
+            $table->string('optionName_20')->nullable();
 
             //税金・保険料
             $table->integer('tax_1')->default(0); //自動車税

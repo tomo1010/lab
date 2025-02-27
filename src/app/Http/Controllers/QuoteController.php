@@ -47,51 +47,50 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info('投稿処理開始');
 
         // バリデーション
-        //$request->validate([
-            //'name' => 'required|max:255',
-            //'post' => 'nullable|max:10',
-            //'address' => 'nullable|max:255',
-            //'tell' => 'nullable|max:20',
-            //'car' => 'required|max:255',
-            //'grade' => 'nullable|max:255',
-            //'displacement' => 'nullable|max:255',
-            //'transmission' => 'nullable|max:255',
-            //'color' => 'nullable|max:255',
-            //'drive' => 'nullable|max:255',
-            //'year' => 'nullable|max:255',
-            //'mileage' => 'nullable|max:255',
-            //'inspection' => 'nullable|max:255',
-            //'price' => 'required|integer',
-            //'tax_1' => 'required|integer',
-            //'tax_2' => 'required|integer',
-            //'tax_3' => 'required|integer',
-            //'tax_4' => 'required|integer',
-            //'tax_5' => 'nullable|integer',
-            //'tax_total' => 'required|integer',
-            //'overhead_1' => 'nullable|integer',
-            //'overhead_2' => 'nullable|integer',
-            //'overhead_total' => 'nullable|integer',
-            //'option_1' => 'nullable|integer',
-            //'option_2' => 'nullable|integer',
-            //'option_3' => 'nullable|integer',
-            //'option_4' => 'nullable|integer',
-            //'option_5' => 'nullable|integer',
-            //'option_total' => 'nullable|integer',
-            //'total' => 'required|integer',
-            //'trade_price' => 'nullable|integer',
-            //'discount' => 'nullable|integer',
-            //'payment' => 'required|integer',
-        //]);
+        $request->validate([
+            'name' => 'nullable|max:255',
+            'post' => 'nullable|max:10',
+            'address' => 'nullable|max:255',
+            'tell' => 'nullable|max:20',
+            'car' => 'nullable|max:255',
+            'grade' => 'nullable|max:255',
+            'displacement' => 'nullable|max:255',
+            'transmission' => 'nullable|max:255',
+            'color' => 'nullable|max:255',
+            'drive' => 'nullable|max:255',
+            'year' => 'nullable|max:255',
+            'mileage' => 'nullable|max:255',
+            'inspection' => 'nullable|max:255',
+            'price' => 'required|integer',
+            'tax_1' => 'nullable|integer',
+            'tax_2' => 'nullable|integer',
+            'tax_3' => 'nullable|integer',
+            'tax_4' => 'nullable|integer',
+            'tax_5' => 'nullable|integer',
+            'tax_total' => 'nullable|integer',
+            'overhead_1' => 'nullable|integer',
+            'overhead_2' => 'nullable|integer',
+            'overhead_total' => 'nullable|integer',
+            'optionName_1' => 'nullable|max:255',
+            'optionName_2' => 'nullable|max:255',
+            'optionName_3' => 'nullable|max:255',
+            'optionName_4' => 'nullable|max:255',
+            'optionName_5' => 'nullable|max:255',
+            'option_1' => 'nullable|integer',
+            'option_2' => 'nullable|integer',
+            'option_3' => 'nullable|integer',
+            'option_4' => 'nullable|integer',
+            'option_5' => 'nullable|integer',
+            'option_total' => 'nullable|integer',
+            'total' => 'nullable|integer',
+            'trade_price' => 'nullable|integer',
+            'discount' => 'nullable|integer',
+            'payment' => 'nullable|integer',
+        ]);
     
-        //\Log::info('バリデーション通過', $request->all());
-
-//dd($request->user());
-//dd($request->all());
-
-
+//dd($request->optionName_1);
         // 投稿を保存
         $request->user()->quotes()->create([
             //'user_id' => $request->user()->id, // 追加
@@ -115,8 +114,15 @@ class QuoteController extends Controller
 
             // 車両価格
             'price' => $request->price,
-
+            
             // オプション
+            // オプションの名前
+            'optionName_1' => $request->optionName_1,
+            'optionName_2' => $request->optionName_2,
+            'optionName_3' => $request->optionName_3,
+            'optionName_4' => $request->optionName_4,
+            'optionName_5' => $request->optionName_5,
+            // オプションの価格
             'option_1' => $request->input('option_1') ?? '0',
             'option_2' => $request->input('option_2') ?? '0',
             'option_3' => $request->input('option_3') ?? '0',
@@ -144,7 +150,7 @@ class QuoteController extends Controller
             'payment' => $request->input('payment') ?? '0',
         ]);
 
-
+//dd($request->user()->quotes());
         \Log::info('投稿データ作成成功');
     
         //// PDF作成をリクエストされた場合
@@ -190,7 +196,7 @@ class QuoteController extends Controller
     public function edit($id)
     {
         $quote = Quote::findOrFail($id);
-
+//dd($quote);  
         // 投稿の所有者のみ編集可能
         if (\Auth::id() !== $quote->user_id) {
             return redirect()->route('quote.index')->with('error', '不正な操作です');
@@ -210,16 +216,46 @@ class QuoteController extends Controller
     {
         // バリデーション
         $request->validate([
-            'name' => 'required|string|max:255',
-            'car' => 'required|string|max:255',
-            'price' => 'required|integer|min:0',
-            'tax_1' => 'required|integer|min:0',
-            'tax_2' => 'required|integer|min:0',
-            'tax_3' => 'required|integer|min:0',
-            'tax_4' => 'required|integer|min:0',
-            'total' => 'required|integer|min:0',
+            'name' => 'nullable|max:255',
+            'post' => 'nullable|max:10',
+            'address' => 'nullable|max:255',
+            'tell' => 'nullable|max:20',
+            'car' => 'nullable|max:255',
+            'grade' => 'nullable|max:255',
+            'displacement' => 'nullable|max:255',
+            'transmission' => 'nullable|max:255',
+            'color' => 'nullable|max:255',
+            'drive' => 'nullable|max:255',
+            'year' => 'nullable|max:255',
+            'mileage' => 'nullable|max:255',
+            'inspection' => 'nullable|max:255',
+            'price' => 'required|integer',
+            'tax_1' => 'nullable|integer',
+            'tax_2' => 'nullable|integer',
+            'tax_3' => 'nullable|integer',
+            'tax_4' => 'nullable|integer',
+            'tax_5' => 'nullable|integer',
+            'tax_total' => 'nullable|integer',
+            'overhead_1' => 'nullable|integer',
+            'overhead_2' => 'nullable|integer',
+            'overhead_total' => 'nullable|integer',
+            'optionName_1' => 'nullable|max:255',
+            'optionName_2' => 'nullable|max:255',
+            'optionName_3' => 'nullable|max:255',
+            'optionName_4' => 'nullable|max:255',
+            'optionName_5' => 'nullable|max:255',
+            'option_1' => 'nullable|integer',
+            'option_2' => 'nullable|integer',
+            'option_3' => 'nullable|integer',
+            'option_4' => 'nullable|integer',
+            'option_5' => 'nullable|integer',
+            'option_total' => 'nullable|integer',
+            'total' => 'nullable|integer',
+            'trade_price' => 'nullable|integer',
+            'discount' => 'nullable|integer',
+            'payment' => 'nullable|integer',
         ]);
-    
+
         $quote = Quote::findOrFail($id);
     
         // 投稿の所有者のみ更新可能
@@ -229,12 +265,58 @@ class QuoteController extends Controller
     
         // 内容を更新
         $quote->update([
+            // ユーザー情報
             'name' => $request->name,
+            'post' => $request->post,
+            'address' => $request->address,
+            'tell' => $request->tell,
+
+            // 車両情報
             'car' => $request->car,
+            'grade' => $request->grade,
+            'displacement' => $request->displacement,
+            'transmission' => $request->transmission,
+            'color' => $request->color,
+            'drive' => $request->drive,
+            'year' => $request->year,
+            'mileage' => $request->mileage,
+            'inspection' => $request->inspection,
+
+            // 車両価格
             'price' => $request->price,
-            'tax_1' => $request->tax_1,
-            'tax_2' => $request->tax_2,
-            'total' => $request->total,
+
+            // オプション
+            // オプションの名前
+            'optionName_1' => $request->optionName_1,
+            'optionName_2' => $request->optionName_2,
+            'optionName_3' => $request->optionName_3,
+            'optionName_4' => $request->optionName_4,
+            'optionName_5' => $request->optionName_5,
+            'option_1' => $request->input('option_1') ?? '0',
+            'option_2' => $request->input('option_2') ?? '0',
+            'option_3' => $request->input('option_3') ?? '0',
+            'option_4' => $request->input('option_4') ?? '0',
+            'option_5' => $request->input('option_5') ?? '0',
+            'option_total' => $request->input('option_total') ?? '0',
+
+            // 税金・保険料
+            'tax_1' => $request->input('tax_1') ?? '0',
+            'tax_2' => $request->input('tax_2') ?? '0',
+            'tax_3' => $request->input('tax_3') ?? '0',
+            'tax_4' => $request->input('tax_4') ?? '0',
+            'tax_5' => $request->input('tax_5') ?? '0',
+            'tax_total' => $request->input('tax_total') ?? '0',
+
+            // 諸費用
+            'overhead_1' => $request->input('overhead_1') ?? '0',
+            'overhead_2' => $request->input('overhead_2') ?? '0',
+            'overhead_total' => $request->input('overhead_total') ?? '0',
+
+            // 支払い総額
+            'total' => $request->input('total') ?? '0',
+            'trade_price' => $request->input('trade_price') ?? '0',
+            'discount' => $request->input('discount') ?? '0',
+            'payment' => $request->input('payment') ?? '0',
         ]);
     
         return redirect()->route('quote.index')->with('success', '投稿を更新しました');
@@ -265,18 +347,56 @@ class QuoteController extends Controller
     {
         // コピー元の投稿を取得
         $quote = Quote::findOrFail($id);
-    
+        
         // 認証済みユーザーの投稿として新しいレコードを作成
         $newQuote = new Quote();
         $newQuote->user_id = auth()->id();
+        // ユーザー情報
         $newQuote->name = $quote->name;
+        $newQuote->post = $quote->post;
+        $newQuote->address = $quote->address;
+        $newQuote->tell = $quote->tell;
+        // 車両情報
         $newQuote->car = $quote->car;
+        $newQuote->grade = $quote->grade;
+        $newQuote->displacement = $quote->displacement;
+        $newQuote->transmission = $quote->transmission;
+        $newQuote->color = $quote->color;
+        $newQuote->drive = $quote->drive;
+        $newQuote->year = $quote->year;
+        $newQuote->mileage = $quote->mileage;
+        $newQuote->inspection = $quote->inspection;
+        // 車輌価格        
         $newQuote->price = $quote->price;
+        // オプション名称
+        $newQuote->optionName_1 = $quote->optionName_1;
+        $newQuote->optionName_2 = $quote->optionName_2;
+        $newQuote->optionName_3 = $quote->optionName_3;
+        $newQuote->optionName_4 = $quote->optionName_4;
+        $newQuote->optionName_5 = $quote->optionName_5;
+        // オプション
+        $newQuote->option_1 = $quote->option_1;
+        $newQuote->option_2 = $quote->option_2;
+        $newQuote->option_3 = $quote->option_3;
+        $newQuote->option_4 = $quote->option_4;
+        $newQuote->option_5 = $quote->option_5;
+        $newQuote->option_total = $quote->option_total;
+        // 税金・保険料
         $newQuote->tax_1 = $quote->tax_1;
         $newQuote->tax_2 = $quote->tax_2;
         $newQuote->tax_3 = $quote->tax_3;
         $newQuote->tax_4 = $quote->tax_4;
+        $newQuote->tax_5 = $quote->tax_5;
+        $newQuote->tax_total = $quote->tax_total;
+        // 諸費用
+        $newQuote->overhead_1 = $quote->overhead_1;
+        $newQuote->overhead_2 = $quote->overhead_2;        
+        $newQuote->overhead_total = $quote->overhead_total;
+        // 支払い総額
         $newQuote->total = $quote->total;
+        $newQuote->trade_price = $quote->trade_price;
+        $newQuote->discount = $quote->discount;
+        $newQuote->payment = $quote->payment;
         $newQuote->save();
     
         return redirect()->route('quote.index')->with('success', '投稿をコピーしました。');
@@ -291,7 +411,7 @@ class QuoteController extends Controller
         // フォームから送信されたデータを取得
         $data = $request->only([
             'name', 'post', 'address', 'tell',
-            'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection',
+            'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
             'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
             'tax_total', 'overhead_1', 'overhead_2', 'overhead_total',
             'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
@@ -306,8 +426,8 @@ class QuoteController extends Controller
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('quote.createPdf', $data);
        
-        // PDFをダウンロード（ファイル名を指定）
-        return $pdf->download('quote_' . $date['date'] . '.pdf');
+        // PDFをブラウザで表示
+        return $pdf->stream('quote_' . $date['date'] . '.pdf');
     }
 
 
