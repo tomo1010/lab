@@ -26,6 +26,7 @@
                     @method('PUT')
 
 
+
                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
 
                 <!-- 購入車種 -->
@@ -44,7 +45,10 @@
                     </div>
                     <div class="mb-4">
                         <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                        <input type="text" name="transmission" id="transmission" value="{{ old('transmission', $quote->transmission) }}" class="w-full px-4 py-2 border rounded-lg">
+                        <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
+                        <label for="transmission_at" class="mr-4">AT</label>
+                        <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
+                        <label for="transmission_mt">MT</label>
                     </div>
                     <div class="mb-4">
                         <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
@@ -189,6 +193,7 @@
                         <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
                         <input type="number" name="payment" id="payment" value="{{ old('payment', $quote->payment) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
                     </div>
+                </div>
 
                     <!-- ボタンエリア（更新 & キャンセル） -->
                     <div class="flex space-x-4">
@@ -201,20 +206,47 @@
                     </div>
                 </form>
 
-                <!-- PDF生成用フォーム (POSTメソッド) -->
+                <!--PDF生成用フォーム (POSTメソッド)-->
                 <form action="{{ route('quotes.createPdf') }}" method="POST" class="mt-4">
                     @csrf
-                    <input type="hidden" name="name" value="{{ $quote->name }}">
                     <input type="hidden" name="car" value="{{ $quote->car }}">
+                    <input type="hidden" name="grade" value="{{ $quote->grade }}">
+                    <input type="hidden" name="displacement" value="{{ $quote->displacement }}">
+                    <input type="hidden" name="transmission" value="{{ $quote->transmission }}">
+                    <input type="hidden" name="color" value="{{ $quote->color }}">
+                    <input type="hidden" name="drive" value="{{ $quote->drive }}">
+                    <input type="hidden" name="year" value="{{ $quote->year }}">
+                    <input type="hidden" name="mileage" value="{{ $quote->mileage }}">
+                    <input type="hidden" name="inspection" value="{{ $quote->inspection }}"> 
                     <input type="hidden" name="price" value="{{ $quote->price }}">
-                    <input type="hidden" name="tax" value="{{ $quote->tax }}">
+                    <input type="hidden" name="tax_1" value="{{ $quote->tax_1 }}">
+                    <input type="hidden" name="tax_2" value="{{ $quote->tax_2 }}">
+                    <input type="hidden" name="tax_3" value="{{ $quote->tax_3 }}">
+                    <input type="hidden" name="tax_4" value="{{ $quote->tax_4 }}">
+                    <input type="hidden" name="tax_5" value="{{ $quote->tax_5 }}">
+                    <input type="hidden" name="tax_total" value="{{ $quote->tax_total }}">
+                    <input type="hidden" name="overhead_1" value="{{ $quote->overhead_1 }}">
+                    <input type="hidden" name="overhead_2" value="{{ $quote->overhead_2 }}">
+                    <input type="hidden" name="overhead_total" value="{{ $quote->overhead_total }}">
+                    <input type="hidden" name="optionName_1" value="{{ $quote->optionName_1 }}">
+                    <input type="hidden" name="option_1" value="{{ $quote->option_1 }}">
+                    <input type="hidden" name="optionName_2" value="{{ $quote->optionName_2 }}">
+                    <input type="hidden" name="option_2" value="{{ $quote->option_2 }}">
+                    <input type="hidden" name="optionName_3" value="{{ $quote->optionName_3 }}">
+                    <input type="hidden" name="option_3" value="{{ $quote->option_3 }}">
+                    <input type="hidden" name="optionName_4" value="{{ $quote->optionName_4 }}">
+                    <input type="hidden" name="option_4" value="{{ $quote->option_4 }}">
+                    <input type="hidden" name="optionName_5" value="{{ $quote->optionName_5 }}">
+                    <input type="hidden" name="option_5" value="{{ $quote->option_5 }}">
+                    <input type="hidden" name="option_total" value="{{ $quote->option_total }}">
                     <input type="hidden" name="total" value="{{ $quote->total }}">
-
+                    <input type="hidden" name="trade_price" value="{{ $quote->trade_price }}">
+                    <input type="hidden" name="discount" value="{{ $quote->discount }}">
+                    <input type="hidden" name="payment" value="{{ $quote->payment }}">
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                         PDF
                     </button>
                 </form>
-
             </div>
         </div>
     </div>

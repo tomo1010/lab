@@ -30,10 +30,6 @@
     <form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
         @csrf
 
-        <!-- アクションを指定するための hidden input -->
-        <input type="hidden" id="action" name="action" value="save">
-
-
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
 
@@ -53,7 +49,12 @@
             </div>
             <div class="mb-4">
                 <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                <input type="text" name="transmission" id="transmission" class="w-full px-4 py-2 border rounded-lg">
+                <div class="flex items-center">
+                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2" checked>
+                    <label for="transmission_at" class="mr-4">AT</label>
+                    <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
+                    <label for="transmission_mt">MT</label>
+                </div>
             </div>
             <div class="mb-4">
                 <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
@@ -251,7 +252,7 @@
         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
             <!-- 名前・車名・更新日時 -->
             <div>
-                <span class="text-lg font-semibold">{{ $quote->name }} {{ $quote->car }}</span>
+                <span class="text-lg font-semibold">{{ $quote->car }}</span>
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
