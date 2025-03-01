@@ -241,11 +241,16 @@
 </form>
 
 
+</div>
+        </div>
+    
 
 
 
-
-<!-- 投稿一覧 -->
+<!-- 見積もり一覧 -->
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">見積もり一覧</h2>
 @if(isset($quotes) && $quotes->count())
 <ul class="mt-6 space-y-4">
     @foreach ($quotes as $quote)

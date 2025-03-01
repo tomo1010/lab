@@ -193,10 +193,9 @@
                         <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
                         <input type="number" name="payment" id="payment" value="{{ old('payment', $quote->payment) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
                     </div>
-                </div>
 
                     <!-- ボタンエリア（更新 & キャンセル） -->
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-2">
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                             更新
                         </button>
@@ -249,14 +248,14 @@
                 </form>
             </div>
         </div>
-    </div>
+    
 
 
 
-    <!-- 投稿一覧 -->
+    <!-- 見積もり一覧 -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">投稿一覧</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">見積もり一覧</h2>
 
             @if(isset($quotes) && $quotes->count())
                 <ul class="mt-6 space-y-4">

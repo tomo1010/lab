@@ -138,7 +138,6 @@ class QuoteController extends Controller
             'payment' => $request->input('payment') ?? '0',
         ]);
 
-//dd($request->user()->quotes());
         \Log::info('投稿データ作成成功');
     
         //// PDF作成をリクエストされた場合
