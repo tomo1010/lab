@@ -395,6 +395,7 @@ class QuoteController extends Controller
     
         // 現在日時を取得
         $date['date'] = now()->format('Y-m-d');
+        $data['date'] = $date['date'];
        
         // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('quote.createPdf', $data);

@@ -48,6 +48,10 @@
                 <input type="text" name="displacement" id="displacement" class="w-full px-4 py-2 border rounded-lg">
             </div>
             <div class="mb-4">
+                <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
+                <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
                 <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
                 <div class="flex items-center">
                     <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2" checked>
@@ -57,12 +61,13 @@
                 </div>
             </div>
             <div class="mb-4">
-                <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
-                <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
-            </div>
-            <div class="mb-4">
                 <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                <input type="text" name="drive" id="drive" class="w-full px-4 py-2 border rounded-lg">
+                <div class="flex items-center">
+                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2" checked>
+                    <label for="drive_2wd" class="mr-4">2WD</label>
+                    <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
+                    <label for="drive_4wd">4WD</label>
+                </div>
             </div>
             <div class="mb-4">
                 <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
@@ -257,7 +262,7 @@
         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
             <!-- 名前・車名・更新日時 -->
             <div>
-                <span class="text-lg font-semibold">{{ $quote->car }}</span>
+                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->total }}円</span>
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 

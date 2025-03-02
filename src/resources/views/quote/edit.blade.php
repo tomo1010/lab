@@ -44,6 +44,10 @@
                         <input type="text" name="displacement" id="displacement" value="{{ old('displacement', $quote->displacement) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                     <div class="mb-4">
+                        <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
+                        <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div class="mb-4">
                         <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
                         <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
                         <label for="transmission_at" class="mr-4">AT</label>
@@ -51,12 +55,11 @@
                         <label for="transmission_mt">MT</label>
                     </div>
                     <div class="mb-4">
-                        <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
-                        <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
-                    </div>
-                    <div class="mb-4">
                         <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                        <input type="text" name="drive" id="drive" value="{{ old('drive', $quote->drive) }}" class="w-full px-4 py-2 border rounded-lg">
+                        <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
+                        <label for="drive_2wd" class="mr-4">2WD</label>
+                        <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
+                        <label for="drive_4wd">4WD</label>
                     </div>
                     <div class="mb-4">
                         <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
@@ -263,7 +266,7 @@
                         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
                             <!-- 名前・車名・更新日時 -->
                             <div>
-                                <span class="text-lg font-semibold">{{ $quote->name }} {{ $quote->car }}</span>
+                                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->total }}円</span>
                                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
                             </div>
 
