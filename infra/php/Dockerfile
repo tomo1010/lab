@@ -7,7 +7,14 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 # Composer のインストール
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
-# パッケージの更新 & 必要なパッケージをインストール
+# Node.js の公式リポジトリを追加し、LTS バージョンをインストール
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# PHP の必要パッケージをインストール
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
@@ -16,9 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libonig-dev \
     freetype-dev \
     libjpeg-turbo-dev \
-    libpng-dev \
-    nodejs \
-    npm && \
+    libpng-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-install intl pdo_mysql zip bcmath && \
