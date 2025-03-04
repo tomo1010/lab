@@ -14,15 +14,15 @@ RUN apt-get update && apt-get install -y curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# PHP の必要パッケージをインストール
+# 必要なパッケージをインストール
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
     libzip-dev \
     libicu-dev \
     libonig-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
+    libfreetype6-dev \  # Alpine の `freetype-dev` に相当
+    libjpeg62-turbo-dev \  # Alpine の `libjpeg-turbo-dev` に相当
     libpng-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
