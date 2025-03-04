@@ -21,8 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     libicu-dev \
     libonig-dev \
-    libfreetype6-dev \  # Alpine の `freetype-dev` に相当
-    libjpeg62-turbo-dev \  # Alpine の `libjpeg-turbo-dev` に相当
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     libpng-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
