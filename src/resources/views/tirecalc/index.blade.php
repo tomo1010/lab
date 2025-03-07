@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>タイヤ代の計算機・見積りサイト</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2NF4MSEC7B"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2NF4MSEC7B');
-</script>
-
-<body class="bg-gray-100 p-5">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            タイヤ計算機
+        </h2>
+    </x-slot>
 
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
@@ -740,3 +725,5 @@ function clearWagesSettings() {
 }
 
 </script>
+
+</x-app-layout>
