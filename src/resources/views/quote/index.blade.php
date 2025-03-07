@@ -54,7 +54,7 @@
             <div class="mb-4">
                 <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
                 <div class="flex items-center">
-                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2" checked>
+                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
                     <label for="transmission_at" class="mr-4">AT</label>
                     <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
                     <label for="transmission_mt">MT</label>
@@ -63,7 +63,7 @@
             <div class="mb-4">
                 <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
                 <div class="flex items-center">
-                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2" checked>
+                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
                     <label for="drive_2wd" class="mr-4">2WD</label>
                     <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
                     <label for="drive_4wd">4WD</label>

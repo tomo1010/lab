@@ -84,7 +84,7 @@ return new class extends Migration
             $table->string('optionName_19')->nullable();
             $table->string('optionName_20')->nullable();
 
-            //税金・保険料
+            //税金・保険料など
             $table->integer('tax_1')->default(0); //自動車税
             $table->integer('tax_2')->default(0); //重量税
             $table->integer('tax_3')->default(0); //自賠責保険
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->integer('tax_9')->default(0); 
             $table->integer('tax_10')->default(0); 
             $table->integer('tax_total')->default(0);
-            //諸費用
+            //販売諸費用
             $table->integer('overhead_1')->default(0); //登録費用
             $table->integer('overhead_2')->default(0); //車庫証明
             $table->integer('overhead_3')->default(0); //リサイクル資金管理
