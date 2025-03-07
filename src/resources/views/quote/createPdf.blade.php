@@ -5,60 +5,62 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 14px;
-            margin: 20px;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
             background-color: #f8f8f8;
         }
+        @page {
+            margin: 20px;
+        }
         .container {
-            width: 80%;
-            margin: auto;
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .header {
-            font-size: 24px;
+            background-color: #d82c2c;
+            color: white;
+            padding: 12px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: red;
-            color: #fff;
             border-radius: 4px;
         }
         .section {
             margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .flex {
+            display: flex;
+            justify-content: space-between;
         }
         .table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            background: #fff;
         }
         .table th, .table td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
         }
         .table th {
-            background: #ccc;
-            color: black;
+            background-color: #f4f4f4;
         }
         .highlight {
             font-weight: bold;
             color: red;
         }
-        .price-large {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
         .footer {
-            font-size: 12px;
-            text-align: right;
+            font-size: 10px;
             margin-top: 20px;
-            color: #666;
+            text-align: right;
         }
         .details-table td {
             padding: 6px 12px;
@@ -71,7 +73,13 @@
 <body>
     <div class="container">
         <div class="header">御見積書</div>
-        <div style="text-align: right;"><strong>発行日:</strong> {{ $date }}</div>
+        <div class="section flex">
+
+            <div style="text-align: right;">
+                <strong>発行日:</strong> {{ $date }}
+            </div>
+        </div>
+
         <div class="section">
             <table class="table details-table">
                 <tbody>
@@ -87,6 +95,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="section">
             <table class="table details-table">
                 <tr>
@@ -95,7 +104,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">車輌本体価格①（消費税込み）</td>
-                    <td  style="text-align: right;">{{ number_format($price ?? 0) }} 円</td>
+                    <td style="text-align: right;">{{ number_format($price ?? 0) }} 円</td>
                 </tr>
                 <tr>
                     <td class="narrow-column" rowspan="5">諸費用②</td>
@@ -141,7 +150,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">総 合 計（①＋②＋③）</td>
-                    <td class="price-large highlight" style="text-align: right;">{{ number_format($total ?? 0) }} 円</td>
+                    <td class="highlight" style="text-align: right;">{{ number_format($total ?? 0) }} 円</td>
                 </tr>
             </table>
         </div>
@@ -149,33 +158,24 @@
         <div class="section">
             <table class="table details-table">
                 <tbody>
-                <tr>
-                    <td>下取り</td>
-                    <td style="text-align: right;">{{ number_format($trade_price ?? 0) }} 円</td>
-                </tr>
-                <tr>
-                    <td>値引き</td>
-                    <td style="text-align: right;">{{ number_format($discount ?? 0) }} 円</td>
-                </tr>
-                <tr>
-                    <td>お支払い合計</td>
-                    <td class="price-large highlight" style="text-align: right;">{{ number_format($payment ?? 0) }} 円</td> 
-                </tr>
+                    <tr>
+                        <td>下取り</td>
+                        <td style="text-align: right;">{{ number_format($trade_price ?? 0) }} 円</td>
+                    </tr>
+                    <tr>
+                        <td>値引き</td>
+                        <td style="text-align: right;">{{ number_format($discount ?? 0) }} 円</td>
+                    </tr>
+                    <tr>
+                        <td>お支払い合計</td>
+                        <td class="highlight" style="text-align: right;">{{ number_format($payment ?? 0) }} 円</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
-            <table class="table details-table">
-                <tbody>
-                    <tr>
-                        <th>メモ</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <strong>備考:</strong>
         </div>
 
         <div class="footer">
