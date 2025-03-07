@@ -1,4 +1,4 @@
-<nav class="bg-white border-b border-gray-100">
+<nav class="bg-white border-b border-gray-100" x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -17,7 +17,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
-                        見積もり作成
+                        見積もり
                     </x-nav-link>
 
                     <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
@@ -27,8 +27,8 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6 relative" x-data="{ dropdownOpen: false }">
-                <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 relative">
+                <button @click="open = !open" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                     <div>
                         @auth
                             {{ Auth::user()->name }}
@@ -45,7 +45,7 @@
                 </button>
 
                 <!-- ドロップダウンメニュー -->
-                <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
+                <div x-show="open" @click.away="open = false"
                      x-transition:enter="transition ease-out duration-100"
                      x-transition:enter-start="transform opacity-0 scale-95"
                      x-transition:enter-end="transform opacity-100 scale-100"
@@ -80,39 +80,14 @@
                 </div>
             </div>
 
-            <!-- Hamburger Menu -->
-            <div class="-mr-2 flex items-center sm:hidden" x-data="{ menuOpen: false }">
-                <button @click="menuOpen = !menuOpen" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+            <!-- Hamburger -->
+            <div class="-mr-2 flex items-center sm:hidden">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <!-- 開いていないときはハンバーガーアイコン -->
-                        <path :class="{'hidden': menuOpen, 'inline-flex': !menuOpen }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <!-- 開いているときは❌（閉じるアイコン） -->
-                        <path :class="{'hidden': !menuOpen, 'inline-flex': menuOpen }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12-12" />
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-
-                <!-- メニュー項目 -->
-                <div x-show="menuOpen" @click.away="menuOpen = false"
-                     x-transition:enter="transition ease-out duration-100"
-                     x-transition:enter-start="transform opacity-0 scale-95"
-                     x-transition:enter-end="transform opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75"
-                     x-transition:leave-start="transform opacity-100 scale-100"
-                     x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute top-16 right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2"
-                     style="display: none;">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
-                        見積もり作成
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
-                        タイヤ計算機
-                    </x-nav-link>
-                </div>
             </div>
         </div>
     </div>
