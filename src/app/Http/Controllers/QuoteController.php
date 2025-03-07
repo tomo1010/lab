@@ -382,7 +382,7 @@ class QuoteController extends Controller
      */
     public function createPdf(Request $request)
     {
-//dd($request);
+
         // フォームから送信されたデータを取得
         $data = $request->only([
             'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 

@@ -99,33 +99,28 @@
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
 
         <!-- 税金・保険料 -->
-        <div class="mb-4 bg-green-100 p-6 rounded-lg">
+        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label>
-                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
-                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
-                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
-                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
             <div class="mb-4">
                 <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
-                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg" oninput="calculateTaxTotal()">
+                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
 
-            <!-- 税金保険料の合計 -->
-            <div class="mb-4">
-                <label for="tax_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-                <input type="number" name="tax_total" id="tax_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
-            </div>
         </div>
         
 
@@ -140,14 +135,15 @@
                 <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
                 <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
-            <!-- 諸費用の合計 -->
+        </div>
+
+        <!-- 税金と諸費用の合計 -->            
+        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
             <div class="mb-4">
                 <label for="overhead_total" class="block text-gray-700 font-semibold mb-1">小計</label>
                 <input type="number" name="overhead_total" id="overhead_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
             </div>
         </div>
-
-
 
 <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプションその他</h3>
 
@@ -327,17 +323,21 @@
 
 
     <script>
-        function calculateTaxTotal() {
+        // 諸費用の合計
+        function calculateOverheadTotal() {
             let tax1 = parseFloat(document.getElementById('tax_1')?.value) || 0;
             let tax2 = parseFloat(document.getElementById('tax_2')?.value) || 0;
             let tax3 = parseFloat(document.getElementById('tax_3')?.value) || 0;
             let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
             let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
+            let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
+            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
 
-            let tax_total = tax1 + tax2 + tax3 + tax4 + tax5;
-            document.getElementById('tax_total').value = tax_total;
+            let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead2;
+            document.getElementById('overhead_total').value = overhead_total;
         }
 
+        // オプションの合計
         function calculateOptionTotal() {
             let option1 = parseFloat(document.getElementById('option_1')?.value) || 0;
             let option2 = parseFloat(document.getElementById('option_2')?.value) || 0;
@@ -349,22 +349,17 @@
             document.getElementById('option_total').value = option_total;
         }
 
-        function calculateOverheadTotal() {
-            let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
-            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
 
-            let overhead_total = overhead1 + overhead2;
-            document.getElementById('overhead_total').value = overhead_total;
-        }
-
-        function calculateTotal() {
+        // 合計金額
+       function calculateTotal() {
             let price = parseFloat(document.getElementById('price')?.value) || 0;
-            let tax_total = parseFloat(document.getElementById('tax_total')?.value) || 0;
             let overhead_total = parseFloat(document.getElementById('overhead_total')?.value) || 0;
             let option_total = parseFloat(document.getElementById('option_total')?.value) || 0;
 
-            let total = price + tax_total + overhead_total + option_total;
+            let total = price + overhead_total + option_total;
             document.getElementById('total').value = total;
+
+            calculateTaxOverheadTotal();
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -373,9 +368,7 @@
                 let element = document.getElementById(id);
                 if (element) {
                     element.addEventListener('input', function () {
-                        if (id.startsWith('tax_')) {
-                            calculateTaxTotal();
-                        } else if (id.startsWith('overhead_')) {
+                        if (id.startsWith('overhead_')) {
                             calculateOverheadTotal();
                         } else if (id.startsWith('option_')) {
                             calculateOptionTotal();
