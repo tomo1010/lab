@@ -500,6 +500,10 @@
 
 
 
+
+
+
+
 <script>
 function updateCalculation() {
     calculateProduct(1);
