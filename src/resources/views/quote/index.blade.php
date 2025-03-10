@@ -132,9 +132,18 @@
                 <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
                 <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
-            <div class="mb-4">
+            <!--<div class="mb-4">
                 <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
                 <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>-->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="テキスト入力">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOverheadTotal()">
+                </div>
             </div>
         </div>
 
@@ -336,9 +345,9 @@
             let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
             let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
             let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
-            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
+            let overhead11 = parseFloat(document.getElementById('overhead_11')?.value) || 0;
 
-            let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead2;
+            let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead11;
             document.getElementById('overhead_total').value = overhead_total;
         }
 
@@ -368,7 +377,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_2', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
             inputs.forEach(id => {
                 let element = document.getElementById(id);
                 if (element) {

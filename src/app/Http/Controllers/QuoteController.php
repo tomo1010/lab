@@ -68,7 +68,9 @@ class QuoteController extends Controller
             'tax_total' => 'nullable|integer',
             'overhead_1' => 'nullable|integer',
             'overhead_2' => 'nullable|integer',
-            'overhead_total' => 'nullable|integer',
+            'overhead_11' => 'nullable|integer',
+            'overheadName_11' => 'nullable|integer',
+            'overhead_total' => 'nullable|max:255',
             'optionName_1' => 'nullable|max:255',
             'optionName_2' => 'nullable|max:255',
             'optionName_3' => 'nullable|max:255',
@@ -102,8 +104,22 @@ class QuoteController extends Controller
 
             // 車両価格
             'price' => $request->price,
-            
-            // オプション
+
+            // 税金・保険料
+            'tax_1' => $request->input('tax_1') ?? '0',
+            'tax_2' => $request->input('tax_2') ?? '0',
+            'tax_3' => $request->input('tax_3') ?? '0',
+            'tax_4' => $request->input('tax_4') ?? '0',
+            'tax_5' => $request->input('tax_5') ?? '0',
+            'tax_total' => $request->input('tax_total') ?? '0',
+
+            // 諸費用
+            'overhead_1' => $request->input('overhead_1') ?? '0',
+            'overhead_2' => $request->input('overhead_2') ?? '0',
+            'overheadName_11' => $request->input('overheadName_11'),
+            'overhead_11' => $request->input('overhead_11') ?? '0',
+            'overhead_total' => $request->input('overhead_total') ?? '0',
+
             // オプションの名前
             'optionName_1' => $request->optionName_1,
             'optionName_2' => $request->optionName_2,
@@ -117,19 +133,6 @@ class QuoteController extends Controller
             'option_4' => $request->input('option_4') ?? '0',
             'option_5' => $request->input('option_5') ?? '0',
             'option_total' => $request->input('option_total') ?? '0',
-
-            // 税金・保険料
-            'tax_1' => $request->input('tax_1') ?? '0',
-            'tax_2' => $request->input('tax_2') ?? '0',
-            'tax_3' => $request->input('tax_3') ?? '0',
-            'tax_4' => $request->input('tax_4') ?? '0',
-            'tax_5' => $request->input('tax_5') ?? '0',
-            'tax_total' => $request->input('tax_total') ?? '0',
-
-            // 諸費用
-            'overhead_1' => $request->input('overhead_1') ?? '0',
-            'overhead_2' => $request->input('overhead_2') ?? '0',
-            'overhead_total' => $request->input('overhead_total') ?? '0',
 
             // 支払い総額
             'total' => $request->input('total') ?? '0',
