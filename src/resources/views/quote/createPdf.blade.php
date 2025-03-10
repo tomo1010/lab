@@ -59,6 +59,9 @@
         .narrow-column {
             width: 80px;
         }
+        .align-left {
+            text-align: left !important;
+        }
     </style>
 </head>
 <body>
@@ -92,32 +95,44 @@
                 <th>金額</th>
             </tr>
             <tr>
-                <td colspan="2">車輌本体価格①（消費税込み）</td>
+                <td colspan="2">車輌本体価格①（消費税込）</td>
                 <td style="text-align: right;">{{ number_format($price ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td class="narrow-column" rowspan="5">諸費用②</td>
-                <td>自動車税（月割）</td>
+                <td class="narrow-column" rowspan="8">諸費用②</td>
+                <td class="align-left">自動車税（月割）</td>
                 <td style="text-align: right;">{{ number_format($tax_1 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td>重量税</td>
+                <td class="align-left">重量税</td>
                 <td style="text-align: right;">{{ number_format($tax_2 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td>自賠責保険料</td>
+                <td class="align-left">自賠責保険料</td>
                 <td style="text-align: right;">{{ number_format($tax_3 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td>リサイクル預託金</td>
+                <td class="align-left">環境性能割</td>
+                <td style="text-align: right;">{{ number_format($tax_4 ?? 0) }} 円</td>
+            </tr>
+            <tr>
+                <td class="align-left">リサイクル預託金</td>
                 <td style="text-align: right;">{{ number_format($tax_5 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td>登録費用</td>
+                <td class="align-left">登録費用</td>
                 <td style="text-align: right;">{{ number_format($overhead_1 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td class="narrow-column" rowspan="5">オプションその他③</td>
+                <td class="align-left">車庫証明</td>
+                <td style="text-align: right;">{{ number_format($overhead_2 ?? 0) }} 円</td>
+            </tr>
+            <tr>
+                <td>小計②</td>
+                <td style="text-align: right;">{{ number_format($overhead_total ?? 0) }} 円</td>
+            </tr>
+            <tr>
+                <td class="narrow-column" rowspan="6">オプションその他</td>
                 <td>{{ $optionName_1 ?? '' }}</td>
                 <td style="text-align: right;">{{ number_format($option_1 ?? 0) }} 円</td>
             </tr>
@@ -136,6 +151,10 @@
             <tr>
                 <td>{{ $optionName_5 ?? '' }}</td>
                 <td style="text-align: right;">{{ number_format($option_5 ?? 0) }} 円</td>
+            </tr>
+            <tr>
+                <td>小計③</td>
+                <td style="text-align: right;">{{ number_format($option_total ?? 0) }} 円</td>
             </tr>
             <tr>
                 <td colspan="2">総 合 計（①＋②＋③）</td>

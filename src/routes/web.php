@@ -122,7 +122,11 @@ PDF印刷
 /*
 見積もり
 */
-Route::get('quote', [QuoteController::class, 'index'])->name('quote.index');
+//Route::get('quote', [QuoteController::class, 'index'])->name('quote.index');
+Route::get('quote', [QuoteController::class, 'index'])
+    ->name('quote.index')
+    ->withoutMiddleware('auth');
+
 Route::middleware('auth')->group(function () {
     Route::resource('quotes', QuoteController::class)->only(['store', 'destroy', 'edit', 'update']);
 });

@@ -22,8 +22,7 @@
                     </div>
                 @endif
 
-                <!-- ログイン済みユーザーのみ表示 -->
-                @auth
+
 
 
     <!-- 投稿フォーム -->
@@ -54,7 +53,7 @@
             <div class="mb-4">
                 <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
                 <div class="flex items-center">
-                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
+                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2" checked>
                     <label for="transmission_at" class="mr-4">AT</label>
                     <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
                     <label for="transmission_mt">MT</label>
@@ -63,7 +62,7 @@
             <div class="mb-4">
                 <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
                 <div class="flex items-center">
-                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
+                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2" checked>
                     <label for="drive_2wd" class="mr-4">2WD</label>
                     <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
                     <label for="drive_4wd">4WD</label>
@@ -247,7 +246,8 @@
     
 
 
-
+                <!-- ログイン済みユーザーのみ表示 -->
+                <!--@auth-->
 <!-- 見積もり一覧 -->
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -301,10 +301,13 @@
                     @else
                         <p class="mt-6 text-gray-500">投稿はありません。</p>
                     @endif
+
+
+
                 @endauth
 
                 <!-- 未ログインユーザー向けの表示 -->
-                @guest
+                <!--@guest
                     <p class="text-center mt-4 text-gray-700">投稿を見るにはログインしてください。</p>
                     <div class="text-center mt-4">
                         <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
@@ -314,7 +317,7 @@
                             新規登録
                         </a>
                     </div>
-                @endguest
+                @endguest-->
 
             </div>
         </div>
