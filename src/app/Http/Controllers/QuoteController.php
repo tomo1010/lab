@@ -69,8 +69,8 @@ class QuoteController extends Controller
             'overhead_1' => 'nullable|integer',
             'overhead_2' => 'nullable|integer',
             'overhead_11' => 'nullable|integer',
-            'overheadName_11' => 'nullable|integer',
-            'overhead_total' => 'nullable|max:255',
+            'overheadName_11' => 'nullable|max:255',
+            'overhead_total' => 'nullable|integer',
             'optionName_1' => 'nullable|max:255',
             'optionName_2' => 'nullable|max:255',
             'optionName_3' => 'nullable|max:255',
@@ -116,7 +116,7 @@ class QuoteController extends Controller
             // 諸費用
             'overhead_1' => $request->input('overhead_1') ?? '0',
             'overhead_2' => $request->input('overhead_2') ?? '0',
-            'overheadName_11' => $request->input('overheadName_11'),
+            'overheadName_11' => $request->overheadName_11,
             'overhead_11' => $request->input('overhead_11') ?? '0',
             'overhead_total' => $request->input('overhead_total') ?? '0',
 

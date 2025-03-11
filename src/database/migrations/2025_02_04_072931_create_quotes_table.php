@@ -72,11 +72,11 @@ return new class extends Migration
             $table->integer('overhead_15')->default(0);
             $table->integer('overhead_total')->default(0);
             //諸費用名称
-            $table->string('overheadName_11')->default(0); 
-            $table->string('overheadName_12')->default(0);
-            $table->string('overheadName_13')->default(0);
-            $table->string('overheadName_14')->default(0);
-            $table->string('overheadName_15')->default(0);
+            $table->string('overheadName_11')->nullable(); 
+            $table->string('overheadName_12')->nullable();
+            $table->string('overheadName_13')->nullable();
+            $table->string('overheadName_14')->nullable();
+            $table->string('overheadName_15')->nullable();
             //非課税　諸費用
             $table->integer('exempt_1')->default(0); //車庫証明証紙
             $table->integer('exempt_2')->default(0); //検査登録届出

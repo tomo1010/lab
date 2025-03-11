@@ -128,18 +128,17 @@
 
         <!-- 諸費用 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-            <div class="mb-4">
-                <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
-                <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-            </div>
-            <!--<div class="mb-4">
-                <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
-                <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-            </div>-->
             <div class="grid grid-cols-2 gap-4">
                 <div class="mb-4">
+                    <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                </div>
+                <div class="mb-4">
                     <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="テキスト入力">
+                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
                 </div>
                 <div class="mb-4">
                     <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOverheadTotal()">
@@ -376,6 +375,7 @@
             calculateTaxOverheadTotal();
         }
 
+
         document.addEventListener("DOMContentLoaded", function () {
             let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
             inputs.forEach(id => {
@@ -394,6 +394,7 @@
         });
 
 
+        // 支払い総額
         function calculatePayment() {
             let total = parseFloat(document.getElementById('total')?.value) || 0;
             let trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
@@ -402,7 +403,8 @@
             let payment = total - trade_price - discount;
             document.getElementById('payment').value = payment;
         }
-
+       
+        
         document.addEventListener("DOMContentLoaded", function () {
             let inputs = ['total', 'trade_price', 'discount'];
             inputs.forEach(id => {
