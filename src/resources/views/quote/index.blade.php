@@ -131,7 +131,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
+                    <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
                 </div>
                 <div class="mb-4">
                     <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -141,7 +141,7 @@
                     <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
                 </div>
                 <div class="mb-4">
-                    <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOverheadTotal()">
+                    <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
                 </div>
             </div>
         </div>
@@ -230,6 +230,11 @@
         <input type="number" name="payment" id="payment" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
+    <!-- メモ -->
+    <!--<div class="mb-4">
+        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+        <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
+    </div>-->
 
 
   <!-- ボタンエリア（保存 & PDFボタンを横並び） -->

@@ -390,7 +390,8 @@ class QuoteController extends Controller
         $data = $request->only([
             'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
             'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
-            'tax_total', 'overhead_1', 'overhead_2', 'overhead_total',
+            'tax_total', 'overhead_1', 'overhead_11', 'overhead_total',
+            'overheadName_11',
             'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
             'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
             'subtotal', 'total', 'trade_price', 'discount', 'payment'

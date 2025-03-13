@@ -124,8 +124,8 @@
                 <td style="text-align: right;">{{ number_format($overhead_1 ?? 0) }} 円</td>
             </tr>
             <tr>
-                <td class="align-left">車庫証明</td>
-                <td style="text-align: right;">{{ number_format($overhead_2 ?? 0) }} 円</td>
+                <td class="align-left">{{ $overheadName_11 ?? '' }}</td>
+                <td style="text-align: right;">{{ number_format($overhead_11 ?? 0) }} 円</td>
             </tr>
             <tr>
                 <td>小計②</td>
@@ -163,24 +163,26 @@
         </table>
     </div>
 
-    <div class="section">
-        <table class="table details-table">
-            <tbody>
-                <tr>
-                    <td>下取り</td>
-                    <td style="text-align: right;">{{ number_format($trade_price ?? 0) }} 円</td>
-                </tr>
-                <tr>
-                    <td>値引き</td>
-                    <td style="text-align: right;">{{ number_format($discount ?? 0) }} 円</td>
-                </tr>
-                <tr>
-                    <td>お支払い合計</td>
-                    <td class="highlight" style="text-align: right;">{{ number_format($payment ?? 0) }} 円</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    @if($payment ?? 0 > 0)
+        <div class="section">
+            <table class="table details-table">
+                <tbody>
+                    <tr>
+                        <td>下取り</td>
+                        <td style="text-align: right;">{{ number_format($trade_price ?? 0) }} 円</td>
+                    </tr>
+                    <tr>
+                        <td>値引き</td>
+                        <td style="text-align: right;">{{ number_format($discount ?? 0) }} 円</td>
+                    </tr>
+                    <tr>
+                        <td>お支払い合計</td>
+                        <td class="highlight" style="text-align: right;">{{ number_format($payment ?? 0) }} 円</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    @endif
 
     <div class="section">
         <strong>備考:</strong>

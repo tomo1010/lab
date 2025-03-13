@@ -164,7 +164,7 @@ return new class extends Migration
             
 
             //メモ
-            $table->string('memmo')->nullable(); //メモ
+            $table->string('memo')->nullable(); //メモ
 
             $table->timestamps();
             // 外部キー制約
