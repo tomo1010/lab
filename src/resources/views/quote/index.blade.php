@@ -22,8 +22,7 @@
                     </div>
                 @endif
 
-                <!-- ログイン済みユーザーのみ表示 -->
-                @auth
+
 
 
     <!-- 投稿フォーム -->
@@ -51,22 +50,24 @@
                 <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
                 <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
             </div>
-            <div class="mb-4">
-                <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                <div class="flex items-center">
-                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
-                    <label for="transmission_at" class="mr-4">AT</label>
-                    <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
-                    <label for="transmission_mt">MT</label>
+            <div class="mb-4 flex space-x-8">
+                <div>
+                    <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+                    <div class="flex items-center">
+                        <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
+                        <label for="transmission_at" class="mr-4">AT</label>
+                        <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
+                        <label for="transmission_mt">MT</label>
+                    </div>
                 </div>
-            </div>
-            <div class="mb-4">
-                <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                <div class="flex items-center">
-                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
-                    <label for="drive_2wd" class="mr-4">2WD</label>
-                    <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
-                    <label for="drive_4wd">4WD</label>
+                <div>
+                    <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+                    <div class="flex items-center">
+                        <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
+                        <label for="drive_2wd" class="mr-4">2WD</label>
+                        <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
+                        <label for="drive_4wd">4WD</label>
+                    </div>
                 </div>
             </div>
             <div class="mb-4">
@@ -127,13 +128,21 @@
 
         <!-- 諸費用 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-            <div class="mb-4">
-                <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
-                <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-            </div>
-            <div class="mb-4">
-                <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
-                <input type="number" name="overhead_2" id="overhead_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                </div>
+                <div class="mb-4">
+                    <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
+                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
+                </div>
+                <div class="mb-4">
+                    <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                </div>
             </div>
         </div>
 
@@ -221,6 +230,11 @@
         <input type="number" name="payment" id="payment" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
+    <!-- メモ -->
+    <!--<div class="mb-4">
+        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+        <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
+    </div>-->
 
 
   <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
@@ -247,7 +261,8 @@
     
 
 
-
+                <!-- ログイン済みユーザーのみ表示 -->
+                <!--@auth-->
 <!-- 見積もり一覧 -->
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -301,10 +316,13 @@
                     @else
                         <p class="mt-6 text-gray-500">投稿はありません。</p>
                     @endif
+
+
+
                 @endauth
 
                 <!-- 未ログインユーザー向けの表示 -->
-                @guest
+                <!--@guest
                     <p class="text-center mt-4 text-gray-700">投稿を見るにはログインしてください。</p>
                     <div class="text-center mt-4">
                         <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
@@ -314,7 +332,7 @@
                             新規登録
                         </a>
                     </div>
-                @endguest
+                @endguest-->
 
             </div>
         </div>
@@ -331,9 +349,9 @@
             let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
             let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
             let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
-            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
+            let overhead11 = parseFloat(document.getElementById('overhead_11')?.value) || 0;
 
-            let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead2;
+            let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead11;
             document.getElementById('overhead_total').value = overhead_total;
         }
 
@@ -362,8 +380,9 @@
             calculateTaxOverheadTotal();
         }
 
+
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_2', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
             inputs.forEach(id => {
                 let element = document.getElementById(id);
                 if (element) {
@@ -380,6 +399,7 @@
         });
 
 
+        // 支払い総額
         function calculatePayment() {
             let total = parseFloat(document.getElementById('total')?.value) || 0;
             let trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
@@ -388,7 +408,8 @@
             let payment = total - trade_price - discount;
             document.getElementById('payment').value = payment;
         }
-
+       
+        
         document.addEventListener("DOMContentLoaded", function () {
             let inputs = ['total', 'trade_price', 'discount'];
             inputs.forEach(id => {
