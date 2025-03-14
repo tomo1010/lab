@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            投稿を編集
+            見積もり編集
         </h2>
     </x-slot>
 
@@ -27,7 +27,7 @@
 
 
 
-               <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
+                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
 
                 <!-- 購入車種 -->
                 <div class="mb-4 bg-blue-100 p-6 rounded-lg">
@@ -75,6 +75,8 @@
                     </div>
                 </div>
 
+
+                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
                 <!-- 車輌価格 -->
                 <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
                     <div class="mb-4">
@@ -82,6 +84,9 @@
                         <input type="number" name="price" id="price" value="{{ old('price', $quote->price) }}" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
                     </div>
                 </div>
+
+
+                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
 
                 <!-- 税金・保険料 -->
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
@@ -110,15 +115,24 @@
 
                 <!-- 諸費用 -->
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                    <div class="mb-4">
-                        <label for="overhead_1" class="block text-gray-700 font-semibold mb-1">登録費用</label>
-                        <input type="number" name="overhead_1" id="overhead_1" value="{{ old('overhead_1', $quote->overhead_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                    </div>
-                    <div class="mb-4">
-                        <label for="overhead_2" class="block text-gray-700 font-semibold mb-1">車庫証明</label>
-                        <input type="number" name="overhead_2" id="overhead_2" value="{{ old('overhead_2', $quote->overhead_2) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
+                            <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
+                        </div>
+                        <div class="mb-4">
+                            <input type="number" name="overhead_1" id="overhead_1" value="{{ old('overhead_1', $quote->overhead_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                        </div>
+                        <div class="mb-4">
+                            <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
+                            <input type="text" name="overheadName_11" id="overheadName_11" value="{{ old('overheadName_11', $quote->overheadName_11) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
+                        </div>
+                        <div class="mb-4">
+                            <input type="number" name="overhead_11" id="overhead_11" value="{{ old('overhead_11', $quote->overhead_11) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                        </div>
                     </div>
                 </div>
+
 
                 <!-- 諸費用の合計 -->
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
@@ -127,6 +141,8 @@
                         <input type="number" name="overhead_total" id="overhead_total" value="{{ old('overhead_total', $quote->overhead_total) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
                     </div>
                 </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプションその他</h3>
 
                 <!-- オプション -->
                 <div class="mb-4 bg-blue-200 p-6 rounded-lg">
@@ -317,7 +333,7 @@
             let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
             let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
             let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
-            let overhead2 = parseFloat(document.getElementById('overhead_2')?.value) || 0;
+            let overhead2 = parseFloat(document.getElementById('overhead_11')?.value) || 0;
 
             let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead2;
             document.getElementById('overhead_total').value = overhead_total;
@@ -349,7 +365,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_2', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
             inputs.forEach(id => {
                 let element = document.getElementById(id);
                 if (element) {
