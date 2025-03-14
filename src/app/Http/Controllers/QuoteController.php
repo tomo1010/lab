@@ -320,7 +320,7 @@ class QuoteController extends Controller
             $quote->delete();
         }
 
-        return back();
+        return redirect()->route('quote.index')->with('success', '投稿を削除しました');
     }
 
 
@@ -348,6 +348,18 @@ class QuoteController extends Controller
         $newQuote->inspection = $quote->inspection;
         // 車輌価格        
         $newQuote->price = $quote->price;
+        // 税金・保険料
+        $newQuote->tax_1 = $quote->tax_1;
+        $newQuote->tax_2 = $quote->tax_2;
+        $newQuote->tax_3 = $quote->tax_3;
+        $newQuote->tax_4 = $quote->tax_4;
+        $newQuote->tax_5 = $quote->tax_5;
+        $newQuote->tax_total = $quote->tax_total;
+        // 諸費用
+        $newQuote->overheadName_11 = $quote->overheadName_11;        
+        $newQuote->overhead_1 = $quote->overhead_1;
+        $newQuote->overhead_11 = $quote->overhead_11;        
+        $newQuote->overhead_total = $quote->overhead_total;
         // オプション名称
         $newQuote->optionName_1 = $quote->optionName_1;
         $newQuote->optionName_2 = $quote->optionName_2;
@@ -361,17 +373,6 @@ class QuoteController extends Controller
         $newQuote->option_4 = $quote->option_4;
         $newQuote->option_5 = $quote->option_5;
         $newQuote->option_total = $quote->option_total;
-        // 税金・保険料
-        $newQuote->tax_1 = $quote->tax_1;
-        $newQuote->tax_2 = $quote->tax_2;
-        $newQuote->tax_3 = $quote->tax_3;
-        $newQuote->tax_4 = $quote->tax_4;
-        $newQuote->tax_5 = $quote->tax_5;
-        $newQuote->tax_total = $quote->tax_total;
-        // 諸費用
-        $newQuote->overhead_1 = $quote->overhead_1;
-        $newQuote->overhead_2 = $quote->overhead_2;        
-        $newQuote->overhead_total = $quote->overhead_total;
         // 支払い総額
         $newQuote->total = $quote->total;
         $newQuote->trade_price = $quote->trade_price;
@@ -379,7 +380,7 @@ class QuoteController extends Controller
         $newQuote->payment = $quote->payment;
         $newQuote->save();
     
-        return redirect()->route('quote.index')->with('success', '投稿をコピーしました。');
+        return redirect()->route('quote.index')->with('success', '見積もりをコピーしました。');
     }
 
     
