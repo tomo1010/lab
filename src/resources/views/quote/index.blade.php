@@ -32,7 +32,7 @@
         @csrf
 
 
-        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
 
         <!-- 購入車種 -->
         <div class="mb-4 bg-blue-100 p-6 rounded-lg">
@@ -150,7 +150,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
+                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
                 </div>
                 <div class="mb-4">
                     <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">

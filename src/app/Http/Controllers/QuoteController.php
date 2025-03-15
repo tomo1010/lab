@@ -52,25 +52,25 @@ class QuoteController extends Controller
         $request->validate([
             'car' => 'nullable|max:255',
             'grade' => 'nullable|max:255',
-            'displacement' => 'nullable|max:255',
-            'transmission' => 'nullable|max:255',
             'color' => 'nullable|max:255',
+            'transmission' => 'nullable|max:255',
             'drive' => 'nullable|max:255',
             'year' => 'nullable|max:255',
             'mileage' => 'nullable|max:255',
             'inspection' => 'nullable|max:255',
+
             'price' => 'required|integer',
+            
             'tax_1' => 'nullable|integer',
             'tax_2' => 'nullable|integer',
             'tax_3' => 'nullable|integer',
             'tax_4' => 'nullable|integer',
             'tax_5' => 'nullable|integer',
-            'tax_total' => 'nullable|integer',
             'overhead_1' => 'nullable|integer',
-            'overhead_2' => 'nullable|integer',
+            'overheadName_11' => 'nullable|max:255', //諸費用フリー入力
             'overhead_11' => 'nullable|integer',
-            'overheadName_11' => 'nullable|max:255',
-            'overhead_total' => 'nullable|integer',
+            'overhead_total' => 'nullable|integer', //taxとoverheadの合計
+
             'optionName_1' => 'nullable|max:255',
             'optionName_2' => 'nullable|max:255',
             'optionName_3' => 'nullable|max:255',
@@ -82,6 +82,7 @@ class QuoteController extends Controller
             'option_4' => 'nullable|integer',
             'option_5' => 'nullable|integer',
             'option_total' => 'nullable|integer',
+
             'total' => 'nullable|integer',
             'trade_price' => 'nullable|integer',
             'discount' => 'nullable|integer',
@@ -94,9 +95,8 @@ class QuoteController extends Controller
             // 車両情報
             'car' => $request->car,
             'grade' => $request->grade,
-            'displacement' => $request->displacement,
-            'transmission' => $request->transmission,
             'color' => $request->color,
+            'transmission' => $request->transmission,
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
@@ -111,12 +111,10 @@ class QuoteController extends Controller
             'tax_3' => $request->input('tax_3') ?? '0',
             'tax_4' => $request->input('tax_4') ?? '0',
             'tax_5' => $request->input('tax_5') ?? '0',
-            'tax_total' => $request->input('tax_total') ?? '0',
 
             // 諸費用
             'overhead_1' => $request->input('overhead_1') ?? '0',
-            'overhead_2' => $request->input('overhead_2') ?? '0',
-            'overheadName_11' => $request->overheadName_11,
+            'overheadName_11' => $request->overheadName_11, //諸費用フリー入力
             'overhead_11' => $request->input('overhead_11') ?? '0',
             'overhead_total' => $request->input('overhead_total') ?? '0',
 
@@ -208,24 +206,26 @@ class QuoteController extends Controller
         $request->validate([
             'car' => 'nullable|max:255',
             'grade' => 'nullable|max:255',
-            'displacement' => 'nullable|max:255',
-            'transmission' => 'nullable|max:255',
             'color' => 'nullable|max:255',
+            'transmission' => 'nullable|max:255',
             'drive' => 'nullable|max:255',
             'year' => 'nullable|max:255',
             'mileage' => 'nullable|max:255',
             'inspection' => 'nullable|max:255',
+
             'price' => 'required|integer',
+
             'tax_1' => 'nullable|integer',
             'tax_2' => 'nullable|integer',
             'tax_3' => 'nullable|integer',
             'tax_4' => 'nullable|integer',
             'tax_5' => 'nullable|integer',
             'tax_total' => 'nullable|integer',
-            'overheadName_11' => 'nullable|max:255',
             'overhead_1' => 'nullable|integer',
+            'overheadName_11' => 'nullable|max:255',
             'overhead_11' => 'nullable|integer',
             'overhead_total' => 'nullable|integer',
+
             'optionName_1' => 'nullable|max:255',
             'optionName_2' => 'nullable|max:255',
             'optionName_3' => 'nullable|max:255',
@@ -237,6 +237,7 @@ class QuoteController extends Controller
             'option_4' => 'nullable|integer',
             'option_5' => 'nullable|integer',
             'option_total' => 'nullable|integer',
+            
             'total' => 'nullable|integer',
             'trade_price' => 'nullable|integer',
             'discount' => 'nullable|integer',
@@ -256,7 +257,6 @@ class QuoteController extends Controller
             // 車両情報
             'car' => $request->car,
             'grade' => $request->grade,
-            'displacement' => $request->displacement,
             'transmission' => $request->transmission,
             'color' => $request->color,
             'drive' => $request->drive,
@@ -273,17 +273,14 @@ class QuoteController extends Controller
             'tax_3' => $request->input('tax_3') ?? '0',
             'tax_4' => $request->input('tax_4') ?? '0',
             'tax_5' => $request->input('tax_5') ?? '0',
-            'tax_total' => $request->input('tax_total') ?? '0',
-
 
             // 諸費用
-            'overheadName_11' => $request->input('overheadName_11') ?? '0',
             'overhead_1' => $request->input('overhead_1') ?? '0',
+            'overheadName_11' => $request->input('overheadName_11') ?? '0',
             'overhead_11' => $request->input('overhead_11') ?? '0',
-            'overhead_total' => $request->input('overhead_total') ?? '0',
+            'overhead_total' => $request->input('overhead_total') ?? '0', //taxとoverheadの合計
 
             // オプション
-            // オプションの名前
             'optionName_1' => $request->optionName_1,
             'optionName_2' => $request->optionName_2,
             'optionName_3' => $request->optionName_3,
@@ -341,9 +338,8 @@ class QuoteController extends Controller
         // 車両情報
         $newQuote->car = $quote->car."コピー";
         $newQuote->grade = $quote->grade;
-        $newQuote->displacement = $quote->displacement;
-        $newQuote->transmission = $quote->transmission;
         $newQuote->color = $quote->color;
+        $newQuote->transmission = $quote->transmission;
         $newQuote->drive = $quote->drive;
         $newQuote->year = $quote->year;
         $newQuote->mileage = $quote->mileage;
@@ -356,19 +352,17 @@ class QuoteController extends Controller
         $newQuote->tax_3 = $quote->tax_3;
         $newQuote->tax_4 = $quote->tax_4;
         $newQuote->tax_5 = $quote->tax_5;
-        $newQuote->tax_total = $quote->tax_total;
         // 諸費用
-        $newQuote->overheadName_11 = $quote->overheadName_11;        
         $newQuote->overhead_1 = $quote->overhead_1;
+        $newQuote->overheadName_11 = $quote->overheadName_11;
         $newQuote->overhead_11 = $quote->overhead_11;        
-        $newQuote->overhead_total = $quote->overhead_total;
-        // オプション名称
+        $newQuote->overhead_total = $quote->overhead_total; //taxとoverheadの合計
+        // オプション
         $newQuote->optionName_1 = $quote->optionName_1;
         $newQuote->optionName_2 = $quote->optionName_2;
         $newQuote->optionName_3 = $quote->optionName_3;
         $newQuote->optionName_4 = $quote->optionName_4;
         $newQuote->optionName_5 = $quote->optionName_5;
-        // オプション
         $newQuote->option_1 = $quote->option_1;
         $newQuote->option_2 = $quote->option_2;
         $newQuote->option_3 = $quote->option_3;
@@ -394,14 +388,13 @@ class QuoteController extends Controller
 
         // フォームから送信されたデータを取得
         $data = $request->only([
-            'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
+            'car', 'grade', 'color', 'transmission', 'drive', 'year', 'mileage', 'inspection', 
             'price', 
-            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'tax_total', 
-            'overheadName_11',
-            'overhead_1', 'overhead_11', 'overhead_total',
+            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
+            'overhead_1', 'overheadName_11', 'overhead_11', 'overhead_total',
             'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
             'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
-            'subtotal', 'total', 'trade_price', 'discount', 'payment'
+            'total', 'trade_price', 'discount', 'payment'
         ]);        
     
 
@@ -418,7 +411,6 @@ class QuoteController extends Controller
                 $data[$field] = 0;
             }
         }
-//dd($data);
 
         // 現在日時を取得
         $date['date'] = now()->format('Y-m-d');
@@ -430,13 +422,6 @@ class QuoteController extends Controller
         // PDFをブラウザで表示
         return $pdf->stream('quote_' . $date['date'] . '.pdf');
     }
-
-
-    //public function __construct()
-    //{
-    //    $this->middleware('auth')->except(['index']);
-    //}
-    
     
     
     
