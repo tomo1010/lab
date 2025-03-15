@@ -273,7 +273,7 @@
         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
             <!-- 名前・車名・更新日時 -->
             <div>
-                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->total }}円</span>
+                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->payment }}円</span>
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
@@ -408,15 +408,14 @@
             let payment = total - trade_price - discount;
             document.getElementById('payment').value = payment;
         }
-       
         
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['total', 'trade_price', 'discount'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'trade_price', 'discount'];
             inputs.forEach(id => {
-                let element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', calculatePayment);
-                }
+            let element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', calculatePayment);
+            }
             });
         });
 

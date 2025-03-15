@@ -303,7 +303,9 @@ class QuoteController extends Controller
             'payment' => $request->input('payment') ?? '0',
         ]);
     
-        return redirect()->route('quote.index')->with('success', '投稿を更新しました');
+        //return redirect()->route('quote.index')->with('success', '投稿を更新しました');
+        return redirect()->route('quotes.edit', ['quote' => $id])->with('success', '見積もりを更新しました');
+
     }
     
 
