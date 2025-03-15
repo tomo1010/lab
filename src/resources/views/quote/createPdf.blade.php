@@ -79,7 +79,7 @@
                     <th>車名</th><th>年式</th><th>走行距離</th><th>車検</th>
                 </tr>
                 <tr>
-                    <td>{{ $car ?? '' }} {{ $displacement ?? '' }} {{ $transmission ?? '' }} {{ $color ?? '' }} {{ $drive ?? '' }}</td>
+                    <td>{{ $car ?? '' }} {{ $color ?? '' }} {{ $transmission ?? '' }} {{ $drive ?? '' }}</td>
                     <td>{{ $year ?? '' }}</td>
                     <td>{{ $mileage ?? '' }} km</td>
                     <td>{{ $inspection ?? '' }}</td>

@@ -40,10 +40,6 @@
                         <input type="text" name="grade" id="grade" value="{{ old('grade', $quote->grade) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                     <div class="mb-4">
-                        <label for="displacement" class="block text-gray-700 font-semibold mb-1">排気量</label>
-                        <input type="text" name="displacement" id="displacement" value="{{ old('displacement', $quote->displacement) }}" class="w-full px-4 py-2 border rounded-lg">
-                    </div>
-                    <div class="mb-4">
                         <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
                         <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>

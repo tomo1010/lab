@@ -118,13 +118,12 @@ class QuoteController extends Controller
             'overhead_11' => $request->input('overhead_11') ?? '0',
             'overhead_total' => $request->input('overhead_total') ?? '0',
 
-            // オプションの名前
+            // オプション
             'optionName_1' => $request->optionName_1,
             'optionName_2' => $request->optionName_2,
             'optionName_3' => $request->optionName_3,
             'optionName_4' => $request->optionName_4,
             'optionName_5' => $request->optionName_5,
-            // オプションの価格
             'option_1' => $request->input('option_1') ?? '0',
             'option_2' => $request->input('option_2') ?? '0',
             'option_3' => $request->input('option_3') ?? '0',
