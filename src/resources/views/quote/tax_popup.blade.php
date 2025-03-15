@@ -10,8 +10,8 @@
             </svg>
         </button>
     </label>
-    <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg">
-</div>
+    <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+    </div>
 
 <!-- ポップアップウィンドウ（自動車税月割表） -->
 <div id="taxPopup1" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
@@ -53,6 +53,13 @@
     </div>
 </div>
 
+
+
+<!--bk-->
+<div class="mb-4">
+                <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label> 
+                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
 
 
 
