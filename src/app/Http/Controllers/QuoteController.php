@@ -393,14 +393,31 @@ class QuoteController extends Controller
         // フォームから送信されたデータを取得
         $data = $request->only([
             'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
-            'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
-            'tax_total', 'overhead_1', 'overhead_11', 'overhead_total',
+            'price', 
+            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'tax_total', 
             'overheadName_11',
-            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
+            'overhead_1', 'overhead_11', 'overhead_total',
             'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
+            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
             'subtotal', 'total', 'trade_price', 'discount', 'payment'
         ]);        
     
+
+        // null の場合は 0 を設定するキー　（creatPdf作成時に新規でnullのデータが作成されるため、編集では自動で0になる）
+        $numericFields = [
+            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
+            'overhead_1', 'overhead_11', 'overhead_total',
+            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total'
+        ];
+
+        // 指定したキーの値が null の場合は 0 にする
+        foreach ($numericFields as $field) {
+            if (!isset($data[$field]) || is_null($data[$field])) {
+                $data[$field] = 0;
+            }
+        }
+//dd($data);
+
         // 現在日時を取得
         $date['date'] = now()->format('Y-m-d');
         $data['date'] = $date['date'];
