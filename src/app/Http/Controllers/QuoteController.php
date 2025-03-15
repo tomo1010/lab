@@ -222,8 +222,9 @@ class QuoteController extends Controller
             'tax_4' => 'nullable|integer',
             'tax_5' => 'nullable|integer',
             'tax_total' => 'nullable|integer',
+            'overheadName_11' => 'nullable|max:255',
             'overhead_1' => 'nullable|integer',
-            'overhead_2' => 'nullable|integer',
+            'overhead_11' => 'nullable|integer',
             'overhead_total' => 'nullable|integer',
             'optionName_1' => 'nullable|max:255',
             'optionName_2' => 'nullable|max:255',
@@ -266,6 +267,21 @@ class QuoteController extends Controller
             // 車両価格
             'price' => $request->price,
 
+            // 税金・保険料
+            'tax_1' => $request->input('tax_1') ?? '0',
+            'tax_2' => $request->input('tax_2') ?? '0',
+            'tax_3' => $request->input('tax_3') ?? '0',
+            'tax_4' => $request->input('tax_4') ?? '0',
+            'tax_5' => $request->input('tax_5') ?? '0',
+            'tax_total' => $request->input('tax_total') ?? '0',
+
+
+            // 諸費用
+            'overheadName_11' => $request->input('overheadName_11') ?? '0',
+            'overhead_1' => $request->input('overhead_1') ?? '0',
+            'overhead_11' => $request->input('overhead_11') ?? '0',
+            'overhead_total' => $request->input('overhead_total') ?? '0',
+
             // オプション
             // オプションの名前
             'optionName_1' => $request->optionName_1,
@@ -279,19 +295,6 @@ class QuoteController extends Controller
             'option_4' => $request->input('option_4') ?? '0',
             'option_5' => $request->input('option_5') ?? '0',
             'option_total' => $request->input('option_total') ?? '0',
-
-            // 税金・保険料
-            'tax_1' => $request->input('tax_1') ?? '0',
-            'tax_2' => $request->input('tax_2') ?? '0',
-            'tax_3' => $request->input('tax_3') ?? '0',
-            'tax_4' => $request->input('tax_4') ?? '0',
-            'tax_5' => $request->input('tax_5') ?? '0',
-            'tax_total' => $request->input('tax_total') ?? '0',
-
-            // 諸費用
-            'overhead_1' => $request->input('overhead_1') ?? '0',
-            'overhead_2' => $request->input('overhead_2') ?? '0',
-            'overhead_total' => $request->input('overhead_total') ?? '0',
 
             // 支払い総額
             'total' => $request->input('total') ?? '0',
@@ -317,7 +320,7 @@ class QuoteController extends Controller
             $quote->delete();
         }
 
-        return back();
+        return redirect()->route('quote.index')->with('success', '投稿を削除しました');
     }
 
 
@@ -345,6 +348,18 @@ class QuoteController extends Controller
         $newQuote->inspection = $quote->inspection;
         // 車輌価格        
         $newQuote->price = $quote->price;
+        // 税金・保険料
+        $newQuote->tax_1 = $quote->tax_1;
+        $newQuote->tax_2 = $quote->tax_2;
+        $newQuote->tax_3 = $quote->tax_3;
+        $newQuote->tax_4 = $quote->tax_4;
+        $newQuote->tax_5 = $quote->tax_5;
+        $newQuote->tax_total = $quote->tax_total;
+        // 諸費用
+        $newQuote->overheadName_11 = $quote->overheadName_11;        
+        $newQuote->overhead_1 = $quote->overhead_1;
+        $newQuote->overhead_11 = $quote->overhead_11;        
+        $newQuote->overhead_total = $quote->overhead_total;
         // オプション名称
         $newQuote->optionName_1 = $quote->optionName_1;
         $newQuote->optionName_2 = $quote->optionName_2;
@@ -358,17 +373,6 @@ class QuoteController extends Controller
         $newQuote->option_4 = $quote->option_4;
         $newQuote->option_5 = $quote->option_5;
         $newQuote->option_total = $quote->option_total;
-        // 税金・保険料
-        $newQuote->tax_1 = $quote->tax_1;
-        $newQuote->tax_2 = $quote->tax_2;
-        $newQuote->tax_3 = $quote->tax_3;
-        $newQuote->tax_4 = $quote->tax_4;
-        $newQuote->tax_5 = $quote->tax_5;
-        $newQuote->tax_total = $quote->tax_total;
-        // 諸費用
-        $newQuote->overhead_1 = $quote->overhead_1;
-        $newQuote->overhead_2 = $quote->overhead_2;        
-        $newQuote->overhead_total = $quote->overhead_total;
         // 支払い総額
         $newQuote->total = $quote->total;
         $newQuote->trade_price = $quote->trade_price;
@@ -376,7 +380,7 @@ class QuoteController extends Controller
         $newQuote->payment = $quote->payment;
         $newQuote->save();
     
-        return redirect()->route('quote.index')->with('success', '投稿をコピーしました。');
+        return redirect()->route('quote.index')->with('success', '見積もりをコピーしました。');
     }
 
     
@@ -389,14 +393,31 @@ class QuoteController extends Controller
         // フォームから送信されたデータを取得
         $data = $request->only([
             'car', 'grade', 'displacement', 'transmission', 'color', 'drive', 'year', 'mileage', 'inspection', 
-            'price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
-            'tax_total', 'overhead_1', 'overhead_11', 'overhead_total',
+            'price', 
+            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'tax_total', 
             'overheadName_11',
-            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
+            'overhead_1', 'overhead_11', 'overhead_total',
             'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
+            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
             'subtotal', 'total', 'trade_price', 'discount', 'payment'
         ]);        
     
+
+        // null の場合は 0 を設定するキー　（creatPdf作成時に新規でnullのデータが作成されるため、編集では自動で0になる）
+        $numericFields = [
+            'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5',
+            'overhead_1', 'overhead_11', 'overhead_total',
+            'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total'
+        ];
+
+        // 指定したキーの値が null の場合は 0 にする
+        foreach ($numericFields as $field) {
+            if (!isset($data[$field]) || is_null($data[$field])) {
+                $data[$field] = 0;
+            }
+        }
+//dd($data);
+
         // 現在日時を取得
         $date['date'] = now()->format('Y-m-d');
         $data['date'] = $date['date'];
