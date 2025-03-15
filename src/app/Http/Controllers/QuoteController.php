@@ -23,7 +23,7 @@ class QuoteController extends Controller
             // 認証済みユーザを取得
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
-            $quotes = $user->quotes()->orderBy('created_at', 'desc')->paginate(10);
+            $quotes = $user->quotes()->orderBy('updated_at', 'desc')->paginate(10);
         }
     
         return view('quote.index', compact('quotes'));
@@ -337,7 +337,7 @@ class QuoteController extends Controller
         $newQuote->user_id = auth()->id();
 
         // 車両情報
-        $newQuote->car = $quote->car;
+        $newQuote->car = $quote->car."コピー";
         $newQuote->grade = $quote->grade;
         $newQuote->displacement = $quote->displacement;
         $newQuote->transmission = $quote->transmission;
@@ -380,7 +380,7 @@ class QuoteController extends Controller
         $newQuote->payment = $quote->payment;
         $newQuote->save();
     
-        return redirect()->route('quote.index')->with('success', '見積もりをコピーしました。');
+        return redirect()->route('quotes.edit', ['quote' => $newQuote->id])->with('success', '見積もりをコピーしました。');
     }
 
     
