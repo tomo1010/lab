@@ -115,45 +115,8 @@
                 <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
                 </div>
 
-                        <!-- ポップアップウィンドウ（自動車税月割表） -->
-                        <div id="taxPopup1" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl overflow-auto max-h-full">
-                                <h2 class="text-lg font-semibold mb-4">自動車税（月割）</h2>
-                                <table class="w-full border-collapse">
-                                    <thead>
-                                    <tr>
-                                        <th class="border px-2 py-1" data-month="4">4月</th>
-                                        <th class="border px-2 py-1" data-month="5">5月</th>
-                                        <th class="border px-2 py-1" data-month="6">6月</th>
-                                        <th class="border px-2 py-1" data-month="7">7月</th>
-                                        <th class="border px-2 py-1" data-month="8">8月</th>
-                                        <th class="border px-2 py-1" data-month="9">9月</th>
-                                        <th class="border px-2 py-1" data-month="10">10月</th>
-                                        <th class="border px-2 py-1" data-month="11">11月</th>
-                                        <th class="border px-2 py-1" data-month="12">12月</th>
-                                        <th class="border px-2 py-1" data-month="1">1月</th>
-                                        <th class="border px-2 py-1" data-month="2">2月</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(40, 'tax_1')">4月 40円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(50, 'tax_1')">5月 50円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(60, 'tax_1')">6月 60円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(70, 'tax_1')">7月 70円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(80, 'tax_1')">8月 80円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(90, 'tax_1')">9月 90円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(100, 'tax_1')">10月 100円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(110, 'tax_1')">11月 110円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(120, 'tax_1')">12月 120円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(130, 'tax_1')">1月 10円</button></td>
-                                        <td class="border px-2 py-1"><button onclick="selectTax(140, 'tax_1')">2月 20円</button></td>
-                                    </tr>
-                                </tbody>
-                    </table>
-                    <button type="button" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full" onclick="closeTaxPopup('tax_1')">閉じる</button>
-                </div>
-            </div>
+                @include('quote.popup.tax_1')
+                        
             <div class="mb-4">
                 <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
                 <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
