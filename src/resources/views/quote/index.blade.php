@@ -1,4 +1,6 @@
 <x-app-layout>
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             見積もり作成
@@ -101,10 +103,20 @@
 
         <!-- 税金・保険料 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+            <!-- ポップアップウィンドウ（自動車税月割表） -->
             <div class="mb-4">
-                <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label>
+                <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    自動車税（月割）
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
                 <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-            </div>
+                </div>
+
+                @include('quote.popup.tax_1')
+                        
             <div class="mb-4">
                 <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
                 <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -273,7 +285,7 @@
         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
             <!-- 名前・車名・更新日時 -->
             <div>
-                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->total }}円</span>
+                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->payment }}円</span>
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
@@ -408,15 +420,14 @@
             let payment = total - trade_price - discount;
             document.getElementById('payment').value = payment;
         }
-       
         
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['total', 'trade_price', 'discount'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'trade_price', 'discount'];
             inputs.forEach(id => {
-                let element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', calculatePayment);
-                }
+            let element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', calculatePayment);
+            }
             });
         });
 
@@ -433,10 +444,7 @@
         //}
 
 
-
     </script>
-
-
 
 
 <script>
@@ -477,8 +485,22 @@ function highlightCurrentMonth(popupId) {
     
 }
 
+// ポップアップから選択しても他の合計関数が動くようにする処理
+function selectTax(amount, taxType) {
+    const input = document.getElementById(taxType);
+    if (input) {
+        input.value = amount;
 
+        // `input` イベントを手動で発火させる
+        input.dispatchEvent(new Event('input', { bubbles: true }));
 
+        // フォーム送信を防ぐ
+        if (event) {
+            event.preventDefault();
+        }
+    }
+    closeTaxPopup(taxType);
+}
 
 
 
