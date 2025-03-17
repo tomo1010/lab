@@ -79,7 +79,7 @@
                     <th>車名</th><th>年式</th><th>走行距離</th><th>車検</th>
                 </tr>
                 <tr>
-                    <td>{{ $car ?? '' }} {{ $displacement ?? '' }} {{ $transmission ?? '' }} {{ $color ?? '' }} {{ $drive ?? '' }}</td>
+                    <td>{{ $car ?? '' }} {{ $color ?? '' }} {{ $transmission ?? '' }} {{ $drive ?? '' }}</td>
                     <td>{{ $year ?? '' }}</td>
                     <td>{{ $mileage ?? '' }} km</td>
                     <td>{{ $inspection ?? '' }}</td>
@@ -132,7 +132,7 @@
                 <td style="text-align: right;">{{ $overhead_total > 0 ? number_format($overhead_total) : '' }} </td>
             </tr>
             <tr>
-                <td class="narrow-column" rowspan="6">オプションその他</td>
+                <td class="narrow-column" rowspan="6">オプションその他③</td>
                 <td>{{ $optionName_1 ?? '' }}</td>
                 <td style="text-align: right;">{{ $option_1 > 0 ? number_format($option_1) : '' }} </td>
             </tr>
@@ -187,6 +187,7 @@
 
     <div class="section">
         <strong>備考:</strong>
+        <p>{{ $memo }}</p>
     </div>
 
     <div class="footer">

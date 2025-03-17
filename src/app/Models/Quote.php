@@ -16,7 +16,8 @@ class Quote extends Model
         'overheadName_11',
         'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
         'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
-        'total', 'trade_price', 'discount', 'payment'
+        'total', 'trade_price', 'discount', 'payment',
+        'memo',
     ];
     
     /**

@@ -1,6 +1,5 @@
 <x-app-layout>
-    <!-- Include Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             見積もり作成
@@ -32,7 +31,7 @@
         @csrf
 
 
-        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
+        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
 
         <!-- 購入車種 -->
         <div class="mb-4 bg-blue-100 p-6 rounded-lg">
@@ -43,10 +42,6 @@
             <div class="mb-4">
                 <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
                 <input type="text" name="grade" id="grade" class="w-full px-4 py-2 border rounded-lg">
-            </div>
-            <div class="mb-4">
-                <label for="displacement" class="block text-gray-700 font-semibold mb-1">排気量</label>
-                <input type="text" name="displacement" id="displacement" class="w-full px-4 py-2 border rounded-lg">
             </div>
             <div class="mb-4">
                 <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
@@ -103,6 +98,7 @@
 
         <!-- 税金・保険料 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+
             <!-- ポップアップウィンドウ（自動車税月割表） -->
             <div class="mb-4">
                 <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
@@ -116,15 +112,35 @@
                 </div>
 
                 @include('quote.popup.tax_1')
-                        
+
+            <!-- ポップアップウィンドウ（重量税月割表） -->
             <div class="mb-4">
-                <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
+                <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    重量税
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
                 <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
+
+                @include('quote.popup.tax_2')
+
+            <!-- ポップアップウィンドウ（自賠責月割表） -->
             <div class="mb-4">
-                <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
+                <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    自賠責
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
                 <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
+
+                @include('quote.popup.tax_3')
+
             <div class="mb-4">
                 <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
                 <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -150,7 +166,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
+                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
                 </div>
                 <div class="mb-4">
                     <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -242,11 +258,11 @@
         <input type="number" name="payment" id="payment" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
-    <!-- メモ -->
-    <!--<div class="mb-4">
+    <!--メモ -->
+    <div class="mb-4">
         <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
         <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
-    </div>-->
+    </div>
 
 
   <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
@@ -289,32 +305,33 @@
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
-            <!-- 編集・コピー・削除ボタン（横並び） -->
-            <div class="flex space-x-2">
-                <!-- 編集 -->
-                <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                    <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
-                        編集
-                    </button>
-                </form>
+<!-- 編集・コピー・削除ボタン（横並び） -->
+<div class="flex space-x-2">
+    <!-- 編集 -->
+    <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
+        <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2">
+            <i class="fas fa-edit"></i>
+        </button>
+    </form>
 
-                <!-- コピー -->
-                <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
-                        コピー
-                    </button>
-                </form>
+    <!-- コピー -->
+    <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2">
+            <i class="fas fa-copy"></i>
+        </button>
+    </form>
 
-                <!-- 削除 -->
-                <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
-                        削除
-                    </button>
-                </form>
-            </div>
+    <!-- 削除 -->
+    <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" onclick="return confirm('本当に削除しますか？');">
+            <i class="fas fa-trash"></i>
+        </button>
+    </form>
+</div>
+
         </li>
     @endforeach
 </ul>
@@ -326,7 +343,7 @@
                             {{ $quotes->links() }}
                         </div>
                     @else
-                        <p class="mt-6 text-gray-500">投稿はありません。</p>
+                        <p class="mt-6 text-gray-500">見積もりはありません。</p>
                     @endif
 
 
