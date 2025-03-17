@@ -205,6 +205,11 @@
                         <input type="number" name="payment" id="payment" value="{{ old('payment', $quote->payment) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
                     </div>
 
+                    <div>
+                        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <input type="text" name="memo" id="memo" value="{{ old('memo', $quote->memo) }}" class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+
                     <!-- ボタンエリア（更新 & キャンセル） -->
                     <div class="flex space-x-2">
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
@@ -253,6 +258,7 @@
                     <input type="hidden" name="trade_price" value="{{ $quote->trade_price }}">
                     <input type="hidden" name="discount" value="{{ $quote->discount }}">
                     <input type="hidden" name="payment" value="{{ $quote->payment }}">
+                    <input type="hidden" name="memo" value="{{ $quote->memo }}">
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                         PDF
                     </button>
@@ -378,6 +384,7 @@
         });
 
 
+        // 支払い総額
         function calculatePayment() {
             let total = parseFloat(document.getElementById('total')?.value) || 0;
             let trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
@@ -386,14 +393,14 @@
             let payment = total - trade_price - discount;
             document.getElementById('payment').value = payment;
         }
-
+        
         document.addEventListener("DOMContentLoaded", function () {
-            let inputs = ['total', 'trade_price', 'discount'];
+            let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'trade_price', 'discount'];
             inputs.forEach(id => {
-                let element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', calculatePayment);
-                }
+            let element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', calculatePayment);
+            }
             });
         });
 

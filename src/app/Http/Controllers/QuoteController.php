@@ -47,7 +47,7 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-
+//dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -87,6 +87,8 @@ class QuoteController extends Controller
             'trade_price' => 'nullable|integer',
             'discount' => 'nullable|integer',
             'payment' => 'nullable|integer',
+
+            'memo' => 'nullable|max:255',
         ]);
     
 //dd($request->optionName_1);
@@ -136,6 +138,8 @@ class QuoteController extends Controller
             'trade_price' => $request->input('trade_price') ?? '0',
             'discount' => $request->input('discount') ?? '0',
             'payment' => $request->input('payment') ?? '0',
+
+            'memo' => $request->memo,
         ]);
 
         \Log::info('投稿データ作成成功');
@@ -201,6 +205,7 @@ class QuoteController extends Controller
      */
     public function update(Request $request, $id)
     {
+//dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -241,6 +246,8 @@ class QuoteController extends Controller
             'trade_price' => 'nullable|integer',
             'discount' => 'nullable|integer',
             'payment' => 'nullable|integer',
+
+            'memo' => 'nullable|max:255',
         ]);
 
         $quote = Quote::findOrFail($id);
@@ -297,6 +304,8 @@ class QuoteController extends Controller
             'trade_price' => $request->input('trade_price') ?? '0',
             'discount' => $request->input('discount') ?? '0',
             'payment' => $request->input('payment') ?? '0',
+
+            'memo' => $request->memo,
         ]);
     
         //return redirect()->route('quote.index')->with('success', '投稿を更新しました');
@@ -373,6 +382,8 @@ class QuoteController extends Controller
         $newQuote->trade_price = $quote->trade_price;
         $newQuote->discount = $quote->discount;
         $newQuote->payment = $quote->payment;
+
+        $newQuote->memo = $quote->memo;
         $newQuote->save();
     
         return redirect()->route('quotes.edit', ['quote' => $newQuote->id])->with('success', '見積もりをコピーしました。');
@@ -393,7 +404,8 @@ class QuoteController extends Controller
             'overhead_1', 'overheadName_11', 'overhead_11', 'overhead_total',
             'optionName_1', 'optionName_2', 'optionName_3', 'optionName_4', 'optionName_5',
             'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'option_total',
-            'total', 'trade_price', 'discount', 'payment'
+            'total', 'trade_price', 'discount', 'payment',
+            'memo',
         ]);        
     
 

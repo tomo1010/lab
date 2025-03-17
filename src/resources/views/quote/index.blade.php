@@ -99,6 +99,7 @@
 
         <!-- 税金・保険料 -->
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+
             <!-- ポップアップウィンドウ（自動車税月割表） -->
             <div class="mb-4">
                 <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
@@ -112,11 +113,35 @@
                 </div>
 
                 @include('quote.popup.tax_1')
-                        
+
+            <!-- ポップアップウィンドウ（重量税月割表） -->
             <div class="mb-4">
-                <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
+                <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    重量税
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
                 <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
             </div>
+
+                @include('quote.popup.tax_2')
+
+            <!-- ポップアップウィンドウ（自賠責月割表） -->
+            <div class="mb-4">
+                <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    自賠責
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
+                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
+
+                @include('quote.popup.tax_3')
+
             <div class="mb-4">
                 <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
                 <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -238,11 +263,11 @@
         <input type="number" name="payment" id="payment" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
-    <!-- メモ -->
-    <!--<div class="mb-4">
+    <!--メモ -->
+    <div class="mb-4">
         <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
         <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
-    </div>-->
+    </div>
 
 
   <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
@@ -322,7 +347,7 @@
                             {{ $quotes->links() }}
                         </div>
                     @else
-                        <p class="mt-6 text-gray-500">投稿はありません。</p>
+                        <p class="mt-6 text-gray-500">見積もりはありません。</p>
                     @endif
 
 

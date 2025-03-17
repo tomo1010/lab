@@ -132,7 +132,7 @@
                 <td style="text-align: right;">{{ $overhead_total > 0 ? number_format($overhead_total) : '' }} </td>
             </tr>
             <tr>
-                <td class="narrow-column" rowspan="6">オプションその他</td>
+                <td class="narrow-column" rowspan="6">オプションその他③</td>
                 <td>{{ $optionName_1 ?? '' }}</td>
                 <td style="text-align: right;">{{ $option_1 > 0 ? number_format($option_1) : '' }} </td>
             </tr>
@@ -187,6 +187,7 @@
 
     <div class="section">
         <strong>備考:</strong>
+        <p>{{ $memo }}</p>
     </div>
 
     <div class="footer">
