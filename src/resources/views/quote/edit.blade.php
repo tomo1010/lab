@@ -288,26 +288,26 @@
                             <div class="flex space-x-2">
                                 <!-- 編集 -->
                                 <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                                    <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
-                                        編集
-                                    </button>
+                                <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2">
+            <i class="fas fa-edit"></i>
+        </button>
                                 </form>
 
                                 <!-- コピー -->
                                 <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
-                                        コピー
-                                    </button>
+                                    <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2">
+            <i class="fas fa-copy"></i>
+        </button>
                                 </form>
 
                                 <!-- 削除 -->
                                 <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
-                                        削除
-                                    </button>
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" onclick="return confirm('本当に削除しますか？');">
+            <i class="fas fa-trash"></i>
+        </button>
                                 </form>
                             </div>
                         </li>

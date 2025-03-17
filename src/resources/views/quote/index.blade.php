@@ -1,6 +1,5 @@
 <x-app-layout>
-    <!-- Include Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             見積もり作成
@@ -142,10 +141,6 @@
 
                 @include('quote.popup.tax_3')
 
-            <div class="mb-4">
-                <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
-                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-            </div>
             <div class="mb-4">
                 <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
                 <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -310,32 +305,33 @@
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
-            <!-- 編集・コピー・削除ボタン（横並び） -->
-            <div class="flex space-x-2">
-                <!-- 編集 -->
-                <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                    <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
-                        編集
-                    </button>
-                </form>
+<!-- 編集・コピー・削除ボタン（横並び） -->
+<div class="flex space-x-2">
+    <!-- 編集 -->
+    <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
+        <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2">
+            <i class="fas fa-edit"></i>
+        </button>
+    </form>
 
-                <!-- コピー -->
-                <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
-                        コピー
-                    </button>
-                </form>
+    <!-- コピー -->
+    <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2">
+            <i class="fas fa-copy"></i>
+        </button>
+    </form>
 
-                <!-- 削除 -->
-                <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onclick="return confirm('本当に削除しますか？');">
-                        削除
-                    </button>
-                </form>
-            </div>
+    <!-- 削除 -->
+    <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" onclick="return confirm('本当に削除しますか？');">
+            <i class="fas fa-trash"></i>
+        </button>
+    </form>
+</div>
+
         </li>
     @endforeach
 </ul>
