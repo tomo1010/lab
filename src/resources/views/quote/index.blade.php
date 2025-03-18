@@ -69,8 +69,33 @@
             </div>
             <div class="mb-4">
                 <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
-                <input type="text" name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
+                <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
+                    @php
+                        $currentYear = now()->year; // 今年の西暦（例: 2025）
+                        $endYear = 1989; // 平成元年
+                        $eraNames = [
+                            2019 => '令和',
+                            1989 => '平成'
+                        ];
+                    @endphp
+                    @for ($year = $currentYear; $year >= $endYear; $year--)
+                        @php
+                            $era = '昭和'; // 初期値（ありえないが保険）
+                            $eraYear = $year; // デフォルトはそのまま西暦
+
+                            foreach ($eraNames as $eraStart => $eraName) {
+                                if ($year >= $eraStart) {
+                                    $era = $eraName;
+                                    $eraYear = $year - $eraStart + 1;
+                                    break;
+                                }
+                            }
+                        @endphp
+                        <option value="{{ $year }}">{{ $year }}（{{ $era }}{{ $eraYear }}年）</option>
+                    @endfor
+                </select>
             </div>
+
             <div class="mb-4">
                 <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
                 <input type="text" name="mileage" id="mileage" class="w-full px-4 py-2 border rounded-lg">
