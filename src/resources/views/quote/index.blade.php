@@ -100,10 +100,35 @@
                 <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
                 <input type="text" name="mileage" id="mileage" class="w-full px-4 py-2 border rounded-lg">
             </div>
+
             <div class="mb-4">
-                <label for="inspection" class="block text-gray-700 font-semibold mb-1">車検日</label>
-                <input type="text" name="inspection" id="inspection" class="w-full px-4 py-2 border rounded-lg">
-            </div>
+    <label for="inspection" class="block text-gray-700 font-semibold mb-1">車検日</label>
+    <div class="flex space-x-2">
+        <!-- 年の選択 -->
+        <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
+            @php
+                $currentYear = now()->year; // 今年の西暦（例: 2025年）
+                $reiwaStart = 2019; // 令和元年の西暦
+                $startReiwa = $currentYear - $reiwaStart + 1; // 今年の令和年
+                $endReiwa = $startReiwa + 3; // 3年後まで
+            @endphp
+            @for ($reiwa = $startReiwa; $reiwa <= $endReiwa; $reiwa++)
+                <option value="令和{{ $reiwa }}年">令和{{ $reiwa }}年</option>
+            @endfor
+        </select>
+
+        <!-- 月の選択 -->
+        <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
+            @php
+                $months = range(12, 1); // 12月〜1月
+            @endphp
+            @foreach ($months as $month)
+                <option value="{{ $month }}月">{{ $month }}月</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
         </div>
 
 

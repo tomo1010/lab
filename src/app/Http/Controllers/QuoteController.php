@@ -57,7 +57,8 @@ class QuoteController extends Controller
             'drive' => 'nullable|max:255',
             'year' => 'nullable|max:255',
             'mileage' => 'nullable|max:255',
-            'inspection' => 'nullable|max:255',
+            'inspection_year' => 'nullable|max:255',
+            'inspection_month' => 'nullable|max:255',
 
             'price' => 'required|integer',
             
@@ -102,7 +103,7 @@ class QuoteController extends Controller
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection,
+            'inspection' => $request->inspection_year.$request->inspection_month,
 
             // 車両価格
             'price' => $request->price,
