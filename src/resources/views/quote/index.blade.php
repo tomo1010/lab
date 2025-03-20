@@ -102,31 +102,43 @@
             </div>
 
             <div class="mb-4">
-    <label for="inspection" class="block text-gray-700 font-semibold mb-1">車検日</label>
-    <div class="flex space-x-2">
-        <!-- 年の選択 -->
-        <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
-            @php
-                $currentYear = now()->year; // 今年の西暦（例: 2025年）
-                $reiwaStart = 2019; // 令和元年の西暦
-                $startReiwa = $currentYear - $reiwaStart + 1; // 今年の令和年
-                $endReiwa = $startReiwa + 3; // 3年後まで
-            @endphp
-            @for ($reiwa = $startReiwa; $reiwa <= $endReiwa; $reiwa++)
-                <option value="令和{{ $reiwa }}年">令和{{ $reiwa }}年</option>
-            @endfor
-        </select>
 
-        <!-- 月の選択 -->
-        <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
-            @php
-                $months = range(12, 1); // 12月〜1月
-            @endphp
-            @foreach ($months as $month)
-                <option value="{{ $month }}月">{{ $month }}月</option>
-            @endforeach
-        </select>
-    </div>
+            <div class="flex items-center space-x-4">
+                <label for="inspection" class="text-gray-700 font-semibold">車検日</label>
+                <span id="inspection_result" class="text-gray-700 font-semibold"></span>
+            </div>
+
+            <div class="flex space-x-2 items-center">
+                <!-- 年の選択 -->
+                <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
+                    @php
+                        $currentYear = now()->year; // 今年の西暦（例: 2025年）
+                        $reiwaStart = 2019; // 令和元年の西暦
+                        $startReiwa = $currentYear - $reiwaStart + 1; // 今年の令和年
+                        $endReiwa = $startReiwa + 3; // 3年後まで
+                    @endphp
+                    <option value="" selected>年を選択</option>
+                    <option value="2年付">2年付</option>
+                    <option value="3年付">3年付</option>
+                    @for ($reiwa = $startReiwa; $reiwa <= $endReiwa; $reiwa++)
+                        <option value="令和{{ $reiwa }}年" data-year="{{ $reiwa + $reiwaStart - 1 }}">
+                            令和{{ $reiwa }}年
+                        </option>
+                    @endfor
+                </select>
+
+                <!-- 月の選択 -->
+                <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
+                    <option value="" selected>月を選択</option>
+                    @php
+                        $months = range(1, 12); // 1月〜12月
+                    @endphp
+                    @foreach ($months as $month)
+                        <option value="{{ $month }}">{{ $month }}月</option>
+                    @endforeach
+                </select>
+
+            </div>
 </div>
 
         </div>
@@ -574,5 +586,39 @@ function selectTax(amount, taxType) {
 
 </script>
 
+
+
+<script>
+// 車検日の計算
+document.addEventListener('DOMContentLoaded', function() {
+    function calculateMonths() {
+        const yearSelect = document.getElementById('inspection_year');
+        const monthSelect = document.getElementById('inspection_month');
+        const resultSpan = document.getElementById('inspection_result');
+
+        const selectedYearOption = yearSelect.options[yearSelect.selectedIndex];
+        const selectedYear = selectedYearOption.dataset.year ? parseInt(selectedYearOption.dataset.year) : null;
+        const selectedMonth = monthSelect.value ? parseInt(monthSelect.value) : null;
+
+        if (selectedYear && selectedMonth) {
+            const today = new Date();
+            const selectedDate = new Date(selectedYear, selectedMonth - 1, 1); // 1日を基準にする
+
+            const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 + (selectedDate.getMonth() - today.getMonth());
+
+            if (diffInMonths >= 0) {
+                resultSpan.textContent = `残り${diffInMonths}ヶ月`;
+            } else {
+                resultSpan.textContent = "過去の日付";
+            }
+        } else {
+            resultSpan.textContent = "";
+        }
+    }
+
+    document.getElementById('inspection_year').addEventListener('change', calculateMonths);
+    document.getElementById('inspection_month').addEventListener('change', calculateMonths);
+});
+</script>
 
 </x-app-layout>
