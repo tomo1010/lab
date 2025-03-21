@@ -78,6 +78,7 @@
                             1989 => '平成'
                         ];
                     @endphp
+                    <option value="" selected>年式を選択</option>
                     @for ($year = $currentYear; $year >= $endYear; $year--)
                         @php
                             $era = '昭和'; // 初期値（ありえないが保険）
@@ -104,7 +105,7 @@
             <div class="mb-4">
 
             <div class="flex items-center space-x-4">
-                <label for="inspection" class="text-gray-700 font-semibold">車検日</label>
+                <label for="inspection" class="text-gray-700 font-semibold mb-1">車検日</label>
                 <span id="inspection_result" class="text-gray-700 font-semibold"></span>
             </div>
 
