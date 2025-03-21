@@ -104,9 +104,9 @@
 
             <div class="mb-4">
 
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center justify-between">
                 <label for="inspection" class="text-gray-700 font-semibold mb-1">車検日</label>
-                <span id="inspection_result" class="text-gray-700 font-semibold"></span>
+                <span id="inspection_result" class="text-gray-700c font-medium text-sm mb-1"></span>
             </div>
 
             <div class="flex space-x-2 items-center">
@@ -140,21 +140,35 @@
                 </select>
 
             </div>
-</div>
-
         </div>
 
+        </div>
 
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
 
-        <!-- 車輌価格 -->
-        <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
-            <div class="mb-4">
-                <label for="price" class="block text-gray-700 font-semibold mb-1">価格</label>
-                <input type="number" name="price" id="price" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
+            <!-- 車輌価格 -->
+            <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
+                <div class="mb-4">
+                    <!-- ラベルと換算結果を横並びに -->
+                    <div class="flex items-center justify-between">
+                        <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
+                        <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+                    </div>
+
+                    <!-- 入力と万表示 -->
+                    <div class="flex items-center">
+                        <input
+                            type="number"
+                            name="price"
+                            id="price"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            required
+                            oninput="calculateTotal()"
+                        >
+                    </div>
+                </div>
             </div>
-        </div>
 
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
@@ -484,6 +498,11 @@
                         } else if (id.startsWith('option_')) {
                             calculateOptionTotal();
                         }
+
+                        if (id === 'price') {
+                            updatePriceDisplay(); // 金額を万円に変換
+                        }
+
                         calculateTotal();
                     });
                 }
@@ -524,10 +543,7 @@
         //}
 
 
-    </script>
 
-
-<script>
 
 // ポップアップウインドウ操作（税金）
 function openTaxPopup(taxType) {
@@ -584,12 +600,6 @@ function selectTax(amount, taxType) {
 
 
 
-
-</script>
-
-
-
-<script>
 // 車検日の計算
 document.addEventListener('DOMContentLoaded', function() {
     function calculateMonths() {
@@ -620,6 +630,22 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('inspection_year').addEventListener('change', calculateMonths);
     document.getElementById('inspection_month').addEventListener('change', calculateMonths);
 });
+
+
+// 金額を万円に変換
+
+    function updatePriceDisplay() {
+        const priceInput = document.getElementById('price');
+        const convertedDisplay = document.getElementById('price_converted');
+
+        const value = parseFloat(priceInput.value);
+        if (!isNaN(value)) {
+            const manYen = (value / 10000).toFixed(1).replace(/\.0$/, ''); // 少数点0は消す
+            convertedDisplay.textContent = `${manYen}万円`;
+        } else {
+            convertedDisplay.textContent = '';
+        }
+    }
 </script>
 
 </x-app-layout>
