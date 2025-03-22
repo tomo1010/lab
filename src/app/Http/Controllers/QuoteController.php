@@ -103,7 +103,7 @@ class QuoteController extends Controller
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection_year.$request->inspection_month,
+            'inspection' => $request->inspection_year.'-'.$request->inspection_month,
 
             // 車両価格
             'price' => $request->price,
@@ -145,7 +145,7 @@ class QuoteController extends Controller
 
         \Log::info('投稿データ作成成功');
     
-        //// PDF作成をリクエストされた場合
+        // PDF作成をリクエストされた場合
         //if ($request->input('action') === 'pdf') {
         //    return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
         //}
@@ -216,7 +216,8 @@ class QuoteController extends Controller
             'drive' => 'nullable|max:255',
             'year' => 'nullable|max:255',
             'mileage' => 'nullable|max:255',
-            'inspection' => 'nullable|max:255',
+            'inspection_year' => 'nullable|max:255',
+            'inspection_month' => 'nullable|max:255',
 
             'price' => 'required|integer',
 
@@ -251,6 +252,9 @@ class QuoteController extends Controller
             'memo' => 'nullable|max:255',
         ]);
 
+
+        
+
         $quote = Quote::findOrFail($id);
     
         // 投稿の所有者のみ更新可能
@@ -258,6 +262,19 @@ class QuoteController extends Controller
             return redirect()->route('quote.index')->with('error', '不正な操作です');
         }
     
+
+        // 年と月の取得とinspection文字列の生成は事前にやっておく
+        $year = $request->input('inspection_year');
+        $month = $request->input('inspection_month');
+
+        if (in_array($year, ['2年付', '3年付'])) {
+            $inspection = $year;
+        } elseif ($year && $month) {
+            $inspection = $year . '-' . $month;
+        } else {
+            $inspection = null;
+        }
+//dd($inspection);
         // 内容を更新
         $quote->update([
 
@@ -269,7 +286,7 @@ class QuoteController extends Controller
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection,
+            'inspection' => $inspection,
 
             // 車両価格
             'price' => $request->price,
