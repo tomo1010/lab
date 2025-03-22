@@ -98,12 +98,9 @@
             </div>
 
             <div class="mb-4">
-    <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
-    <input type="text" name="mileage" id="mileage"
-           class="w-full px-4 py-2 border rounded-lg"
-           inputmode="numeric" pattern="\d*">
-</div>
-
+                <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
+                <input type="text" name="mileage" id="mileage" class="w-full px-4 py-2 border rounded-lg">
+            </div>
 
             <div class="mb-4">
 
@@ -153,103 +150,87 @@
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
 
-<!-- 車輌価格 -->
-<div class="mb-4 bg-yellow-100 p-6 rounded-lg">
-    <div class="mb-4">
-        <!-- ラベルと換算結果を横並びに -->
-        <div class="flex items-center justify-between">
-            <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
-            <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
-        </div>
+            <!-- 車輌価格 -->
+            <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
+                <div class="mb-4">
+                    <!-- ラベルと換算結果を横並びに -->
+                    <div class="flex items-center justify-between">
+                        <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
+                        <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+                    </div>
 
-        <!-- 入力と万表示 -->
-        <div class="flex items-center">
-            <input
-                type="number"
-                name="price"
-                id="price"
-                class="w-full px-4 py-2 border rounded-lg"
-                inputmode="numeric" pattern="\d*"
-                required
-                oninput="calculateTotal()"
-            >
-        </div>
-    </div>
-</div>
-
+                    <!-- 入力と万表示 -->
+                    <div class="flex items-center">
+                        <input
+                            type="number"
+                            name="price"
+                            id="price"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            required
+                            oninput="calculateTotal()"
+                        >
+                    </div>
+                </div>
+            </div>
 
 
         <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
 
-<!-- 税金・保険料 -->
-<div class="mb-4 bg-purple-100 p-6 rounded-lg">
+        <!-- 税金・保険料 -->
+        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
 
-    <!-- ポップアップウィンドウ（自動車税月割表） -->
-    <div class="mb-4">
-        <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-            自動車税（月割）
-            <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-info-circle"></i>
-            </button>
-        </label>
-        <input type="number" name="tax_1" id="tax_1"
-               class="w-full px-4 py-2 border rounded-lg"
-               inputmode="numeric" pattern="\d*"
-               oninput="calculateOverheadTotal()">
-    </div>
+            <!-- ポップアップウィンドウ（自動車税月割表） -->
+            <div class="mb-4">
+                <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    自動車税（月割）
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
+                <input type="number" name="tax_1" id="tax_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                </div>
 
-    @include('quote.popup.tax_1')
+                @include('quote.popup.tax_1')
 
-    <!-- ポップアップウィンドウ（重量税月割表） -->
-    <div class="mb-4">
-        <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
-            重量税
-            <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-info-circle"></i>
-            </button>
-        </label>
-        <input type="number" name="tax_2" id="tax_2"
-               class="w-full px-4 py-2 border rounded-lg"
-               inputmode="numeric" pattern="\d*"
-               oninput="calculateOverheadTotal()">
-    </div>
+            <!-- ポップアップウィンドウ（重量税月割表） -->
+            <div class="mb-4">
+                <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    重量税
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
+                <input type="number" name="tax_2" id="tax_2" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
 
-    @include('quote.popup.tax_2')
+                @include('quote.popup.tax_2')
 
-    <!-- ポップアップウィンドウ（自賠責月割表） -->
-    <div class="mb-4">
-        <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
-            自賠責
-            <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-info-circle"></i>
-            </button>
-        </label>
-        <input type="number" name="tax_3" id="tax_3"
-               class="w-full px-4 py-2 border rounded-lg"
-               inputmode="numeric" pattern="\d*"
-               oninput="calculateOverheadTotal()">
-    </div>
+            <!-- ポップアップウィンドウ（自賠責月割表） -->
+            <div class="mb-4">
+                <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
+                    自賠責
+                    <!-- ポップアップアイコンボタン -->
+                    <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </label>
+                <input type="number" name="tax_3" id="tax_3" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
 
-    @include('quote.popup.tax_3')
+                @include('quote.popup.tax_3')
 
-    <div class="mb-4">
-        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
-        <input type="number" name="tax_4" id="tax_4"
-               class="w-full px-4 py-2 border rounded-lg"
-               inputmode="numeric" pattern="\d*"
-               oninput="calculateOverheadTotal()">
-    </div>
+            <div class="mb-4">
+                <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
+                <input type="number" name="tax_4" id="tax_4" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
+            <div class="mb-4">
+                <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
+                <input type="number" name="tax_5" id="tax_5" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+            </div>
 
-    <div class="mb-4">
-        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
-        <input type="number" name="tax_5" id="tax_5"
-               class="w-full px-4 py-2 border rounded-lg"
-               inputmode="numeric" pattern="\d*"
-               oninput="calculateOverheadTotal()">
-    </div>
-
-</div>
-
+        </div>
         
 
 
@@ -323,7 +304,7 @@
         </div>
 
         <!-- オプション合計 -->
-        <div class="mb-4 col-span-2">
+        <div class="mb-4">
             <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
             <input type="number" name="option_total" id="option_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
         </div>

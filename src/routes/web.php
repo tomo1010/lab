@@ -129,3 +129,4 @@ Route::middleware('auth')->group(function () {
 Route::post('quotes/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('quotes.copy');
 Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('quotes.createPdf');
 
+
