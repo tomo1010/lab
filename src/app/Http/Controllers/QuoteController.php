@@ -47,7 +47,7 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-dd($request);
+//dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -103,7 +103,7 @@ dd($request);
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection_year.$request->inspection_month,
+            'inspection' => $request->inspection_year.'-'.$request->inspection_month,
 
             // 車両価格
             'price' => $request->price,
@@ -206,7 +206,7 @@ dd($request);
      */
     public function update(Request $request, $id)
     {
-dd($request);
+//dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -252,6 +252,9 @@ dd($request);
             'memo' => 'nullable|max:255',
         ]);
 
+
+        
+
         $quote = Quote::findOrFail($id);
     
         // 投稿の所有者のみ更新可能
@@ -259,6 +262,19 @@ dd($request);
             return redirect()->route('quote.index')->with('error', '不正な操作です');
         }
     
+
+        // 年と月の取得とinspection文字列の生成は事前にやっておく
+        $year = $request->input('inspection_year');
+        $month = $request->input('inspection_month');
+
+        if (in_array($year, ['2年付', '3年付'])) {
+            $inspection = $year;
+        } elseif ($year && $month) {
+            $inspection = $year . '-' . $month;
+        } else {
+            $inspection = null;
+        }
+//dd($inspection);
         // 内容を更新
         $quote->update([
 
@@ -270,7 +286,7 @@ dd($request);
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection_year.$request->inspection_month,
+            'inspection' => $inspection,
 
             // 車両価格
             'price' => $request->price,

@@ -20,6 +20,13 @@
                     </div>
                 @endif
 
+                @if (session('success'))
+    <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+
                 <!-- 更新フォーム (PUTメソッド) -->
                 <form action="{{ route('quotes.update', $quote->id) }}" method="POST" class="space-y-4">
                     @csrf
@@ -94,20 +101,18 @@
                         <input type="text" name="mileage" id="mileage" value="{{ old('mileage', $quote->mileage) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                     
+
                     @php
-    // inspection が "令和6年5月" のような形式で保存されていると仮定して分解
-    $inspectionValue = old('inspection', $quote->inspection);
-    $selectedInspectionYear = '';
-    $selectedInspectionMonth = '';
+    $inspectionValue = old('inspection', $quote->inspection); // 例: '2025-7' or '2年付'
+    $selectedInspectionYear = null;
+    $selectedInspectionMonth = null;
 
-    if (preg_match('/令和(\d+)年/', $inspectionValue, $matches)) {
-        $selectedInspectionYear = '令和' . $matches[1] . '年';
-    } elseif (in_array($inspectionValue, ['2年付', '3年付'])) {
+    if ($inspectionValue === '2年付' || $inspectionValue === '3年付') {
         $selectedInspectionYear = $inspectionValue;
-    }
-
-    if (preg_match('/(\d{1,2})月/', $inspectionValue, $matches)) {
-        $selectedInspectionMonth = (int) $matches[1];
+    } elseif ($inspectionValue && strpos($inspectionValue, '-') !== false) {
+        [$selectedInspectionYear, $selectedInspectionMonth] = explode('-', $inspectionValue);
+        $selectedInspectionYear = (int) $selectedInspectionYear;
+        $selectedInspectionMonth = (int) $selectedInspectionMonth;
     }
 @endphp
 
@@ -123,18 +128,19 @@
             @php
                 $currentYear = now()->year;
                 $reiwaStart = 2019;
-                $startReiwa = $currentYear - $reiwaStart + 1;
-                $endReiwa = $startReiwa + 3;
+                $startYear = $currentYear;
+                $endYear = $currentYear + 3;
             @endphp
             <option value="">年を選択</option>
-            <option value="2年付" {{ $selectedInspectionYear === '2年付' ? 'selected' : '' }}>2年付</option>
-            <option value="3年付" {{ $selectedInspectionYear === '3年付' ? 'selected' : '' }}>3年付</option>
-            @for ($reiwa = $startReiwa; $reiwa <= $endReiwa; $reiwa++)
+            <option value="2年付" {{ old('inspection_year', $selectedInspectionYear) === '2年付' ? 'selected' : '' }}>2年付</option>
+            <option value="3年付" {{ old('inspection_year', $selectedInspectionYear) === '3年付' ? 'selected' : '' }}>3年付</option>
+
+            @for ($year = $startYear; $year <= $endYear; $year++)
                 @php
-                    $label = '令和' . $reiwa . '年';
+                    $reiwa = $year - $reiwaStart + 1;
                 @endphp
-                <option value="{{ $label }}" data-year="{{ $reiwa + $reiwaStart - 1 }}" {{ $selectedInspectionYear === $label ? 'selected' : '' }}>
-                    {{ $label }}
+                <option value="{{ $year }}" {{ (int)old('inspection_year', $selectedInspectionYear) === $year ? 'selected' : '' }}>
+                    {{ $year }}（令和{{ $reiwa }}年）
                 </option>
             @endfor
         </select>
@@ -143,7 +149,7 @@
         <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
             <option value="">月を選択</option>
             @foreach (range(1, 12) as $month)
-                <option value="{{ $month }}" {{ $selectedInspectionMonth === $month ? 'selected' : '' }}>
+                <option value="{{ $month }}" {{ (int)old('inspection_month', $selectedInspectionMonth) === $month ? 'selected' : '' }}>
                     {{ $month }}月
                 </option>
             @endforeach
@@ -151,36 +157,100 @@
     </div>
 </div>
 
+</div>
 
-                </div>
+<h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
 
+<!-- 車輌価格 -->
+<div class="mb-4 bg-yellow-100 p-6 rounded-lg">
+    <div class="mb-4">
+        <!-- ラベルと換算結果を横並びに -->
+        <div class="flex items-center justify-between">
+            <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
+            <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+        </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
-                <!-- 車輌価格 -->
-                <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
-                    <div class="mb-4">
-                        <label for="price" class="block text-gray-700 font-semibold mb-1">価格</label>
-                        <input type="number" name="price" id="price" value="{{ old('price', $quote->price) }}" class="w-full px-4 py-2 border rounded-lg" required oninput="calculateTotal()">
-                    </div>
-                </div>
+        <!-- 入力と万表示 -->
+        <div class="flex items-center">
+            <input
+                type="number"
+                name="price"
+                id="price"
+                value="{{ old('price', $quote->price) }}"
+                class="w-full px-4 py-2 border rounded-lg"
+                required
+                oninput="calculateTotal(); calculatePriceDisplay();"
+            >
+        </div>
+    </div>
+</div>
+
 
 
                 <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
 
                 <!-- 税金・保険料 -->
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                    <div class="mb-4">
-                        <label for="tax_1" class="block text-gray-700 font-semibold mb-1">自動車税</label>
-                        <input type="number" name="tax_1" id="tax_1" value="{{ old('tax_1', $quote->tax_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                    </div>
-                    <div class="mb-4">
-                        <label for="tax_2" class="block text-gray-700 font-semibold mb-1">重量税</label>
-                        <input type="number" name="tax_2" id="tax_2" value="{{ old('tax_2', $quote->tax_2) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                    </div>
-                    <div class="mb-4">
-                        <label for="tax_3" class="block text-gray-700 font-semibold mb-1">自賠責保険</label>
-                        <input type="number" name="tax_3" id="tax_3" value="{{ old('tax_3', $quote->tax_3) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                    </div>
+                <div class="mb-4">
+    <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
+        自動車税（月割）
+        <!-- ポップアップアイコンボタン -->
+        <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </label>
+    <input
+        type="number"
+        name="tax_1"
+        id="tax_1"
+        value="{{ old('tax_1', $quote->tax_1) }}"
+        class="w-full px-4 py-2 border rounded-lg"
+        oninput="calculateOverheadTotal()"
+    >
+</div>
+
+@include('quote.popup.tax_1')
+
+<div class="mb-4">
+    <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
+        重量税
+        <!-- ポップアップアイコンボタン -->
+        <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </label>
+    <input
+        type="number"
+        name="tax_2"
+        id="tax_2"
+        value="{{ old('tax_2', $quote->tax_2) }}"
+        class="w-full px-4 py-2 border rounded-lg"
+        oninput="calculateOverheadTotal()"
+    >
+</div>
+
+@include('quote.popup.tax_2')
+
+<div class="mb-4">
+    <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
+        自賠責保険
+        <!-- ポップアップアイコンボタン -->
+        <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </label>
+    <input
+        type="number"
+        name="tax_3"
+        id="tax_3"
+        value="{{ old('tax_3', $quote->tax_3) }}"
+        class="w-full px-4 py-2 border rounded-lg"
+        oninput="calculateOverheadTotal()"
+    >
+</div>
+
+@include('quote.popup.tax_3')
+
                     <div class="mb-4">
                         <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
                         <input type="number" name="tax_4" id="tax_4" value="{{ old('tax_4', $quote->tax_4) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
@@ -562,7 +632,6 @@ function selectTax(amount, taxType) {
 }
 
 
-
 // 車検日から残り月数を計算
 document.addEventListener('DOMContentLoaded', function() {
     function calculateMonths() {
@@ -570,15 +639,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const monthSelect = document.getElementById('inspection_month');
         const resultSpan = document.getElementById('inspection_result');
 
-        const selectedYearOption = yearSelect.options[yearSelect.selectedIndex];
-        const selectedYear = selectedYearOption.dataset.year ? parseInt(selectedYearOption.dataset.year) : null;
+        const selectedYear = yearSelect.value ? parseInt(yearSelect.value) : null;
         const selectedMonth = monthSelect.value ? parseInt(monthSelect.value) : null;
 
         if (selectedYear && selectedMonth) {
             const today = new Date();
-            const selectedDate = new Date(selectedYear, selectedMonth - 1, 1); // 1日を基準にする
+            const selectedDate = new Date(selectedYear, selectedMonth - 1, 1); // 1日基準
 
-            const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 + (selectedDate.getMonth() - today.getMonth());
+            const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 +
+                                 (selectedDate.getMonth() - today.getMonth());
 
             if (diffInMonths >= 0) {
                 resultSpan.textContent = `残り${diffInMonths}ヶ月`;
@@ -595,6 +664,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+
 // 金額を万円に変換
 
     function updatePriceDisplay() {
@@ -609,6 +680,6 @@ document.addEventListener('DOMContentLoaded', function() {
             convertedDisplay.textContent = '';
         }
     }
-    </script>
+</script>
 
 </x-app-layout>
