@@ -304,7 +304,7 @@
         </div>
 
         <!-- オプション合計 -->
-        <div class="mb-4">
+        <div class="mb-4 col-span-2">
             <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
             <input type="number" name="option_total" id="option_total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
         </div>
