@@ -47,7 +47,7 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-//dd($request);
+dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -145,7 +145,7 @@ class QuoteController extends Controller
 
         \Log::info('投稿データ作成成功');
     
-        //// PDF作成をリクエストされた場合
+        // PDF作成をリクエストされた場合
         //if ($request->input('action') === 'pdf') {
         //    return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
         //}
@@ -206,7 +206,7 @@ class QuoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-//dd($request);
+dd($request);
         // バリデーション
         $request->validate([
             'car' => 'nullable|max:255',
@@ -216,7 +216,8 @@ class QuoteController extends Controller
             'drive' => 'nullable|max:255',
             'year' => 'nullable|max:255',
             'mileage' => 'nullable|max:255',
-            'inspection' => 'nullable|max:255',
+            'inspection_year' => 'nullable|max:255',
+            'inspection_month' => 'nullable|max:255',
 
             'price' => 'required|integer',
 
@@ -269,7 +270,7 @@ class QuoteController extends Controller
             'drive' => $request->drive,
             'year' => $request->year,
             'mileage' => $request->mileage,
-            'inspection' => $request->inspection,
+            'inspection' => $request->inspection_year.$request->inspection_month,
 
             // 車両価格
             'price' => $request->price,
