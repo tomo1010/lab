@@ -253,25 +253,26 @@
         
 
 
-        <!-- 諸費用 -->
-        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="mb-4">
-                    <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="overhead_1" id="overhead_1" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                </div>
-                <div class="mb-4">
-                    <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-                    <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
-                </div>
-                <div class="mb-4">
-                    <input type="number" name="overhead_11" id="overhead_11" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                </div>
-            </div>
+<!-- 諸費用 -->
+<div class="mb-4 bg-purple-100 p-6 rounded-lg">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="mb-4">
+            <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
         </div>
+        <div class="mb-4">
+            <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+        </div>
+        <div class="mb-4">
+            <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
+            <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
+        </div>
+        <div class="mb-4">
+            <input type="number" name="overhead_11" id="overhead_11" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+        </div>
+    </div>
+</div>
+
 
         <!-- 税金と諸費用の合計 -->            
         <div class="mb-4 bg-purple-100 p-6 rounded-lg">
@@ -291,36 +292,38 @@
             <input type="text" name="optionName_1" id="optionName_1" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
         <div class="mb-4">
-            <input type="number" name="option_1" id="option_1" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+            <input type="number" name="option_1" id="option_1" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
         <div class="mb-4">
             <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
             <input type="text" name="optionName_2" id="optionName_2" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
         <div class="mb-4">
-            <input type="number" name="option_2" id="option_2" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+            <input type="number" name="option_2" id="option_2" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
         <div class="mb-4">
             <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
             <input type="text" name="optionName_3" id="optionName_3" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
         <div class="mb-4">
-            <input type="number" name="option_3" id="option_3" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+            <input type="number" name="option_3" id="option_3" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
         <div class="mb-4">
             <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
             <input type="text" name="optionName_4" id="optionName_4" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
         <div class="mb-4">
-            <input type="number" name="option_4" id="option_4" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+            <input type="number" name="option_4" id="option_4" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
         <div class="mb-4">
             <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
             <input type="text" name="optionName_5" id="optionName_5" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
         </div>
         <div class="mb-4">
-            <input type="number" name="option_5" id="option_5" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+            <input type="number" name="option_5" id="option_5" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
         </div>
+    
+
 
         <!-- オプション合計 -->
         <div class="mb-4 col-span-2">
@@ -339,17 +342,18 @@
         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
     </div>
 
-    <!-- 下取り -->
-    <div class="mb-4">
-        <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-        <input type="number" name="trade_price" id="trade_price" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
-    </div>
+<!-- 下取り -->
+<div class="mb-4">
+    <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
+    <input type="number" name="trade_price" id="trade_price" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+</div>
 
-    <!-- 値引き -->
-    <div class="mb-4">
-        <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-        <input type="number" name="discount" id="discount" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
-    </div>
+<!-- 値引き -->
+<div class="mb-4">
+    <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
+    <input type="number" name="discount" id="discount" inputmode="numeric" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+</div>
+
 
     <!-- お支払い総額 -->
     <div class="mb-4">
