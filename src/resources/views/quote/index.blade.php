@@ -400,7 +400,7 @@
         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
             <!-- 名前・車名・更新日時 -->
             <div>
-                <span class="text-lg font-semibold">{{ $quote->car }}/{{ $quote->color }} {{ $quote->payment }}円</span>
+                <span class="text-lg font-semibold">{{ $quote->car }} {{ $quote->color }} {{ $quote->payment }}円</span>
                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
             </div>
 
