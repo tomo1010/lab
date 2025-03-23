@@ -50,20 +50,27 @@
                         <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
                         <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
-                    <div class="mb-4">
-                        <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                        <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
-                        <label for="transmission_at" class="mr-4">AT</label>
-                        <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
-                        <label for="transmission_mt">MT</label>
-                    </div>
-                    <div class="mb-4">
-                        <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                        <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
-                        <label for="drive_2wd" class="mr-4">2WD</label>
-                        <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
-                        <label for="drive_4wd">4WD</label>
-                    </div>
+                    <div class="mb-4 flex space-x-8">
+    <div class="w-1/2">
+        <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+        <div class="flex items-center">
+            <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
+            <label for="transmission_at" class="mr-4">AT</label>
+            <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
+            <label for="transmission_mt">MT</label>
+        </div>
+    </div>
+    <div class="w-1/2">
+        <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+        <div class="flex items-center">
+            <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
+            <label for="drive_2wd" class="mr-4">2WD</label>
+            <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
+            <label for="drive_4wd">4WD</label>
+        </div>
+    </div>
+</div>
+
                     <div class="mb-4">
     <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
     <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
@@ -76,7 +83,7 @@
             ];
             $selectedYear = old('year', $quote->year);
         @endphp
-        <option value="">年式を選択</option>
+        <option value=""></option>
         @for ($year = $currentYear; $year >= $endYear; $year--)
             @php
                 $era = '昭和'; // 初期値
@@ -131,7 +138,7 @@
                 $startYear = $currentYear;
                 $endYear = $currentYear + 3;
             @endphp
-            <option value="">年を選択</option>
+            <option value=""></option>
             <option value="2年付" {{ old('inspection_year', $selectedInspectionYear) === '2年付' ? 'selected' : '' }}>2年付</option>
             <option value="3年付" {{ old('inspection_year', $selectedInspectionYear) === '3年付' ? 'selected' : '' }}>3年付</option>
 
@@ -147,7 +154,7 @@
 
         <!-- 月の選択 -->
         <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
-            <option value="">月を選択</option>
+            <option value=""></option>
             @foreach (range(1, 12) as $month)
                 <option value="{{ $month }}" {{ (int)old('inspection_month', $selectedInspectionMonth) === $month ? 'selected' : '' }}>
                     {{ $month }}月
@@ -194,7 +201,7 @@
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
                 <div class="mb-4">
     <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-        自動車税（月割）
+        自動車税
         <!-- ポップアップアイコンボタン -->
         <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
             <i class="fas fa-info-circle"></i>
@@ -256,11 +263,25 @@
 @include('quote.popup.tax_3')
 
                     <div class="mb-4">
-                        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
+                        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割
+                        <a href="https://www.jucda.or.jp/tax/kankyouseinouwari/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+                        </label>
                         <input type="number" name="tax_4" id="tax_4" value="{{ old('tax_4', $quote->tax_4) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
                     </div>
                     <div class="mb-4">
-                        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
+                        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用
+                        <a href="http://www1.jars.gr.jp/index.html" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+                        </label>
                         <input type="number" name="tax_5" id="tax_5" value="{{ old('tax_5', $quote->tax_5) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
                     </div>
                 </div>
@@ -363,7 +384,7 @@
                     </div>
 
                     <div>
-                        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
                         <input type="text" name="memo" id="memo" value="{{ old('memo', $quote->memo) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
 

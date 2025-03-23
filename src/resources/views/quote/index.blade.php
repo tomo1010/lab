@@ -48,25 +48,26 @@
                 <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
             </div>
             <div class="mb-4 flex space-x-8">
-                <div>
-                    <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                    <div class="flex items-center">
-                        <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
-                        <label for="transmission_at" class="mr-4">AT</label>
-                        <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
-                        <label for="transmission_mt">MT</label>
-                    </div>
-                </div>
-                <div>
-                    <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                    <div class="flex items-center">
-                        <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
-                        <label for="drive_2wd" class="mr-4">2WD</label>
-                        <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
-                        <label for="drive_4wd">4WD</label>
-                    </div>
-                </div>
-            </div>
+    <div class="w-1/2">
+        <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+        <div class="flex items-center">
+            <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
+            <label for="transmission_at" class="mr-4">AT</label>
+            <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
+            <label for="transmission_mt">MT</label>
+        </div>
+    </div>
+    <div class="w-1/2">
+        <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+        <div class="flex items-center">
+            <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
+            <label for="drive_2wd" class="mr-4">2WD</label>
+            <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
+            <label for="drive_4wd">4WD</label>
+        </div>
+    </div>
+</div>
+
             <div class="mb-4">
                 <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
                 <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
@@ -78,7 +79,7 @@
                             1989 => '平成'
                         ];
                     @endphp
-                    <option value="" selected>年式を選択</option>
+                    <option value="" selected></option>
                     @for ($year = $currentYear; $year >= $endYear; $year--)
                         @php
                             $era = '昭和'; // 初期値（ありえないが保険）
@@ -121,7 +122,7 @@
                         $startYear = $currentYear;
                         $endYear = $currentYear + 3; // 3年後まで表示
                     @endphp
-                    <option value="" selected>年を選択</option>
+                    <option value="" selected></option>
                     <option value="2年付">2年付</option>
                     <option value="3年付">3年付</option>
                     @for ($year = $startYear; $year <= $endYear; $year++)
@@ -136,7 +137,7 @@
 
                 <!-- 月の選択 -->
                 <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
-                    <option value="" selected>月を選択</option>
+                    <option value="" selected></option>
                     @php
                         $months = range(1, 12); // 1月〜12月
                     @endphp
@@ -187,7 +188,7 @@
     <!-- ポップアップウィンドウ（自動車税月割表） -->
     <div class="mb-4">
         <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-            自動車税（月割）
+            自動車税
             <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
                 <i class="fas fa-info-circle"></i>
             </button>
@@ -233,7 +234,14 @@
     @include('quote.popup.tax_3')
 
     <div class="mb-4">
-        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
+        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割
+            <a href="https://www.jucda.or.jp/tax/kankyouseinouwari/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+        </label>
         <input type="number" name="tax_4" id="tax_4"
                class="w-full px-4 py-2 border rounded-lg"
                inputmode="numeric" pattern="\d*"
@@ -241,7 +249,14 @@
     </div>
 
     <div class="mb-4">
-        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
+        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用
+            <a href="http://www1.jars.gr.jp/index.html" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+        </label>
         <input type="number" name="tax_5" id="tax_5"
                class="w-full px-4 py-2 border rounded-lg"
                inputmode="numeric" pattern="\d*"
@@ -252,26 +267,48 @@
 
         
 
-
 <!-- 諸費用 -->
-<div class="mb-4 bg-purple-100 p-6 rounded-lg">
-    <div class="grid grid-cols-2 gap-4">
-        <div class="mb-4">
-            <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
-            <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
+<div class="mt-0 mb-4 bg-purple-100 p-6 rounded-lg">
+    <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+        <!-- 登録費用名 -->
+        <div>
+            <div class="h-6 mb-1"></div>
+            <input type="text" name="overheadName_1" id="overheadName_1"
+                   class="w-full px-4 py-2 border rounded-lg bg-gray-100"
+                   readonly placeholder="登録費用">
         </div>
-        <div class="mb-4">
-            <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" pattern="\d*" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+
+        <!-- 登録費用金額 -->
+        <div>
+            <div class="h-6 mb-1"></div>
+            <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" pattern="\d*"
+                   class="w-full px-4 py-2 border rounded-lg"
+                   oninput="calculateOverheadTotal()">
         </div>
-        <div class="mb-4">
-            <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-            <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
+
+        <!-- フリー入力名 -->
+        <div>
+            <div class="h-6 mb-1"></div>
+            <input type="text" name="overheadName_11" id="overheadName_11"
+                   class="w-full px-4 py-2 border rounded-lg"
+                   placeholder="フリー入力">
         </div>
-        <div class="mb-4">
-            <input type="number" name="overhead_11" id="overhead_11" inputmode="numeric" pattern="\d*" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+
+        <!-- フリー入力金額 -->
+        <div>
+            <div class="h-6 mb-1"></div>
+            <input type="number" name="overhead_11" id="overhead_11" inputmode="numeric" pattern="\d*"
+                   class="w-full px-4 py-2 border rounded-lg"
+                   oninput="calculateOverheadTotal()">
         </div>
     </div>
 </div>
+
+
+
+
+
+
 
 
         <!-- 税金と諸費用の合計 -->            
@@ -363,7 +400,7 @@
 
     <!--メモ -->
     <div class="mb-4">
-        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
         <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
     </div>
 
