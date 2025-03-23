@@ -193,7 +193,7 @@
     @endif
 
     <div class="section">
-        <strong>備考:</strong>
+        <strong>メモ:</strong>
         <p>{{ $memo }}</p>
     </div>
 

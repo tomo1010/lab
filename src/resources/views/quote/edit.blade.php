@@ -50,20 +50,27 @@
                         <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
                         <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
-                    <div class="mb-4">
-                        <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                        <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
-                        <label for="transmission_at" class="mr-4">AT</label>
-                        <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
-                        <label for="transmission_mt">MT</label>
-                    </div>
-                    <div class="mb-4">
-                        <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
-                        <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
-                        <label for="drive_2wd" class="mr-4">2WD</label>
-                        <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
-                        <label for="drive_4wd">4WD</label>
-                    </div>
+                    <div class="mb-4 flex space-x-8">
+    <div class="w-1/2">
+        <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+        <div class="flex items-center">
+            <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
+            <label for="transmission_at" class="mr-4">AT</label>
+            <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
+            <label for="transmission_mt">MT</label>
+        </div>
+    </div>
+    <div class="w-1/2">
+        <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+        <div class="flex items-center">
+            <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
+            <label for="drive_2wd" class="mr-4">2WD</label>
+            <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
+            <label for="drive_4wd">4WD</label>
+        </div>
+    </div>
+</div>
+
                     <div class="mb-4">
     <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
     <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
@@ -76,7 +83,7 @@
             ];
             $selectedYear = old('year', $quote->year);
         @endphp
-        <option value="">年式を選択</option>
+        <option value=""></option>
         @for ($year = $currentYear; $year >= $endYear; $year--)
             @php
                 $era = '昭和'; // 初期値
@@ -98,7 +105,7 @@
 
                     <div class="mb-4">
                         <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
-                        <input type="text" name="mileage" id="mileage" value="{{ old('mileage', $quote->mileage) }}" class="w-full px-4 py-2 border rounded-lg">
+                        <input type="text" name="mileage" id="mileage" inputmode="numeric" value="{{ old('mileage', $quote->mileage) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                     
 
@@ -131,7 +138,7 @@
                 $startYear = $currentYear;
                 $endYear = $currentYear + 3;
             @endphp
-            <option value="">年を選択</option>
+            <option value=""></option>
             <option value="2年付" {{ old('inspection_year', $selectedInspectionYear) === '2年付' ? 'selected' : '' }}>2年付</option>
             <option value="3年付" {{ old('inspection_year', $selectedInspectionYear) === '3年付' ? 'selected' : '' }}>3年付</option>
 
@@ -147,7 +154,7 @@
 
         <!-- 月の選択 -->
         <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
-            <option value="">月を選択</option>
+            <option value=""></option>
             @foreach (range(1, 12) as $month)
                 <option value="{{ $month }}" {{ (int)old('inspection_month', $selectedInspectionMonth) === $month ? 'selected' : '' }}>
                     {{ $month }}月
@@ -178,6 +185,7 @@
                 id="price"
                 value="{{ old('price', $quote->price) }}"
                 class="w-full px-4 py-2 border rounded-lg"
+                inputmode="numeric" pattern="\d*"
                 required
                 oninput="calculateTotal(); calculatePriceDisplay();"
             >
@@ -193,7 +201,7 @@
                 <div class="mb-4 bg-purple-100 p-6 rounded-lg">
                 <div class="mb-4">
     <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-        自動車税（月割）
+        自動車税
         <!-- ポップアップアイコンボタン -->
         <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
             <i class="fas fa-info-circle"></i>
@@ -205,6 +213,7 @@
         id="tax_1"
         value="{{ old('tax_1', $quote->tax_1) }}"
         class="w-full px-4 py-2 border rounded-lg"
+        inputmode="numeric" pattern="\d*"
         oninput="calculateOverheadTotal()"
     >
 </div>
@@ -225,6 +234,7 @@
         id="tax_2"
         value="{{ old('tax_2', $quote->tax_2) }}"
         class="w-full px-4 py-2 border rounded-lg"
+        inputmode="numeric" pattern="\d*"
         oninput="calculateOverheadTotal()"
     >
 </div>
@@ -245,6 +255,7 @@
         id="tax_3"
         value="{{ old('tax_3', $quote->tax_3) }}"
         class="w-full px-4 py-2 border rounded-lg"
+        inputmode="numeric" pattern="\d*"
         oninput="calculateOverheadTotal()"
     >
 </div>
@@ -252,12 +263,26 @@
 @include('quote.popup.tax_3')
 
                     <div class="mb-4">
-                        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割</label>
-                        <input type="number" name="tax_4" id="tax_4" value="{{ old('tax_4', $quote->tax_4) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                        <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割
+                        <a href="https://www.jucda.or.jp/tax/kankyouseinouwari/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+                        </label>
+                        <input type="number" name="tax_4" id="tax_4" value="{{ old('tax_4', $quote->tax_4) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
                     </div>
                     <div class="mb-4">
-                        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用</label>
-                        <input type="number" name="tax_5" id="tax_5" value="{{ old('tax_5', $quote->tax_5) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                        <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用
+                        <a href="http://www1.jars.gr.jp/index.html" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="ml-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-square-arrow-up-right"></i>
+            </a>
+                        </label>
+                        <input type="number" name="tax_5" id="tax_5" value="{{ old('tax_5', $quote->tax_5) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
                     </div>
                 </div>
 
@@ -270,14 +295,14 @@
                             <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="overhead_1" id="overhead_1" value="{{ old('overhead_1', $quote->overhead_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                            <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" pattern="\d*" value="{{ old('overhead_1', $quote->overhead_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
                         </div>
                         <div class="mb-4">
                             <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
                             <input type="text" name="overheadName_11" id="overheadName_11" value="{{ old('overheadName_11', $quote->overheadName_11) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="overhead_11" id="overhead_11" value="{{ old('overhead_11', $quote->overhead_11) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
+                            <input type="number" name="overhead_11" id="overhead_11" inputmode="numeric" pattern="\d*" value="{{ old('overhead_11', $quote->overhead_11) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
                         </div>
                     </div>
                 </div>
@@ -301,35 +326,35 @@
                             <input type="text" name="optionName_1" id="optionName_1" value="{{ old('optionName_1', $quote->optionName_1) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="option_1" id="option_1" value="{{ old('option_1', $quote->option_1) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+                            <input type="number" name="option_1" id="option_1" inputmode="numeric" pattern="\d*" value="{{ old('option_1', $quote->option_1) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
                         </div>
                         <div class="mb-4">
                             <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
                             <input type="text" name="optionName_2" id="optionName_2" value="{{ old('optionName_2', $quote->optionName_2) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="option_2" id="option_2" value="{{ old('option_2', $quote->option_2) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+                            <input type="number" name="option_2" id="option_2" inputmode="numeric" pattern="\d*" value="{{ old('option_2', $quote->option_2) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
                         </div>
                         <div class="mb-4">
                             <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
                             <input type="text" name="optionName_3" id="optionName_3" value="{{ old('optionName_3', $quote->optionName_3) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="option_3" id="option_3" value="{{ old('option_3', $quote->option_3) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+                            <input type="number" name="option_3" id="option_3" inputmode="numeric" pattern="\d*" value="{{ old('option_3', $quote->option_3) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
                         </div>
                         <div class="mb-4">
                             <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
                             <input type="text" name="optionName_4" id="optionName_4" value="{{ old('optionName_4', $quote->optionName_4) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="option_4" id="option_4" value="{{ old('option_4', $quote->option_4) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+                            <input type="number" name="option_4" id="option_4" inputmode="numeric" pattern="\d*" value="{{ old('option_4', $quote->option_4) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
                         </div>
                         <div class="mb-4">
                             <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
                             <input type="text" name="optionName_5" id="optionName_5" value="{{ old('optionName_5', $quote->optionName_5) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
                         </div>
                         <div class="mb-4">
-                            <input type="number" name="option_5" id="option_5" value="{{ old('option_5', $quote->option_5) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
+                            <input type="number" name="option_5" id="option_5" inputmode="numeric" pattern="\d*" value="{{ old('option_5', $quote->option_5) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
                         </div>
 
                         <!-- オプション合計 -->
@@ -347,11 +372,11 @@
                     </div>
                     <div class="mb-4">
                         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-                        <input type="number" name="trade_price" id="trade_price" value="{{ old('trade_price', $quote->trade_price) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+                        <input type="number" name="trade_price" id="trade_price" inputmode="numeric" pattern="\d*" value="{{ old('trade_price', $quote->trade_price) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
                     </div>
                     <div class="mb-4">
                         <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-                        <input type="number" name="discount" id="discount" value="{{ old('discount', $quote->discount) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+                        <input type="number" name="discount" id="discount" inputmode="numeric" pattern="\d*" value="{{ old('discount', $quote->discount) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
                     </div>
                     <div class="mb-4">
                         <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
@@ -359,7 +384,7 @@
                     </div>
 
                     <div>
-                        <label for="memo" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
                         <input type="text" name="memo" id="memo" value="{{ old('memo', $quote->memo) }}" class="w-full px-4 py-2 border rounded-lg">
                     </div>
 
@@ -433,7 +458,12 @@
                         <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
                             <!-- 名前・車名・更新日時 -->
                             <div>
-                                    {{ $quote->car }}/{{ $quote->color }} {{ $quote->payment }}円
+                                    <!-- 万表示の.01は非表示 -->
+                                    @php
+                                        $man = $quote->payment / 10000;
+                                        $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
+                                    @endphp
+                                    {{ $quote->car }} {{ $quote->color }} {{ $displayMan }}万円
                                 <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
                             </div>
 
