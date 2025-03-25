@@ -43,7 +43,7 @@
                             <h2 class="text-lg font-semibold text-center mb-3">商品 1</h2>
                             <div class="flex flex-col gap-2">
                                 <label for="cost1"></label>
-                                <input type="number" name="cost1" id="cost1" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                                <input type="number" name="cost1" id="cost1" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                 <label for="cost1Multiplier"></label>
                                 <select name="cost1Multiplier" id="cost1Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                                     <option value="1">×1</option>
@@ -71,7 +71,7 @@
                             <h2 class="text-lg font-semibold text-center mb-3">商品 2</h2>
                             <div class="flex flex-col gap-2">
                                 <label for="cost2"></label>
-                                <input type="number" name="cost2" id="cost2" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                                <input type="number" name="cost2" id="cost2" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                 <label for="cost2Multiplier"></label>
                                 <select name="cost2Multiplier" id="cost2Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                                     <option value="1">×1</option>
@@ -98,7 +98,7 @@
                             <h2 class="text-lg font-semibold text-center mb-3">商品 3</h2>
                             <div class="flex flex-col gap-2">
                                 <label for="cost3"></label>
-                                <input type="number" name="cost3" id="cost3" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" onchange="updateCalculation()">
+                                <input type="number" name="cost3" id="cost3" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                 <label for="cost3Multiplier"></label>
                                 <select name="cost3Multiplier" id="cost3Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
                                     <option value="1">×1</option>
@@ -165,7 +165,7 @@
                                     <div>
                                         <label for="set1" class="block text-gray-700 font-semibold mb-1">組替えバランス工賃</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set1" id="set1" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set1" id="set1" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set1Multiplier" id="set1Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -179,7 +179,7 @@
                                     <div>
                                         <label for="set2" class="block text-gray-700 font-semibold mb-1">脱着工賃</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set2" id="set2" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set2" id="set2" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set2Multiplier" id="set2Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -193,7 +193,7 @@
                                     <div>
                                         <label for="set3" class="block text-gray-700 font-semibold mb-1">廃タイヤ費用</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set3" id="set3" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set3" id="set3" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set3Multiplier" id="set3Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -207,7 +207,7 @@
                                     <div>
                                         <label for="set4" class="block text-gray-700 font-semibold mb-1">ナット代</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set4" id="set4" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set4" id="set4" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set4Multiplier" id="set4Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -237,7 +237,7 @@
                                     <div>
                                         <label for="set5" class="block text-gray-700 font-semibold mb-1">バルブ代</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set5" id="set5" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set5" id="set5" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set5Multiplier" id="set5Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -251,7 +251,7 @@
                                     <div>
                                         <label for="set6" class="block text-gray-700 font-semibold mb-1">袋代</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set6" id="set6" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set6" id="set6" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set6Multiplier" id="set6Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -265,7 +265,7 @@
                                     <div>
                                         <label for="set7" class="block text-gray-700 font-semibold mb-1">その他</label>
                                         <div class="flex gap-2">
-                                            <input type="number" name="set7" id="set7" class="w-full px-4 py-2 border rounded-lg" placeholder="0" onchange="updateCalculation()">
+                                            <input type="number" name="set7" id="set7" class="w-full px-4 py-2 border rounded-lg" placeholder="0" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
                                             <select name="set7Multiplier" id="set7Multiplier" class="px-4 py-2 border rounded-lg" onchange="updateCalculation()">
                                                 <option value="1">×1</option>
                                                 <option value="2">×2</option>
@@ -478,7 +478,13 @@
                                     </select>
                                     <div class="mt-3">
                                         <label for="sizeFree" class="block text-gray-700 font-semibold"></label>
-                                        <input type="text" name="sizeFree" id="sizeFree" placeholder="サイズフリー入力" class="w-full px-4 py-2 border rounded-lg">
+                                        <input type="text"
+                                            inputmode="text"
+                                            pattern="[0-9/ R]*"
+                                            name="sizeFree"
+                                            id="sizeFree"
+                                            placeholder="例: 155/65R14"
+                                            class="w-full px-4 py-2 border rounded-lg">
                                     </div>
                                 </div>
 

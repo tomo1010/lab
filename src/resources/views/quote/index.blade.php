@@ -556,6 +556,7 @@
         });
 
 
+
         // 支払い総額
         function calculatePayment() {
             let total = parseFloat(document.getElementById('total')?.value) || 0;
@@ -609,7 +610,7 @@
             closeTaxPopup(taxType); // クリック後ポップアップを閉じる
         }
 
-        
+
         // 現在の月をハイライト
         function highlightCurrentMonth(popupId) {
             // 現在の月を取得（1月 = 1, 2月 = 2, ..., 12月 = 12）
