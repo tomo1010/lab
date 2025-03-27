@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 /*
 比較サイト
@@ -130,3 +130,12 @@ Route::post('quotes/{quote}/copy', [QuoteController::class, 'storeCopy'])->name(
 Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('quotes.createPdf');
 
 
+/*
+ラベル印刷
+*/
+Route::get('lavel', [LavelController::class, 'index'])->name('lavel.index');
+Route::middleware('auth')->group(function () {
+    Route::resource('lavels', LavelController::class)->only(['store', 'destroy', 'edit', 'update']);
+});
+Route::post('lavels/{lavel}/copy', [LavelController::class, 'storeCopy'])->name('lavels.copy');
+Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('quotes.createPdf');
