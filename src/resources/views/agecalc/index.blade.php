@@ -5,8 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="bg-gray-100 flex justify-center pt-8">
+    <div class="bg-gray-100 flex justify-center pt-8 px-4">
         <div class="bg-white rounded-2xl shadow-sm p-8 w-full max-w-md mt-4">
+
 
             <h3 class="text-center text-lg font-bold mb-4">自動車保険用の年齢計算機です。</h3>
             <form id="ageCalculatorForm" class="space-y-4">
