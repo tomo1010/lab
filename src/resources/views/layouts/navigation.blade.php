@@ -116,6 +116,10 @@
                     <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
                         タイヤ計算機
                     </x-nav-link>
+
+                    <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')">
+                        年齢計算機
+                    </x-nav-link>
                 </div>
             </div>
         </div>

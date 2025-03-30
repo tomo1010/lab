@@ -7,41 +7,42 @@
 
 
 
-    <div class="min-h-screen bg-gray-100 flex items-center justify-center py-8">
-        <div class="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
+    <div class="bg-gray-100 flex justify-center pt-8">
+        <div class="bg-white rounded-2xl shadow-md p-8 w-full max-w-md mt-4">
 
             <h3 class="text-center text-lg font-bold mb-4">自動車保険用の年齢計算機です。</h3>
             <form id="ageCalculatorForm" class="space-y-4">
+
                 <!-- 西暦入力 -->
                 <div id="seirekiInput" class="space-y-2">
                     <label for="seirekiYear" class="block font-semibold text-gray-700">西暦:</label>
                     <select id="seirekiYear" name="seirekiYear"
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"">
                     </select>
                 </div>
 
                 <!-- 和暦入力 -->
-                <div id="warekiInput" class="space-y-2">
-                    <label class="block font-semibold text-gray-700">和暦:</label>
-                    <div class="flex flex-wrap gap-2">
-                        <!-- 元号 -->
-                        <div class="flex-1 min-w-[40%]">
-                            <select id="era" name="era"
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">-- 選択 --</option>
-                                <option value="reiwa">令和</option>
-                                <option value="heisei">平成</option>
-                                <option value="showa">昭和</option>
-                            </select>
-                        </div>
+                <div id=" warekiInput" class="space-y-2">
+                        <label class="block font-semibold text-gray-700">和暦:</label>
+                        <div class="flex flex-wrap gap-2">
+                            <!-- 元号 -->
+                            <div class="flex-1 min-w-[40%]">
+                                <select id="era" name="era"
+                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                    <option value="">-- 選択 --</option>
+                                    <option value="reiwa">令和</option>
+                                    <option value="heisei">平成</option>
+                                    <option value="showa">昭和</option>
+                                </select>
+                            </div>
 
-                        <!-- 年 -->
-                        <div class="flex-1 min-w-[40%]">
-                            <select id="warekiYear" name="warekiYear"
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            </select>
+                            <!-- 年 -->
+                            <div class="flex-1 min-w-[40%]">
+                                <select id="warekiYear" name="warekiYear"
+                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                </select>
+                            </div>
                         </div>
-                    </div>
                 </div>
 
 
@@ -261,17 +262,19 @@
             }
 
             function updateInputState() {
+                const elements = [seirekiYear, warekiYear, era];
+                elements.forEach(el => el.classList.remove('bg-gray-200', 'opacity-50', 'pointer-events-none', 'cursor-not-allowed'));
+
                 if (seirekiYear.value) {
-                    warekiYear.disabled = true;
-                    era.disabled = true;
-                } else if (warekiYear.value) {
-                    seirekiYear.disabled = true;
-                } else {
-                    seirekiYear.disabled = false;
-                    warekiYear.disabled = false;
-                    era.disabled = false;
+                    // 和暦側をグレーアウト
+                    warekiYear.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
+                    era.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
+                } else if (warekiYear.value && era.value) {
+                    // 西暦側をグレーアウト
+                    seirekiYear.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
                 }
             }
+
 
             // イベント登録
             [seirekiYear, warekiYear, era, month, day].forEach(el => {
