@@ -5,11 +5,12 @@
         </h2>
     </x-slot>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+
 
     <div class="min-h-screen bg-gray-100 flex items-center justify-center py-8">
         <div class="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
+
+            <h3 class="text-center text-lg font-bold mb-4">自動車保険用の年齢計算機です。</h3>
             <form id="ageCalculatorForm" class="space-y-4">
                 <!-- 西暦入力 -->
                 <div id="seirekiInput" class="space-y-2">
@@ -44,27 +45,32 @@
                 </div>
 
 
-                <!-- 月 -->
-                <div>
-                    <label for="month" class="block font-semibold text-gray-700">月:</label>
-                    <select id="month" name="month"
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    </select>
+                <!-- 月＋日 横並び -->
+                <div class="space-y-2">
+                    <label class="block font-semibold text-gray-700">月日:</label>
+                    <div class="flex gap-2">
+                        <!-- 月 -->
+                        <div class="flex-1">
+                            <select id="month" name="month"
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            </select>
+                        </div>
+
+                        <!-- 日 -->
+                        <div class="flex-1">
+                            <select id="day" name="day"
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 日 -->
-                <div>
-                    <label for="day" class="block font-semibold text-gray-700">日:</label>
-                    <select id="day" name="day"
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    </select>
-                </div>
             </form>
 
             <!-- リセットボタン -->
             <div class="pt-4 text-right">
                 <button id="resetButton" type="button"
-                    class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition">
+                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                     リセット
                 </button>
             </div>
@@ -72,6 +78,13 @@
 
             <div id="result" class="mt-6 text-blue-700 font-medium"></div>
             <div id="milestoneResults" class="mt-2 text-sm text-gray-700 space-y-1"></div>
+            <div class="pt-4 text-right">
+                <button id="copyButton" type="button"
+                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                    コピー
+                </button>
+            </div>
+
         </div>
     </div>
 
@@ -326,6 +339,23 @@
 
             // era初期化時に一度発火しておく（必要なら）
             era.dispatchEvent(new Event('change'));
+        });
+
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const resultText = document.getElementById('result').innerText;
+            const milestoneText = document.getElementById('milestoneResults').innerText;
+            const combinedText = `${resultText}\n${milestoneText}`.trim();
+
+            if (combinedText) {
+                navigator.clipboard.writeText(combinedText).then(() => {
+                    alert('コピーしました！');
+                }).catch(err => {
+                    alert('コピーに失敗しました。');
+                });
+            } else {
+                alert('コピーする内容がありません。');
+            }
         });
     </script>
 

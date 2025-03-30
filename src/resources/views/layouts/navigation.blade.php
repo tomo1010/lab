@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
                         タイヤ計算機
                     </x-nav-link>
+
+                    <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')">
+                        年齢計算機
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -31,9 +35,9 @@
                 <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                     <div>
                         @auth
-                            {{ Auth::user()->name }}
+                        {{ Auth::user()->name }}
                         @else
-                            未ログイン
+                        未ログイン
                         @endauth
                     </div>
 
@@ -46,36 +50,36 @@
 
                 <!-- ドロップダウンメニュー -->
                 <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
-                     x-transition:enter="transition ease-out duration-100"
-                     x-transition:enter-start="transform opacity-0 scale-95"
-                     x-transition:enter-end="transform opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75"
-                     x-transition:leave-start="transform opacity-100 scale-100"
-                     x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-                     style="display: none;">
-                    
-                    @auth
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                    style="display: none;">
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                    @auth
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
+
+                    <!-- Authentication -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
                                             this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
                     @else
-                        <x-dropdown-link :href="route('login')">
-                            {{ __('Login') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('register')">
-                            {{ __('Register') }}
-                        </x-dropdown-link>
+                    <x-dropdown-link :href="route('login')">
+                        {{ __('Login') }}
+                    </x-dropdown-link>
+                    <x-dropdown-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-dropdown-link>
                     @endauth
                 </div>
             </div>
@@ -93,14 +97,14 @@
 
                 <!-- メニュー項目 -->
                 <div x-show="menuOpen" @click.away="menuOpen = false"
-                     x-transition:enter="transition ease-out duration-100"
-                     x-transition:enter-start="transform opacity-0 scale-95"
-                     x-transition:enter-end="transform opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75"
-                     x-transition:leave-start="transform opacity-100 scale-100"
-                     x-transition:leave-end="transform opacity-0 scale-95"
-                     class="absolute top-16 right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2"
-                     style="display: none;">
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute top-16 right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2"
+                    style="display: none;">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
