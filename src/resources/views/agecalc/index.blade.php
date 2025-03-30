@@ -5,10 +5,8 @@
         </h2>
     </x-slot>
 
-
-
     <div class="bg-gray-100 flex justify-center pt-8">
-        <div class="bg-white rounded-2xl shadow-md p-8 w-full max-w-md mt-4">
+        <div class="bg-white rounded-2xl shadow-sm p-8 w-full max-w-md mt-4">
 
             <h3 class="text-center text-lg font-bold mb-4">自動車保険用の年齢計算機です。</h3>
             <form id="ageCalculatorForm" class="space-y-4">
@@ -16,60 +14,99 @@
                 <!-- 西暦入力 -->
                 <div id="seirekiInput" class="space-y-2">
                     <label for="seirekiYear" class="block font-semibold text-gray-700">西暦:</label>
-                    <select id="seirekiYear" name="seirekiYear"
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"">
-                    </select>
+                    <div class="relative">
+                        <select id="seirekiYear" name="seirekiYear"
+                            class="w-full border border-gray-400 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                            <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- 和暦入力 -->
-                <div id=" warekiInput" class="space-y-2">
-                        <label class="block font-semibold text-gray-700">和暦:</label>
-                        <div class="flex flex-wrap gap-2">
-                            <!-- 元号 -->
-                            <div class="flex-1 min-w-[40%]">
-                                <select id="era" name="era"
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                                    <option value="">-- 選択 --</option>
-                                    <option value="reiwa">令和</option>
-                                    <option value="heisei">平成</option>
-                                    <option value="showa">昭和</option>
-                                </select>
-                            </div>
-
-                            <!-- 年 -->
-                            <div class="flex-1 min-w-[40%]">
-                                <select id="warekiYear" name="warekiYear"
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                                </select>
+                <div id="warekiInput" class="space-y-2">
+                    <label class="block font-semibold text-gray-700">和暦:</label>
+                    <div class="flex flex-wrap gap-2">
+                        <!-- 元号 -->
+                        <div class="flex-1 min-w-[40%] relative">
+                            <select id="era" name="era"
+                                class="w-full border border-gray-300 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">-- 選択 --</option>
+                                <option value="reiwa">令和</option>
+                                <option value="heisei">平成</option>
+                                <option value="showa">昭和</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
                             </div>
                         </div>
-                </div>
 
+                        <!-- 年 -->
+                        <div class="flex-1 min-w-[40%] relative">
+                            <select id="warekiYear" name="warekiYear"
+                                class="w-full border border-gray-300 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- 月＋日 横並び -->
                 <div class="space-y-2">
                     <label class="block font-semibold text-gray-700">月日:</label>
                     <div class="flex gap-2">
                         <!-- 月 -->
-                        <div class="flex-1">
+                        <div class="flex-1 relative">
                             <select id="month" name="month"
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                class="w-full border border-gray-300 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
                             </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
                         </div>
 
                         <!-- 日 -->
-                        <div class="flex-1">
+                        <div class="flex-1 relative">
                             <select id="day" name="day"
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                class="w-full border border-gray-300 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
                             </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+
+
             </form>
 
             <!-- リセットボタン -->
-            <div class="pt-4 text-right">
+            <div class=" pt-4 text-right">
                 <button id="resetButton" type="button"
                     class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                     リセット
@@ -132,15 +169,26 @@
                 month.value = "";
                 day.value = "";
 
-                // disabled解除
+                // disabled を解除（←これが抜けていた）
                 seirekiYear.disabled = false;
                 warekiYear.disabled = false;
                 era.disabled = false;
 
+                // グレーアウト解除（見た目）
+                [seirekiYear, warekiYear, era].forEach(el => {
+                    el.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
+                    el.classList.add('bg-white');
+                });
+
                 // 表示クリア
                 document.getElementById('result').innerText = '';
                 document.getElementById('milestoneResults').innerText = '';
+
+                // 再評価
+                updateInputState();
             });
+
+
 
             // 初期状態で 18歳（今日 - 18年）になるように設定
             (function setInitial18YearsOld() {
