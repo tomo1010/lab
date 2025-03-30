@@ -15,7 +15,14 @@ class LavelController extends Controller
      */
     public function index()
     {
-        //
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの投稿の一覧を作成日時の降順で取得
+            $lavels = $user->lavels()->orderBy('updated_at', 'desc')->paginate(10);
+        }
+
+        return view('lavel.index');
     }
 
     /**
@@ -36,7 +43,9 @@ class LavelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->action === 'pdf') {
+            return $this->createPdf($request); // PDF生成処理
+        }
     }
 
     /**
@@ -82,5 +91,22 @@ class LavelController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * PDF作成
+     */
+    public function createPdf(Request $request)
+    {
+
+        $data = [
+            'name' => $request->input('name'),
+            'date' => now()->format('Y-m-d'),
+        ];
+
+        $pdf = PDF::loadView('lavel.createPdf', $data);
+
+        return $pdf->stream('lavel_' . $data['date'] . '.pdf');
     }
 }

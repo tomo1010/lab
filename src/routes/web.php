@@ -10,6 +10,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TireController;
 use App\Http\Controllers\TirecalcController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\LavelController;
 
 
 /*
@@ -113,6 +114,7 @@ Route::middleware(['web'])->group(function () {
 });
 
 
+
 /*
 PDF印刷
 */
@@ -138,4 +140,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('lavels', LavelController::class)->only(['store', 'destroy', 'edit', 'update']);
 });
 Route::post('lavels/{lavel}/copy', [LavelController::class, 'storeCopy'])->name('lavels.copy');
-Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('quotes.createPdf');
+Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('lavels.createPdf');
+
+
+/*
+年齢計算機
+*/
+Route::get('agecalc', function () {
+    return view('agecalc.index');
+})->name('agecalc.index');
