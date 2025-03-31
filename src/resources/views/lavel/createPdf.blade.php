@@ -4,54 +4,98 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            font-family: ipaexg;
-            /* mpdf推奨フォント。なければ sans-serif に */
+            font-family: sans-serif;
+            font-size: 12pt;
+            margin: 20mm;
         }
 
-        table {
-            width: 210mm;
-            height: 297mm;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-
-        td {
-            width: 105mm;
-            height: 297mm;
-            border-left: 1px solid #000;
-            border-right: 1px solid #000;
+        .title {
             text-align: center;
-            vertical-align: middle;
+            font-size: 20pt;
+            font-weight: bold;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 10px 0;
+            margin-bottom: 20px;
         }
 
-        .sold {
-            font-size: 36px;
-            color: red;
-            font-weight: bold;
-            line-height: 1.4;
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
         }
+
+        .info-table td {
+            vertical-align: top;
+            padding: 5px;
+        }
+
+        .subject {
+            border-bottom: 1px solid #000;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+
+        .greeting {
+            margin-bottom: 30mm;
+        }
+
+        <style>.footer {
+            position: fixed;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            border-top: 1px solid #000;
+            padding-top: 10px;
+            font-size: 10pt;
+        }
+    </style>
+
     </style>
 </head>
 
 <body>
-    <table>
+    <div class="title">FAX 送付状</div>
+
+    <table class="info-table">
         <tr>
-            <td>
-                <div class="sold">売<br>約<br>済<br>み</div>
+            <td style="width: 60%;">
+                <div>{{ $to ?? '＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿' }}　御中</div>
             </td>
-            <td>
-                <div class="sold">売<br>約<br>済<br>み</div>
+            <td style="width: 40%;">
+                <div>
+                    送信日：
+                    {{ $date_year ?? '　　' }}年
+                    {{ $date_month ?? '　' }}月
+                    {{ $date_day ?? '　' }}日
+                </div>
+                <div>
+                    送信枚数：
+                    {{ $page_count ?? '　' }}枚（当紙含む）
+                </div>
             </td>
         </tr>
     </table>
+
+    <div class="subject">
+        件名：{{ $subject ?? '＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿' }}
+    </div>
+
+    <div class="greeting">
+        {!! nl2br(e($message ?? '日頃よりお世話になっております。')) !!}
+    </div>
+
+    <div class="footer">
+        <div>発信者：</div>
+        <div>
+            〒{{ $postal ?? '○○○-○○○○' }}　
+            {{ $address ?? '○○○○○○○○○○○○○○○○○○○○○○○○○' }}
+        </div>
+        <div>
+            TEL:{{ $tel ?? '000-000-0000' }} ／
+            FAX:{{ $fax ?? '000-000-0000' }}
+        </div>
+    </div>
 </body>
 
 </html>

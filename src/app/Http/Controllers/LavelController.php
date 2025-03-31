@@ -100,11 +100,10 @@ class LavelController extends Controller
     public function createPdf(Request $request)
     {
 
-        $data = [
-            'name' => $request->input('name'),
-            'date' => now()->format('Y-m-d'),
-        ];
-
+        $data = $request->all();
+        $date['date'] = now()->format('Y-m-d');
+        $data['date'] = $date['date'];
+        //dd($data);
         $pdf = PDF::loadView('lavel.createPdf', $data);
 
         return $pdf->stream('lavel_' . $data['date'] . '.pdf');
