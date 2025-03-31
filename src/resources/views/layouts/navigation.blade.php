@@ -27,6 +27,10 @@
                     <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')">
                         年齢計算機
                     </x-nav-link>
+
+                    <x-nav-link :href="route('lavel.index')" :active="request()->routeIs('agecalc.index')">
+                        FAX送付状
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -119,6 +123,10 @@
 
                     <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')">
                         年齢計算機
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('lavel.index')" :active="request()->routeIs('lavel.index')">
+                        FAX送付状
                     </x-nav-link>
                 </div>
             </div>
