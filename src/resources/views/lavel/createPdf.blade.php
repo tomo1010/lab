@@ -15,7 +15,6 @@
             padding: 60px;
             position: relative;
             height: 240mm;
-            /* A4の高さ - 上下マージン（30mm x 2） */
             box-sizing: border-box;
         }
 
@@ -26,21 +25,28 @@
             border-top: 1px solid #000;
             border-bottom: 1px solid #000;
             padding: 20px 0;
-            margin-bottom: 40px;
-        }
-
-        .info-table {
-            width: 100%;
             margin-bottom: 20px;
         }
 
-        .info-table td {
-            vertical-align: top;
-            padding: 5px;
+        .right-align-small {
+            text-align: right;
+            font-size: 10pt;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .recipient {
+            margin-top: 20px;
+            font-size: 12pt;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 80px;
         }
 
         .subject {
             border-bottom: 1px solid #000;
+            margin-top: 20px;
             margin-bottom: 10px;
             padding-bottom: 5px;
         }
@@ -53,7 +59,6 @@
         .footer {
             position: absolute;
             bottom: 60px;
-            /* wrapperのpaddingと合わせて */
             left: 60px;
             right: 60px;
             border-top: 1px solid #000;
@@ -67,25 +72,20 @@
     <div class="wrapper">
         <div class="title">FAX 送付状</div>
 
-        <table class="info-table">
-            <tr>
-                <td style="width: 60%;">
-                    <div>{{ $to ?? '＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿' }}　御中</div>
-                </td>
-                <td style="width: 40%;">
-                    <div>
-                        送信日：
-                        {{ $date_year ?? '　　' }}年
-                        {{ $date_month ?? '　' }}月
-                        {{ $date_day ?? '　' }}日
-                    </div>
-                    <div>
-                        送信枚数：
-                        {{ $page_count ?? '　' }}枚（当紙含む）
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <div class="right-align-small">
+            送信日：
+            {{ $send_date ?? '　　' }}
+        </div>
+
+        <div class="right-align-small">
+            送信枚数：
+            {{ $page_count ?? '　' }}枚 (当紙含む)
+        </div>
+
+        <div class="recipient">
+            <div>{{ $to ?? '＿＿＿＿＿＿＿＿＿＿＿＿＿' }}　{{ $to_suffix ?? '様' }}
+            </div>
+        </div>
 
         <div class="subject">
             件名：{{ $subject ?? '' }}
@@ -98,12 +98,19 @@
         <div class="footer">
             <div>発信者：</div>
             <div>
-                〒{{ $postal ?? '○○○-○○○○' }}　
-                {{ $address ?? '○○○○○○○○○○○○○○○○○○○○○○○○○' }}
+                {{ $postal ? '〒' . $postal : '' }}
+                {{ $address ?? '' }}
             </div>
             <div>
-                TEL:{{ $tel ?? '000-000-0000' }} ／
-                FAX:{{ $fax ?? '000-000-0000' }}
+                {{ $name ?? '' }}
+            </div>
+            <div>
+                {{ $tel ? 'TEL:' . $tel : '' }}
+                {{ $tel ? 'FAX:' . $fax : '' }}
+            </div>
+            <div>
+                {{ $mail ? 'Mail:' . $mail : '' }}
+                {{ $url ? 'URL:' . $url : '' }}
             </div>
         </div>
     </div>
