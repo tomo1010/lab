@@ -164,47 +164,45 @@
 
 
     <script>
-        // 入力項目を保存するキー一覧
         const fields = ['postal', 'address', 'name', 'tel', 'fax'];
 
-        // ページ読み込み時：クッキーから値を復元
         window.addEventListener('DOMContentLoaded', () => {
+            let loaded = false;
+
             fields.forEach(field => {
                 const value = getCookie(field);
                 if (value) {
                     document.getElementById(field).value = value;
+                    loaded = true;
                 }
             });
 
-            // どれか1つでもクッキーが存在すれば、チェックを入れておく
-            if (fields.some(field => getCookie(field))) {
+            if (loaded) {
                 document.getElementById('save_to_cookie').checked = true;
+                alert('クッキーから発信者情報を読み込みました。');
             }
         });
 
-        // チェックボックス切り替え時：クッキーに保存または削除
         document.getElementById('save_to_cookie').addEventListener('change', function() {
             if (this.checked) {
-                // 保存
                 fields.forEach(field => {
                     const value = document.getElementById(field).value;
-                    setCookie(field, value, 30); // 30日保存
+                    setCookie(field, value, 30); // 30日
                 });
+                alert('発信者情報をクッキーに保存しました。');
             } else {
-                // 削除
                 fields.forEach(field => {
                     deleteCookie(field);
                 });
+                alert('クッキーから発信者情報を削除しました。');
             }
         });
 
-        // クッキー設定関数
         function setCookie(name, value, days) {
             const expires = new Date(Date.now() + days * 864e5).toUTCString();
             document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
         }
 
-        // クッキー取得関数
         function getCookie(name) {
             return document.cookie.split('; ').reduce((r, v) => {
                 const parts = v.split('=');
@@ -212,10 +210,10 @@
             }, '');
         }
 
-        // クッキー削除関数
         function deleteCookie(name) {
             setCookie(name, '', -1);
         }
     </script>
+
 
 </x-app-layout>
