@@ -132,18 +132,30 @@
                         <input type="text" name="address" id="address" class="input-text mt-1" placeholder="住所を入力してください">
                         <input type="text" name="name" id="name" class="input-text mt-1" placeholder="名前を入力してください">
                     </div>
-                    <div class="mb-2">
-                        TEL：
-                        <input type="text" name="tel" id="tel" style="width:160px;" class="border rounded px-1">
-                        FAX：
-                        <input type="text" name="fax" id="fax" style="width:160px;" class="border rounded px-1">
+                    <!-- TEL / FAX -->
+                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
+                        <div class="md:w-1/2 mb-2 md:mb-0">
+                            TEL：
+                            <input type="text" name="tel" id="tel" class="border rounded px-1 w-full">
+                        </div>
+                        <div class="md:w-1/2">
+                            FAX：
+                            <input type="text" name="fax" id="fax" class="border rounded px-1 w-full">
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        E-Mail：
-                        <input type="text" name="mail" id="tel" style="width:160px;" class="border rounded px-1">
-                        URL：
-                        <input type="text" name="url" id="fax" style="width:160px;" class="border rounded px-1">
+
+                    <!-- E-Mail / URL -->
+                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
+                        <div class="md:w-1/2 mb-2 md:mb-0">
+                            E-Mail：
+                            <input type="text" name="mail" id="mail" class="border rounded px-1 w-full">
+                        </div>
+                        <div class="md:w-1/2">
+                            URL：
+                            <input type="text" name="url" id="url" class="border rounded px-1 w-full">
+                        </div>
                     </div>
+
                     <div class="mb-4 mt-2">
                         <label>
                             <input type="checkbox" id="save_to_cookie" class="mr-1">
