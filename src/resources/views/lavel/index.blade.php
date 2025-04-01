@@ -128,7 +128,15 @@
                     <div class="mb-2">発信者情報：</div>
                     <div class="mb-2">
                         〒：
-                        <input type="text" name="postal" id="postal" style="width: 100px;" class="border rounded px-1">
+                        <input
+                            type="text"
+                            name="postal"
+                            id="postal"
+                            style="width: 100px;"
+                            class="border rounded px-1"
+                            placeholder="123-4567"
+                            inputmode="numeric"
+                            autocomplete="postal-code">
                         <input type="text" name="address" id="address" class="input-text mt-1" placeholder="住所を入力してください">
                         <input type="text" name="name" id="name" class="input-text mt-1" placeholder="名前を入力してください">
                     </div>
@@ -136,25 +144,53 @@
                     <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
                         <div class="md:w-1/2 mb-2 md:mb-0">
                             TEL：
-                            <input type="text" name="tel" id="tel" class="border rounded px-1 w-full">
+                            <input
+                                type="tel"
+                                name="tel"
+                                id="tel"
+                                class="border rounded px-1 w-full"
+                                placeholder="090-1234-5678"
+                                inputmode="tel"
+                                autocomplete="tel">
                         </div>
                         <div class="md:w-1/2">
                             FAX：
-                            <input type="text" name="fax" id="fax" class="border rounded px-1 w-full">
+                            <input
+                                type="tel"
+                                name="fax"
+                                id="fax"
+                                class="border rounded px-1 w-full"
+                                placeholder="03-1234-5678"
+                                inputmode="tel"
+                                autocomplete="tel">
                         </div>
                     </div>
+
 
                     <!-- E-Mail / URL -->
                     <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
                         <div class="md:w-1/2 mb-2 md:mb-0">
                             E-Mail：
-                            <input type="text" name="mail" id="mail" class="border rounded px-1 w-full">
+                            <input
+                                type="email"
+                                name="mail"
+                                id="mail"
+                                class="border rounded px-1 w-full"
+                                placeholder="example@example.com"
+                                autocomplete="email">
                         </div>
                         <div class="md:w-1/2">
                             URL：
-                            <input type="text" name="url" id="url" class="border rounded px-1 w-full">
+                            <input
+                                type="url"
+                                name="url"
+                                id="url"
+                                class="border rounded px-1 w-full"
+                                placeholder="https://example.com"
+                                autocomplete="url">
                         </div>
                     </div>
+
 
                     <div class="mb-4 mt-2">
                         <label>
