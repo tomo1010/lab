@@ -40,18 +40,45 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- 商品 1 -->
                         <div class="bg-red-50 p-5 rounded-lg shadow-md">
-                            <h2 class="text-lg font-semibold text-center mb-3">商品 1</h2>
-                            <div class="flex flex-col gap-2">
-                                <label for="cost1"></label>
-                                <input type="number" name="cost1" id="cost1" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
-                                <label for="cost1Multiplier"></label>
-                                <select name="cost1Multiplier" id="cost1Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
+                            <div class="relative mb-3">
+                                <!-- 中央に固定 -->
+                                <h2 class="text-lg font-semibold text-center">商品 1</h2>
+
+                                <!-- 右端に配置 -->
+                                <div class="absolute top-0 right-0 flex items-center">
+                                    <p>税込</p>
+                                    <label class="ml-2 relative inline-block w-[44px] h-[24px]">
+                                    <input type="checkbox" class="peer sr-only" />
+                                    <div class="w-full h-full rounded-full bg-gray-300 peer-checked:bg-[#35c759] transition-colors duration-300"></div>
+                                    <div class="absolute top-[2px] left-[2px] w-[20px] h-[20px] rounded-full bg-white shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)] transition-transform duration-300 peer-checked:translate-x-[20px]"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <input
+                                    type="number"
+                                    name="cost1"
+                                    id="cost1"
+                                    class="border px-4 py-2 rounded-lg w-full"
+                                    placeholder="原価入力"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    onchange="updateCalculation()"
+                                >
+
+                                <select
+                                    name="cost1Multiplier"
+                                    id="cost1Multiplier"
+                                    class="border px-4 py-2 rounded-lg"
+                                    onchange="updateCalculation()"
+                                >
                                     <option value="1">×1</option>
                                     <option value="2">×2</option>
                                     <option value="3">×3</option>
                                     <option value="4">×4</option>
                                 </select>
                             </div>
+
                             <div class="mt-3">
                                 <p>商品代金: <span id="profitTotal1">0</span> 円
                                     <span class="text-sm text-gray-600 sm:block">（粗利: <span id="grossProfit1">0</span> 円）</span>
@@ -68,12 +95,38 @@
 
                         <!-- 商品 2 -->
                         <div class="bg-blue-50 p-5 rounded-lg shadow-md">
-                            <h2 class="text-lg font-semibold text-center mb-3">商品 2</h2>
-                            <div class="flex flex-col gap-2">
-                                <label for="cost2"></label>
-                                <input type="number" name="cost2" id="cost2" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
-                                <label for="cost2Multiplier"></label>
-                                <select name="cost2Multiplier" id="cost2Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
+                            <div class="relative mb-3">
+                                <!-- 中央に固定 -->
+                                <h2 class="text-lg font-semibold text-center">商品 2</h2>
+
+                                <!-- 右端に配置 -->
+                                <div class="absolute top-0 right-0 flex items-center">
+                                    <p>税込</p>
+                                    <label class="ml-2 relative inline-block w-[44px] h-[24px]">
+                                    <input type="checkbox" class="peer sr-only" />
+                                    <div class="w-full h-full rounded-full bg-gray-300 peer-checked:bg-[#35c759] transition-colors duration-300"></div>
+                                    <div class="absolute top-[2px] left-[2px] w-[20px] h-[20px] rounded-full bg-white shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)] transition-transform duration-300 peer-checked:translate-x-[20px]"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <input
+                                    type="number"
+                                    name="cost2"
+                                    id="cost2"
+                                    class="border px-4 py-2 rounded-lg w-full"
+                                    placeholder="原価入力"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    onchange="updateCalculation()"
+                                >
+
+                                <select
+                                    name="cost2Multiplier"
+                                    id="cost2Multiplier"
+                                    class="border px-4 py-2 rounded-lg"
+                                    onchange="updateCalculation()"
+                                >
                                     <option value="1">×1</option>
                                     <option value="2">×2</option>
                                     <option value="3">×3</option>
@@ -95,12 +148,38 @@
 
                         <!-- 商品 3 -->
                         <div class="bg-yellow-50 p-5 rounded-lg shadow-md">
-                            <h2 class="text-lg font-semibold text-center mb-3">商品 3</h2>
-                            <div class="flex flex-col gap-2">
-                                <label for="cost3"></label>
-                                <input type="number" name="cost3" id="cost3" class="border px-4 py-2 rounded-lg w-full" placeholder="原価入力" inputmode="numeric" pattern="[0-9]*" onchange="updateCalculation()">
-                                <label for="cost3Multiplier"></label>
-                                <select name="cost3Multiplier" id="cost3Multiplier" class="border px-4 py-2 rounded-lg w-full" onchange="updateCalculation()">
+                            <div class="relative mb-3">
+                                <!-- 中央に固定 -->
+                                <h2 class="text-lg font-semibold text-center">商品 3</h2>
+
+                                <!-- 右端に配置 -->
+                                <div class="absolute top-0 right-0 flex items-center">
+                                    <p>税込</p>
+                                    <label class="ml-2 relative inline-block w-[44px] h-[24px]">
+                                    <input type="checkbox" class="peer sr-only" />
+                                    <div class="w-full h-full rounded-full bg-gray-300 peer-checked:bg-[#35c759] transition-colors duration-300"></div>
+                                    <div class="absolute top-[2px] left-[2px] w-[20px] h-[20px] rounded-full bg-white shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)] transition-transform duration-300 peer-checked:translate-x-[20px]"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <input
+                                    type="number"
+                                    name="cost3"
+                                    id="cost3"
+                                    class="border px-4 py-2 rounded-lg w-full"
+                                    placeholder="原価入力"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    onchange="updateCalculation()"
+                                >
+
+                                <select
+                                    name="cost3Multiplier"
+                                    id="cost3Multiplier"
+                                    class="border px-4 py-2 rounded-lg"
+                                    onchange="updateCalculation()"
+                                >
                                     <option value="1">×1</option>
                                     <option value="2">×2</option>
                                     <option value="3">×3</option>
@@ -160,11 +239,11 @@
                             <hr class="my-6">
 
                             <div class="flex">
-                                <button type="button" id="tab-1" class="flex-1 py-2 px-4 bg-red-50 rounded-t-lg font-bold" onclick="switchTab(1)">商品１</button>
-                                <button type="button" id="tab-2" class="flex-1 py-2 px-4 bg-blue-50 rounded-t-lg" onclick="switchTab(2)">商品２</button>
-                                <button type="button" id="tab-3" class="flex-1 py-2 px-4 bg-yellow-50 rounded-t-lg" onclick="switchTab(3)">商品３</button>
+                                <button type="button" id="tab-1" class="flex-1 py-2 px-4 bg-gray-50 rounded-t-lg font-bold border-r" onclick="switchTab(1)">設定A</button>
+                                <button type="button" id="tab-2" class="flex-1 py-2 px-4 bg-gray-50 rounded-t-lg border-b" onclick="switchTab(2)">設定B</button>
+                                <button type="button" id="tab-3" class="flex-1 py-2 px-4 bg-gray-50 rounded-t-lg border-b border-l" onclick="switchTab(3)">設定C</button>
                             </div>
-                            <div id="tab-content" class="bg-red-50 p-5 rounded-b-lg shadow-md">
+                            <div id="tab-content" class="bg-gray-50 p-5 rounded-b-lg shadow-md">
                                 <h2 id="tab-title" class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">商品1工賃その他設定</h2>
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <div>
@@ -821,40 +900,30 @@
                             document.getElementById('tab-2').classList.remove('font-bold');
                             document.getElementById('tab-3').classList.remove('font-bold');
 
-                            let themeColor = '';
-
-                            switch (tabNumber) {
-                                case 1:
-                                    themeColor = "bg-red-50"
-                                    break;
-                                case 2:
-                                    themeColor = "bg-blue-50"
-                                    break;
-                                case 3:
-                                    themeColor = "bg-yellow-50"
-                                    break;
-                            }
 
                             // 選択中タブだけ強調
-                            document.getElementById(`tab-${tabNumber}`).classList.add('font-bold' , themeColor);
+                            document.getElementById(`tab-${tabNumber}`).classList.add('font-bold');
                             
                             
                             // タブ番号によって背景色とタイトル切り替え
                             if (tabNumber === 1) {
-                                tabContent.className = "bg-red-50 p-5 rounded-b-lg shadow-md";
+                                tabContent.className = "bg-gray-50 p-5 rounded-b-lg shadow-md";
                                 tabTitle.textContent = "商品1の工賃その他設定";
-                                document.getElementById('tab-2').classList.add('bg-blue-50');
-                                document.getElementById('tab-3').classList.add('bg-yellow-50');
+                                document.getElementById('tab-1').classList.remove('border-b');
+                                document.getElementById('tab-2').classList.add('border-b');
+                                document.getElementById('tab-3').classList.add('border-b');
                             } else if (tabNumber === 2) {
-                                tabContent.className = "bg-blue-50 p-5 rounded-b-lg shadow-md";
+                                tabContent.className = "bg-gray-50 p-5 rounded-b-lg shadow-md";
                                 tabTitle.textContent = "商品2の工賃その他設定";
-                                document.getElementById('tab-1').classList.add('bg-red-50');
-                                document.getElementById('tab-3').classList.add('bg-yellow-50');
+                                document.getElementById('tab-1').classList.add('border-b');
+                                document.getElementById('tab-2').classList.remove('border-b');
+                                document.getElementById('tab-3').classList.add('border-b');
                             } else if (tabNumber === 3) {
-                                tabContent.className = "bg-yellow-50 p-5 rounded-b-lg shadow-md";
+                                tabContent.className = "bg-gray-50 p-5 rounded-b-lg shadow-md";
                                 tabTitle.textContent = "商品3の工賃その他設定";
-                                document.getElementById('tab-1').classList.add('bg-red-50');
-                                document.getElementById('tab-2').classList.add('bg-blue-50');
+                                document.getElementById('tab-1').classList.add('border-b');
+                                document.getElementById('tab-2').classList.add('border-b');
+                                document.getElementById('tab-3').classList.remove('border-b');
                             }
                         }
                     </script>
