@@ -159,8 +159,13 @@
 
                             <hr class="my-6">
 
-                            <div class="bg-gray-50 p-5 rounded-lg shadow-md">
-                                <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">工賃その他設定</h2>
+                            <div class="flex">
+                                <button type="button" id="tab-1" class="flex-1 py-2 px-4 bg-red-50 rounded-t-lg font-bold" onclick="switchTab(1)">商品１</button>
+                                <button type="button" id="tab-2" class="flex-1 py-2 px-4 bg-blue-50 rounded-t-lg" onclick="switchTab(2)">商品２</button>
+                                <button type="button" id="tab-3" class="flex-1 py-2 px-4 bg-yellow-50 rounded-t-lg" onclick="switchTab(3)">商品３</button>
+                            </div>
+                            <div id="tab-content" class="bg-red-50 p-5 rounded-b-lg shadow-md">
+                                <h2 id="tab-title" class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">商品1工賃その他設定</h2>
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <div>
                                         <label for="set1" class="block text-gray-700 font-semibold mb-1">組替えバランス工賃</label>
@@ -287,8 +292,9 @@
                             </div>
 
 
-                            <hr>
-                            <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+                            <hr class="my-6">
+
+                            <div class="bg-gray-50 p-5 rounded-lg shadow-md">
                                 <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 mb-6">📄 PDF印刷・コピー設定</h2>
 
                                 <!-- タイトル選択 -->
@@ -799,6 +805,57 @@
                             updateCalculation();
 
                             alert('工賃設定をクリアしました。');
+                        }
+
+
+                        let activeTab = 1; // 最初は商品１が選ばれてる
+
+                        function switchTab(tabNumber) {
+                            activeTab = tabNumber;
+
+                            const tabContent = document.getElementById('tab-content');
+                            const tabTitle = document.getElementById('tab-title');
+
+                            // タブボタンの見た目リセット
+                            document.getElementById('tab-1').classList.remove('font-bold');
+                            document.getElementById('tab-2').classList.remove('font-bold');
+                            document.getElementById('tab-3').classList.remove('font-bold');
+
+                            let themeColor = '';
+
+                            switch (tabNumber) {
+                                case 1:
+                                    themeColor = "bg-red-50"
+                                    break;
+                                case 2:
+                                    themeColor = "bg-blue-50"
+                                    break;
+                                case 3:
+                                    themeColor = "bg-yellow-50"
+                                    break;
+                            }
+
+                            // 選択中タブだけ強調
+                            document.getElementById(`tab-${tabNumber}`).classList.add('font-bold' , themeColor);
+                            
+                            
+                            // タブ番号によって背景色とタイトル切り替え
+                            if (tabNumber === 1) {
+                                tabContent.className = "bg-red-50 p-5 rounded-b-lg shadow-md";
+                                tabTitle.textContent = "商品1の工賃その他設定";
+                                document.getElementById('tab-2').classList.add('bg-blue-50');
+                                document.getElementById('tab-3').classList.add('bg-yellow-50');
+                            } else if (tabNumber === 2) {
+                                tabContent.className = "bg-blue-50 p-5 rounded-b-lg shadow-md";
+                                tabTitle.textContent = "商品2の工賃その他設定";
+                                document.getElementById('tab-1').classList.add('bg-red-50');
+                                document.getElementById('tab-3').classList.add('bg-yellow-50');
+                            } else if (tabNumber === 3) {
+                                tabContent.className = "bg-yellow-50 p-5 rounded-b-lg shadow-md";
+                                tabTitle.textContent = "商品3の工賃その他設定";
+                                document.getElementById('tab-1').classList.add('bg-red-50');
+                                document.getElementById('tab-2').classList.add('bg-blue-50');
+                            }
                         }
                     </script>
 
