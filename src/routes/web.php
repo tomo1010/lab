@@ -136,11 +136,13 @@ Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('qu
 ラベル印刷
 */
 Route::get('lavel', [LavelController::class, 'index'])->name('lavel.index');
-Route::middleware('auth')->group(function () {
-    Route::resource('lavels', LavelController::class)->only(['store', 'destroy', 'edit', 'update']);
-});
-Route::post('lavels/{lavel}/copy', [LavelController::class, 'storeCopy'])->name('lavels.copy');
+Route::get('lavel/carchange', [LavelController::class, 'carchange'])->name('lavel.carchange');
+//Route::middleware('auth')->group(function () {
+//    Route::resource('lavels', LavelController::class)->only(['store', 'destroy', 'edit', 'update']);
+//});
+//Route::post('lavels/{lavel}/copy', [LavelController::class, 'storeCopy'])->name('lavels.copy');
 Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('lavels.createPdf');
+Route::post('lavels/carchangePdf', [LavelController::class, 'carchangePdf'])->name('lavels.carchangePdf');
 
 
 /*

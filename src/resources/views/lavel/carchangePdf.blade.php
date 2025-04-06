@@ -70,7 +70,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="title">FAX 送付状</div>
+        <div class="title">FAX 送付状<br>車両入替えのご依頼</div>
 
         <div class="right-align-small">
             送信日：
@@ -87,9 +87,30 @@
             </div>
         </div>
 
-        <div class="subject">
-            件名：{{ $subject ?? '' }}
-        </div>
+        <!-- 車両入替え情報（タイトル行なし・シンプル表示） -->
+        <table width="100%" border="1" cellspacing="0" cellpadding="10" style="margin-bottom: 16px;">
+            <tr>
+                <td width="30%">お客様名</td>
+                <td>{{ $subject }}</td>
+            </tr>
+            <tr>
+                <td>納車予定日</td>
+                <td>{{ $carchenge_date ? \Carbon\Carbon::parse($carchenge_date)->format('Y年 n/j') : '' }}</td>
+            </tr>
+            <tr>
+                <td>車両金額</td>
+                <td>{{ $carchenge_price ? $carchenge_price . ' 万円' : '' }}</td>
+            </tr>
+            <tr>
+                <td>乗換え前の車両</td>
+                <td>{{ $beforecar }}</td>
+            </tr>
+        </table>
+
+
+
+
+
 
         <div class="greeting">
             {!! nl2br(e($message ?? '日頃よりお世話になっております。')) !!}
@@ -111,7 +132,6 @@
             <div>
                 {{ $mail ? 'Mail:' . $mail : '' }}
                 {{ $url ? 'URL:' . $url : '' }}
-                {{ $test ? 'TEST:' . $test : '' }}
             </div>
         </div>
     </div>

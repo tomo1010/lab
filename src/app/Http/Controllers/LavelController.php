@@ -25,6 +25,20 @@ class LavelController extends Controller
         return view('lavel.index');
     }
 
+
+    public function carchange()
+    {
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの投稿の一覧を作成日時の降順で取得
+            $lavels = $user->lavels()->orderBy('updated_at', 'desc')->paginate(10);
+        }
+
+        return view('lavel.carchange');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -105,6 +119,21 @@ class LavelController extends Controller
         $data['date'] = $date['date'];
         //dd($data);
         $pdf = PDF::loadView('lavel.createPdf', $data);
+
+        return $pdf->stream('lavel_' . $data['date'] . '.pdf');
+    }
+
+    /**
+     * 車両入れ替え用PDF作成
+     */
+    public function carchangePdf(Request $request)
+    {
+
+        $data = $request->all();
+        $date['date'] = now()->format('Y-m-d');
+        $data['date'] = $date['date'];
+        //dd($data);
+        $pdf = PDF::loadView('lavel.carchangePdf', $data);
 
         return $pdf->stream('lavel_' . $data['date'] . '.pdf');
     }
