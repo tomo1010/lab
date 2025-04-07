@@ -55,7 +55,7 @@ csv処理
 
 // CSVデータ 
 Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
-Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.importCar');
+//Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.importCar');
 //Route::get('car_dl', 'exportCar')->name('csv.export');
 
 
@@ -66,6 +66,15 @@ Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.i
 //    Route::post('car', 'importCar')->name('csv.importCar');
 
 //});
+
+//トップページ
+Route::get('/car/index', function () {
+    return view('car.index');
+});
+
+Route::get('/car', function () {
+    return view('car.index');
+});
 
 //各ジャンルごとのページ
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー表示
