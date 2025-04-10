@@ -1,92 +1,89 @@
-<header class="mb-4">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+@php
+$genreStyles = [
+'minivan' => ['bg-[#2981C0]', 'https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png'],
+'puchivan' => ['bg-[#EF6C70]', 'https://about-car.net/puchi/wp-content/uploads/tcd-w/logo.png'],
+'suv' => ['bg-[#748300]', 'https://about-car.net/suv/wp-content/uploads/tcd-w/logo.png'],
+'hatchback' => ['bg-[#FFAD35]', 'https://about-car.net/compact/wp-content/uploads/tcd-w/logo.png'],
+'sedan' => ['bg-[#3E327B]', 'https://about-car.net/sedan/wp-content/uploads/tcd-w/logo.png'],
+'wagon' => ['bg-[#90374E]', 'https://about-car.net/wagon/wp-content/uploads/tcd-w/logo.png'],
+'sports' => ['bg-[#FE4500]', 'https://about-car.net/coupe/wp-content/uploads/tcd-w/logo.png?1710994445'],
+'kei' => ['bg-[#E8C605]', null],
+];
 
-        {{-- ハンバーガーメニュー --}}
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+$safeGenre = $genre ?? '';
+$bgClass = $genreStyles[$safeGenre][0] ?? 'bg-gray-100';
+$logoUrl = $genreStyles[$safeGenre][1] ?? null;
+@endphp
 
-        {{-- メニュー項目 --}}
-        <div class="collapse navbar-collapse" id="nav-bar">
-            <ul class="navbar-nav mr-auto"></ul>
-            <ul class="navbar-nav">
-                
-                {{-- 一覧へのリンク--}}                
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">その他のジャンル</a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'minivan']) }}">ミニバン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'puchivan']) }}">プチバン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv']) }}">SUV</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'hatchback']) }}">ハッチバック</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'wagon']) }}">ステーションワゴン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sedan']) }}">セダン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'sports']) }}">スポーツカー</a></li>
-                        <li class="dropdown-divider"></li>
-                        <div class="dropdown-divider"></div>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei']) }}">軽自動車</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_wagon']) }}">軽ワゴン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_heightwagon']) }}">軽ハイトワゴン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_slide']) }}">軽スライドドア</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_sedan']) }}">軽セダン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_sports']) }}">軽スポーツ</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_suv']) }}">軽SUV</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_truck']) }}">軽トラック</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_hako']) }}">軽箱（ケッパコ）</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_hakowagon']) }}">軽箱ワゴン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'kei_heightvan']) }}">軽ハイトバン</a></li>
-                        <li class="dropdown-divider"></li>
-                        <div class="dropdown-divider"></div>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'longseler']) }}">ロングセラー</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'suv_3rd']) }}">3列シートSUV</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'3year']) }}">新車から3年落ち</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'5year']) }}">新車から5年落ち</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><a href="{{ route('car.genre', ['genre'=>'7year']) }}">新車から7年落ち</a></li>
-                        <li class="dropdown-divider"></li>
-                    </ul>
-                </li>
+<header class="mb-6 border-b border-gray-200 {{ $bgClass }}">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        {{-- ロゴ --}}
+        <div class="flex items-center space-x-4">
+            @if($logoUrl)
+            <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}">
+                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="h-8">
+            </a>
+            @else
+            <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-white">
+                軽自動車比較サイト
+            </a>
+            @endif
+        </div>
 
-    </nav>
+        {{-- メニュー項目（ドロップダウン） --}}
+        <div class="relative inline-block text-left">
+            <button id="dropdownButton" type="button"
+                class="inline-flex justify-center items-center gap-1 px-4 py-2 text-sm font-medium text-white hover:text-black border border-white rounded-md shadow-sm hover:bg-white hover:bg-opacity-20 transition">
+                その他のジャンル
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
 
-    @include('car.commons.header')
+            <div id="dropdownMenu"
+                class="hidden absolute right-0 z-10 mt-2 w-64 max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border border-gray-200">
+                <ul class="py-1 text-sm text-gray-700">
+                    @foreach ([
+                    'minivan' => 'ミニバン', 'puchivan' => 'プチバン', 'suv' => 'SUV', 'hatchback' => 'ハッチバック',
+                    'wagon' => 'ステーションワゴン', 'sedan' => 'セダン', 'sports' => 'スポーツカー', 'kei' => '軽自動車',
+                    'kei_wagon' => '軽ワゴン', 'kei_heightwagon' => '軽ハイトワゴン', 'kei_slide' => '軽スライドドア',
+                    'kei_sedan' => '軽セダン', 'kei_sports' => '軽スポーツ', 'kei_suv' => '軽SUV', 'kei_truck' => '軽トラック',
+                    'kei_hako' => '軽箱（ケッパコ）', 'kei_hakowagon' => '軽箱ワゴン', 'kei_heightvan' => '軽ハイトバン',
+                    'longseler' => 'ロングセラー', 'suv_3rd' => '3列シートSUV',
+                    '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち'
+                    ] as $key => $label)
+                    <li>
+                        <a href="{{ route('car.genre', ['genre' => $key]) }}"
+                            class="block px-4 py-2 hover:bg-gray-100">{{ $label }}</a>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
 
-
+    <script>
+        const dropdownBtn = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+    </script>
 </header>
 
-        {{--国産車のみ表示非表示のチェックBOX--}}
-        <p style="text-align: right">
-        <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)"  {{ request()->input('import') ? 'checked' : '' }}/> 輸入車含む　 
-        </p>
+{{-- 国産車チェックボックス --}}
+<p class="text-right px-4 mb-4">
+    <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)" {{ request()->input('import') ? 'checked' : '' }}>
+    <span class="text-sm text-gray-700">輸入車含む</span>
+</p>
 
-        {{--国産車のみをコントローラへ渡す処理--}}
-        <script>
-            function myfunc(value) {
-                let element = document.getElementsByName('import');
-                if (element[0].checked) {
-                    location.href = location.pathname + '?import=1';
-                } else {
-                    location.href = location.pathname;
-                }
-            }
-        </script>
-
+<script>
+    function myfunc(value) {
+        const element = document.getElementsByName('import');
+        if (element[0].checked) {
+            location.href = location.pathname + '?import=1';
+        } else {
+            location.href = location.pathname;
+        }
+    }
+</script>

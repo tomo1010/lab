@@ -3,8 +3,7 @@
 
 <head>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8272433810922720"
-        crossorigin="anonymous"></script>
+
 
 
     <meta charset="utf-8">
