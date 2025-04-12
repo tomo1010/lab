@@ -1,37 +1,37 @@
 @if($spec == 'maker')
-    メーカー
+メーカー
 @elseif($spec == 'maker_kana')
-    メーカー英語
+メーカー英語
 @elseif($spec == 'name')
-    車名
+車名
 @elseif($spec == 'release')
-    発売日
+発売日
 @elseif($spec == 'grade')
-    グレード
+グレード
 @elseif($spec == 'price')
-    価格
+価格
 @elseif($spec == 'model')
-    型式
+型式
 @elseif($spec == 'turningradius')
-    最小回転半径
+最小回転半径
 @elseif($spec == 'drive')
-    駆動方式
+駆動方式
 @elseif($spec == 'size_length')
-    全長
+全長
 @elseif($spec == 'size_width')
-    全幅
+全幅
 @elseif($spec == 'size_height')
-    全高
+全高
 @elseif($spec == 'door')
-    ドア数
+ドア数
 @elseif($spec == 'wheelbase')
-    ホイールベース
+ホイールベース
 @elseif($spec == 'mission')
-    ミッション
+ミッション
 @elseif($spec == 'tred')
-    トレッド
+トレッド
 @elseif($spec == 'shift')
-    AI-SHIFT
+AI-SHIFT
 @elseif($spec == 'indoorsize_length')
 室内長
 @elseif($spec == 'indoorsize_width')
@@ -116,7 +116,7 @@ VGS/VGRS
 kg単価
 @elseif($spec == 'cruising')
 航続距離
-@elseif($spec == 'size')
+@elseif($spec == 'bodysize')
 車体の大きさ(全長+全幅+全高の合計)
 @elseif($spec == 'indoorsize')
 室内の広さ(内長+内幅+内高の合計)

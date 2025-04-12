@@ -25,8 +25,11 @@
                 @include('car.commons.name_car')
             </td>
             <td>
-                {{ $car->bodysize }} m
-                {{ $car->sml }}
+                @if(!is_null($car->puchivan_slideopnen))
+                {{ $car->puchivan_slideopnen }} mm
+                @else
+                -
+                @endif
             </td>
         </tr>
         @endforeach
