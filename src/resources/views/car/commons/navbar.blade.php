@@ -1,12 +1,12 @@
 @php
 $genreStyles = [
-'minivan' => ['bg-[#2981C0]', 'https://minivan.about-car.net/wp-content/uploads/tcd-w/logo.png'],
-'puchivan' => ['bg-[#EF6C70]', 'https://about-car.net/puchi/wp-content/uploads/tcd-w/logo.png'],
-'suv' => ['bg-[#748300]', 'https://about-car.net/suv/wp-content/uploads/tcd-w/logo.png'],
-'hatchback' => ['bg-[#FFAD35]', 'https://about-car.net/compact/wp-content/uploads/tcd-w/logo.png'],
-'sedan' => ['bg-[#3E327B]', 'https://about-car.net/sedan/wp-content/uploads/tcd-w/logo.png'],
-'wagon' => ['bg-[#90374E]', 'https://about-car.net/wagon/wp-content/uploads/tcd-w/logo.png'],
-'sports' => ['bg-[#FE4500]', 'https://about-car.net/coupe/wp-content/uploads/tcd-w/logo.png?1710994445'],
+'minivan' => ['bg-[#2981C0]', asset('img/car_genre_bunner/minivan.png')],
+'puchivan' => ['bg-[#EF6C70]', asset('img/car_genre_bunner/puchivan.png')],
+'suv' => ['bg-[#748300]', asset('img/car_genre_bunner/suv.png')],
+'hatchback' => ['bg-[#FFAD35]', asset('img/car_genre_bunner/hatchback.png')],
+'sedan' => ['bg-[#3E327B]', asset('img/car_genre_bunner/sedan.png')],
+'wagon' => ['bg-[#90374E]', asset('img/car_genre_bunner/wagon.png')],
+'sports' => ['bg-[#FE4500]', asset('img/car_genre_bunner/sports.png')],
 'kei' => ['bg-[#E8C605]', null],
 ];
 
@@ -21,7 +21,7 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
         <div class="flex items-center space-x-4">
             @if($logoUrl)
             <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}">
-                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="h-8">
+                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ">
             </a>
             @else
             <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-white">
@@ -72,7 +72,7 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 </header>
 
 {{-- 国産車チェックボックス --}}
-<p class="text-right px-4 mb-4">
+<p class="text-right px-4 mb-1">
     <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)" {{ request()->input('import') ? 'checked' : '' }}>
     <span class="text-sm text-gray-700">輸入車含む</span>
 </p>
