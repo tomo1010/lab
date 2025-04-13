@@ -25,7 +25,7 @@ use App\Http\Controllers\LavelController;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
