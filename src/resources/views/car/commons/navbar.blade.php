@@ -15,13 +15,13 @@ $bgClass = $genreStyles[$safeGenre][0] ?? 'bg-gray-100';
 $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 @endphp
 
-<header class="mb-6 border-b border-gray-200 {{ $bgClass }}">
+<header class="sticky top-0 z-50 mb-6 border-b border-gray-200 {{ $bgClass }}">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {{-- ロゴ --}}
         <div class="flex items-center space-x-4">
             @if($logoUrl)
             <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}">
-                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ">
+                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="w-[150px] h-[36px] object-none max-w-none flex-shrink-0" />
             </a>
             @else
             <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-white">
@@ -30,17 +30,17 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
             @endif
         </div>
 
-        {{-- メニュー項目（ドロップダウン） --}}
+        {{-- ハンバーガーメニュー --}}
         <div class="relative inline-block text-left">
-            <button id="dropdownButton" type="button"
+            <button id="hamburgerButton" type="button"
                 class="inline-flex justify-center items-center gap-1 px-4 py-2 text-sm font-medium text-white hover:text-black border border-white rounded-md shadow-sm hover:bg-white hover:bg-opacity-20 transition">
-                その他のジャンル
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
 
-            <div id="dropdownMenu"
+            <div id="hamburgerMenu"
                 class="hidden absolute right-0 z-10 mt-2 w-64 max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border border-gray-200">
                 <ul class="py-1 text-sm text-gray-700">
                     @foreach ([
@@ -60,12 +60,20 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
                 </ul>
             </div>
         </div>
+
+        <script>
+            const hamburgerButton = document.getElementById('hamburgerButton');
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            hamburgerButton.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('hidden');
+            });
+        </script>
     </div>
 
     <script>
         const dropdownBtn = document.getElementById('dropdownButton');
         const dropdownMenu = document.getElementById('dropdownMenu');
-        dropdownBtn.addEventListener('click', () => {
+        dropdownBtn?.addEventListener('click', () => {
             dropdownMenu.classList.toggle('hidden');
         });
     </script>
