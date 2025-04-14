@@ -114,9 +114,7 @@ class CarsController extends Controller
         if ($import == NULL) {
 
             /*
-            /
-            ジャンルと年度、総数を表示するための処理
-            /
+            ジャンルと年を取得
             */
 
             if ($genre == 'minivan') {
@@ -437,9 +435,7 @@ class CarsController extends Controller
 
 
             /*
-            /
-            各スペックを取得しspecページへ
-            /
+            各スペックを取得
             */
 
             //メーカー
@@ -1105,7 +1101,7 @@ class CarsController extends Controller
 
 
 
-            //車種一覧ビュー表示
+            //車種一覧ビューでそれを表示
             return view('car.genre', [
                 'genre' => $genre,
             ]);

@@ -136,7 +136,7 @@ kg単価
 ３列目の格納
 
 {{--プチバン独自スペック--}}
-@elseif($spec == 'puchivan_doorsize')
+@elseif($spec == 'puchivan_slideopen')
 スライドドアの大きさ
 
 {{--SUV独自スペック--}}

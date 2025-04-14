@@ -21,11 +21,11 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
         <div class="flex items-center space-x-4">
             @if($logoUrl)
             <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}">
-                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="w-[150px] h-[36px] object-none max-w-none flex-shrink-0" />
+                <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="w-[150px] h-[36px] object-contain max-w-none flex-shrink-0" />
             </a>
             @else
-            <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-white">
-                軽自動車比較サイト
+            <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-gray-500">
+                車比較サイト
             </a>
             @endif
         </div>
