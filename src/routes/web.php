@@ -76,6 +76,9 @@ Route::get('/car', function () {
     return view('car.index');
 });
 
+//車種詳細ページ
+Route::get('car/{genre}/detail/{id}', [CarsController::class, 'show'])->name('car.show');
+
 //各ジャンルごとのページ
 Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー表示
 //Route::get('car/{genre}/index', [CarsController::class, 'category'])->name('car.index'); //ジャンルごとのカテゴリー表示
@@ -83,8 +86,7 @@ Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); 
 //Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'specLatest'])->name('car.specLatest'); //自動的に最新情報
 Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])->name('car.spec'); //最新スペック情報
 
-//車種詳細ページ
-Route::get('car/detail/{id}', [CarsController::class, 'show'])->name('car.show');
+
 
 //新車から3年後
 //Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');

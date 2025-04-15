@@ -46,13 +46,14 @@ class CarsController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id, $genre)
     {
         $car = Car::findOrFail($id);
 
         // メッセージ詳細ビューでそれを表示
         return view('car.show', [
             'car' => $car,
+            'genre' => $genre,
         ]);
     }
 

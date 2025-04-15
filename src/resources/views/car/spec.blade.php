@@ -62,7 +62,10 @@ $unit = $units[$spec] ?? ''; // 該当しない場合は空文字
             @foreach ($cars as $car)
             <tr class="border-b border-gray-300 hover:bg-gray-100">
                 <td class="px-4 py-2 text-gray-800">
-                    @include('car.commons.name_car')
+                    <a href="{{ route('car.show', [$car->id, $genre]) }}">
+                        <img src="{{ asset('img/' . $car->year . '/' . '180' . '/' . $car->maker_kana . '/' . $car->model . '.jpg' ) }}" alt="{{$car->maker}}{{$car->name}}"></br>
+                        {{$car->name}}
+                    </a>
                 </td>
                 <td class="px-4 py-2 text-gray-800">
                     @if(!is_null($car->$spec))

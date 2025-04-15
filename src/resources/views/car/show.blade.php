@@ -2,269 +2,78 @@
 
 @section('content')
 
-<p>
-<h1>{{$car->name}}詳細ページ</h1>
-</p>
-<table class="table table-striped">
+<div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+                <h1 class="text-3xl font-semibold text-gray-800 mb-6">{{ $car->name }} 詳細ページ</h1>
 
-        <tr>
-                <th>画像</th>
-                <td><img src="{{ asset('img/' . $car->year . '/' . '180' . '/' . $car->maker_kana . '/' . $car->model . '.jpg' ) }}" alt="{{$car->maker}}{{$car->name}}"></br>
-                </td>
-        </tr>
+                <table class="min-w-full table-auto border-separate border-spacing-0">
+                        <tbody class="text-sm">
+                                @php
+                                $specs = [
+                                '画像' => '<img src="' . asset('img/' . $car->year . '/180/' . $car->maker_kana . '/' . $car->model . '.jpg') . '" alt="' . $car->maker . $car->name . '">',
+                                'id' => $car->id,
+                                'メーカー' => $car->maker,
+                                '車名' => $car->name,
+                                '発売日' => $car->release->format('Y年m月'),
+                                'グレード' => $car->grade,
+                                '価格' => $car->price . '万円〜',
+                                '型式' => $car->model,
+                                '最小回転半径' => $car->turningradius . 'm',
+                                '駆動方式' => $car->drive,
+                                '全長×全幅×全高' => $car->size . 'cm',
+                                'ドア数' => $car->door,
+                                'ホイールベース' => $car->wheelbase . 'm',
+                                'ミッション' => $car->mission,
+                                'トレッド' => $car->tred,
+                                'AIシフト' => $car->shift,
+                                '室内(全長×全幅×全高)' => $car->indoorsize . 'cm',
+                                '車両重量' => $car->weight . 'kg',
+                                'シート列数' => $car->seats,
+                                '積載量' => $car->capacity . 'kg',
+                                '乗車定員' => $car->ridingcapacity . '人',
+                                '総重量' => $car->grossweight . 'kg',
+                                'ミッション位置' => $car->missionposition,
+                                '最低地上高' => $car->groundclearance . 'cm',
+                                '色数' => $car->colors,
+                                'コメント' => $car->comment,
+                                'エンジン型式' => $car->enginemodel,
+                                '環境対策エンジン' => $car->environmentalengine,
+                                '種類' => $car->kinds,
+                                '使用燃料' => $car->fuel,
+                                '過給機' => $car->supercharger,
+                                '燃料タンク' => $car->fueltank . 'L',
+                                '可変気筒装置' => $car->cylinderdevice,
+                                '燃費（JC08）' => $car->JC08,
+                                '総排気量' => $car->displacement . 'cc',
+                                '燃費（WLTC）' => $car->WLTC . 'km/L',
+                                '燃費基準達成' => $car->achievedfuel,
+                                '最高出力' => $car->ps . 'ps',
+                                'トルク' => $car->torque,
+                                '位置' => $car->position,
+                                'ステアリングギア方式' => $car->steeringgear,
+                                'パワーステアリング' => $car->powersteering,
+                                'VGS' => $car->VGS,
+                                'サスペンション形式前' => $car->Fsuspension,
+                                'サスペンション形式後' => $car->Rsuspension,
+                                'タイヤサイズ前' => $car->Fttiresize,
+                                'タイヤサイズ後' => $car->Rtiresize,
+                                'ブレーキ形式前' => $car->Fbraketype,
+                                'ブレーキ形式後' => $car->Rbraketype,
+                                'データ年度' => $car->year,
+                                'ジャンル' => $car->genre
+                                ];
+                                @endphp
 
-        <tr>
-                <th>id</th>
-                <td>{{ $car->id }}</td>
-        </tr>
+                                @foreach ($specs as $label => $value)
+                                <tr class="hover:bg-gray-100">
+                                        <th class="text-left px-6 py-4 font-medium text-gray-700 border-b border-gray-300">{{ $label }}</th>
+                                        <td class="px-6 py-4 border-b border-gray-300">{!! $value !!}</td>
+                                </tr>
+                                @endforeach
 
-        <tr>
-                <th>メーカー</th>
-                <td>{{ $car->maker }}</td>
-        </tr>
-
-        <tr>
-                <th>車名</th>
-                <td>{{$car->name}}</td>
-        </tr>
-
-        <tr>
-                <th>発売日</th>
-                <td>{{ $car->release->format('Y年m月') }}</td>
-        </tr>
-
-        <tr>
-                <th>グレード</th>
-                <td>{{ $car->grade }}</td>
-        </tr>
-
-        <tr>
-                <th>価格</th>
-                <td>{{ $car->price }}万円〜</td>
-        </tr>
-
-        <tr>
-                <th>型式</th>
-                <td>{{ $car->model }}</td>
-        </tr>
-
-        <tr>
-                <th>最小回転半径</th>
-                <td>{{ $car->turningradius }}m</td>
-        </tr>
-
-        <tr>
-                <th>駆動方式</th>
-                <td>{{ $car->drive }}</td>
-        </tr>
-
-        <tr>
-                <th>全長×全幅×全高</th>
-                <td>{{ $car->size }}cm</td>
-        </tr>
-
-        <tr>
-                <th>ドア数</th>
-                <td>{{ $car->door }}</td>
-        </tr>
-
-        <tr>
-                <th>ホイールベース</th>
-                <td>{{ $car->wheelbase }}m</td>
-        </tr>
-
-        <tr>
-                <th>ミッション</th>
-                <td>{{ $car->mission }}</td>
-        </tr>
-
-        <tr>
-                <th>トレッド</th>
-                <td>{{ $car->tred }}</td>
-        </tr>
-
-        <tr>
-                <th>AIシフト</th>
-                <td>{{ $car->shift }}</td>
-        </tr>
-
-        <tr>
-                <th>室内(全長×全幅×全高)</th>
-                <td>{{ $car->indoorsize }}cm</td>
-        </tr>
-
-        <tr>
-                <th>車両重量</th>
-                <td>{{ $car->weight }}kg</td>
-        </tr>
-
-        <tr>
-                <th>シート列数</th>
-                <td>{{ $car->seats }}</td>
-        </tr>
-
-        <tr>
-                <th>積載量</th>
-                <td>{{ $car->capacity }}kg</td>
-        </tr>
-
-        <tr>
-                <th>乗車定員</th>
-                <td>{{ $car->ridingcapacity }}人</td>
-        </tr>
-
-        <tr>
-                <th>総重量</th>
-                <td>{{ $car->grossweight }}kg</td>
-        </tr>
-
-        <tr>
-                <th>ミッション位置</th>
-                <td>{{ $car->missionposition }}</td>
-        </tr>
-
-        <tr>
-                <th>最低地上高</th>
-                <td>{{ $car->groundclearance }}cm</td>
-        </tr>
-
-        <tr>
-                <th>色数</th>
-                <td>{{ $car->colors }}</td>
-        </tr>
-
-        <tr>
-                <th>コメント</th>
-                <td>{{ $car->comment }}</td>
-        </tr>
-
-        <tr>
-                <th>エンジン型式</th>
-                <td>{{ $car->enginemodel }}</td>
-        </tr>
-
-        <tr>
-                <th>環境対策エンジン</th>
-                <td>{{ $car->environmentalengine }}</td>
-        </tr>
-
-        <tr>
-                <th>種類</th>
-                <td>{{ $car->kinds }}</td>
-        </tr>
-
-        <tr>
-                <th>使用燃料</th>
-                <td>{{ $car->fuel }}</td>
-        </tr>
-
-        <tr>
-                <th>過給機</th>
-                <td>{{ $car->supercharger }}</td>
-        </tr>
-
-        <tr>
-                <th>燃料タンク</th>
-                <td>{{ $car->fueltank }}L</td>
-        </tr>
-
-        <tr>
-                <th>可変気筒装置</th>
-                <td>{{ $car->cylinderdevice }}</td>
-        </tr>
-
-        <tr>
-                <th>燃費（JC08）</th>
-                <td>{{ $car->JC08 }}</td>
-        </tr>
-
-        <tr>
-                <th>総排気量</th>
-                <td>{{ $car->displacement }}cc</td>
-        </tr>
-
-        <tr>
-                <th>燃費（WLTC）
-                </th>
-                <td>{{ $car->WLTC }}km/L</td>
-        </tr>
-
-        <tr>
-                <th>燃費基準達成</th>
-                <td>{{ $car->achievedfuel }}</td>
-        </tr>
-
-        <tr>
-                <th>最高出力</th>
-                <td>{{ $car->ps }}ps</td>
-        </tr>
-
-        <tr>
-                <th>トルク</th>
-                <td>{{ $car->torque }}</td>
-        </tr>
-
-        <tr>
-                <th>位置</th>
-                <td>{{ $car->position }}</td>
-        </tr>
-
-        <tr>
-                <th>ステアリングギア方式</th>
-                <td>{{ $car->steeringgear }}</td>
-        </tr>
-
-        <tr>
-                <th>パワーステアリング</th>
-                <td>{{ $car->powersteering }}</td>
-        </tr>
-
-        <tr>
-                <th>VGS</th>
-                <td>{{ $car->VGS }}</td>
-        </tr>
-
-        <tr>
-                <th>サスペンション形式前</th>
-                <td>{{ $car->Fsuspension }}</td>
-        </tr>
-
-        <tr>
-                <th>サスペンション形式後</th>
-                <td>{{ $car->Rsuspension }}</td>
-        </tr>
-
-        <tr>
-                <th>タイヤサイズ前</th>
-                <td>{{ $car->Fttiresize }}</td>
-        </tr>
-
-        <tr>
-                <th>タイヤサイズ後</th>
-                <td>{{ $car->Rtiresize }}</td>
-        </tr>
-
-        <tr>
-                <th>ブレーキ形式前</th>
-                <td>{{ $car->Fbraketype }}</td>
-        </tr>
-
-        <tr>
-                <th>ブレーキ形式後</th>
-                <td>{{ $car->Rbraketype }}</td>
-        </tr>
-
-        <tr>
-                <th>データ年度</th>
-                <td>{{ $car->year }}</td>
-        </tr>
-
-        <tr>
-                <th>ジャンル</th>
-                <td>{{ $car->genre }}</td>
-        </tr>
-
-</table>
-
+                        </tbody>
+                </table>
+        </div>
+</div>
 
 @endsection
