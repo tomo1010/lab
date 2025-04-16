@@ -134,6 +134,8 @@ kg単価
 形
 @elseif($spec == 'minivan_3rd')
 ３列目の格納
+@elseif($spec == 'minivan_size')
+サイズ
 
 {{--プチバン独自スペック--}}
 @elseif($spec == 'puchivan_slideopen')

@@ -795,15 +795,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 6.16) {
-                        $car->sml = 'XS';
+                        $car->sports_size = 'XS';
                     } elseif ($car->size <= 7.28) {
-                        $car->sml = 'S';
+                        $car->sports_size = 'S';
                     } elseif ($car->size <= 7.55) {
-                        $car->sml = 'M';
+                        $car->sports_size = 'M';
                     } elseif ($car->size <= 7.99) {
-                        $car->sml = 'L';
+                        $car->sports_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->sports_size = 'XL';
                     }
                 }
 
