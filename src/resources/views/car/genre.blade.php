@@ -35,9 +35,7 @@
     <div id="tab-content">
         @php
         $specs = [
-        'bodysize' => '車体の大きさをミリ単位で比較',
         'color' => '色も流行りがあります',
-        'cruising' => '航続距離で比較',
         'displacement' => 'エンジンの大きさで比較',
         'drive' => '駆動方式',
         'fees' => '車検時に加入する強制保険',
@@ -47,6 +45,7 @@
         'indoorsize' => '室内の広さをミリ単位で比較',
         'jtax' => '車検時の税金のひとつ',
         'kg' => 'クルマって1kgあたりいくら？',
+        'cruising' => '航続距離で比較',
         'maker' => 'メーカーで選ぶのもアリ',
         'mt' => 'マニュアルミッションの設定あり',
         'name' => '欲しいクルマの名前は何？',
@@ -55,6 +54,7 @@
         'ps' => 'クルマのパワーといえば馬力',
         'release' => '新型車種が欲しい！',
         'ridingcapacity' => '乗車人数で比較',
+        'bodysize' => '車体の大きさをミリ単位で比較',
         'tax' => '毎年支払う税金',
         'tiresize_front' => 'タイヤサイズで比較',
         'torque' => '出足の強さ',
@@ -71,8 +71,7 @@
         'minivan_3rd' => '３列目シートの格納方法',
 
         //プチバン
-        'puchivan_size' => 'ざっくりS・M・Lのサイズで比較',
-        'puchivan_slideopen' => 'スライドドアの開口部で比較',
+        'puchivan_doorsize' => 'スライドドアの開口部で比較',
 
         // SUV
         'suv_size' => 'ざっくりS・M・Lのサイズで比較',
@@ -107,7 +106,6 @@
             [specIcon('tiresize_front'), $specs['tiresize_front'], 'tiresize_front'],
             [specIcon('turningradius'), $specs['turningradius'], 'turningradius'],
             [specIcon('minivan_size'), $specs['minivan_size'], 'minivan_size'],
-            [specIcon('puchivan_size'), $specs['puchivan_size'], 'puchivan_size'],
             [specIcon('suv_size'), $specs['suv_size'], 'suv_size'],
             [specIcon('hatchback_size'), $specs['hatchback_size'], 'hatchback_size'],
             [specIcon('sedan_size'), $specs['sedan_size'], 'sedan_size'],
@@ -142,7 +140,7 @@
             [specIcon('cruising'), $specs['cruising'], 'cruising'],
             [specIcon('minivan_slidedoor'), $specs['minivan_slidedoor'], 'minivan_slidedoor'],
             [specIcon('minivan_3rd'), $specs['minivan_3rd'], 'minivan_3rd'],
-            [specIcon('puchivan_slideopen'), $specs['puchivan_slideopen'], 'puchivan_slideopen'],
+            [specIcon('puchivan_doorsize'), $specs['puchivan_doorsize'], 'puchivan_doorsize'],
             [specIcon('wagon_luggage'), $specs['wagon_luggage'], 'wagon_luggage'],
 
             ]" :genre="$genre" :year="$year" />
@@ -168,7 +166,7 @@
             [specIcon('minivan_style'), $specs['minivan_style'], 'minivan_style'],
             [specIcon('minivan_slidedoor'), $specs['minivan_slidedoor'], 'minivan_slidedoor'],
             [specIcon('minivan_3rd'), $specs['minivan_3rd'], 'minivan_3rd'],
-            [specIcon('puchivan_slideopen'), $specs['puchivan_slideopen'], 'puchivan_slideopen'],
+            [specIcon('puchivan_doorsize'), $specs['puchivan_doorsize'], 'puchivan_doorsize'],
             [specIcon('suv_style'), $specs['suv_style'], 'suv_style'],
             [specIcon('wagon_luggage'), $specs['wagon_luggage'], 'wagon_luggage'],
             ]" :genre="$genre" :year="$year" />

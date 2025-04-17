@@ -138,16 +138,34 @@ kg単価
 サイズ
 
 {{--プチバン独自スペック--}}
-@elseif($spec == 'puchivan_slideopen')
+@elseif($spec == 'puchivan_doorsize')
 スライドドアの大きさ
 
 {{--SUV独自スペック--}}
 @elseif($spec == 'suv_style')
 形
+@elseif($spec == 'suv_size')
+サイズ
+
+{{--ハッチバック独自スペック--}}
+@elseif($spec == 'hatchback_size')
+サイズ
+
+{{--セダン独自スペック--}}
+@elseif($spec == 'sedan_size')
+サイズ
 
 {{--ステーションワゴン独自スペック--}}
 @elseif($spec == 'wagon_luggage')
 荷室サイズ
+@elseif($spec == 'wagon_size')
+サイズ
+
+{{--クーペ独自スペック--}}
+@elseif($spec == 'sports_size')
+サイズ
+
+
 
 {{--その他--}}
 @elseif($spec == 'half')

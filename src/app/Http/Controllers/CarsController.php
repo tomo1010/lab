@@ -655,15 +655,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.5) {
-                        $car->sml = 'XS';
+                        $car->minivan_size = 'XS';
                     } elseif ($car->size <= 7.9) {
-                        $car->sml = 'S';
+                        $car->minivan_size = 'S';
                     } elseif ($car->size <= 8.04) {
-                        $car->sml = 'M';
+                        $car->minivan_size = 'M';
                     } elseif ($car->size <= 8.49) {
-                        $car->sml = 'L';
+                        $car->minivan_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->minivan_size = 'XL';
                     }
                 }
 
@@ -683,15 +683,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->suv_size = 'XS';
                     } elseif ($car->size <= 7.72) {
-                        $car->sml = 'S';
+                        $car->suv_size = 'S';
                     } elseif ($car->size <= 7.95) {
-                        $car->sml = 'M';
+                        $car->suv_size = 'M';
                     } elseif ($car->size <= 8.47) {
-                        $car->sml = 'L';
+                        $car->suv_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->suv_size = 'XL';
                     }
                 }
 
@@ -711,15 +711,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 5.33) {
-                        $car->sml = 'XS';
+                        $car->hatchback_size = 'XS';
                     } elseif ($car->size <= 6.97) {
-                        $car->sml = 'S';
+                        $car->hatchback_size = 'S';
                     } elseif ($car->size <= 7.3) {
-                        $car->sml = 'M';
+                        $car->hatchback_size = 'M';
                     } elseif ($car->size <= 7.75) {
-                        $car->sml = 'L';
+                        $car->hatchback_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->hatchback_size = 'XL';
                     }
                 }
 
@@ -739,15 +739,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->wagon_size = 'XS';
                     } elseif ($car->size <= 7.55) {
-                        $car->sml = 'S';
+                        $car->wagon_size = 'S';
                     } elseif ($car->size <= 8.09) {
-                        $car->sml = 'M';
+                        $car->wagon_size = 'M';
                     } elseif ($car->size <= 8.19) {
-                        $car->sml = 'L';
+                        $car->wagon_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->wagon_size = 'XL';
                     }
                 }
 
@@ -767,15 +767,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->sedan_size = 'XS';
                     } elseif ($car->size <= 7.69) {
-                        $car->sml = 'S';
+                        $car->sedan_size = 'S';
                     } elseif ($car->size <= 7.91) {
-                        $car->sml = 'M';
+                        $car->sedan_size = 'M';
                     } elseif ($car->size <= 8.2) {
-                        $car->sml = 'L';
+                        $car->sedan_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->sedan_size = 'XL';
                     }
                 }
 
@@ -1071,8 +1071,8 @@ class CarsController extends Controller
             */
 
             //スライドドア開口部
-            elseif ($spec == 'puchivan_slideopen') {
-                $cars = $cars->sortByDesc('puchivan_slideopen');
+            elseif ($spec == 'puchivan_doorsize') {
+                $cars = $cars->sortByDesc('puchivan_doorsize');
 
                 return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars'));
             }

@@ -14,7 +14,7 @@
             @endif
 
             {{-- puchivan 限定表示 --}}
-            @if (Str::startsWith($spec, 'puchivan_') || in_array($spec, ['puchivan_size', 'puchivan_slideopen']))
+            @if (Str::startsWith($spec, 'puchivan_') || in_array($spec, ['puchivan_doorsize']))
             @if ($genre !== 'puchivan')
             @continue
             @endif
