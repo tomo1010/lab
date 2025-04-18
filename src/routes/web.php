@@ -11,6 +11,7 @@ use App\Http\Controllers\TireController;
 use App\Http\Controllers\TirecalcController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\LavelController;
+use App\Http\Controllers\LabelController;
 
 
 /*
@@ -144,7 +145,7 @@ Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('qu
 
 
 /*
-ラベル印刷
+FAX送付状
 */
 Route::get('lavel', [LavelController::class, 'index'])->name('lavel.index');
 Route::middleware('auth')->group(function () {
@@ -160,3 +161,12 @@ Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('la
 Route::get('agecalc', function () {
     return view('agecalc.index');
 })->name('agecalc.index');
+
+
+
+/*
+ラベル印刷（css.paper）
+*/
+Route::match(['get', 'post'], '/label', function () {
+    return view('label.index');
+})->name('label.index');

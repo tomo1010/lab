@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-5xl mx-auto px-4 py-8">
 
-    {{-- タブメニュー --}}
+    {{-- 大カテゴリー --}}
     <ul class="flex flex-wrap justify-center border-b border-gray-300 mb-8" id="tabs" role="tablist">
         @php
         $tabs = [
@@ -31,7 +31,7 @@
         @endforeach
     </ul>
 
-    {{-- タブコンテンツ --}}
+    {{-- 小カテゴリー --}}
     <div id="tab-content">
         @php
         $specs = [
