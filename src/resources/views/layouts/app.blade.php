@@ -23,6 +23,9 @@
     <!-- Font Awesome 6.5.0（最新安定版） -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8272433810922720"
+        crossorigin="anonymous"></script>
+
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
