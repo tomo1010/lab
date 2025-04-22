@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>車比較サイト</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="google-adsense-account" content="ca-pub-8272433810922720">
 </head>
 
 <body class="bg-white font-sans leading-relaxed">
