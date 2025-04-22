@@ -15,12 +15,12 @@ class LavelController extends Controller
      */
     public function index()
     {
-        if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
-            // ユーザの投稿の一覧を作成日時の降順で取得
-            $lavels = $user->lavels()->orderBy('updated_at', 'desc')->paginate(10);
-        }
+        //if (\Auth::check()) { // 認証済みの場合
+        //    // 認証済みユーザを取得
+        //    $user = \Auth::user();
+        //    // ユーザの投稿の一覧を作成日時の降順で取得
+        //    $lavels = $user->lavels()->orderBy('updated_at', 'desc')->paginate(10);
+        //}
 
         return view('lavel.index');
     }

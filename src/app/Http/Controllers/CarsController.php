@@ -13,7 +13,7 @@ use Zaico\Domain\RakutenItem\RakutenItem;
 class CarsController extends Controller
 {
 
-    const THISYEAR = 2024; //下半期には翌年度を指定するため必要な処理　※carbonで当年度を取得してはダメ
+    const THISYEAR = 2025; //下半期には翌年度を指定するため必要な処理　※carbonで当年度を取得してはダメ
 
 
     /**

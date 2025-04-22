@@ -25,8 +25,6 @@
                 data-tab-target="{{ $id }}">
                 {{ $label }}
             </a>
-
-
         </li>
         @endforeach
     </ul>

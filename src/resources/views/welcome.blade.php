@@ -29,7 +29,6 @@
                     <img src="{{ asset('img/car_genre_bunner/minivan.png') }}" alt="Minivan Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
                     <a href="https://www.kurumayalab.com/car/minivan" class="text-xl font-medium hover:underline">ミニバン</a>
                 </div>
-
                 <!-- SUV -->
                 <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #748300;">
                     <img src="{{ asset('img/car_genre_bunner/suv.png') }}" alt="SUV Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
@@ -66,8 +65,43 @@
                     <a href="https://www.kurumayalab.com/car/sports" class="text-xl font-medium hover:underline">スポーツ</a>
                 </div>
             </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-10 text-center mt-10">車のスペック</h2>
+
+            @php
+            $iconPath = 'img/car_category_icon/';
+            $iconFiles = array_diff(scandir(public_path($iconPath)), ['.', '..']);
+            $categories = [
+            'https://www.kurumayalab.com/car/minivan',
+            'https://www.kurumayalab.com/car/suv',
+            'https://www.kurumayalab.com/car/puchivan',
+            'https://www.kurumayalab.com/car/hatchback',
+            'https://www.kurumayalab.com/car/wagon',
+            'https://www.kurumayalab.com/car/sedan',
+            'https://www.kurumayalab.com/car/sports',
+            ];
+            @endphp
+
+            <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-8 mt-10">
+                @foreach ($iconFiles as $icon)
+                @php
+                $randomCategory = $categories[array_rand($categories)];
+                @endphp
+                <div class="text-center rounded-lg p-4 bg-gray-100 shadow-lg">
+                    <a href="{{ $randomCategory }}">
+                        <img src="{{ asset($iconPath . $icon) }}" alt="{{ pathinfo($icon, PATHINFO_FILENAME) }} Icon" class="w-[200px] h-[50px] object-contain mx-auto">
+                    </a>
+                </div>
+                @endforeach
+            </div>
+
         </div>
+
     </section>
+
+
+
+
 
     <!-- フッター -->
     <footer class="bg-gray-100 py-10">

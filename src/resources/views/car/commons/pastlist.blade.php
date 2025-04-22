@@ -11,7 +11,7 @@
         @endfor
         --}}
 
-        @for ($i = 2023; $i > 2019; $i--)
+        @for ($i = 2024; $i > 2019; $i--)
         <tr>
             <td><a href="{{ route('car.spec', ['genre'=>$genre,'spec'=>$spec,'year'=>$i,'half'=>1]) }}">{{$i}}年 @include('car.commons.name_spec')で比較</a></td>
         </tr>
