@@ -60,7 +60,8 @@
                                 'ブレーキ形式前' => $car->Fbraketype,
                                 'ブレーキ形式後' => $car->Rbraketype,
                                 'データ年度' => $car->year,
-                                'ジャンル' => $car->genre
+                                'ジャンル' => $car->genre,
+                                '入力日時' => $car->created_at,
                                 ];
                                 @endphp
 

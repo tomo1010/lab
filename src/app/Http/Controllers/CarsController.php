@@ -92,14 +92,19 @@ class CarsController extends Controller
         $thisyear = self::THISYEAR;
 
         //$half未入力の場合、常に最新のデータを表示させる処理
-        if (empty($half)) {
-            $car = Car::whereYear('created_at', '<=', $year)->where('half', '=', '2')->first();
+        //if (empty($half)) {
+        //    $car = Car::whereYear('created_at', '<=', $year)->where('half', '=', '2')->first();
 
-            if (empty($car)) {
-                $half = 1;
-            } else {
-                $half = 2;
-            }
+        //    if (empty($car)) {
+        //        $half = 1;
+        //    } else {
+        //        $half = 2;
+        //    }
+        //}
+
+
+        if (is_null($half)) {
+            $half = Car::orderBy('id', 'desc')->value('half');
         }
 
 
@@ -447,7 +452,7 @@ class CarsController extends Controller
             if ($spec == 'maker') {
                 $cars = $cars->sortBy('maker');
 
-                return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars', 'thisyear'));
+                return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars'));
             }
 
             //車名
@@ -2352,11 +2357,15 @@ class CarsController extends Controller
         }
 
 
+        $half = Car::orderByDesc('id')->value('half');
+        //dd($half);
+
         //車種一覧ビューでそれを表示
         return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
             'year' => $year,
+            'half' => $half,
             'count' => $count,
         ]);
     }
