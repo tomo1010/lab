@@ -14,7 +14,7 @@
 
                 <!-- 西暦入力 -->
                 <div id="seirekiInput" class="space-y-2">
-                    <label for="seirekiYear" class="block font-semibold text-gray-700">西暦:</label>
+                    <label for="seirekiYear" class="block font-semibold text-gray-700">年:</label>
                     <div class="relative">
                         <select id="seirekiYear" name="seirekiYear"
                             class="w-full border border-gray-400 rounded-md bg-white pr-10 pl-3 py-2 shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500">
@@ -96,17 +96,32 @@
             const day = document.getElementById("day");
             const result = document.getElementById("result");
 
-            // 年を動的に生成（現在の年 - 18歳が初期値）
+            // 満年齢40歳未満のみ表示
+            function getWareki(year) {
+                if (year >= 2019) return `令和${year - 2018}年`;
+                if (year >= 1989) return `平成${year - 1988}年`;
+                if (year >= 1926) return `昭和${year - 1925}年`;
+                if (year >= 1912) return `大正${year - 1911}年`;
+                if (year >= 1868) return `明治${year - 1867}年`;
+                return '';
+            }
+
             const currentYear = new Date().getFullYear();
-            for (let y = currentYear - 1; y >= currentYear - 100; y--) {
+            const minYear = currentYear - 40; // 満年齢40歳以上を除外
+
+            // 西暦の選択肢を生成
+            seirekiYear.innerHTML = '';
+            for (let y = currentYear - 1; y >= minYear; y--) {
                 const option = document.createElement("option");
+                const wareki = getWareki(y);
                 option.value = y;
-                option.textContent = y + "年";
+                option.textContent = `${y}（${wareki}）`;
                 seirekiYear.appendChild(option);
             }
+
             seirekiYear.value = currentYear - 18;
 
-            // 月を生成
+            // 月の選択肢
             for (let m = 1; m <= 12; m++) {
                 const option = document.createElement("option");
                 option.value = m;
@@ -115,7 +130,7 @@
             }
             month.value = 1;
 
-            // 日を生成（選択された月に応じて日数を変更）
+            // 日を生成
             function populateDays() {
                 day.innerHTML = "";
                 const selectedYear = parseInt(seirekiYear.value);
@@ -131,7 +146,7 @@
                 day.value = 1;
             }
 
-            populateDays(); // 初期表示
+            populateDays();
 
             month.addEventListener("change", populateDays);
             seirekiYear.addEventListener("change", populateDays);
@@ -154,17 +169,39 @@
                 }
 
                 result.textContent = `満年齢：${age}歳`;
+
+                // 残り年数表示用ターゲット年齢
+                const milestones = [21, 26, 30, 35];
+                let output = "";
+
+                milestones.forEach(targetAge => {
+                    if (age < targetAge) {
+                        const targetDate = new Date(birthDate);
+                        targetDate.setFullYear(birthDate.getFullYear() + targetAge);
+
+                        let remainingYears = targetDate.getFullYear() - today.getFullYear();
+                        let remainingMonths = targetDate.getMonth() - today.getMonth();
+
+                        if (remainingMonths < 0) {
+                            remainingYears--;
+                            remainingMonths += 12;
+                        }
+
+                        output += `${targetAge}歳まで：あと ${remainingYears}年 ${remainingMonths}ヶ月\n`;
+                    }
+                });
+
+                milestoneResults.innerHTML = output.trim().replace(/\n/g, "<br>");
             }
 
-            // イベントリスナーでリアルタイムに更新
+
+
             seirekiYear.addEventListener("change", calculateAge);
             month.addEventListener("change", calculateAge);
             day.addEventListener("change", calculateAge);
 
-            // 初期計算
             calculateAge();
 
-            // リセットボタン処理
             document.getElementById("resetButton").addEventListener("click", () => {
                 seirekiYear.value = currentYear - 18;
                 month.value = 1;
@@ -172,32 +209,6 @@
                 calculateAge();
             });
         });
-
-
-        function getWareki(year) {
-            if (year >= 2019) return `令和${year - 2018}年`;
-            if (year >= 1989) return `平成${year - 1988}年`;
-            if (year >= 1926) return `昭和${year - 1925}年`;
-            if (year >= 1912) return `大正${year - 1911}年`;
-            if (year >= 1868) return `明治${year - 1867}年`;
-            return '';
-        }
-
-        const currentYear = new Date().getFullYear();
-        const minYear = currentYear - 40; // 満年齢40歳以上を除外
-
-        const seirekiYear = document.getElementById("seirekiYear");
-        seirekiYear.innerHTML = ''; // 念のため初期化
-
-        for (let y = currentYear - 1; y >= minYear; y--) {
-            const option = document.createElement("option");
-            const wareki = getWareki(y);
-            option.value = y;
-            option.textContent = `${y}（${wareki}）`;
-            seirekiYear.appendChild(option);
-        }
-
-        seirekiYear.value = currentYear - 18; // 初期値：18歳
     </script>
 
 
