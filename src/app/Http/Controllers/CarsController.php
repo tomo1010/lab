@@ -107,6 +107,10 @@ class CarsController extends Controller
             $half = Car::orderBy('id', 'desc')->value('half');
         }
 
+        //if (is_null($half)) {
+        //    $half = 1;
+        //}
+
 
 
         //getパラメータから「国産車のみ」のチェックを受け取る        
