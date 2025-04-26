@@ -41,32 +41,15 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+
 /*
 比較サイト
-*/
-
-// 比較サイト
-//Route::get('car', [CarsController::class, 'index'])->name('car.index');
-
-
-
-/*
-csv処理
 */
 
 // CSVデータ 
 Route::get('car/csv/upload', [CsvController::class, 'uploadCar'])->name('csv.uploadCar');
 Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.importCar');
 //Route::get('car_dl', 'exportCar')->name('csv.export');
-
-
-//Route::controller(CsvController::class)->prefix('admin/csv')->group(function () { 
-
-//    // データ 
-//    Route::get('car', 'uploadCar');
-//    Route::post('car', 'importCar')->name('csv.importCar');
-
-//});
 
 //トップページ
 Route::get('/car/index', function () {
@@ -79,18 +62,11 @@ Route::get('/car', function () {
 
 //車種詳細ページ
 Route::get('car/{genre}/detail/{id}', [CarsController::class, 'show'])->name('car.show');
+//各ジャンルごとのページ　大カテゴリー小カテゴリーの一覧
+Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre');
+//各スペックごとのページ
+Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])->name('car.spec');
 
-//各ジャンルごとのページ
-Route::get('car/{genre}', [CarsController::class, 'genre'])->name('car.genre'); //ジャンルごとのカテゴリー表示
-//Route::get('car/{genre}/index', [CarsController::class, 'category'])->name('car.index'); //ジャンルごとのカテゴリー表示
-//Route::get('car/{genre}/{spec}', [CarsController::class, 'year'])->name('car.year'); //スペックごとの年度表示
-//Route::get('car/{genre}/{spec}/{year}', [CarsController::class, 'specLatest'])->name('car.specLatest'); //自動的に最新情報
-Route::get('car/{genre}/{spec}/{year}/{half?}', [CarsController::class, 'spec'])->name('car.spec'); //最新スペック情報
-
-
-
-//新車から3年後
-//Route::get('car/thirdyear', [CarsController::class, 'thirdyear'])->name('car.thirdyear');
 
 
 /*

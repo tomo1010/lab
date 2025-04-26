@@ -1,7 +1,10 @@
 <footer class="bg-white border-t border-gray-200 py-8 text-sm text-gray-700">
     <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        {{-- カテゴリ 1 --}}
+
+
+
+        {{-- ジャンル 1 --}}
         <div>
             <h5 class="font-semibold mb-2 text-gray-800">ボディタイプ</h5>
             <ul class="space-y-1">
@@ -24,7 +27,7 @@
             </ul>
         </div>
 
-        {{-- カテゴリ 2 --}}
+        {{-- ジャンル 2 --}}
         <div>
             <h5 class="font-semibold mb-2 text-gray-800">軽自動車の種類</h5>
             <ul class="space-y-1">
@@ -49,7 +52,7 @@
             </ul>
         </div>
 
-        {{-- カテゴリ 3 --}}
+        {{-- ジャンル 3 --}}
         <div>
             <h5 class="font-semibold mb-2 text-gray-800">特徴別</h5>
             <ul class="space-y-1">
@@ -66,7 +69,7 @@
             </ul>
         </div>
 
-        {{-- カテゴリ 4 --}}
+        {{-- ジャンル 4 --}}
         <div>
             <h5 class="font-semibold mb-2 text-gray-800">年式別</h5>
             <ul class="space-y-1">
@@ -87,6 +90,6 @@
     </div>
 
     <div class="mt-8 text-center text-xs text-gray-400">
-        &copy; 2024 kurumayalabo.com All rights reserved.
+        &copy; 2025 kurumayalabo.com All rights reserved.
     </div>
 </footer>

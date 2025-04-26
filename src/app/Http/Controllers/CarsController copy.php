@@ -13,7 +13,7 @@ use Zaico\Domain\RakutenItem\RakutenItem;
 class CarsController extends Controller
 {
 
-    const THISYEAR = 2024; //下半期には翌年度を指定するため必要な処理　※carbonで当年度を取得してはダメ
+    const THISYEAR = 2025; //下半期には翌年度を指定するため必要な処理　※carbonで当年度を取得してはダメ
 
 
     /**
@@ -46,13 +46,14 @@ class CarsController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id, $genre)
     {
         $car = Car::findOrFail($id);
 
         // メッセージ詳細ビューでそれを表示
         return view('car.show', [
             'car' => $car,
+            'genre' => $genre,
         ]);
     }
 
@@ -91,15 +92,24 @@ class CarsController extends Controller
         $thisyear = self::THISYEAR;
 
         //$half未入力の場合、常に最新のデータを表示させる処理
-        if (empty($half)) {
-            $car = Car::whereYear('created_at', '<=', $year)->where('half', '=', '2')->first();
+        //if (empty($half)) {
+        //    $car = Car::whereYear('created_at', '<=', $year)->where('half', '=', '2')->first();
 
-            if (empty($car)) {
-                $half = 1;
-            } else {
-                $half = 2;
-            }
+        //    if (empty($car)) {
+        //        $half = 1;
+        //    } else {
+        //        $half = 2;
+        //    }
+        //}
+
+
+        if (is_null($half)) {
+            $half = Car::orderBy('id', 'desc')->value('half');
         }
+
+        //if (is_null($half)) {
+        //    $half = 1;
+        //}
 
 
 
@@ -114,7 +124,9 @@ class CarsController extends Controller
         if ($import == NULL) {
 
             /*
-            ジャンルと年を取得
+            /
+            ジャンルと年度、総数を表示するための処理
+            /
             */
 
             if ($genre == 'minivan') {
@@ -435,14 +447,16 @@ class CarsController extends Controller
 
 
             /*
-            各スペックを取得
+            /
+            各スペックを取得しspecページへ
+            /
             */
 
             //メーカー
             if ($spec == 'maker') {
                 $cars = $cars->sortBy('maker');
 
-                return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars', 'thisyear'));
+                return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars'));
             }
 
             //車名
@@ -650,15 +664,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.5) {
-                        $car->sml = 'XS';
+                        $car->minivan_size = 'XS';
                     } elseif ($car->size <= 7.9) {
-                        $car->sml = 'S';
+                        $car->minivan_size = 'S';
                     } elseif ($car->size <= 8.04) {
-                        $car->sml = 'M';
+                        $car->minivan_size = 'M';
                     } elseif ($car->size <= 8.49) {
-                        $car->sml = 'L';
+                        $car->minivan_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->minivan_size = 'XL';
                     }
                 }
 
@@ -678,15 +692,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->suv_size = 'XS';
                     } elseif ($car->size <= 7.72) {
-                        $car->sml = 'S';
+                        $car->suv_size = 'S';
                     } elseif ($car->size <= 7.95) {
-                        $car->sml = 'M';
+                        $car->suv_size = 'M';
                     } elseif ($car->size <= 8.47) {
-                        $car->sml = 'L';
+                        $car->suv_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->suv_size = 'XL';
                     }
                 }
 
@@ -706,15 +720,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 5.33) {
-                        $car->sml = 'XS';
+                        $car->hatchback_size = 'XS';
                     } elseif ($car->size <= 6.97) {
-                        $car->sml = 'S';
+                        $car->hatchback_size = 'S';
                     } elseif ($car->size <= 7.3) {
-                        $car->sml = 'M';
+                        $car->hatchback_size = 'M';
                     } elseif ($car->size <= 7.75) {
-                        $car->sml = 'L';
+                        $car->hatchback_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->hatchback_size = 'XL';
                     }
                 }
 
@@ -734,15 +748,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->wagon_size = 'XS';
                     } elseif ($car->size <= 7.55) {
-                        $car->sml = 'S';
+                        $car->wagon_size = 'S';
                     } elseif ($car->size <= 8.09) {
-                        $car->sml = 'M';
+                        $car->wagon_size = 'M';
                     } elseif ($car->size <= 8.19) {
-                        $car->sml = 'L';
+                        $car->wagon_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->wagon_size = 'XL';
                     }
                 }
 
@@ -762,15 +776,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 7.0) {
-                        $car->sml = 'XS';
+                        $car->sedan_size = 'XS';
                     } elseif ($car->size <= 7.69) {
-                        $car->sml = 'S';
+                        $car->sedan_size = 'S';
                     } elseif ($car->size <= 7.91) {
-                        $car->sml = 'M';
+                        $car->sedan_size = 'M';
                     } elseif ($car->size <= 8.2) {
-                        $car->sml = 'L';
+                        $car->sedan_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->sedan_size = 'XL';
                     }
                 }
 
@@ -790,15 +804,15 @@ class CarsController extends Controller
                     $car->size = $size_length + $size_width + $size_height;
 
                     if ($car->size <= 6.16) {
-                        $car->sml = 'XS';
+                        $car->sports_size = 'XS';
                     } elseif ($car->size <= 7.28) {
-                        $car->sml = 'S';
+                        $car->sports_size = 'S';
                     } elseif ($car->size <= 7.55) {
-                        $car->sml = 'M';
+                        $car->sports_size = 'M';
                     } elseif ($car->size <= 7.99) {
-                        $car->sml = 'L';
+                        $car->sports_size = 'L';
                     } else {
-                        $car->sml = 'XL';
+                        $car->sports_size = 'XL';
                     }
                 }
 
@@ -1066,8 +1080,8 @@ class CarsController extends Controller
             */
 
             //スライドドア開口部
-            elseif ($spec == 'puchivan_slideopen') {
-                $cars = $cars->sortByDesc('puchivan_slideopen');
+            elseif ($spec == 'puchivan_doorsize') {
+                $cars = $cars->sortByDesc('puchivan_doorsize');
 
                 return view('car.spec', compact('genre', 'year', 'thisyear', 'spec', 'half', 'count', 'cars'));
             }
@@ -1101,7 +1115,7 @@ class CarsController extends Controller
 
 
 
-            //車種一覧ビューでそれを表示
+            //車種一覧ビュー表示
             return view('car.genre', [
                 'genre' => $genre,
             ]);
@@ -2347,11 +2361,15 @@ class CarsController extends Controller
         }
 
 
+        $half = Car::orderByDesc('id')->value('half');
+        //dd($half);
+
         //車種一覧ビューでそれを表示
         return view('car.genre', [
             'genre' => $genre,
             'cars' => $cars,
             'year' => $year,
+            'half' => $half,
             'count' => $count,
         ]);
     }
