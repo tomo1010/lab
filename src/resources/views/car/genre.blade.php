@@ -64,7 +64,7 @@
 
         //ミニバン
         'minivan_size' => 'ざっくりS・M・Lのサイズで比較',
-        'minivan_slidedoor' => 'スライドドアの有無',
+        'slidedoor_flug' => 'スライドドアの有無',
         'minivan_style' => '同じミニバンでも形が違います',
         'minivan_3rd' => '３列目シートの格納方法',
 
@@ -136,7 +136,7 @@
             [specIcon('turningradius'), $specs['turningradius'], 'turningradius'],
             [specIcon('ridingcapacity'), $specs['ridingcapacity'], 'ridingcapacity'],
             [specIcon('cruising'), $specs['cruising'], 'cruising'],
-            [specIcon('minivan_slidedoor'), $specs['minivan_slidedoor'], 'minivan_slidedoor'],
+            [specIcon('minivan_slidedoor'), $specs['slidedoor_flug'], 'slidedoor_flug'],
             [specIcon('minivan_3rd'), $specs['minivan_3rd'], 'minivan_3rd'],
             [specIcon('puchivan_doorsize'), $specs['puchivan_doorsize'], 'puchivan_doorsize'],
             [specIcon('wagon_luggage'), $specs['wagon_luggage'], 'wagon_luggage'],
@@ -162,7 +162,7 @@
             [specIcon('ridingcapacity'), $specs['ridingcapacity'], 'ridingcapacity'],
             [specIcon('drive'), $specs['drive'], 'drive'],
             [specIcon('minivan_style'), $specs['minivan_style'], 'minivan_style'],
-            [specIcon('minivan_slidedoor'), $specs['minivan_slidedoor'], 'minivan_slidedoor'],
+            [specIcon('minivan_slidedoor'), $specs['slidedoor_flug'], 'slidedoor_flug'],
             [specIcon('minivan_3rd'), $specs['minivan_3rd'], 'minivan_3rd'],
             [specIcon('puchivan_doorsize'), $specs['puchivan_doorsize'], 'puchivan_doorsize'],
             [specIcon('suv_style'), $specs['suv_style'], 'suv_style'],

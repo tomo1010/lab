@@ -16,6 +16,9 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 @endphp
 
 <header class="sticky top-0 z-50 mb-6 border-b border-gray-200 {{ $bgClass }}">
+    <div class="bg-gray-650 text-white text-center py-2 text-sm">
+        全メーカー全車種{{$count}}台比較ランキング
+    </div>
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {{-- ロゴ --}}
         <div class="flex items-center space-x-4">

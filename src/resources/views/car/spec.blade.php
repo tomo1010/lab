@@ -41,7 +41,7 @@ $units = [
 'fees' => '円',
 'fuel' => 'km/L',
 'fueltank' => 'L',
-'gap' => 'cm',
+'gap' => 'm',
 'groundclearance' => 'cm',
 'indoorsize' => 'm',
 'jtax' => '円',
@@ -92,10 +92,18 @@ $unit = $units[$spec] ?? ''; // 該当しない場合は空文字
                     </a>
                 </td>
                 <td class="px-4 py-2 text-gray-800">
+                    @if($spec === 'slidedoor_flug')
+                    @if($car->$spec == 1)
+                    あり
+                    @else
+                    なし
+                    @endif
+                    @else
                     @if(!is_null($car->$spec))
                     {{ $car->$spec }} {{ $unit }}
                     @else
                     - {{ $unit }}
+                    @endif
                     @endif
                 </td>
             </tr>

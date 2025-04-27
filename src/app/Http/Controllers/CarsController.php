@@ -49,11 +49,13 @@ class CarsController extends Controller
     public function show($id, $genre)
     {
         $car = Car::findOrFail($id);
+        $count = $car->count();
 
         // メッセージ詳細ビューでそれを表示
         return view('car.show', [
             'car' => $car,
             'genre' => $genre,
+            'count' => $count,
         ]);
     }
 
@@ -253,6 +255,7 @@ class CarsController extends Controller
             'tiresize_front',
             'minivan_style',
             'suv_style',
+            'slidedoor_flug',
         ];
 
         // 降順でソートする項目

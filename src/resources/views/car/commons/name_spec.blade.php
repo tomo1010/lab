@@ -128,7 +128,7 @@ kg単価
 自賠責保険
 
 {{--ミニバン独自スペック--}}
-@elseif($spec == 'minivan_slidedoor')
+@elseif($spec == 'slidedoor_flug')
 スライドドア有無
 @elseif($spec == 'minivan_style')
 形
