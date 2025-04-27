@@ -8,10 +8,20 @@ $genreStyles = [
 'wagon' => ['bg-[#90374E]', asset('img/car_genre_bunner/wagon.png')],
 'sports' => ['bg-[#FE4500]', asset('img/car_genre_bunner/sports.png')],
 'kei' => ['bg-[#E8C605]', null],
+'kei_wagon' => ['bg-[#E8C605]', null],
+'kei_heightwagon' => ['bg-[#E8C605]', null],
+'kei_slide' => ['bg-[#E8C605]', null],
+'kei_sedan' => ['bg-[#E8C605]', null],
+'kei_sports' => ['bg-[#E8C605]', null],
+'kei_suv' => ['bg-[#E8C605]', null],
+'kei_truck' => ['bg-[#E8C605]', null],
+'kei_hako' => ['bg-[#E8C605]', null],
+'kei_hakowagon' => ['bg-[#E8C605]', null],
+'kei_heightvan' => ['bg-[#E8C605]', null],
 ];
 
 $safeGenre = $genre ?? '';
-$bgClass = $genreStyles[$safeGenre][0] ?? 'bg-gray-100';
+$bgClass = $genreStyles[$safeGenre][0] ?? 'bg-gray-500';
 $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 @endphp
 
@@ -27,9 +37,24 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
                 <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="w-[150px] h-[36px] object-contain max-w-none flex-shrink-0" />
             </a>
             @else
-            <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-gray-500">
-                車比較サイト
-            </a>
+            @php
+            $labels = [
+            'kei_wagon' => '軽ワゴン', 'kei_heightwagon' => '軽ハイトワゴン', 'kei_slide' => '軽スライドドア',
+            'kei_sedan' => '軽セダン', 'kei_sports' => '軽スポーツ', 'kei_suv' => '軽SUV', 'kei_truck' => '軽トラック',
+            'kei_hako' => '軽箱（ケッパコ）', 'kei_hakowagon' => '軽箱ワゴン', 'kei_heightvan' => '軽ハイトバン',
+            'longseler' => 'ロングセラー', 'suv_3rd' => '3列シートSUV',
+            '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち'
+            ];
+            $currentLabel = $labels[$safeGenre] ?? null;
+            @endphp
+
+            @if($currentLabel)
+            <div class="mb-2">
+                <a href="{{ route('car.genre', ['genre' => $safeGenre]) }}" class="text-lg font-semibold text-white">
+                    {{ $currentLabel }}比較サイト
+                </a>
+            </div>
+            @endif
             @endif
         </div>
 
@@ -67,19 +92,28 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
         <script>
             const hamburgerButton = document.getElementById('hamburgerButton');
             const hamburgerMenu = document.getElementById('hamburgerMenu');
-            hamburgerButton.addEventListener('click', () => {
+
+            // ハンバーガーボタン押したとき
+            hamburgerButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // クリックイベントが親に伝わらないようにする
                 hamburgerMenu.classList.toggle('hidden');
             });
+
+            // メニュー押したときも、メニューが閉じないようにする
+            hamburgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // ドキュメントのどこかを押したとき
+            document.addEventListener('click', () => {
+                if (!hamburgerMenu.classList.contains('hidden')) {
+                    hamburgerMenu.classList.add('hidden');
+                }
+            });
         </script>
+
     </div>
 
-    <script>
-        const dropdownBtn = document.getElementById('dropdownButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        dropdownBtn?.addEventListener('click', () => {
-            dropdownMenu.classList.toggle('hidden');
-        });
-    </script>
 </header>
 
 {{-- 国産車チェックボックス --}}
