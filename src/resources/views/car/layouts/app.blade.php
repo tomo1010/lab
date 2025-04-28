@@ -8,6 +8,9 @@
     <meta content="自動車スペックのデータベース。ミニバン比較ランキング、SUV比較ランキング、軽自動車比較ランキング、ファミリーカー比較ランキング、コンパクトカー比較ランキング" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8272433810922720"
+        crossorigin="anonymous"></script>
 </head>
 
 
