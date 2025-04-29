@@ -25,7 +25,7 @@ $bgClass = $genreStyles[$safeGenre][0] ?? 'bg-gray-500';
 $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 @endphp
 
-<header class="sticky top-0 z-50 mb-6 border-b border-gray-200 {{ $bgClass }}">
+<header class="sticky top-0 z-50 mb-2 border-b border-gray-200 {{ $bgClass }}">
     <div class="bg-gray-650 text-white text-center py-2 text-sm">
         全メーカー全車種{{$count}}台比較ランキング
     </div>
@@ -37,13 +37,16 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
                 <img src="{{ $logoUrl }}" alt="{{ $safeGenre }} ロゴ" class="w-[150px] h-[36px] object-contain max-w-none flex-shrink-0" />
             </a>
             @else
+            {{-- テキストタイトル --}}
             @php
             $labels = [
+            'kei' => '軽自動車',
             'kei_wagon' => '軽ワゴン', 'kei_heightwagon' => '軽ハイトワゴン', 'kei_slide' => '軽スライドドア',
             'kei_sedan' => '軽セダン', 'kei_sports' => '軽スポーツ', 'kei_suv' => '軽SUV', 'kei_truck' => '軽トラック',
             'kei_hako' => '軽箱（ケッパコ）', 'kei_hakowagon' => '軽箱ワゴン', 'kei_heightvan' => '軽ハイトバン',
             'longseler' => 'ロングセラー', 'suv_3rd' => '3列シートSUV',
-            '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち'
+            'headlight' => '丸目ヘッドライト', 'oem' => 'OEM', 'compact' => 'コンパクトカー', '2door_courpe' => '２ドアクーペ', 'familly' => 'ファミリーカー',
+            '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち',
             ];
             $currentLabel = $labels[$safeGenre] ?? null;
             @endphp
@@ -78,7 +81,8 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
                     'kei_sedan' => '軽セダン', 'kei_sports' => '軽スポーツ', 'kei_suv' => '軽SUV', 'kei_truck' => '軽トラック',
                     'kei_hako' => '軽箱（ケッパコ）', 'kei_hakowagon' => '軽箱ワゴン', 'kei_heightvan' => '軽ハイトバン',
                     'longseler' => 'ロングセラー', 'suv_3rd' => '3列シートSUV',
-                    '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち'
+                    'headlight' => '丸目ヘッドライト', 'oem' => 'OEM', 'compact' => 'コンパクトカー', '2door_courpe' => '２ドアクーペ', 'familly' => 'ファミリーカー',
+                    '3year' => '新車から3年落ち', '5year' => '新車から5年落ち', '7year' => '新車から7年落ち',
                     ] as $key => $label)
                     <li>
                         <a href="{{ route('car.genre', ['genre' => $key]) }}"
@@ -116,19 +120,49 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 
 </header>
 
-{{-- 国産車チェックボックス --}}
-<p class="text-right px-4 mb-1">
-    <input type="checkbox" name="import" value="1" onchange="myfunc(this.value)" {{ request()->input('import') ? 'checked' : '' }}>
-    <span class="text-sm text-gray-700">輸入車含む</span>
-</p>
+{{-- チェックボックスセクション（中央寄せ＆下部広め） --}}
+<div class="flex flex-wrap justify-center px-4 mt-1 mb-10 space-x-4">
+    <label class="flex items-center space-x-1 text-sm text-gray-700">
+        <input type="checkbox" name="import" value="1" onchange="updateFilters()" {{ request()->input('import') ? 'checked' : '' }}>
+        <span>輸入車含む</span>
+    </label>
+
+    <label class="flex items-center space-x-1 text-sm text-gray-700">
+        <input type="checkbox" name="exclude_keicar" value="1" onchange="updateFilters()" {{ request()->input('exclude_keicar') ? 'checked' : '' }}>
+        <span>軽を除外</span>
+    </label>
+
+    <label class="flex items-center space-x-1 text-sm text-gray-700">
+        <input type="checkbox" name="exclude_hv" value="1" onchange="updateFilters()" {{ request()->input('exclude_hv') ? 'checked' : '' }}>
+        <span>HVを除外</span>
+    </label>
+
+    <label class="flex items-center space-x-1 text-sm text-gray-700">
+        <input type="checkbox" name="exclude_diesel" value="1" onchange="updateFilters()" {{ request()->input('exclude_diesel') ? 'checked' : '' }}>
+        <span>ディーゼル除外</span>
+    </label>
+</div>
 
 <script>
-    function myfunc(value) {
-        const element = document.getElementsByName('import');
-        if (element[0].checked) {
-            location.href = location.pathname + '?import=1';
-        } else {
-            location.href = location.pathname;
+    function updateFilters() {
+        const params = new URLSearchParams();
+
+        if (document.getElementsByName('import')[0].checked) {
+            params.set('import', '1');
         }
+
+        if (document.getElementsByName('exclude_keicar')[0].checked) {
+            params.set('exclude_keicar', '1');
+        }
+
+        if (document.getElementsByName('exclude_hv')[0].checked) {
+            params.set('exclude_hv', '1');
+        }
+
+        if (document.getElementsByName('exclude_diesel')[0].checked) {
+            params.set('exclude_diesel', '1');
+        }
+
+        location.href = location.pathname + '?' + params.toString();
     }
 </script>

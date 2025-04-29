@@ -98,8 +98,11 @@ class CarsController extends Controller
             $half = Car::orderBy('id', 'desc')->value('half');
         }
 
-        //getパラメータから「国産車のみ」のチェックを受け取る        
+        //getパラメータからチェックを受け取る        
         $import = request('import');
+        $excludeKei = request('exclude_keicar');
+        $excludeHv = request('exclude_hv');
+        $excludeDiesel = request('exclude_diesel');
 
 
         /*
@@ -187,12 +190,12 @@ class CarsController extends Controller
                     ['size_height', '<=', 2.00],
                 ])
                     ->whereNull('kei_flug')
-                    ->whereNull('van');
+                    ->whereNull('van_flug');
                 break;
             case '2door_courpe':
                 $query->where('sports_flug', 1)
                     ->where('door', 2)
-                    ->whereNull('van');
+                    ->whereNull('van_flug');
                 break;
             case 'headlight':
                 $query->where('headlight_flug', 1);
@@ -217,6 +220,27 @@ class CarsController extends Controller
             // 日本車限定（$importがNULLのとき）
             if (is_null($import)) {
                 $query->where('japan_flug', 1);
+            }
+
+            // 軽自動車除外（excludeKeiが1のとき）
+            if ($excludeKei === '1') {
+                $query->where(function ($q) {
+                    $q->where('kei_flug', '!=', 1)->orWhereNull('kei_flug');
+                });
+            }
+
+            // HV除外（excludeHvが1のとき）
+            if ($excludeHv === '1') {
+                $query->where(function ($q) {
+                    $q->where('hev_flug', '!=', 1)->orWhereNull('hev_flug');
+                });
+            }
+
+            // ディーゼル除外（excludeDieselが1のとき）
+            if ($excludeDiesel === '1') {
+                $query->where(function ($q) {
+                    $q->where('diesel_flug', '!=', 1)->orWhereNull('diesel_flug');
+                });
             }
 
             // 年式絞り込み（release年を使うジャンルは除く）
@@ -573,7 +597,7 @@ class CarsController extends Controller
     public function genre($genre)
     {
         $year = self::THISYEAR;
-
+        //dd($genre);
         // ジャンルとクエリ条件のマッピング
         $genreConditions = [
             'minivan' => ['minivan_flug' => 1],
@@ -620,15 +644,16 @@ class CarsController extends Controller
             $dt = now()->subYears($yearGenres[$genre])->format('Y');
             $cars = Car::whereYear('release', $dt)->get();
         } elseif ($genre === 'compact') {
-            $cars = Car::where('kei_flug', '<>', 1)
+            $cars = Car::whereNotNull('kei_flug')
+                ->where('kei_flug', '<>', 1)
                 ->where('size_length', '<=', 4.70)
                 ->where('size_width', '<=', 1.70)
-                ->where('size_height', '<=', 2.00)
+                ->where('size_height', '<=', 1.75)
                 ->get();
         } elseif ($genre === '2door_courpe') {
             $cars = Car::where('sports_flug', 1)
                 ->where('door', 2)
-                ->whereNull('van')
+                ->whereNull('van_flug')
                 ->get();
         } elseif ($genre === 'familly') {
             $cars_ridingcapacity = Car::where('ridingcapacity', '>=', 6)->get();
