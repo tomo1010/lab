@@ -129,17 +129,17 @@ $logoUrl = $genreStyles[$safeGenre][1] ?? null;
 
     <label class="flex items-center space-x-1 text-sm text-gray-700">
         <input type="checkbox" name="exclude_keicar" value="1" onchange="updateFilters()" {{ request()->input('exclude_keicar') ? 'checked' : '' }}>
-        <span>軽を除外</span>
+        <span>軽外す</span>
     </label>
 
     <label class="flex items-center space-x-1 text-sm text-gray-700">
         <input type="checkbox" name="exclude_hv" value="1" onchange="updateFilters()" {{ request()->input('exclude_hv') ? 'checked' : '' }}>
-        <span>HVを除外</span>
+        <span>HV外す</span>
     </label>
 
     <label class="flex items-center space-x-1 text-sm text-gray-700">
         <input type="checkbox" name="exclude_diesel" value="1" onchange="updateFilters()" {{ request()->input('exclude_diesel') ? 'checked' : '' }}>
-        <span>ディーゼル除外</span>
+        <span>ディーゼル外す</span>
     </label>
 </div>
 
