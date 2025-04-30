@@ -74,7 +74,7 @@
     </style>
 
     <div class="max-w-4xl mx-auto">
-        <form method="POST" action="{{ route('faxs.createPdf') }}">
+        <form method="POST" action="{{ route('fax.sendPdf') }}">
             @csrf
 
             <div class="fax-container bg-white shadow-md rounded-md">
@@ -215,19 +215,15 @@
         const fields = ['postal', 'address', 'name', 'tel', 'fax'];
 
         window.addEventListener('DOMContentLoaded', () => {
-            let loaded = false;
-
             fields.forEach(field => {
                 const value = getCookie(field);
                 if (value) {
                     document.getElementById(field).value = value;
-                    loaded = true;
                 }
             });
 
-            if (loaded) {
+            if (fields.some(field => getCookie(field))) {
                 document.getElementById('save_to_cookie').checked = true;
-                alert('クッキーから発信者情報を読み込みました。');
             }
         });
 

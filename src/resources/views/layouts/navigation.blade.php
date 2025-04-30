@@ -28,8 +28,12 @@
                         年齢計算機
                     </x-nav-link>
 
-                    <x-nav-link :href="route('lavel.index')" :active="request()->routeIs('lavel.index')">
+                    <x-nav-link :href="route('fax.send')" :active="request()->routeIs('fax.send')">
                         FAX送付状
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('fax.change')" :active="request()->routeIs('fax.change')">
+                        車両入替え送付状
                     </x-nav-link>
 
                     <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">
@@ -129,8 +133,12 @@
                         年齢計算機
                     </x-nav-link>
 
-                    <x-nav-link :href="route('lavel.index')" :active="request()->routeIs('lavel.index')">
+                    <x-nav-link :href="route('fax.send')" :active="request()->routeIs('fax.send')">
                         FAX送付状
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('fax.change')" :active="request()->routeIs('fax.change')">
+                        車両入替え送付状
                     </x-nav-link>
 
                     <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">

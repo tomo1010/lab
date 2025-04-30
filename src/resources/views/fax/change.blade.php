@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            FAX送付状印刷
+            車両入替え送付状印刷
         </h2>
     </x-slot>
 
@@ -74,11 +74,11 @@
     </style>
 
     <div class="max-w-4xl mx-auto">
-        <form method="POST" action="{{ route('lavels.createPdf') }}">
+        <form method="POST" action="{{ route('fax.changePdf') }}">
             @csrf
 
             <div class="fax-container bg-white shadow-md rounded-md">
-                <div class="title">FAX 送付状</div>
+                <div class="title">車両入替え 送付状</div>
 
                 <div class="right-align-small">
                     送信日：
@@ -90,7 +90,7 @@
                     送信枚数：
                     <select name="page_count" class="border rounded px-2 py-1 text-sm">
                         <option value="1">1</option>
-                        <option value="2">2</option>
+                        <option value="2" selected>2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
@@ -114,14 +114,28 @@
                 </div>
 
 
-                <div class="mb-4">
-                    件名：
-                    <input type="text" name="subject" class="input-text" placeholder="件名を入力してください">
+                <div class="left-align">
+                    <label class="block mb-1">車両入替え予定日：</label>
+                    <input type="date" name="change_date" class="border rounded px-2 py-1" value="{{ date('Y-m-d') }}" required>
+                </div>
+
+                <div class="left-align">
+
+                    <div class="flex items-center">
+                        <input type="text" name="price" class="input-text" placeholder="車両金額を入力してください">
+                        <span class="ml-2 whitespace-nowrap">万円</span>
+                    </div>
+                </div>
+
+                <div class="left-align">
+                    <div class="flex items-center">
+                        <input type="text" name="before" class="input-text" placeholder="入替え前の車あれば入力">
+                        <span class="ml-2 whitespace-nowrap">から新しい車へ入替え</span>
+                    </div>
                 </div>
 
                 <div class="mb-4">
-                    <label>ご挨拶文：</label>
-                    <textarea name="message" class="textarea">日頃よりお世話になっております。</textarea>
+                    <textarea name=" message" class="textarea">車両入替えの手続きをお願いします。</textarea>
                 </div>
 
                 <div class="footer">
@@ -215,19 +229,15 @@
         const fields = ['postal', 'address', 'name', 'tel', 'fax'];
 
         window.addEventListener('DOMContentLoaded', () => {
-            let loaded = false;
-
             fields.forEach(field => {
                 const value = getCookie(field);
                 if (value) {
                     document.getElementById(field).value = value;
-                    loaded = true;
                 }
             });
 
-            if (loaded) {
+            if (fields.some(field => getCookie(field))) {
                 document.getElementById('save_to_cookie').checked = true;
-                alert('クッキーから発信者情報を読み込みました。');
             }
         });
 
