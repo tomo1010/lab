@@ -49,10 +49,10 @@ return new class extends Migration
             $table->integer('tax_4')->default(0); //環境性能割
             $table->integer('tax_5')->default(0); //リサイクル費用
             $table->integer('tax_6')->default(0); //延長保証
-            $table->integer('tax_7')->default(0); 
-            $table->integer('tax_8')->default(0); 
-            $table->integer('tax_9')->default(0); 
-            $table->integer('tax_10')->default(0); 
+            $table->integer('tax_7')->default(0);
+            $table->integer('tax_8')->default(0);
+            $table->integer('tax_9')->default(0);
+            $table->integer('tax_10')->default(0);
             $table->integer('tax_total')->default(0);
             //販売諸費用
             $table->integer('overhead_1')->default(0); //登録費用
@@ -63,16 +63,16 @@ return new class extends Migration
             $table->integer('overhead_6')->default(0); //下取り車査定料
             $table->integer('overhead_7')->default(0); //希望番号
             $table->integer('overhead_8')->default(0); //燃料代
-            $table->integer('overhead_9')->default(0); 
-            $table->integer('overhead_10')->default(0); 
-            $table->integer('overhead_11')->default(0); 
+            $table->integer('overhead_9')->default(0);
+            $table->integer('overhead_10')->default(0);
+            $table->integer('overhead_11')->default(0);
             $table->integer('overhead_12')->default(0);
             $table->integer('overhead_13')->default(0);
             $table->integer('overhead_14')->default(0);
             $table->integer('overhead_15')->default(0);
             $table->integer('overhead_total')->default(0);
             //諸費用名称
-            $table->string('overheadName_11')->nullable(); 
+            $table->string('overheadName_11')->nullable();
             $table->string('overheadName_12')->nullable();
             $table->string('overheadName_13')->nullable();
             $table->string('overheadName_14')->nullable();
@@ -161,7 +161,7 @@ return new class extends Migration
 
 
             $table->integer('payment')->default(0); //最終支払い総額
-            
+
 
             //メモ
             $table->string('memo')->nullable(); //メモ

@@ -147,6 +147,13 @@ Route::get('agecalc', function () {
 /*
 ラベル印刷（css.paper）
 */
-Route::match(['get', 'post'], '/label', function () {
-    return view('label.index');
-})->name('label.index');
+Route::match(['get', 'post'], '/label', [LabelController::class, 'index'])->name('label.index');
+Route::post('/label/preview', [LabelController::class, 'preview'])->name('label.preview');
+
+
+//ラベル保存処理（ログインユーザーのみ）
+Route::post('/label/save', [LabelController::class, 'store'])
+    ->middleware('auth')
+    ->name('label.store');
+
+Route::resource('label', LabelController::class)->only(['index', 'store', 'destroy']);
