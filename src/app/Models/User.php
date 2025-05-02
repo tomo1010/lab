@@ -46,8 +46,17 @@ class User extends Authenticatable
     /**
      ** このユーザが所有する見積もり。（ Qoutesモデルとの関係を定義）
      */
-   public function quotes()
-   {
-       return $this->hasMany(Quote::class);
-   }
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
+
+
+    /**
+     ** このユーザが所有するラベル。（ Labelsモデルとの関係を定義）
+     */
+    public function labels()
+    {
+        return $this->hasMany(Label::class);
+    }
 }

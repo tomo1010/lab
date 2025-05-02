@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use PDF;
 
-class LavelController extends Controller
+class FaxController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +19,10 @@ class LavelController extends Controller
         //    // 認証済みユーザを取得
         //    $user = \Auth::user();
         //    // ユーザの投稿の一覧を作成日時の降順で取得
-        //    $lavels = $user->lavels()->orderBy('updated_at', 'desc')->paginate(10);
+        //    $Faxs = $user->Faxs()->orderBy('updated_at', 'desc')->paginate(10);
         //}
-
-        return view('lavel.index');
+        //dd($_COOKIE);
+        return view('fax.index');
     }
 
     /**
@@ -36,6 +36,7 @@ class LavelController extends Controller
     }
 
     /**
+     * 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -97,15 +98,34 @@ class LavelController extends Controller
     /**
      * PDF作成
      */
-    public function createPdf(Request $request)
+
+    //送付状
+    public function sendPdf(Request $request)
     {
 
         $data = $request->all();
         $date['date'] = now()->format('Y-m-d');
         $data['date'] = $date['date'];
         //dd($data);
-        $pdf = PDF::loadView('lavel.createPdf', $data);
+        $pdf = PDF::loadView('fax.sendPdf', $data);
 
-        return $pdf->stream('lavel_' . $data['date'] . '.pdf');
+        return $pdf->stream('fax_' . $data['date'] . '.pdf');
+    }
+
+    
+    //車両入替え
+    public function changePdf(Request $request)
+    {
+
+        $data = $request->all();
+        $date['date'] = now()->format('Y-m-d');
+        $data['date'] = $date['date'];
+
+        $date['change_date'] = now()->format('Y-m-d');
+        $data['change_date'] = $date['change_date'];
+
+        $pdf = PDF::loadView('fax.changePdf', $data);
+
+        return $pdf->stream('fax_' . $data['date'] . '.pdf');
     }
 }

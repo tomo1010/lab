@@ -10,7 +10,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TireController;
 use App\Http\Controllers\TirecalcController;
 use App\Http\Controllers\QuoteController;
-use App\Http\Controllers\LavelController;
+use App\Http\Controllers\FaxController;
 use App\Http\Controllers\LabelController;
 
 
@@ -123,12 +123,16 @@ Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('qu
 /*
 FAX送付状
 */
-Route::get('lavel', [LavelController::class, 'index'])->name('lavel.index');
-Route::middleware('auth')->group(function () {
-    Route::resource('lavels', LavelController::class)->only(['store', 'destroy', 'edit', 'update']);
-});
-Route::post('lavels/{lavel}/copy', [LavelController::class, 'storeCopy'])->name('lavels.copy');
-Route::post('lavels/createPdf', [LavelController::class, 'createPdf'])->name('lavels.createPdf');
+Route::get('send', function () {
+    return view('fax.send');
+})->name('fax.send');
+
+Route::get('change', function () {
+    return view('fax.change');
+})->name('fax.change');
+
+Route::post('fax/sendPdf', [FaxController::class, 'sendPdf'])->name('fax.sendPdf');
+Route::post('fax/changePdf', [FaxController::class, 'changePdf'])->name('fax.changePdf');
 
 
 /*
@@ -143,6 +147,13 @@ Route::get('agecalc', function () {
 /*
 ラベル印刷（css.paper）
 */
-Route::match(['get', 'post'], '/label', function () {
-    return view('label.index');
-})->name('label.index');
+Route::match(['get', 'post'], '/label', [LabelController::class, 'index'])->name('label.index');
+Route::post('/label/preview', [LabelController::class, 'preview'])->name('label.preview');
+
+
+//ラベル保存処理（ログインユーザーのみ）
+Route::post('/label/save', [LabelController::class, 'store'])
+    ->middleware('auth')
+    ->name('label.store');
+
+Route::resource('label', LabelController::class)->only(['index', 'store', 'destroy']);
