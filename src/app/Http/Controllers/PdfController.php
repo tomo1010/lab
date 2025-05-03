@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PDF;
 
+//use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfController extends Controller
 {
-    public function viewPdf()
+    public function constructionPdf(Request $request)
     {
-        $data = [
-            'name' => 'ララベル',  // PDFに渡したいパラメータ
-        ];
-        $pdf = PDF::loadView('pdf.document', $data);  // blade名
+        //dd($request);
+        $data = $request->all();
+        $data['date'] = now()->format('Y-m-d');
 
-        return $pdf->stream('laravel.pdf'); //生成されるファイル名
+        $pdf = Pdf::loadView('pdf.constructionPdf', $data);
+
+        return $pdf->stream('construction_' . $data['date'] . '.pdf');
     }
 }

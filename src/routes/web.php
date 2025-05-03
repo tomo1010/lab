@@ -102,13 +102,6 @@ Route::middleware(['web'])->group(function () {
 });
 
 
-
-/*
-PDF印刷
-*/
-//Route::get('pdf', [PdfController::class,'viewPdf']);
-
-
 /*
 見積もり
 */
@@ -157,3 +150,16 @@ Route::post('/label/save', [LabelController::class, 'store'])
     ->name('label.store');
 
 Route::resource('label', LabelController::class)->only(['index', 'store', 'destroy']);
+
+
+
+/*
+下敷き印刷
+*/
+// フォーム表示
+Route::get('pdf/construction', function () {
+    return view('pdf.construction');
+})->name('pdf.construction');
+
+// PDF生成処理
+Route::post('pdf/constructionPdf', [PdfController::class, 'constructionPdf'])->name('pdf.constructionPdf');

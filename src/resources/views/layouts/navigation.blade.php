@@ -39,6 +39,10 @@
                     <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">
                         ラベル印刷
                     </x-nav-link>
+
+                    <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')">
+                        pdf印刷
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -143,6 +147,10 @@
 
                     <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">
                         ラベル印刷
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')">
+                        pdf印刷
                     </x-nav-link>
 
                 </div>
