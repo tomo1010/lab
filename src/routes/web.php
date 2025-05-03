@@ -156,10 +156,16 @@ Route::resource('label', LabelController::class)->only(['index', 'store', 'destr
 /*
 下敷き印刷
 */
-// フォーム表示
+
+// 施工証明書
 Route::get('pdf/construction', function () {
     return view('pdf.construction');
 })->name('pdf.construction');
 
+//売約済み（横書き）
+Route::get('pdf/soldHorizental', function () {
+    return view('pdf.soldHorizental');
+})->name('pdf.soldHorizental');
+
 // PDF生成処理
-Route::post('pdf/constructionPdf', [PdfController::class, 'constructionPdf'])->name('pdf.constructionPdf');
+Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pdf.generatePdf');

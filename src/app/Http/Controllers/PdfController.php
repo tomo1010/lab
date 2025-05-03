@@ -9,14 +9,22 @@ use PDF;
 
 class PdfController extends Controller
 {
-    public function constructionPdf(Request $request)
+    public function generatePdf(Request $request)
     {
-        //dd($request);
-        $data = $request->all();
+        $data = $request->except('view');
         $data['date'] = now()->format('Y-m-d');
 
-        $pdf = Pdf::loadView('pdf.constructionPdf', $data);
+        $view = $request->input('view');
+        //dd($view);
+        if (!view()->exists($view)) {
+            abort(404, '指定されたビューが存在しません。');
+        }
 
-        return $pdf->stream('construction_' . $data['date'] . '.pdf');
+        $pdf = Pdf::loadView($view, $data);
+
+        // 出力ファイル名はビュー名から自動生成
+        $filename = class_basename(str_replace('.', '_', $view)) . '_' . $data['date'] . '.pdf';
+
+        return $pdf->stream($filename);
     }
 }

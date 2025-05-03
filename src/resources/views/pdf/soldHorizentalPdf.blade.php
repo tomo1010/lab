@@ -34,14 +34,12 @@
 <body>
     <!-- 背景画像 -->
     <div class="background">
-        <img src="{{ public_path('template/construction.png') }}" width="100%" height="100%">
+        <img src="{{ public_path('template/baiyakuzumi.png') }}" width="100%" height="100%">
     </div>
 
     <!-- 入力されたデータ -->
     <div class="content">
-        <p>発行日：{{ $date }}</p>
-        <p>顧客名：{{ $customer }}</p>
-        <p>備考：{{ $note }}</p>
+        <p>{{ $customer }} 様</p>
     </div>
 
 </body>
