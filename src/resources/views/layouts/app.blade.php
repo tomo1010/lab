@@ -10,6 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8272433810922720"
+        crossorigin="anonymous"></script>
+
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Tailwind CSS CDN -->
@@ -23,7 +28,6 @@
     <!-- Font Awesome 6.5.0（最新安定版） -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <meta name="google-adsense-account" content="ca-pub-8272433810922720">
 
 </head>
 
