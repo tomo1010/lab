@@ -7,13 +7,48 @@
 
     <div class="bg-gray-100 flex justify-center pt-8 px-4">
         <div class="no-print bg-white rounded-2xl shadow-sm p-8 w-full max-w-xl mt-4">
-            <form method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank" class="space-y-6">
+            <form method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank" class="space-y-6" id="construction-form">
                 @csrf
                 <input type="hidden" name="view" value="pdf.constructionPdf">
 
                 <div>
                     <label for="customer" class="block text-sm font-medium text-gray-700">顧客名</label>
-                    <input type="text" name="customer" id="customer" required
+                    <input type="text" name="customer" id="customer"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">施工年月日</label>
+                    <input type="date" name="date" id="date"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="guarantee" class="block text-sm font-medium text-gray-700 mb-1">保証期間</label>
+                    <div class="space-y-2 sm:space-y-0 sm:space-x-4 sm:flex">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <label class="inline-flex items-center">
+                            <input
+                                type="radio"
+                                name="guarantee"
+                                id="guarantee"
+                                value="{{ $i }}年"
+                                class="text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                            <span class="ml-2">{{ $i }}年</span>
+                            </label>
+                            @endfor
+                    </div>
+                </div>
+
+                <div>
+                    <label for="carName" class="block text-sm font-medium text-gray-700">車種</label>
+                    <input type="text" name="carName" id="carName"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="frameNumbar" class="block text-sm font-medium text-gray-700">車台番号</label>
+                    <input type="text" name="frameNumbar" id="frameNumbar"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                 </div>
 
@@ -21,6 +56,47 @@
                     <label for="note" class="block text-sm font-medium text-gray-700">備考</label>
                     <input type="text" name="note" id="note"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+
+                <!-- 発信者情報 -->
+                <div class="border-t pt-4 mt-6">
+                    <div class="mb-2 text-sm font-medium text-gray-700">施工店：</div>
+
+                    <div class="mb-2">
+                        〒：
+                        <input type="text" name="postal" id="postal" style="width: 100px;" class="border rounded px-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
+                        <input type="text" name="address" id="address" class="input-text mt-1 w-full border rounded px-1" placeholder="住所を入力してください">
+                        <input type="text" name="name" id="name" class="input-text mt-1 w-full border rounded px-1" placeholder="名前を入力してください">
+                    </div>
+
+                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
+                        <div class="md:w-1/2 mb-2 md:mb-0">
+                            TEL：
+                            <input type="tel" name="tel" id="tel" class="border rounded px-1 w-full" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
+                        </div>
+                        <div class="md:w-1/2">
+                            FAX：
+                            <input type="tel" name="fax" id="fax" class="border rounded px-1 w-full" placeholder="03-1234-5678" inputmode="tel" autocomplete="tel">
+                        </div>
+                    </div>
+
+                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
+                        <div class="md:w-1/2 mb-2 md:mb-0">
+                            E-Mail：
+                            <input type="email" name="mail" id="mail" class="border rounded px-1 w-full" placeholder="example@example.com" autocomplete="email">
+                        </div>
+                        <div class="md:w-1/2">
+                            URL：
+                            <input type="url" name="url" id="url" class="border rounded px-1 w-full" placeholder="https://example.com" autocomplete="url">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 mt-2">
+                        <label>
+                            <input type="checkbox" id="save_to_cookie" class="mr-1">
+                            発信者情報を保存しておく
+                        </label>
+                    </div>
                 </div>
 
                 <div class="pt-4">
@@ -32,4 +108,39 @@
             </form>
         </div>
     </div>
+
+
+
+    <!-- 発信者情報保存スクリプト -->
+    <script>
+        const senderFields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url'];
+        const storageKey = 'sender_info';
+
+        // 保存処理
+        document.getElementById('construction-form').addEventListener('submit', function() {
+            if (document.getElementById('save_to_cookie').checked) {
+                const data = {};
+                senderFields.forEach(id => {
+                    data[id] = document.getElementById(id).value;
+                });
+                localStorage.setItem(storageKey, JSON.stringify(data));
+            } else {
+                localStorage.removeItem(storageKey);
+            }
+        });
+
+        // 自動入力処理
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem(storageKey);
+            if (saved) {
+                const data = JSON.parse(saved);
+                senderFields.forEach(id => {
+                    if (data[id]) {
+                        document.getElementById(id).value = data[id];
+                    }
+                });
+                document.getElementById('save_to_cookie').checked = true;
+            }
+        });
+    </script>
 </x-app-layout>

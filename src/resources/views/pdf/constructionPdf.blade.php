@@ -27,8 +27,13 @@
             z-index: 1;
             padding: 3cm;
         }
-    </style>
 
+        .sender-info {
+            margin-top: 2cm;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,6 +47,21 @@
         <p>発行日：{{ $date }}</p>
         <p>顧客名：{{ $customer }}</p>
         <p>備考：{{ $note }}</p>
+        <p>施工年月日：{{ $date }}</p>
+        <p>保証期間：{{ $guarantee }}</p>
+        <p>車種：{{ $carName }}</p>
+        <p>車台番号：{{ $frameNumbar }}</p>
+
+        <!-- 発信者情報 -->
+        <div class="sender-info">
+            <p>【発信者情報】</p>
+            <p>〒{{ $postal }}</p>
+            <p>{{ $address }}</p>
+            <p>{{ $name }}</p>
+            <p>TEL：{{ $tel }}　FAX：{{ $fax }}</p>
+            <p>Email：{{ $mail }}</p>
+            <p>URL：{{ $url }}</p>
+        </div>
     </div>
 
 </body>

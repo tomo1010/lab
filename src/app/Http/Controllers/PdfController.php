@@ -13,7 +13,7 @@ class PdfController extends Controller
     {
         $data = $request->except('view');
         $data['date'] = now()->format('Y-m-d');
-
+        //dd($request);
         $view = $request->input('view');
         //dd($view);
         if (!view()->exists($view)) {
