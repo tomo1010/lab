@@ -167,5 +167,10 @@ Route::get('pdf/soldHorizental', function () {
     return view('pdf.soldHorizental');
 })->name('pdf.soldHorizental');
 
+//売約済み（縦書き）
+Route::get('pdf/soldVertical', function () {
+    return view('pdf.soldVertical');
+})->name('pdf.soldVertical');
+
 // PDF生成処理
 Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pdf.generatePdf');

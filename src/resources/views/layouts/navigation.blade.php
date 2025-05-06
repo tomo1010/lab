@@ -41,8 +41,14 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')">
-                        pdf印刷
+                        施工証明書
                     </x-nav-link>
+
+                    <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')">
+                        売約済み（横書き）
+                    </x-nav-link>
+
+
                 </div>
             </div>
 
@@ -150,8 +156,13 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')">
-                        pdf印刷
+                        施工証明書
                     </x-nav-link>
+
+                    <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')">
+                        売約済み（横書き）
+                    </x-nav-link>
+
 
                 </div>
             </div>

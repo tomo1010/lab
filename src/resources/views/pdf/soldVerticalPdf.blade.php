@@ -31,7 +31,24 @@
         .content {
             position: relative;
             z-index: 1;
-            padding: 3cm;
+        }
+
+        .vertical-text {
+            writing-mode: tb-rl;
+            text-orientation: upright;
+            font-size: 20pt;
+            line-height: 1.8;
+            position: absolute;
+        }
+
+        .customer-1 {
+            top: 5cm;
+            left: 4cm;
+        }
+
+        .customer-2 {
+            top: 5cm;
+            left: 8cm;
         }
     </style>
 </head>
@@ -42,13 +59,15 @@
         <img src="{{ public_path('template/baiyakuzumi.png') }}" alt="背景画像">
     </div>
 
-    <!-- 入力されたデータ -->
-    <div class="content">
-        <p>{{ $customer_1 }} 様</p>
+    <!-- 縦書きの顧客名表示 -->
+    <div class="content vertical-text customer-1">
+        {{ $customer_1 }} 様
     </div>
-    <div class="content">
-        <p>{{ $customer_2 }} 様</p>
+
+    <div class="content vertical-text customer-2">
+        {{ $customer_2 }} 様
     </div>
+
 </body>
 
 </html>

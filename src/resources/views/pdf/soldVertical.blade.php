@@ -1,7 +1,8 @@
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            売約済み（横書き）
+            売約済み（縦書き）
         </h2>
     </x-slot>
 
