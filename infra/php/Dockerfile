@@ -1,37 +1,24 @@
 FROM php:8.1-fpm-buster
 
-# 環境変数
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
-  COMPOSER_HOME=/composer
+    COMPOSER_HOME=/composer
 
-# Composer のインストール
+# Composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
-# Node.js の公式リポジトリを追加し、LTS バージョンをインストール
+# Node.js
 RUN apt-get update && apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y nodejs
 
-# 必要なパッケージをインストール
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    unzip \
-    libzip-dev \
-    libicu-dev \
-    libonig-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  docker-php-ext-install intl pdo_mysql zip bcmath && \
-  docker-php-ext-configure gd --with-freetype --with-jpeg && \
-  docker-php-ext-install gd
+# 必要パッケージ（GDに必要なものも含む）
+RUN apt-get install -y \
+    git unzip libzip-dev libicu-dev libonig-dev \
+    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install intl pdo_mysql zip bcmath gd
 
-# php.ini を適用
+# php.ini
 COPY ./php.ini /usr/local/etc/php/php.ini
 
-# 作業ディレクトリの設定
 WORKDIR /data
