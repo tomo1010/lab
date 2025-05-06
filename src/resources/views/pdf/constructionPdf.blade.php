@@ -48,7 +48,7 @@
         <p>顧客名：{{ $customer }}</p>
         <p>備考：{{ $note }}</p>
         <p>施工年月日：{{ $date }}</p>
-        <p>保証期間：{{ $guarantee }}</p>
+        <p>保証期間：{{ $guarantee ?? '' }}</p>
         <p>車種：{{ $carName }}</p>
         <p>車台番号：{{ $frameNumbar }}</p>
 
