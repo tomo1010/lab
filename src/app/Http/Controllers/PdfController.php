@@ -15,7 +15,7 @@ class PdfController extends Controller
         $data['date'] = now()->format('Y-m-d');
         //dd($request);
         $view = $request->input('view');
-        //dd($view);
+        //dd($request);
         if (!view()->exists($view)) {
             abort(404, '指定されたビューが存在しません。');
         }

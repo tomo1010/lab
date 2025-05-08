@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight shadow-sm">
-            施工証明書印刷
+            ボディコーティング施工証明書印刷
         </h2>
     </x-slot>
 
