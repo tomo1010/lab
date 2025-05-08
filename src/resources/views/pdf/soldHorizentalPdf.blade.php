@@ -11,6 +11,7 @@
         body {
             margin: 0;
             font-family: ipaexg, sans-serif;
+            position: relative;
         }
 
         .background {
@@ -28,10 +29,24 @@
             object-fit: cover;
         }
 
-        .content {
-            position: relative;
-            z-index: 1;
-            padding: 3cm;
+        .name-box {
+            position: absolute;
+            font-size: 40pt;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* 1枚目の名前位置（上の枠） */
+        .customer-1 {
+            top: 385px;
+            /* ※要調整 */
+        }
+
+        /* 2枚目の名前位置（下の枠） */
+        .customer-2 {
+            top: 885px;
+            /* ※要調整 */
         }
     </style>
 </head>
@@ -42,12 +57,12 @@
         <img src="{{ public_path('template/baiyakuzumi.png') }}" alt="背景画像">
     </div>
 
-    <!-- 入力されたデータ -->
-    <div class="content">
-        <p>{{ $customer_1 }} 様</p>
+    <!-- 名前配置 -->
+    <div class="name-box customer-1">
+        {{ $customer_1 }} 様
     </div>
-    <div class="content">
-        <p>{{ $customer_2 }} 様</p>
+    <div class="name-box customer-2">
+        {{ $customer_2 }} 様
     </div>
 </body>
 
