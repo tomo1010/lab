@@ -15,13 +15,13 @@
                 <div>
                     <label for="customer_1" class="block text-sm font-medium text-gray-700">顧客名</label>
                     <input type="text" name="customer_1" id="customer_1"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div>
                     <label for="customer_2" class="block text-sm font-medium text-gray-700">顧客名</label>
                     <input type="text" name="customer_2" id="customer_2"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div class="pt-4">

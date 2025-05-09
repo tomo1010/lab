@@ -14,13 +14,13 @@
                 <div>
                     <label for="customer" class="block text-sm font-medium text-gray-700">顧客名</label>
                     <input type="text" name="customer" id="customer"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div>
                     <label for="date" class="block text-sm font-medium text-gray-700">施工年月日</label>
                     <input type="date" name="date" id="date"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div>
@@ -43,19 +43,19 @@
                 <div>
                     <label for="carName" class="block text-sm font-medium text-gray-700">車種</label>
                     <input type="text" name="carName" id="carName"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div>
                     <label for="frameNumbar" class="block text-sm font-medium text-gray-700">車台番号</label>
                     <input type="text" name="frameNumbar" id="frameNumbar"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <div>
                     <label for="note" class="block text-sm font-medium text-gray-700">備考</label>
                     <input type="text" name="note" id="note"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        class="mt-1 w-full border rounded px-1">
                 </div>
 
                 <!-- 発信者情報 -->
@@ -64,30 +64,30 @@
 
                     <div class="mb-2">
                         〒：
-                        <input type="text" name="postal" id="postal" style="width: 100px;" class="border rounded px-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
-                        <input type="text" name="address" id="address" class="input-text mt-1 w-full border rounded px-1" placeholder="住所を入力してください">
-                        <input type="text" name="name" id="name" class="input-text mt-1 w-full border rounded px-1" placeholder="名前を入力してください">
+                        <input type="text" name="postal" id="postal" style="width: 100px;" class="mt-1 border rounded px-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
+                        <input type="text" name="address" id="address" class="mt-1 w-full border rounded px-1" placeholder="住所を入力してください">
+                        <input type="text" name="name" id="name" class="mt-1 w-full border rounded px-1" placeholder="名前を入力してください">
                     </div>
 
                     <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
                         <div class="md:w-1/2 mb-2 md:mb-0">
                             TEL：
-                            <input type="tel" name="tel" id="tel" class="border rounded px-1 w-full" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
+                            <input type="tel" name="tel" id="tel" class="mt-1 w-full border rounded px-1" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
                         </div>
                         <div class="md:w-1/2">
                             FAX：
-                            <input type="tel" name="fax" id="fax" class="border rounded px-1 w-full" placeholder="03-1234-5678" inputmode="tel" autocomplete="tel">
+                            <input type="tel" name="fax" id="fax" class="mt-1 w-full border rounded px-1" placeholder="03-1234-5678" inputmode="tel" autocomplete="tel">
                         </div>
                     </div>
 
                     <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
                         <div class="md:w-1/2 mb-2 md:mb-0">
                             E-Mail：
-                            <input type="email" name="mail" id="mail" class="border rounded px-1 w-full" placeholder="example@example.com" autocomplete="email">
+                            <input type="email" name="mail" id="mail" class="mt-1 w-full border rounded px-1" placeholder="example@example.com" autocomplete="email">
                         </div>
                         <div class="md:w-1/2">
                             URL：
-                            <input type="url" name="url" id="url" class="border rounded px-1 w-full" placeholder="https://example.com" autocomplete="url">
+                            <input type="url" name="url" id="url" class="mt-1 w-full border rounded px-1" placeholder="https://example.com" autocomplete="url">
                         </div>
                     </div>
 
@@ -109,14 +109,11 @@
         </div>
     </div>
 
-
-
     <!-- 発信者情報保存スクリプト -->
     <script>
         const senderFields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url'];
         const storageKey = 'sender_info';
 
-        // 保存処理
         document.getElementById('construction-form').addEventListener('submit', function() {
             if (document.getElementById('save_to_cookie').checked) {
                 const data = {};
@@ -129,7 +126,6 @@
             }
         });
 
-        // 自動入力処理
         document.addEventListener('DOMContentLoaded', function() {
             const saved = localStorage.getItem(storageKey);
             if (saved) {
