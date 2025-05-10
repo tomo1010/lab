@@ -52,13 +52,11 @@ Route::post('car/csv/import',  [CsvController::class, 'importCar'])->name('csv.i
 //Route::get('car_dl', 'exportCar')->name('csv.export');
 
 //トップページ
-Route::get('/car/index', function () {
-    return view('car.index');
-});
+Route::get('car/index', [CarsController::class, 'index'])->name('car.index');
 
-Route::get('/car', function () {
-    return view('car.index');
-});
+//Route::get('/car', function () {
+//    return view('car.index');
+//});
 
 //車種詳細ページ
 Route::get('car/{genre}/detail/{id}', [CarsController::class, 'show'])->name('car.show');

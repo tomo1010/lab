@@ -26,10 +26,12 @@ class CarsController extends Controller
     {
         //車種すべて取得
         $cars = Car::paginate(25);
-
+        $count = $cars->count();
+        //dd($count);
         // 車種一覧ビューでそれを表示
         return view('car.index', [
             'cars' => $cars,
+            'count' => $count,
         ]);
     }
 
@@ -92,7 +94,7 @@ class CarsController extends Controller
 
         //年度取得
         $thisyear = self::THISYEAR;
-
+        //dd($year);
         //上下半期のデータがない場合の処理、常に最新のデータを取得する
         if (is_null($half)) {
             $half = Car::orderBy('id', 'desc')->value('half');
