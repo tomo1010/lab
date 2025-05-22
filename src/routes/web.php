@@ -47,7 +47,9 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
-
+/*
+Stripe支払い関連
+*/
 // サブスクリプションの作成
 Route::middleware(['auth'])->get('/subscribe', function (Request $request) {
     return $request->user()->newSubscription('default', 'price_1RQF1dDdEJpfTh4AsTnFR0k5')
@@ -74,11 +76,7 @@ Route::middleware(['auth'])->get('/billing-portal', function (Request $request) 
     return $request->user()->redirectToBillingPortal(route('dashboard'));
 });
 
-// StripeのWebhookを処理するルート
-//Route::post(
-//    '/stripe/webhook',
-//    [WebhookController::class, 'handleWebhook']
-//);
+
 
 
 /*

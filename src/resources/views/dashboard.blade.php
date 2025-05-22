@@ -14,6 +14,7 @@
                     {{ __('Log Out') }}
                 </button>
             </form>
+
         </div>
     </x-slot>
 
@@ -24,30 +25,26 @@
                     {{ __("You're logged in!") }}
                 </div>
 
-
                 @php
                 $subscription = auth()->user()->subscription('default');
                 @endphp
 
-                <div class="mt-6 space-y-6">
+                <div class="mt-6 space-y-6 w-[70%] mx-auto">
                     @if ($subscription && $subscription->active() && !$subscription->cancelled())
                     <!-- 加入中通知 -->
                     <div class="flex items-start bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-sm">
                         <svg class="w-6 h-6 mr-3 text-green-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 13l4 4L19 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         <div>
                             <p class="font-semibold">プレミアムプランに加入中です！</p>
                             <p class="text-sm mt-1">引き続きすべての機能をご利用いただけます。</p>
-
-                            <!-- サブスクキャンセルボタン -->
                             <form action="/cancel" method="POST" class="mt-3">
                                 @csrf
                                 <button
                                     type="submit"
                                     class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md font-semibold transition">
-                                    サブスクリプションをキャンセルする
+                                    サブスクをキャンセルする
                                 </button>
                             </form>
                         </div>
@@ -92,12 +89,14 @@
                     @endif
 
                     <!-- サブスク管理リンク -->
-                    <div class="text-sm text-gray-600">
+                    <div class="text-sm text-gray-600 text-center">
                         <a href="{{ url('/billing-portal') }}" class="underline hover:text-blue-700">
                             サブスクリプション管理ページはこちら
                         </a>
                     </div>
+                    <br>
                 </div>
+
 
 
 
