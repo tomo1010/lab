@@ -31,4 +31,17 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'stripe' => [
+        'model' => \App\Models\User::class, // Stripeと紐づけるEloquentモデル（通常はUser）
+        'key' => env('STRIPE_KEY'),         // Stripeの公開鍵（Publishable key）
+        'secret' => env('STRIPE_SECRET'),   // Stripeの秘密鍵（Secret key）
+
+        'webhook' => [
+            'secret' => env('STRIPE_WEBHOOK_SECRET'), // Webhook署名確認のためのシークレット
+            'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300), // Webhookのタイムスタンプ許容誤差（秒）
+        ],
+    ],
+
+
+
 ];
