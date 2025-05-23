@@ -128,10 +128,11 @@
                     x-transition:leave-end="transform opacity-0 scale-95"
                     class="absolute top-16 right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2"
                     style="display: none;">
+                    {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
+                    --}}
                     <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
                         見積もり作成
                     </x-nav-link>
