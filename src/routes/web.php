@@ -13,6 +13,11 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\FaxController;
 use App\Http\Controllers\LabelController;
 
+use App\Http\Controllers\SubscriptionController;
+use Illuminate\Http\Request;
+use Laravel\Cashier\Http\Controllers\WebhookController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +45,38 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+/*
+Stripe支払い関連
+*/
+// サブスクリプションの作成
+Route::middleware(['auth'])->get('/subscribe', function (Request $request) {
+    return $request->user()->newSubscription('default', 'price_1RQF1dDdEJpfTh4AsTnFR0k5')
+        ->checkout([
+            'success_url' => route('dashboard') . '?subscribed=1',
+            'cancel_url' => route('dashboard'),
+        ]);
+});
+
+// サブスクリプションのキャンセル
+Route::post('/cancel', function () {
+    auth()->user()->subscription('default')->cancel();
+    return redirect()->back()->with('status', 'キャンセルしました');
+});
+
+// サブスクリプションの一時停止
+Route::post('/resume', function (Request $request) {
+    $request->user()->subscription('default')->resume();
+    return redirect()->back()->with('status', 'サブスクリプションを再開しました');
+})->middleware('auth');
+
+// Stripeの請求書ポータルにリダイレクト
+Route::middleware(['auth'])->get('/billing-portal', function (Request $request) {
+    return $request->user()->redirectToBillingPortal(route('dashboard'));
+});
+
+
 
 
 /*

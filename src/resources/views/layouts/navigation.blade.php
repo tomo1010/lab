@@ -12,10 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
+                    --}}
                     <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
                         見積もり作成
                     </x-nav-link>
@@ -127,10 +128,11 @@
                     x-transition:leave-end="transform opacity-0 scale-95"
                     class="absolute top-16 right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2"
                     style="display: none;">
+                    {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
+                    --}}
                     <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
                         見積もり作成
                     </x-nav-link>
@@ -163,6 +165,32 @@
                         売約済み（横書き）
                     </x-nav-link>
 
+                    <hr class="my-2 border-gray-200">
+
+                    @auth
+                    <div class="px-3 py-1 text-sm text-gray-700">
+                        {{ Auth::user()->name }}
+                    </div>
+                    <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-nav-link>
+
+                    <!-- Logout -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-nav-link :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-nav-link>
+                    </form>
+                    @else
+                    <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                        {{ __('Login') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                        {{ __('Register') }}
+                    </x-nav-link>
+                    @endauth
 
                 </div>
             </div>
