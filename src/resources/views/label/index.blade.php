@@ -141,6 +141,12 @@
                     </button>
 
                     @auth
+                    @php
+                    $limit = auth()->user()->limit();
+                    $count = auth()->user()->labels()->count();
+                    $isOverLimit = $count >= $limit;
+                    @endphp
+
                     <button type="button"
                         onclick="saveOnly()"
                         class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
@@ -292,6 +298,18 @@
                 form.querySelector('input[name="address"]').value = el.dataset.address;
                 form.querySelector('input[name="name"]').value = el.dataset.name;
                 form.querySelector('select[name="title"]').value = el.dataset.title;
+            }
+
+
+            // ユーザ制限ポップアップ
+            function handleQuoteSave(isOverLimit) {
+                if (isOverLimit) {
+                    if (!confirm("保存件数が上限に達しています。保存すると一番古いデータが削除されます。続けますか？")) {
+                        return;
+                    }
+                }
+                const form = document.getElementById('quoteForm');
+                form.submit();
             }
         </script>
     </body>

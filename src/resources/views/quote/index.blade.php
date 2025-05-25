@@ -381,25 +381,38 @@
                     </div>
 
 
+                    <!-- ログインユーザの制限処理 -->
+                    @auth
+                    @php
+                    $limit = auth()->user()->limit();
+                    $count = auth()->user()->quotes()->count();
+                    $isOverLimit = $count >= $limit;
+                    @endphp
+
+
                     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
                     <div class="flex space-x-2">
                         <!-- 保存ボタン -->
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.store') }}'; document.getElementById('action').value='save';">
+                        <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            onclick="
+                            document.getElementById('quoteForm').action='{{ route('quotes.store') }}';
+                            handleQuoteSave({{ $isOverLimit ? 'true' : 'false' }});
+                            ">
                             保存
                         </button>
 
-                        <!-- PDFボタン (保存も実行) -->
+                        <!-- PDFボタン -->
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.createPdf') }}'; document.getElementById('action').value='pdf';">
+                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.createPdf') }}';">
                             PDF
                         </button>
                     </div>
 
 
+                    @endauth
+
+
                 </form>
-
-
             </div>
         </div>
 
@@ -578,20 +591,6 @@
         });
 
 
-        ////保存・PDFボタン処理
-        //function setFormAction(action) {
-        //const form = document.getElementById('quoteForm');
-        //if (action === 'save') {
-        //    form.action = "{{ route('quotes.store') }}";
-        //} else if (action === 'pdf') {
-        //    form.action = "{{ route('quotes.createPdf') }}";
-        //}
-        //document.getElementById('action').value = action;
-        //}
-
-
-
-
         // ポップアップウインドウ操作（税金）
         function openTaxPopup(taxType) {
             const popupId = `taxPopup${taxType.replace('tax_', '')}`;
@@ -628,6 +627,7 @@
             }
 
         }
+
 
         // ポップアップから選択しても他の合計関数が動くようにする処理
         function selectTax(amount, taxType) {
@@ -684,7 +684,6 @@
 
 
         // 金額を万円に変換
-
         function updatePriceDisplay() {
             const priceInput = document.getElementById('price');
             const convertedDisplay = document.getElementById('price_converted');
@@ -696,6 +695,18 @@
             } else {
                 convertedDisplay.textContent = '';
             }
+        }
+
+
+        // ユーザ制限ポップアップ
+        function handleQuoteSave(isOverLimit) {
+            if (isOverLimit) {
+                if (!confirm("保存件数が上限に達しています。保存すると一番古いデータが削除されます。続けますか？")) {
+                    return;
+                }
+            }
+            const form = document.getElementById('quoteForm');
+            form.submit();
         }
     </script>
 
