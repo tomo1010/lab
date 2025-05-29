@@ -366,6 +366,20 @@ class QuoteController extends Controller
      */
     public function storeCopy($id)
     {
+
+        $user = Auth::user();
+        if (! $user) {
+            abort(403, 'ログインが必要です');
+        }
+
+        $limit = $user->limit();
+        $count = $user->quotes()->count();
+
+        if ($count >= $limit) {
+            $user->quotes()->oldest()->first()?->delete();
+        }
+
+
         // コピー元の投稿を取得
         $quote = Quote::findOrFail($id);
 

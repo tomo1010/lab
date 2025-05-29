@@ -414,9 +414,8 @@
         </div>
 
 
-
+        @auth
         <!-- ログイン済みユーザーのみ表示 -->
-        <!--@auth-->
         <!-- 見積もり一覧 -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -432,27 +431,24 @@
                             $man = $quote->payment / 10000;
                             $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
                             @endphp
-                            <span class="text-lg font-semibold">
-                                {{ $quote->car }} {{ $quote->color }} {{ $displayMan }}万円
+                            <span class="text-lg font-semibold flex items-center space-x-2">
+                                <a href="{{ route('quotes.edit', $quote->id) }}">
+                                    {{ $quote->car }} {{ $quote->color }} {{ $displayMan }}万円
+                                </a>
                             </span>
                             <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
                         </div>
 
                         <!-- 編集・コピー・削除ボタン（横並び） -->
                         <div class="flex space-x-2">
-                            <!-- 編集 -->
-                            <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                                <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2" title="編集">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </form>
-
                             <!-- コピー -->
                             <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2" title="コピー">
+                                <x-copy-limit-modal :is-over-limit="$isOverLimit" />
+
+                                <!--<button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2" title="コピー">
                                     <i class="fas fa-copy"></i>
-                                </button>
+                                </button>-->
                             </form>
 
                             <!-- 削除 -->
@@ -469,8 +465,6 @@
                     @endforeach
                 </ul>
 
-
-
                 <!-- ページネーション -->
                 <div class="mt-6">
                     {{ $quotes->links() }}
@@ -479,25 +473,11 @@
                 <p class="mt-6 text-gray-500">見積もりはありません。</p>
                 @endif
 
-
-
-                @endauth
-
-                <!-- 未ログインユーザー向けの表示 -->
-                <!--@guest
-                    <p class="text-center mt-4 text-gray-700">投稿を見るにはログインしてください。</p>
-                    <div class="text-center mt-4">
-                        <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                            ログイン
-                        </a>
-                        <a href="{{ route('register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
-                            新規登録
-                        </a>
-                    </div>
-                @endguest-->
-
             </div>
         </div>
+        @endauth
+
+
     </div>
 
 
