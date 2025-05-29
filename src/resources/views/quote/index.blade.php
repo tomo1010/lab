@@ -384,22 +384,19 @@
                     <!-- ログインユーザの制限処理 -->
                     @auth
                     @php
-                    $limit = auth()->user()->limit();
-                    $count = auth()->user()->quotes()->count();
-                    $isOverLimit = $count >= $limit;
+                    $limit = auth()->user()->limit(); // モデルに定義（例：100 or 5）
+                    $quoteCount = auth()->user()->quotes()->count();
+                    $isOverLimit = $quoteCount >= $limit;
                     @endphp
+
+
 
 
                     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
                     <div class="flex space-x-2">
                         <!-- 保存ボタン -->
-                        <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                            onclick="
-                            document.getElementById('quoteForm').action='{{ route('quotes.store') }}';
-                            handleQuoteSave({{ $isOverLimit ? 'true' : 'false' }});
-                            ">
-                            保存
-                        </button>
+                        <x-save-limit-modal :is-over-limit="$isOverLimit" />
+
 
                         <!-- PDFボタン -->
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
@@ -699,14 +696,8 @@
 
 
         // ユーザ制限ポップアップ
-        function handleQuoteSave(isOverLimit) {
-            if (isOverLimit) {
-                if (!confirm("保存件数が上限に達しています。保存すると一番古いデータが削除されます。続けますか？")) {
-                    return;
-                }
-            }
-            const form = document.getElementById('quoteForm');
-            form.submit();
+        function saveOnly() {
+            document.getElementById('quoteForm').submit();
         }
     </script>
 
