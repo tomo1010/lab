@@ -415,66 +415,7 @@
 
 
         @auth
-        <!-- ログイン済みユーザーのみ表示 -->
-        <!-- 見積もり一覧 -->
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">見積もり一覧</h2>
-                @if(isset($quotes) && $quotes->count())
-                <ul class="mt-6 space-y-4">
-                    @foreach ($quotes as $quote)
-                    <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
-                        <!-- 名前・車名・更新日時 -->
-                        <div>
-                            <!-- 万表示の.01は非表示 -->
-                            @php
-                            $man = $quote->payment / 10000;
-                            $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
-                            @endphp
-                            <span class="text-lg font-semibold flex items-center space-x-2">
-                                <a href="{{ route('quotes.edit', $quote->id) }}">
-                                    {{ $quote->car }} {{ $quote->color }} {{ $displayMan }}万円
-                                </a>
-                            </span>
-                            <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
-                        </div>
-
-                        <!-- 編集・コピー・削除ボタン（横並び） -->
-                        <div class="flex space-x-2">
-                            <!-- コピー -->
-                            <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
-                                @csrf
-                                <x-copy-limit-modal :is-over-limit="$isOverLimit" />
-
-                                <!--<button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2" title="コピー">
-                                    <i class="fas fa-copy"></i>
-                                </button>-->
-                            </form>
-
-                            <!-- 削除 -->
-                            <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" title="削除" onclick="return confirm('本当に削除しますか？');">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-
-                    </li>
-                    @endforeach
-                </ul>
-
-                <!-- ページネーション -->
-                <div class="mt-6">
-                    {{ $quotes->links() }}
-                </div>
-                @else
-                <p class="mt-6 text-gray-500">見積もりはありません。</p>
-                @endif
-
-            </div>
-        </div>
+        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quotes" />
         @endauth
 
 
