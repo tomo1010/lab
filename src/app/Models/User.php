@@ -74,6 +74,6 @@ class User extends Authenticatable
      */
     public function limit(): int
     {
-        return $this->subscribed() ? 3 : 1;
+        return $this->subscribed() ? 10 : 3;
     }
 }

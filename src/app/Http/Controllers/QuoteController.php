@@ -372,16 +372,16 @@ class QuoteController extends Controller
             abort(403, 'ログインが必要です');
         }
 
+        // コピー元の投稿を取得
+        $quote = Quote::findOrFail($id);
+
+        // 制限件数を超えたら一番古いデータをさ削除
         $limit = $user->limit();
         $count = $user->quotes()->count();
 
         if ($count >= $limit) {
             $user->quotes()->oldest()->first()?->delete();
         }
-
-
-        // コピー元の投稿を取得
-        $quote = Quote::findOrFail($id);
 
         // 認証済みユーザーの投稿として新しいレコードを作成
         $newQuote = new Quote();
