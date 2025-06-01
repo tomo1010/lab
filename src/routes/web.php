@@ -142,10 +142,10 @@ Route::middleware(['web'])->group(function () {
 */
 Route::get('quote', [QuoteController::class, 'index'])->name('quote.index');
 Route::middleware('auth')->group(function () {
-    Route::resource('quotes', QuoteController::class)->only(['store', 'destroy', 'edit', 'update']);
+    Route::resource('quote', QuoteController::class)->only(['store', 'destroy', 'edit', 'update']);
 });
-Route::post('quotes/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('quotes.copy');
-Route::post('quotes/createPdf', [QuoteController::class, 'createPdf'])->name('quotes.createPdf');
+Route::post('quote/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('quote.copy');
+Route::post('quote/createPdf', [QuoteController::class, 'createPdf'])->name('quote.createPdf');
 
 
 /*

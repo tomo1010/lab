@@ -160,7 +160,7 @@ class QuoteController extends Controller
         //    return redirect()->route('quotes.createPdf', ['id' => $quote->id]);
         //}
 
-        return redirect()->route('quotes.edit', ['quote' => $qoute->id])->with('success', '見積もりを保存しました');
+        return redirect()->route('quote.edit', ['quote' => $qoute->id])->with('success', '見積もりを保存しました');
         //return redirect()->route('quote.index')->with('success', '投稿が完了しました');
     }
 
@@ -338,7 +338,7 @@ class QuoteController extends Controller
         ]);
 
         //return redirect()->route('quote.index')->with('success', '投稿を更新しました');
-        return redirect()->route('quotes.edit', ['quote' => $id])->with('success', '見積もりを更新しました');
+        return redirect()->route('quote.edit', ['quote' => $id])->with('success', '見積もりを更新しました');
     }
 
 
@@ -430,7 +430,7 @@ class QuoteController extends Controller
         $newQuote->memo = $quote->memo;
         $newQuote->save();
 
-        return redirect()->route('quotes.edit', ['quote' => $newQuote->id])->with('success', '見積もりをコピーしました。');
+        return redirect()->route('quote.edit', ['quote' => $newQuote->id])->with('success', '見積もりをコピーしました。');
     }
 
 

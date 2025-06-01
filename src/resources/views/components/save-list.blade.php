@@ -1,16 +1,16 @@
 <!-- components/quote-list.blade.php -->
-@props(['items', 'itemName', 'isOverLimit' => false, 'routePrefix' => 'quotes'])
+@props(['items', 'itemName', 'isOverLimit' => false, 'routePrefix' => 'quote'])
 
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">見積もり一覧</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">保存データ一覧</h2>
 
         @if(isset($items) && $items->count())
         <ul class="mt-6 space-y-4">
             @foreach ($items as $item)
             @php
-                $man = $item->payment / 10000;
-                $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
+            $man = $item->payment / 10000;
+            $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
             @endphp
             <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
                 <div>

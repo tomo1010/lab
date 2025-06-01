@@ -27,7 +27,7 @@
 
 
                 <!-- 投稿フォーム -->
-                <form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+                <form id="quoteForm" action="{{ route('quote.store') }}" method="POST" class="mb-6">
                     @csrf
 
 
@@ -390,8 +390,6 @@
                     @endphp
 
 
-
-
                     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
                     <div class="flex space-x-2">
                         <!-- 保存ボタン -->
@@ -400,22 +398,19 @@
 
                         <!-- PDFボタン -->
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.createPdf') }}';">
+                            onclick="document.getElementById('quoteForm').action='{{ route('quote.createPdf') }}';">
                             PDF
                         </button>
                     </div>
-
-
                     @endauth
-
 
                 </form>
             </div>
         </div>
 
-
+        <!-- データ保存一覧　-->
         @auth
-        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quotes" />
+        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
         @endauth
 
 

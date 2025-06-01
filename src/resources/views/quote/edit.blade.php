@@ -28,7 +28,7 @@
 
 
                 <!-- 更新フォーム (PUTメソッド)テスト -->
-                <form action="{{ route('quotes.update', $quote->id) }}" method="POST" class="space-y-4">
+                <form action="{{ route('quote.update', $quote->id) }}" method="POST" class="space-y-4">
                     @csrf
                     @method('PUT')
 
@@ -396,7 +396,7 @@
                 </form>
 
                 <!--PDF生成用フォーム (POSTメソッド)-->
-                <form action="{{ route('quotes.createPdf') }}" method="POST" class="mt-4">
+                <form action="{{ route('quote.createPdf') }}" method="POST" class="mt-4">
                     @csrf
                     <input type="hidden" name="car" value="{{ $quote->car }}">
                     <input type="hidden" name="grade" value="{{ $quote->grade }}">
@@ -448,8 +448,8 @@
         $isOverLimit = $quoteCount >= $limit;
         @endphp
 
-        <!-- 見積もり一覧 -->
-        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quotes" />
+        <!-- データ保存一覧 -->
+        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
 
 
         <script>
@@ -541,9 +541,9 @@
             //function setFormAction(action) {
             //const form = document.getElementById('quoteForm');
             //if (action === 'save') {
-            //    form.action = "{{ route('quotes.store') }}";
+            //    form.action = "{{ route('quote.store') }}";
             //} else if (action === 'pdf') {
-            //    form.action = "{{ route('quotes.createPdf') }}";
+            //    form.action = "{{ route('quote.createPdf') }}";
             //}
             //document.getElementById('action').value = action;
             //}
