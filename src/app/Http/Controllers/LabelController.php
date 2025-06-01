@@ -52,6 +52,19 @@ class LabelController extends Controller
     public function store(Request $request)
     {
 
+
+        $user = Auth::user();
+        if (! $user) {
+            abort(403, 'ログインが必要です');
+        }
+
+        $limit = $user->limit();
+        $count = $user->labels()->count();
+
+        if ($count >= $limit) {
+            $user->labels()->oldest()->first()?->delete();
+        }
+
         //dd($request);
         $validated = $request->validate([
             'zipcode' => 'required|string|max:10',

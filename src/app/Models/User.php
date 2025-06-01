@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
     ];
 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,6 +37,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
 
     /**
      * The attributes that should be cast.
@@ -62,5 +64,16 @@ class User extends Authenticatable
     public function labels()
     {
         return $this->hasMany(Label::class);
+    }
+
+
+    /**
+     * ユーザの制限設定（プレミアム会員　：　一般会員）
+     *
+     * @return bool
+     */
+    public function limit(): int
+    {
+        return $this->subscribed() ? 3 : 1;
     }
 }

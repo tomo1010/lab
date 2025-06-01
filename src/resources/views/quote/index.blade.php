@@ -27,7 +27,7 @@
 
 
                 <!-- 投稿フォーム -->
-                <form id="quoteForm" action="{{ route('quotes.store') }}" method="POST" class="mb-6">
+                <form id="quoteForm" action="{{ route('quote.store') }}" method="POST" class="mb-6">
                     @csrf
 
 
@@ -381,113 +381,39 @@
                     </div>
 
 
+                    <!-- ログインユーザの制限処理 -->
+                    @auth
+                    @php
+                    $limit = auth()->user()->limit(); // モデルに定義（例：100 or 5）
+                    $quoteCount = auth()->user()->quotes()->count();
+                    $isOverLimit = $quoteCount >= $limit;
+                    @endphp
+
+
                     <!-- ボタンエリア（保存 & PDFボタンを横並び） -->
                     <div class="flex space-x-2">
                         <!-- 保存ボタン -->
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.store') }}'; document.getElementById('action').value='save';">
-                            保存
-                        </button>
+                        <x-save-limit-modal :is-over-limit="$isOverLimit" />
 
-                        <!-- PDFボタン (保存も実行) -->
+
+                        <!-- PDFボタン -->
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quotes.createPdf') }}'; document.getElementById('action').value='pdf';">
+                            onclick="document.getElementById('quoteForm').action='{{ route('quote.createPdf') }}';">
                             PDF
                         </button>
                     </div>
-
+                    @endauth
 
                 </form>
-
-
             </div>
         </div>
 
+        <!-- データ保存一覧　-->
+        @auth
+        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
+        @endauth
 
 
-        <!-- ログイン済みユーザーのみ表示 -->
-        <!--@auth-->
-        <!-- 見積もり一覧 -->
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">見積もり一覧</h2>
-                @if(isset($quotes) && $quotes->count())
-                <ul class="mt-6 space-y-4">
-                    @foreach ($quotes as $quote)
-                    <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
-                        <!-- 名前・車名・更新日時 -->
-                        <div>
-                            <!-- 万表示の.01は非表示 -->
-                            @php
-                            $man = $quote->payment / 10000;
-                            $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
-                            @endphp
-                            <span class="text-lg font-semibold">
-                                {{ $quote->car }} {{ $quote->color }} {{ $displayMan }}万円
-                            </span>
-                            <p class="text-sm text-gray-500">更新日時: {{ $quote->updated_at->format('Y-m-d H:i') }}</p>
-                        </div>
-
-                        <!-- 編集・コピー・削除ボタン（横並び） -->
-                        <div class="flex space-x-2">
-                            <!-- 編集 -->
-                            <form action="{{ route('quotes.edit', $quote->id) }}" method="GET">
-                                <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center space-x-2" title="編集">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </form>
-
-                            <!-- コピー -->
-                            <form action="{{ route('quotes.copy', $quote->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2" title="コピー">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </form>
-
-                            <!-- 削除 -->
-                            <form action="{{ route('quotes.destroy', $quote->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" title="削除" onclick="return confirm('本当に削除しますか？');">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-
-                    </li>
-                    @endforeach
-                </ul>
-
-
-
-                <!-- ページネーション -->
-                <div class="mt-6">
-                    {{ $quotes->links() }}
-                </div>
-                @else
-                <p class="mt-6 text-gray-500">見積もりはありません。</p>
-                @endif
-
-
-
-                @endauth
-
-                <!-- 未ログインユーザー向けの表示 -->
-                <!--@guest
-                    <p class="text-center mt-4 text-gray-700">投稿を見るにはログインしてください。</p>
-                    <div class="text-center mt-4">
-                        <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                            ログイン
-                        </a>
-                        <a href="{{ route('register') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
-                            新規登録
-                        </a>
-                    </div>
-                @endguest-->
-
-            </div>
-        </div>
     </div>
 
 
@@ -578,20 +504,6 @@
         });
 
 
-        ////保存・PDFボタン処理
-        //function setFormAction(action) {
-        //const form = document.getElementById('quoteForm');
-        //if (action === 'save') {
-        //    form.action = "{{ route('quotes.store') }}";
-        //} else if (action === 'pdf') {
-        //    form.action = "{{ route('quotes.createPdf') }}";
-        //}
-        //document.getElementById('action').value = action;
-        //}
-
-
-
-
         // ポップアップウインドウ操作（税金）
         function openTaxPopup(taxType) {
             const popupId = `taxPopup${taxType.replace('tax_', '')}`;
@@ -628,6 +540,7 @@
             }
 
         }
+
 
         // ポップアップから選択しても他の合計関数が動くようにする処理
         function selectTax(amount, taxType) {
@@ -684,7 +597,6 @@
 
 
         // 金額を万円に変換
-
         function updatePriceDisplay() {
             const priceInput = document.getElementById('price');
             const convertedDisplay = document.getElementById('price_converted');
@@ -696,6 +608,12 @@
             } else {
                 convertedDisplay.textContent = '';
             }
+        }
+
+
+        // ユーザ制限ポップアップ
+        function saveOnly() {
+            document.getElementById('quoteForm').submit();
         }
     </script>
 
