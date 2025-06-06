@@ -29,6 +29,13 @@ class CsvController extends Controller
     {
         //dd($request);
 
+        $dir = public_path("csv/tmp");
+
+        // ディレクトリがなければ作成
+        if (!file_exists($dir)) {
+            mkdir($dir, 0775, true);
+        }
+
         // CSV ファイル保存
         $tmpName = mt_rand() . "." . $request->file('csv')->guessExtension(); //TMPファイル名
         $request->file('csv')->move(public_path() . "/csv/tmp", $tmpName);

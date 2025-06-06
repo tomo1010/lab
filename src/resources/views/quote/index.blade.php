@@ -394,6 +394,7 @@
                     <div class="flex space-x-2">
                         <!-- 保存ボタン -->
                         <x-save-limit-modal :is-over-limit="$isOverLimit" />
+                        @endauth
 
 
                         <!-- PDFボタン -->
@@ -402,7 +403,6 @@
                             PDF
                         </button>
                     </div>
-                    @endauth
 
                 </form>
             </div>
