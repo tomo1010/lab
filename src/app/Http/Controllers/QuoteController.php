@@ -483,56 +483,6 @@ class QuoteController extends Controller
 
                 'memo' => 'nullable|max:255',
             ]);
-
-            //// 投稿を保存
-            //$qoute = $request->user()->quotes()->create([
-            //    // 車両情報
-            //    'car' => $request->car,
-            //    'grade' => $request->grade,
-            //    'color' => $request->color,
-            //    'transmission' => $request->transmission,
-            //    'drive' => $request->drive,
-            //    'year' => $request->year,
-            //    'mileage' => $request->mileage,
-            //    'inspection' => $request->inspection_year . '-' . $request->inspection_month,
-
-            //    // 車両価格
-            //    'price' => $request->price,
-
-            //    // 税金・保険料
-            //    'tax_1' => $request->input('tax_1') ?? '0',
-            //    'tax_2' => $request->input('tax_2') ?? '0',
-            //    'tax_3' => $request->input('tax_3') ?? '0',
-            //    'tax_4' => $request->input('tax_4') ?? '0',
-            //    'tax_5' => $request->input('tax_5') ?? '0',
-
-            //    // 諸費用
-            //    'overhead_1' => $request->input('overhead_1') ?? '0',
-            //    'overheadName_11' => $request->overheadName_11, //諸費用フリー入力
-            //    'overhead_11' => $request->input('overhead_11') ?? '0',
-            //    'overhead_total' => $request->input('overhead_total') ?? '0',
-
-            //    // オプション
-            //    'optionName_1' => $request->optionName_1,
-            //    'optionName_2' => $request->optionName_2,
-            //    'optionName_3' => $request->optionName_3,
-            //    'optionName_4' => $request->optionName_4,
-            //    'optionName_5' => $request->optionName_5,
-            //    'option_1' => $request->input('option_1') ?? '0',
-            //    'option_2' => $request->input('option_2') ?? '0',
-            //    'option_3' => $request->input('option_3') ?? '0',
-            //    'option_4' => $request->input('option_4') ?? '0',
-            //    'option_5' => $request->input('option_5') ?? '0',
-            //    'option_total' => $request->input('option_total') ?? '0',
-
-            //    // 支払い総額
-            //    'total' => $request->input('total') ?? '0',
-            //    'trade_price' => $request->input('trade_price') ?? '0',
-            //    'discount' => $request->input('discount') ?? '0',
-            //    'payment' => $request->input('payment') ?? '0',
-
-            //    'memo' => $request->memo,
-            //]);
         }
 
 

@@ -277,7 +277,7 @@
                                 <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" pattern="\d*" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
                             </div>
                             <div class="mb-4">
-                                <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
+                                <label for="overhead_11" class="block text-gray-700 font-semibold mb-1"></label>
                                 <input type="text" name="overheadName_11" id="overheadName_11" class="w-full px-4 py-2 border rounded-lg" placeholder="フリー入力">
                             </div>
                             <div class="mb-4">
@@ -286,6 +286,7 @@
                         </div>
                     </div>
 
+                    
 
                     <!-- 税金と諸費用の合計 -->
                     <div class="mb-4 bg-purple-100 p-6 rounded-lg">
@@ -349,7 +350,7 @@
 
 
 
-                    <!-- 車両コミコミ合計 -->　
+                    <!-- 車両コミコミ合計 -->
                     <div class="mb-4">
                         <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
                         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
@@ -458,7 +459,7 @@
             calculateTaxOverheadTotal();
         }
 
-
+        //
         document.addEventListener("DOMContentLoaded", function() {
             let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
             inputs.forEach(id => {
