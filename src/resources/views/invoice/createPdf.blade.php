@@ -11,11 +11,10 @@
         }
 
         .wrapper {
-            border: 1px solid #000;
-            padding: 60px;
-            position: relative;
+
+            padding: 50px;
             height: 240mm;
-            box-sizing: border-box;
+
         }
 
         .title {
@@ -35,20 +34,11 @@
             margin-bottom: 4px;
         }
 
-        .flex-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
         .client {
             margin-top: 20px;
             margin-bottom: 60px;
             font-size: 12pt;
             text-align: left;
-            flex: 1;
             line-height: 1.8;
         }
 
@@ -56,8 +46,7 @@
             margin-top: 30px;
             text-align: right;
             font-size: 10pt;
-            flex: 1;
-            line-height: 1.8;
+            line-height: 1.4;
         }
 
         .message {
@@ -67,12 +56,56 @@
         .transfer {
             width: 90%;
             padding: 15px;
-            margin: 20px auto;
+            margin: 20px auto 0;
             border: 1px solid #000;
-            margin-top: 20px;
             font-size: 12pt;
-            flex: 1;
-            line-height: 1.8;
+            line-height: 1.4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 4px 4px;
+            /* ← 狭めの余白に調整 */
+
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .total-row th,
+        .total-row td {
+            font-weight: bold;
+            font-size: 14pt;
+        }
+
+        .remark-table {
+            font-size: 10pt;
+        }
+
+        .remark-table td {
+            font-weight: bold;
+        }
+
+        .client-name {
+            font-size: 16pt;
         }
     </style>
 </head>
@@ -81,90 +114,63 @@
     <div class="wrapper">
         <div class="title">請求書</div>
 
-        <div class="right-align-small">
-            発行日：{{ $date ?? '　　' }}
-        </div>
-
-        <div class="right-align-small">
-            明細枚数：{{ $page_count ?? '　' }}枚 (本紙含む)
-        </div>
+        <div class="right-align-small">発行日：{{ $date ?? '　　' }}</div>
+        <div class="right-align-small">明細枚数：{{ $page_count ?? '　' }}枚 (本紙含む)</div>
 
         <div class="client">
             <div>{{ $billingAddress }}</div>
-            <div><span style="font-size: 16pt;">{{ $client }} {{ $to_suffix }}</span></div>
+            <div class="client-name">{{ $client }} {{ $to_suffix }}</div>
         </div>
 
         以下の通りご請求申し上げます。<br><br>
 
-        <div class="invoie">
-            <table style="width: 100%; font-size: 12pt; border: 1px solid #000; border-collapse: collapse;">
+        {{-- 請求明細表 --}}
+        <table>
+            <tr>
+                <th style="width: 70%;">項目</th>
+                <th>金額</th>
+            </tr>
+
+            @for ($i = 1; $i <= 5; $i++)
+                @php
+                $item=request()->input("item_$i");
+                $price = request()->input("price_$i");
+                @endphp
+                @if (!is_null($item) || (!is_null($price) && $price !== "0"))
                 <tr>
-                    <th style="width: 35%; padding: 4px 15px; border: 1px solid #000; text-align: center; background-color: #f0f0f0;">
-                        項目
-                    </th>
-                    <th style="padding: 4px 15px; border: 1px solid #000; text-align: center; background-color: #f0f0f0;">
-                        金額
-                    </th>
+                    <td>{{ $item ?? '　' }}</td>
+                    <td class="text-right">{{ ($price !== "0" && $price !== null) ? number_format($price) . ' 円' : '' }}</td>
                 </tr>
+                @endif
+                @endfor
 
-                {{-- 項目と金額の入力フィールドをループで生成 --}}
-                @for ($i = 1; $i <= 5; $i++)
-                    @php
-                    $item=request()->input("item_$i");
-                    $price = request()->input("price_$i");
-                    @endphp
-                    @if (!is_null($item) || (!is_null($price) && $price !== "0"))
-                    <tr>
-                        <td style="width: 35%; white-space: nowrap; padding: 15px; border: 1px solid #000;">
-                            {{ $item ?? '　' }}
-                        </td>
-                        <td style="padding: 15px; border: 1px solid #000; text-align: right;">
-                            {{ ($price !== "0" && $price !== null) ? number_format($price) . ' 円' : '' }}
-                        </td>
-                    </tr>
-                    @endif
-                    @endfor
+                @php $total = request()->input('total'); @endphp
+                <tr class="total-row">
+                    <td class="text-center">合計</td>
+                    <td class="text-right">
+                        @if ($total !== "0" && $total !== null)
+                        {{ number_format($total) }} 円
+                        @endif
+                    </td>
+                </tr>
+        </table>
 
-                    @php
-                    $total = request()->input('total');
-                    @endphp
-                    <tr>
-                        <td style="width: 35%; white-space: nowrap; padding: 15px; border: 1px solid #000; font-weight: bold; text-align: center; font-size: 14pt; background-color: #f0f0f0;">
-                            合計
-                        </td>
-                        <td style="padding: 15px; border: 1px solid #000; font-weight: bold; text-align: right; font-size: 14pt;">
-                            @if ($total !== "0" && $total !== null)
-                            {{ number_format($total) }} 円
-                            @endif
-                        </td>
-                    </tr>
-            </table>
-        </div>
-
-
-
+        {{-- 備考欄 --}}
         <div class="message">
-            <table style="width: 100%; font-size: 10pt; border: 1px solid #000; border-collapse: collapse;">
+            <table class="remark-table">
                 <tr>
-                    <th style="width: 35%; padding: 4px 15px; border: 1px solid #000; text-align: center; background-color: #f0f0f0;">
-                        備考
-                    </th>
+                    <th style="width: 35%;">備考</th>
                 </tr>
                 <tr>
-                    <td style="padding: 15px; border: 1px solid #000; font-weight: bold; font-size: 10pt;"> {{ $message ?? '　' }} </td>
+                    <td>{{ $message ?? '　' }}</td>
                 </tr>
             </table>
         </div>
 
-
+        {{-- 発行者情報 --}}
         <div class="billing">
-            <div>
-                {{ $postal ? '〒' . $postal : '' }}
-                {{ $address ?? '' }}
-            </div>
-            <div>
-                {{ $name ?? '' }}
-            </div>
+            <div>{{ $postal ? '〒' . $postal : '' }} {{ $address ?? '' }}</div>
+            <div>{{ $name ?? '' }}</div>
             <div>
                 {{ $tel ? 'TEL:' . $tel : '' }}
                 {{ $fax ? 'FAX:' . $fax : '' }}
@@ -175,24 +181,17 @@
             </div>
         </div>
 
+        {{-- 振込先情報 --}}
+        @if (!empty($transfer_1))
         <div class="transfer">
-            @if (!empty($transfer_1))
-            <strong>【振込先】　</strong><br>
+            <strong>【振込先】</strong><br>
             {{ $transfer_1 }}<br>
-
-            @if (!empty($transfer_2))
-            {{ $transfer_2 }}<br>
-            @endif
-
-            @if (!empty($transfer_3))
-            {{ $transfer_3 }}<br>
-            @endif
-            @endif
+            @if (!empty($transfer_2)) {{ $transfer_2 }}<br> @endif
+            @if (!empty($transfer_3)) {{ $transfer_3 }}<br> @endif
         </div>
+        @endif
 
-
-
-
+    </div>
 </body>
 
 </html>
