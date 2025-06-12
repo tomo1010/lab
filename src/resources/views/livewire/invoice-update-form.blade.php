@@ -119,20 +119,27 @@
 @endif
 
 <!-- アクションボタン -->
-<div class="flex justify-end gap-4">
+<div x-data="pdfHandler()" class="flex justify-end gap-4">
     <!-- 更新ボタン（Livewire） -->
-    <button wire:click="updateInvoice" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button
+        wire:click="updateInvoice"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         更新する
     </button>
 
-    <!-- PDFボタン（通常フォーム） -->
-    <form method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank">
+    <!-- PDF作成フォーム livewireで保存も同時処理-->
+    <form id="pdfForm" method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank">
         @csrf
         <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
         <input type="hidden" name="view" value="invoice.createPdf">
-        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+
+        <button
+            type="button"
+            @click="saveAndGeneratePdf"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             PDF作成
         </button>
     </form>
 </div>
+
 </div>

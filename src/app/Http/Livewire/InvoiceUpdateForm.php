@@ -41,6 +41,22 @@ class InvoiceUpdateForm extends Component
         return array_sum($this->prices);
     }
 
+
+
+    // PDF生成のためのイベントリスナー    
+    protected $listeners = ['updateAndGeneratePdf'];
+
+    public function updateAndGeneratePdf()
+    {
+        $this->updateInvoice(); // 保存処理を実行
+
+        // ブラウザ側へPDF送信命令（Livewire側からJSイベント発火）
+        $this->dispatchBrowserEvent('submit-pdf-form');
+    }
+
+
+
+
     public function updateInvoice()
     {
         $this->validate([

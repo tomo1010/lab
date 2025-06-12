@@ -136,53 +136,8 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'client' => 'nullable|string|max:255',
-            'to_suffix' => 'nullable|string|max:10',
-            'postal' => 'nullable|string|max:10',
-            'client_address' => 'nullable|string|max:255',
-
-            'item_1' => 'nullable|string|max:255',
-            'item_2' => 'nullable|string|max:255',
-            'item_3' => 'nullable|string|max:255',
-            'item_4' => 'nullable|string|max:255',
-            'item_5' => 'nullable|string|max:255',
-
-            'price_1' => 'nullable|integer|min:0',
-            'price_2' => 'nullable|integer|min:0',
-            'price_3' => 'nullable|integer|min:0',
-            'price_4' => 'nullable|integer|min:0',
-            'price_5' => 'nullable|integer|min:0',
-
-            'total' => 'nullable|integer|min:0',
-            'message' => 'nullable|string|max:500',
-        ]);
-
-        $invoice = Invoice::findOrFail($id);
-
-        $invoice->update([
-            'date' => $request->input('date'),
-            'page_count' => $request->input('page_count'),
-            'client' => $request->input('client'),
-            'to_suffix' => $request->input('to_suffix'),
-            'client_address' => $request->input('client_address'),
-            'item_1' => $request->input('item_1'),
-            'item_2' => $request->input('item_2'),
-            'item_3' => $request->input('item_3'),
-            'item_4' => $request->input('item_4'),
-            'item_5' => $request->input('item_5'),
-            'price_1' => $request->input('price_1'),
-            'price_2' => $request->input('price_2'),
-            'price_3' => $request->input('price_3'),
-            'price_4' => $request->input('price_4'),
-            'price_5' => $request->input('price_5'),
-            'total' => $request->input('total'),
-            'message' => $request->input('message'),
-        ]);
-
-        return redirect()->route('invoice.index')->with('success', '更新が完了しました');
+        //
     }
-
 
     /**
      * Remove the specified resource from storage.
