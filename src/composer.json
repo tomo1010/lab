@@ -16,6 +16,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravelcollective/html": "^6.4",
+        "livewire/livewire": "^2.12",
         "rakuten-ws/rws-php-sdk": "^1.1"
     },
     "require-dev": {

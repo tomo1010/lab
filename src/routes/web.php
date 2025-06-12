@@ -12,6 +12,7 @@ use App\Http\Controllers\TirecalcController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\FaxController;
 use App\Http\Controllers\LabelController;
+use App\Http\Controllers\InvoiceController;
 
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Http\Request;
@@ -148,6 +149,7 @@ Route::post('quote/{quote}/copy', [QuoteController::class, 'storeCopy'])->name('
 Route::post('quote/createPdf', [QuoteController::class, 'createPdf'])->name('quote.createPdf');
 
 
+
 /*
 FAX送付状
 */
@@ -207,5 +209,19 @@ Route::get('pdf/soldVertical', function () {
     return view('pdf.soldVertical');
 })->name('pdf.soldVertical');
 
+
+
 // PDF生成処理
 Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pdf.generatePdf');
+
+
+
+/*
+請求書
+*/
+Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+Route::middleware('auth')->group(function () {
+    Route::resource('invoice', InvoiceController::class)->only(['store', 'destroy', 'edit', 'update']);
+    Route::post('invoice/{invoice}/copy', [InvoiceController::class, 'storeCopy'])->name('invoice.copy');
+});
+Route::post('invoice/createPdf', [InvoiceController::class, 'createPdf'])->name('invoice.createPdf');

@@ -49,6 +49,10 @@
                         売約済み（横書き）
                     </x-nav-link>
 
+                    <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')">
+                        クイック請求書
+                    </x-nav-link>
+
 
                 </div>
             </div>
@@ -163,6 +167,10 @@
 
                     <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')">
                         売約済み（横書き）
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')">
+                        クイック請求書
                     </x-nav-link>
 
                     <hr class="my-2 border-gray-200">

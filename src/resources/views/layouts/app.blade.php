@@ -28,6 +28,7 @@
     <!-- Font Awesome 6.5.0（最新安定版） -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    @livewireStyles
 
 </head>
 
@@ -52,6 +53,7 @@
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> <!--追加プルダウンが動作しないので-->
 
+    @livewireScripts
 </body>
 
 </html>

@@ -50,7 +50,7 @@ class User extends Authenticatable
 
 
     /**
-     ** このユーザが所有する見積もり。（ Qoutesモデルとの関係を定義）
+     ** このユーザが所有する見積もり
      */
     public function quotes()
     {
@@ -59,7 +59,7 @@ class User extends Authenticatable
 
 
     /**
-     ** このユーザが所有するラベル。（ Labelsモデルとの関係を定義）
+     ** このユーザが所有するラベル
      */
     public function labels()
     {
@@ -68,7 +68,16 @@ class User extends Authenticatable
 
 
     /**
-     * ユーザの制限設定（プレミアム会員　：　一般会員）
+     ** このユーザが所有する請求書
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    
+    /**
+     * ユーザの保存　制限設定（プレミアム会員　：　一般会員）
      *
      * @return bool
      */
