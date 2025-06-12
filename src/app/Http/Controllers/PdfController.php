@@ -15,7 +15,7 @@ class PdfController extends Controller
         $view = $request->input('view');
         $page = $view;
 
-        // アクセス制限のチェック
+        // アクセス制限
         if (! $accessService->canAccess($page)) {
             return redirect()->back()->with([
                 'error' => '上限に達しました。',
@@ -27,18 +27,54 @@ class PdfController extends Controller
 
         $accessService->logAccess($page);
 
-        // 表示ビューの存在チェック
+        // ビューが存在しない場合は404
         if (!view()->exists($view)) {
             abort(404, '指定されたビューが存在しません。');
         }
 
-        // データ取得（今は請求書のみ、将来はif分岐など追加可）
-        if ($request->has('invoice_id')) {
+        // データ取得：保存済か未保存かを分岐
+        if ($request->filled('invoice_id')) {
             $invoice = Invoice::findOrFail($request->invoice_id);
             $data = ['invoice' => $invoice];
         } else {
-            // フォールバック（旧仕様互換 or エラーハンドリング）
-            $data = $request->except('view');
+            // 未保存の入力データを使って、仮のオブジェクトを構築
+            $invoice = (object) $request->only([
+                'postal',
+                'client',
+                'to_suffix',
+                'client_address',
+                'item_1',
+                'item_2',
+                'item_3',
+                'item_4',
+                'item_5',
+                'price_1',
+                'price_2',
+                'price_3',
+                'price_4',
+                'price_5',
+                'message',
+                'date',
+                'page_count',
+                'total',
+                'invoice_number',
+                'name',
+                'address',
+                'tel',
+                'fax',
+                'mail',
+                'url',
+                'transfar_1',
+                'transfar_2',
+                'transfar_3',
+            ]);
+
+            // price_x が未定義なら 0 に補完
+            foreach (range(1, 5) as $i) {
+                $invoice->{'price_' . $i} = (int) ($invoice->{'price_' . $i} ?? 0);
+            }
+
+            $data = ['invoice' => $invoice];
         }
 
         $data['date'] = now()->format('Y-m-d'); // 出力日を共通で追加

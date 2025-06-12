@@ -109,7 +109,7 @@
                         </div>
                         <div class="md:w-1/2 mt-2 md:mt-0">
                             インボイス番号：
-                            <input type="text" name="invoice" id="invoice" class="w-full border rounded px-2 py-1" placeholder="T+13桁">
+                            <input type="text" name="invoice_number" id="invoice_number" class="w-full border rounded px-2 py-1" placeholder="T+13桁">
                         </div>
                     </div>
 
@@ -136,6 +136,7 @@
                         type="submit"
                         @click="action = '{{ route('pdf.generatePdf') }}'"
                         class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">
+
                         PDF作成
                     </button>
 
