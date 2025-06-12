@@ -85,7 +85,7 @@ class InvoiceUpdateForm extends Component
 
         $this->invoice->save();
 
-        session()->flash('message', '請求書を更新しました。');
+        session()->flash('message', 'データを更新しました。');
     }
 
     public function render()

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\User;
 use PDF;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class InvoiceController extends Controller
@@ -155,5 +158,56 @@ class InvoiceController extends Controller
         }
 
         return redirect()->route('invoice.index')->with('success', '投稿を削除しました');
+    }
+
+
+    /**
+     * 投稿のコピー
+     */
+    public function storeCopy($id)
+    {
+
+        $user = Auth::user();
+        if (! $user) {
+            abort(403, 'ログインが必要です');
+        }
+
+        // コピー元の投稿を取得
+        $invoice = Invoice::findOrFail($id);
+
+        // 制限件数を超えたら一番古いデータをさ削除
+        $limit = $user->limit();
+        $count = $user->invoices()->count();
+
+        if ($count >= $limit) {
+            $user->invoices()->oldest()->first()?->delete();
+        }
+
+        // 認証済みユーザーの投稿として新しいレコードを作成
+        $newInvoice = new Invoice();
+        $newInvoice->user_id = auth()->id();
+
+        // 
+        $newInvoice->client = $invoice->client . "[コピー]";
+        $newInvoice->to_suffix = $invoice->to_suffix;
+        $newInvoice->client_address = $invoice->client_address;
+        $newInvoice->date = $invoice->date;
+        $newInvoice->page_count = $invoice->page_count;
+        $newInvoice->item_1 = $invoice->item_1;
+        $newInvoice->item_2 = $invoice->item_2;
+        $newInvoice->item_3 = $invoice->item_3;
+        $newInvoice->item_4 = $invoice->item_4;
+        $newInvoice->item_5 = $invoice->item_5;
+        $newInvoice->price_1 = $invoice->price_1;
+        $newInvoice->price_2 = $invoice->price_2;
+        $newInvoice->price_3 = $invoice->price_3;
+        $newInvoice->price_4 = $invoice->price_4;
+        $newInvoice->price_5 = $invoice->price_5;
+        $newInvoice->total = $invoice->total;
+        $newInvoice->message = $invoice->message;
+
+        $newInvoice->save();
+
+        return redirect()->route('invoice.edit', ['invoice' => $newInvoice->id])->with('success', 'コピーしました。');
     }
 }

@@ -116,6 +116,7 @@
 <div class="mb-4 text-green-600 font-bold">
     {{ session('message') }}
 </div>
+
 @endif
 
 <!-- アクションボタン -->
