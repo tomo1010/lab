@@ -209,6 +209,8 @@ Route::get('pdf/soldVertical', function () {
     return view('pdf.soldVertical');
 })->name('pdf.soldVertical');
 
+
+
 // PDF生成処理
 Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pdf.generatePdf');
 

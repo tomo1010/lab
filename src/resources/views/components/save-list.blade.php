@@ -3,7 +3,7 @@
 
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-12">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">保存データ一覧</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">保存データ</h2>
 
         @if(isset($items) && $items->count())
         <ul class="mt-6 space-y-4">
@@ -16,7 +16,7 @@
                 <div>
                     <span class="text-lg font-semibold flex items-center space-x-2">
                         <a href="{{ route("{$routePrefix}.edit", $item->id) }}">
-                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円
+                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->name }}
                         </a>
                     </span>
                     <p class="text-sm text-gray-500">更新日時: {{ $item->updated_at->format('Y-m-d H:i') }}</p>
@@ -45,8 +45,9 @@
         <div class="mt-6">
             {{ $items->links() }}
         </div>
+
         @else
-        <p class="mt-6 text-gray-500">見積もりはありません。</p>
+        <p class="mt-6 text-gray-500">保存されたデータはありません。</p>
         @endif
     </div>
 </div>

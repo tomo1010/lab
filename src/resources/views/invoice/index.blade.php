@@ -3,12 +3,23 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">請求書印刷</h2>
     </x-slot>
 
+
+    @if (session('success'))
+    <div class="bg-green-100 text-green-800 p-2 mb-4 rounded">
+        {{ session('success') }}
+    </div>
+    @endif
+
+
+
     <div class="max-w-4xl mx-auto mt-6">
-        <form method="POST" action="{{ route('invoice.createPdf') }}">
+        <form method="POST" :action="action" x-data="{ action: '{{ route('pdf.generatePdf') }}' }" id="invoice-form">
+
             @csrf
+            <input type="hidden" name="view" value="invoice.createPdf">
 
             <div class="bg-white p-8 border border-gray-300 rounded-md shadow-md text-sm">
-                <div class="text-center text-2xl font-bold border-y border-black py-3 mb-6">ご請求書</div>
+                <div class="text-center text-2xl font-bold border-y border-black py-3 mb-6">請求書</div>
 
                 <div class="text-right text-xs text-gray-600 mb-2">
                     発行日：
@@ -37,7 +48,7 @@
 
                 <div class="mb-6">
                     <label class="block mb-1">請求先住所：</label>
-                    <input type="text" name="billingAddress" class="w-full border rounded px-2 py-1" placeholder="〒を全角入力→変換">
+                    <input type="text" name="client_address" class="w-full border rounded px-2 py-1" placeholder="〒を全角入力→変換">
                 </div>
 
                 <div class="mb-6" x-data="{
@@ -66,6 +77,7 @@
                     <textarea name="message" class="w-full h-24 border rounded px-2 py-1 text-sm"></textarea>
                 </div>
 
+                <!-- 会社名 -->
                 <div class="mt-6 border-t pt-4">
                     <div class="mb-2">発行者：</div>
                     <div class="mb-2">
@@ -95,6 +107,10 @@
                             URL：
                             <input type="text" name="url" id="url" class="w-full border rounded px-2 py-1" placeholder="https://example.com" autocomplete="url">
                         </div>
+                        <div class="md:w-1/2 mt-2 md:mt-0">
+                            インボイス番号：
+                            <input type="text" name="invoice" id="invoice" class="w-full border rounded px-2 py-1" placeholder="T+13桁">
+                        </div>
                     </div>
 
                     <div class="mb-4">
@@ -112,16 +128,47 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-8">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 text-lg">
+
+
+                <div class="submit-btn flex gap-4 justify-center mt-6">
+                    <!-- PDF作成ボタン -->
+                    <button
+                        type="submit"
+                        @click="action = '{{ route('pdf.generatePdf') }}'"
+                        class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">
                         PDF作成
                     </button>
+
+                    <!-- ログインユーザの制限処理 -->
+                    @auth
+                    @php
+                    $limit = auth()->user()->limit();
+                    $count = auth()->user()->invoices()->count(); //ページ別の修正
+                    $isOverLimit = $count >= $limit;
+                    @endphp
+                    <!-- 保存ボタン -->
+                    <button
+                        type="submit"
+                        @click="action = '{{ route('invoice.store') }}'"
+                        class="bg-green-600 text-white rounded px-6 py-2 hover:bg-green-700">
+                        保存
+                    </button>
+                    @endauth
                 </div>
+
+
+
+                <!-- データ保存一覧　-->
+                @auth
+                <x-save-list :items="$invoices" itemName="invoice" :is-over-limit="$isOverLimit" routePrefix="invoice" />
+                @endauth
+
+
             </div>
         </form>
     </div>
 
-    {{-- スクリプト部分（変更不要） --}}
+
     <script>
         const fields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3'];
         fields.forEach(field => {

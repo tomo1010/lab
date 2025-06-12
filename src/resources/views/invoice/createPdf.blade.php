@@ -11,10 +11,8 @@
         }
 
         .wrapper {
-
             padding: 50px;
             height: 240mm;
-
         }
 
         .title {
@@ -78,8 +76,6 @@
             background-color: #f0f0f0;
             text-align: center;
             padding: 4px 4px;
-            /* ← 狭めの余白に調整 */
-
         }
 
         .text-right {
@@ -114,12 +110,12 @@
     <div class="wrapper">
         <div class="title">請求書</div>
 
-        <div class="right-align-small">発行日：{{ $date ?? '　　' }}</div>
-        <div class="right-align-small">明細枚数：{{ $page_count ?? '　' }}枚 (本紙含む)</div>
+        <div class="right-align-small">発行日：{{ $invoice->date ?? '　　' }}</div>
+        <div class="right-align-small">明細枚数：{{ $invoice->page_count ?? '　' }}枚 (本紙含む)</div>
 
         <div class="client">
-            <div>{{ $billingAddress }}</div>
-            <div class="client-name">{{ $client }} {{ $to_suffix }}</div>
+            <div>{{ $invoice->client_address }}</div>
+            <div class="client-name">{{ $invoice->client }} {{ $invoice->to_suffix }}</div>
         </div>
 
         以下の通りご請求申し上げます。<br><br>
@@ -133,25 +129,20 @@
 
             @for ($i = 1; $i <= 5; $i++)
                 @php
-                $item=request()->input("item_$i");
-                $price = request()->input("price_$i");
+                $item=$invoice->{'item_' . $i};
+                $price = $invoice->{'price_' . $i};
                 @endphp
-                @if (!is_null($item) || (!is_null($price) && $price !== "0"))
+                @if (!is_null($item) || (!is_null($price) && $price != 0))
                 <tr>
                     <td>{{ $item ?? '　' }}</td>
-                    <td class="text-right">{{ ($price !== "0" && $price !== null) ? number_format($price) . ' 円' : '' }}</td>
+                    <td class="text-right">{{ ($price && $price != 0) ? number_format($price) . ' 円' : '' }}</td>
                 </tr>
                 @endif
                 @endfor
 
-                @php $total = request()->input('total'); @endphp
                 <tr class="total-row">
                     <td class="text-center">合計</td>
-                    <td class="text-right">
-                        @if ($total !== "0" && $total !== null)
-                        {{ number_format($total) }} 円
-                        @endif
-                    </td>
+                    <td class="text-right">{{ number_format($invoice->total) }} 円</td>
                 </tr>
         </table>
 
@@ -162,35 +153,37 @@
                     <th style="width: 35%;">備考</th>
                 </tr>
                 <tr>
-                    <td>{{ $message ?? '　' }}</td>
+                    <td>{{ $invoice->message ?? '　' }}</td>
                 </tr>
             </table>
         </div>
 
         {{-- 発行者情報 --}}
         <div class="billing">
-            <div>{{ $postal ? '〒' . $postal : '' }} {{ $address ?? '' }}</div>
-            <div>{{ $name ?? '' }}</div>
+            <div>{{ $invoice->postal ? '〒' . $invoice->postal : '' }} {{ $invoice->address ?? '' }}</div>
+            <div>{{ $invoice->name ?? '' }}</div>
             <div>
-                {{ $tel ? 'TEL:' . $tel : '' }}
-                {{ $fax ? 'FAX:' . $fax : '' }}
+                {{ $invoice->registration_number ? '登録番号: ' . $invoice->registration_number : '' }}
             </div>
             <div>
-                {{ $mail ? 'Mail:' . $mail : '' }}
-                {{ $url ? 'URL:' . $url : '' }}
+                {{ $invoice->tel ? 'TEL:' . $invoice->tel : '' }}
+                {{ $invoice->fax ? 'FAX:' . $invoice->fax : '' }}
+            </div>
+            <div>
+                {{ $invoice->mail ? 'Mail:' . $invoice->mail : '' }}
+                {{ $invoice->url ? 'URL:' . $invoice->url : '' }}
             </div>
         </div>
 
         {{-- 振込先情報 --}}
-        @if (!empty($transfer_1))
+        @if (!empty($invoice->transfer_1))
         <div class="transfer">
             <strong>【振込先】</strong><br>
-            {{ $transfer_1 }}<br>
-            @if (!empty($transfer_2)) {{ $transfer_2 }}<br> @endif
-            @if (!empty($transfer_3)) {{ $transfer_3 }}<br> @endif
+            {{ $invoice->transfer_1 }}<br>
+            @if (!empty($invoice->transfer_2)) {{ $invoice->transfer_2 }}<br> @endif
+            @if (!empty($invoice->transfer_3)) {{ $invoice->transfer_3 }}<br> @endif
         </div>
         @endif
-
     </div>
 </body>
 

@@ -43,7 +43,7 @@ class PdfController extends Controller
 
         $data['date'] = now()->format('Y-m-d'); // 出力日を共通で追加
 
-        $pdf = PDF::loadView($view, $data);
+        $pdf = \PDF::loadView($view, $data);
 
         $filename = class_basename(str_replace('.', '_', $view)) . '_' . $data['date'] . '.pdf';
 
