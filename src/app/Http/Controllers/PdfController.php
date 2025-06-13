@@ -32,7 +32,7 @@ class PdfController extends Controller
             abort(404, '指定されたビューが存在しません。');
         }
 
-        // データ取得：保存済か未保存かを分岐
+        // データ取得：保存済か未保存かを分岐（未保存の場合_idが取得できない）
         if ($request->filled('invoice_id')) {
             $invoice = Invoice::findOrFail($request->invoice_id);
             $data = ['invoice' => $invoice];
