@@ -25,7 +25,7 @@
 
 
     <script>
-        // PDF生成のためのLivewireコンポーネント
+        // 保存→PDF処理のためのLivewireコンポーネント
         function pdfHandler() {
             return {
                 saveAndGeneratePdf() {
