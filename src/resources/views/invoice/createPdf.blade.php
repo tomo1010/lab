@@ -131,17 +131,15 @@
                 @if ($invoice)
                 @for ($i = 1; $i <= 5; $i++)
                     @php
-                    $item=$invoice->{'item_' . $i};
-                    $price = $invoice->{'price_' . $i};
+                    $item=$invoice->{'item_' . $i} ?? '';
+                    $price = $invoice->{'price_' . $i} ?? '';
                     @endphp
-                    @if (!is_null($item) || (!is_null($price) && $price != 0))
                     <tr>
-                        <td>{!! $item ?? '&nbsp;' !!}</td>
+                        <td>{!! $item !!}</td>
                         <td class="text-right">
-                            {{ ($price && $price != 0) ? number_format($price) . ' 円' : '&nbsp;' }}
+                            {{ ($price !== '' && $price != 0) ? number_format($price) . ' 円' : '' }}
                         </td>
                     </tr>
-                    @endif
                     @endfor
 
                     <tr class="total-row">
@@ -155,6 +153,7 @@
                     </tr>
                     @endif
             </table>
+
 
             {{-- 備考欄 --}}
             <div class="message">
