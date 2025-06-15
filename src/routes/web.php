@@ -217,7 +217,7 @@ Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pd
 
 
 /*
-請求書
+請求書　liviwire3へ
 */
 Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
 Route::middleware('auth')->group(function () {
