@@ -5,7 +5,9 @@
 
     <div class="max-w-4xl mx-auto mt-6">
 
-        <livewire:invoice-update-form :invoice="$invoice" />
+
+        <livewire:invoice-update-form />
+
 
     </div>
 
