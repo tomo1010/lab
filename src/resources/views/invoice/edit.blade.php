@@ -6,10 +6,16 @@
     <div class="max-w-4xl mx-auto mt-6">
 
 
-        <livewire:invoice-update-form />
+        <livewire:invoice-update-form :invoice="$invoice" wire:key="invoice-update" />
+
 
 
     </div>
+
+
+
+ 
+
 
     <!-- ログインユーザの制限処理 -->
     @php
@@ -30,14 +36,21 @@
         // 保存→PDF処理のためのLivewireコンポーネント
         function pdfHandler() {
             return {
-                saveAndGeneratePdf() {
-                    window.livewire.emit('updateAndGeneratePdf');
+                async saveAndGeneratePdf() {
+                    try {
+                        // Livewire v3では子コンポーネントへ find() でアクセス
+                        const component = Livewire.find('invoice-update');
+                        await component.updateAndGeneratePdf();
+                    } catch (error) {
+                        alert('保存またはPDF作成時にエラーが発生しました。');
+                        console.error(error);
+                    }
                 }
             }
         }
 
-        window.addEventListener('submit-pdf-form', function() {
-            document.getElementById('pdfForm').submit();
+        document.addEventListener('submit-pdf-form', () => {
+            document.getElementById('pdfForm')?.submit();
         });
 
 
