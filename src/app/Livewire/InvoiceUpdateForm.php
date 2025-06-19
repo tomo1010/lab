@@ -58,10 +58,9 @@ class InvoiceUpdateForm extends Component
 
     public function updateAndGeneratePdf()
     {
-        $this->updateInvoice(); // 保存処理を実行
-
-        // ブラウザ側へPDF送信命令（Livewire側からJSイベント発火）
-        $this->dispatchBrowserEvent('submit-pdf-form');
+        $this->updateInvoice();
+        // ↓ Livewire v3 正式仕様
+        $this->dispatch('submit-pdf-form');
     }
 
 

@@ -14,7 +14,7 @@
 
 
 
- 
+
 
 
     <!-- ログインユーザの制限処理 -->
@@ -33,28 +33,6 @@
 
 
     <script>
-        // 保存→PDF処理のためのLivewireコンポーネント
-        function pdfHandler() {
-            return {
-                async saveAndGeneratePdf() {
-                    try {
-                        // Livewire v3では子コンポーネントへ find() でアクセス
-                        const component = Livewire.find('invoice-update');
-                        await component.updateAndGeneratePdf();
-                    } catch (error) {
-                        alert('保存またはPDF作成時にエラーが発生しました。');
-                        console.error(error);
-                    }
-                }
-            }
-        }
-
-        document.addEventListener('submit-pdf-form', () => {
-            document.getElementById('pdfForm')?.submit();
-        });
-
-
-
         // 発信者情報の保存と読み込み
         const fields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3'];
         fields.forEach(field => {
