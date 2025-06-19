@@ -122,14 +122,7 @@
 <!-- 更新ボタン（Livewire） -->
 
 
-<div class="flex justify-end gap-4">
-    <!-- 更新ボタン（Livewire） -->
-    <button
-        wire:click="updateInvoice"
-        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        更新する
-    </button>
-
+<div class="flex justify-center gap-4 mt-6">
     <!-- PDFボタン（Alpine.js） -->
     <div x-data="pdfHandler()" x-init="init()" class="flex">
         <form id="pdfForm" method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank" wire:ignore>
@@ -137,11 +130,19 @@
             <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
             <input type="hidden" name="view" value="invoice.createPdf">
             <button type="button" @click="saveAndGeneratePdf"
-                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
                 PDF作成
             </button>
         </form>
     </div>
+
+    <!-- 更新ボタン（Livewire） -->
+    <button
+        wire:click="updateInvoice"
+        class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">
+        更新
+    </button>
+
 </div>
 
 
