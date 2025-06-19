@@ -18,6 +18,16 @@ class InvoiceUpdateForm extends Component
     public $prices = [];
     public $message;
 
+
+    public $showMessage = false;  // ← 追加
+
+
+    //public function mount(Invoice $invoice)
+    //{
+    //    logger('Livewire mount called'); // Laravelログに出力して確認
+    //    $this->invoice = $invoice;
+    //}
+
     public function mount(Invoice $invoice)
     {
         $this->invoice = $invoice;
@@ -48,23 +58,23 @@ class InvoiceUpdateForm extends Component
 
     public function updateAndGeneratePdf()
     {
-        $this->updateInvoice(); // 保存処理を実行
-
-        // ブラウザ側へPDF送信命令（Livewire側からJSイベント発火）
-        $this->dispatchBrowserEvent('submit-pdf-form');
+        $this->updateInvoice();
+        // ↓ Livewire v3 正式仕様
+        $this->dispatch('submit-pdf-form');
     }
-
 
 
 
     public function updateInvoice()
     {
+        logger('✅ updateInvoice: 開始');
+
         $this->validate([
-            'date' => 'required|date',
-            'page_count' => 'required|integer|min:1|max:10',
-            'client' => 'required|string',
-            'to_suffix' => 'required|string|in:様,御中',
-            'client_address' => 'required|string',
+            'date' => 'nullable|date',
+            'page_count' => 'nullable|integer|min:1|max:10',
+            'client' => 'nullable|string',
+            'to_suffix' => 'nullable|string|in:様,御中',
+            'client_address' => 'nullable|string',
             'message' => 'nullable|string',
         ]);
 
@@ -85,8 +95,12 @@ class InvoiceUpdateForm extends Component
 
         $this->invoice->save();
 
-        session()->flash('message', 'データを更新しました。');
+        // ✅ Alpine.js にメッセージ表示命令を送る
+        $this->dispatch('show-message');
     }
+
+
+
 
     public function render()
     {

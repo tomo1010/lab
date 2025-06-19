@@ -64,3 +64,14 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# 開発環境構成メモ
+
+- Laravel v10.x
+- Livewire v3.x
+- Tailwind CSS + Vite
+- Docker + docker-compose
+- Viteポート: 5173
+- Livewireコンポーネント: app/Livewire 配下に配置
+- Blade構成: `@livewireStyles`, `@livewireScripts` を layout に追加済

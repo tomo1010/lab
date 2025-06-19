@@ -6,10 +6,16 @@
     <div class="max-w-4xl mx-auto mt-6">
 
 
-        <livewire:invoice-update-form />
+        <livewire:invoice-update-form :invoice="$invoice" wire:key="invoice-update" />
+
 
 
     </div>
+
+
+
+
+
 
     <!-- ログインユーザの制限処理 -->
     @php
@@ -27,21 +33,6 @@
 
 
     <script>
-        // 保存→PDF処理のためのLivewireコンポーネント
-        function pdfHandler() {
-            return {
-                saveAndGeneratePdf() {
-                    window.livewire.emit('updateAndGeneratePdf');
-                }
-            }
-        }
-
-        window.addEventListener('submit-pdf-form', function() {
-            document.getElementById('pdfForm').submit();
-        });
-
-
-
         // 発信者情報の保存と読み込み
         const fields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3'];
         fields.forEach(field => {

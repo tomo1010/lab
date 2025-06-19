@@ -1,6 +1,9 @@
 <div class="bg-white p-8 border border-gray-300 rounded-md shadow-md text-sm">
     <div class="text-center text-2xl font-bold border-y border-black py-3 mb-6">請求書　編集ページ</div>
 
+
+
+
     <!-- 発行日 -->
     <div class="text-right text-xs text-gray-600 mb-2">
         発行日：
@@ -111,16 +114,15 @@
 </div>
 
 
-<!-- 成功メッセージ -->
-@if (session()->has('message'))
-<div class="mb-4 text-green-600 font-bold">
-    {{ session('message') }}
-</div>
 
-@endif
+
+
 
 <!-- アクションボタン -->
-<div x-data="pdfHandler()" class="flex justify-end gap-4">
+<!-- 更新ボタン（Livewire） -->
+
+
+<div class="flex justify-end gap-4">
     <!-- 更新ボタン（Livewire） -->
     <button
         wire:click="updateInvoice"
@@ -128,19 +130,60 @@
         更新する
     </button>
 
-    <!-- PDF作成フォーム livewireで保存も同時処理-->
-    <form id="pdfForm" method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank">
-        @csrf
-        <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-        <input type="hidden" name="view" value="invoice.createPdf">
-
-        <button
-            type="button"
-            @click="saveAndGeneratePdf"
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            PDF作成
-        </button>
-    </form>
+    <!-- PDFボタン（Alpine.js） -->
+    <div x-data="pdfHandler()" x-init="init()" class="flex">
+        <form id="pdfForm" method="POST" action="{{ route('pdf.generatePdf') }}" target="_blank" wire:ignore>
+            @csrf
+            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+            <input type="hidden" name="view" value="invoice.createPdf">
+            <button type="button" @click="saveAndGeneratePdf"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                PDF作成
+            </button>
+        </form>
+    </div>
 </div>
+
+
+<script>
+    function pdfHandler() {
+        return {
+            async saveAndGeneratePdf() {
+                try {
+                    // ✅ find が undefined の場合は first() を fallback に
+                    let comp = Livewire.find('invoice-update') || Livewire.first();
+                    if (!comp) throw new Error('Livewire コンポーネントが見つかりません');
+                    await comp.updateAndGeneratePdf();
+                } catch (error) {
+                    alert('保存またはPDF作成時にエラーが発生しました。');
+                    console.error(error);
+                }
+            },
+            init() {
+                window.addEventListener('submit-pdf-form', () => {
+                    document.getElementById('pdfForm').submit();
+                });
+            }
+        }
+    }
+</script>
+
+
+
+
+{{-- メッセージ表示部 --}}
+<div
+    x-data="{ show: false }"
+    x-on:show-message.window="show = true; setTimeout(() => show = false, 2000)"
+    x-show="show"
+    x-transition
+    class="mb-4 px-4 py-2 border-l-4 border-green-500 bg-green-100 text-green-700 rounded flex items-center gap-2">
+    <i class="fas fa-check-circle"></i>
+    <span>データを更新しました。</span>
+</div>
+
+
+
+
 
 </div>
