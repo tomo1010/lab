@@ -35,6 +35,7 @@ class PdfController extends Controller
         // データ取得：保存済か未保存かを分岐（未保存の場合_idが取得できない）
         if ($request->filled('invoice_id')) {
             $invoice = Invoice::findOrFail($request->invoice_id);
+
             $data = ['invoice' => $invoice];
         } else {
             // 未保存の入力データを使って、仮のオブジェクトを構築

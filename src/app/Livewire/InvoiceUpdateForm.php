@@ -18,15 +18,21 @@ class InvoiceUpdateForm extends Component
     public $prices = [];
     public $message;
 
+    public $postal;
+    public $address;
+    public $name;
+    public $tel;
+    public $fax;
+    public $mail;
+    public $url;
+    public $registration_number;
+    public $transfer_1;
+    public $transfer_2;
+    public $transfer_3;
 
     public $showMessage = false;  // ← 追加
 
 
-    //public function mount(Invoice $invoice)
-    //{
-    //    logger('Livewire mount called'); // Laravelログに出力して確認
-    //    $this->invoice = $invoice;
-    //}
 
     public function mount(Invoice $invoice)
     {
@@ -44,14 +50,24 @@ class InvoiceUpdateForm extends Component
         }
 
         $this->message = $invoice->message;
+
+        $this->postal = $invoice->postal;
+        $this->address = $invoice->address;
+        $this->name = $invoice->name;
+        $this->tel = $invoice->tel;
+        $this->fax = $invoice->fax;
+        $this->mail = $invoice->mail;
+        $this->url = $invoice->url;
+        $this->registration_number = $invoice->registration_number;
+        $this->transfer_1 = $invoice->transfer_1;
+        $this->transfer_2 = $invoice->transfer_2;
+        $this->transfer_3 = $invoice->transfer_3;
     }
 
     public function getComputedTotalProperty()
     {
         return array_sum($this->prices);
     }
-
-
 
     // PDF生成のためのイベントリスナー    
     protected $listeners = ['updateAndGeneratePdf'];
@@ -86,6 +102,19 @@ class InvoiceUpdateForm extends Component
             'client_address' => $this->client_address,
             'message' => $this->message,
             'total' => $this->computedTotal,
+            // ▼ 発行者情報を追加
+            'postal' => $this->postal,
+            'address' => $this->address,
+            'name' => $this->name,
+            'tel' => $this->tel,
+            'fax' => $this->fax,
+            'mail' => $this->mail,
+            'url' => $this->url,
+            'registration_number' => $this->registration_number,
+            'transfer_1' => $this->transfer_1,
+            'transfer_2' => $this->transfer_2,
+            'transfer_3' => $this->transfer_3,
+
         ]);
 
         for ($i = 1; $i <= 5; $i++) {

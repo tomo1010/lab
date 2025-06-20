@@ -67,43 +67,44 @@
     <div class="mb-2">発行者：</div>
     <div class="mb-2">
         〒：
-        <input type="text" name="postal" id="postal" class="w-24 border rounded px-2 py-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
-        <input type="text" name="address" id="address" class="w-full border rounded px-2 py-1 mt-2" placeholder="住所を入力してください">
-        <input type="text" name="name" id="name" class="w-full border rounded px-2 py-1 mt-2" placeholder="名前を入力してください">
+        <input type="text" name="postal" id="postal" wire:model="postal" class="w-24 border rounded px-2 py-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
+        <input type="text" name="address" id="address" wire:model="address" class="w-full border rounded px-2 py-1 mt-2" placeholder="住所を入力してください">
+        <input type="text" wire:model="name" class="w-full border rounded px-2 py-1 mt-2" placeholder="名前を入力してください">
     </div>
 
     <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
         <div class="md:w-1/2">
             TEL：
-            <input type="tel" name="tel" id="tel" class="w-full border rounded px-2 py-1" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
+            <input type="tel" name="tel" id="tel" wire:model="tel" class="w-full border rounded px-2 py-1" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
         </div>
         <div class="md:w-1/2 mt-2 md:mt-0">
             FAX：
-            <input type="tel" name="fax" id="fax" class="w-full border rounded px-2 py-1" placeholder="03-1234-5678" inputmode="tel" autocomplete="tel">
+            <input type="tel" name="fax" id="fax" wire:model="fax" class="w-full border rounded px-2 py-1" placeholder="03-1234-5678" inputmode="tel" autocomplete="tel">
         </div>
     </div>
 
     <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
         <div class="md:w-1/2">
             E-Mail：
-            <input type="email" name="mail" id="mail" class="w-full border rounded px-2 py-1" placeholder="example@example.com" autocomplete="email">
+            <input type="email" name="mail" id="mail" wire:model="mail" class="w-full border rounded px-2 py-1" placeholder="example@example.com" autocomplete="email">
         </div>
         <div class="md:w-1/2 mt-2 md:mt-0">
             URL：
-            <input type="text" name="url" id="url" class="w-full border rounded px-2 py-1" placeholder="https://example.com" autocomplete="url">
+            <input type="text" name="url" id="url" wire:model="url" class="w-full border rounded px-2 py-1" placeholder="https://example.com" autocomplete="url">
         </div>
         <div class="md:w-1/2 mt-2 md:mt-0">
             インボイス番号：
-            <input type="text" name="invoice" id="invoice" class="w-full border rounded px-2 py-1" placeholder="T+13桁">
+            <input type="text" name="registration_number" id="registration_number" wire:model="registration_number" class="w-full border rounded px-2 py-1" placeholder="T+13桁">
         </div>
     </div>
 
     <div class="mb-4">
         <label class="block mb-1">振込先</label>
-        <input type="text" name="transfer_1" id="transfer_1" class="w-full border rounded px-2 py-1 mb-2" placeholder="○○銀行 ○○支店　普通　口座 1234567">
-        <input type="text" name="transfer_2" id="transfer_2" class="w-full border rounded px-2 py-1 mb-2" placeholder="○○銀行 ○○支店　普通　口座 1234567">
-        <input type="text" name="transfer_3" id="transfer_3" class="w-full border rounded px-2 py-1" placeholder="○○銀行 ○○支店　普通　口座 1234567">
+        <input type="text" name="transfer_1" id="transfer_1" wire:model="transfer_1" class="w-full border rounded px-2 py-1 mb-2" placeholder="○○銀行 ○○支店　普通　口座 1234567">
+        <input type="text" name="transfer_2" id="transfer_2" wire:model="transfer_2" class="w-full border rounded px-2 py-1 mb-2" placeholder="○○銀行 ○○支店　普通　口座 1234567">
+        <input type="text" name="transfer_3" id="transfer_3" wire:model="transfer_3" class="w-full border rounded px-2 py-1" placeholder="○○銀行 ○○支店　普通　口座 1234567">
     </div>
+
 
     <div class="mt-4">
         <label class="inline-flex items-center">
