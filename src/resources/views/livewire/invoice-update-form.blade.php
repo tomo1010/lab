@@ -69,7 +69,7 @@
         〒：
         <input type="text" name="postal" id="postal" wire:model="postal" class="w-24 border rounded px-2 py-1" placeholder="123-4567" inputmode="numeric" autocomplete="postal-code">
         <input type="text" name="address" id="address" wire:model="address" class="w-full border rounded px-2 py-1 mt-2" placeholder="住所を入力してください">
-        <input type="text" wire:model="name" class="w-full border rounded px-2 py-1 mt-2" placeholder="名前を入力してください">
+        <input type="text" id="company_name" wire:model="company_name" class="w-full border rounded px-2 py-1 mt-2" placeholder="名前を入力してください">
     </div>
 
     <div class="mb-4 flex flex-col md:flex-row md:space-x-4">

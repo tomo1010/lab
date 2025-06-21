@@ -174,7 +174,7 @@
                     {!! ($invoice->postal ? '〒' . e($invoice->postal) : '') !!}
                     {!! $invoice->address ?? '&nbsp;' !!}
                 </div>
-                <div>{!! $invoice->name ?? '&nbsp;' !!}</div>
+                <div>{!! $invoice->company_name ?? '&nbsp;' !!}</div>
                 <div>
                     {!! $invoice->invoice_number ? '登録番号: ' . e($invoice->invoice_number) : '&nbsp;' !!}
                 </div>
