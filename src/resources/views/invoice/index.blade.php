@@ -95,10 +95,10 @@
                             value="{{ old('address', auth()->check() ? auth()->user()->address : '') }}"
                             {{ auth()->check() ? 'readonly' : '' }}>
 
-                        <input type="text" name="name" id="name"
+                        <input type="text" name="company_name" id="company_name"
                             class="w-full border rounded px-2 py-1 mt-2 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                             placeholder="名前を入力してください"
-                            value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}"
+                            value="{{ old('company_name', auth()->check() ? auth()->user()->company_name : '') }}"
                             {{ auth()->check() ? 'readonly' : '' }}>
                     </div>
 
@@ -125,10 +125,10 @@
                     <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
                         <div class="md:w-1/2">
                             E-Mail：
-                            <input type="email" name="mail" id="mail"
+                            <input type="email" name="company_mail" id="company_mail"
                                 class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                                 placeholder="example@example.com" autocomplete="email"
-                                value="{{ old('mail', auth()->check() ? auth()->user()->company_mail : '') }}"
+                                value="{{ old('company_mail', auth()->check() ? auth()->user()->company_mail : '') }}"
                                 {{ auth()->check() ? 'readonly' : '' }}>
                         </div>
 
@@ -143,10 +143,10 @@
 
                         <div class="md:w-1/2 mt-2 md:mt-0">
                             インボイス番号：
-                            <input type="text" name="invoice_number" id="invoice_number"
+                            <input type="text" name="registration_number" id="registration_number"
                                 class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                                 placeholder="T+13桁"
-                                value="{{ old('invoice_number', auth()->check() ? auth()->user()->registration_number : '') }}"
+                                value="{{ old('registration_number', auth()->check() ? auth()->user()->registration_number : '') }}"
                                 {{ auth()->check() ? 'readonly' : '' }}>
                         </div>
                     </div>
@@ -192,8 +192,9 @@
                         </label>
                     </div>
                     @endguest
-                </div>
 
+
+                </div>
 
 
 
@@ -237,9 +238,14 @@
     </div>
 
 
+    <script>
+        <!-- Alpine.jsの初期化 のため必要
+        -->
+    </script>
+
     @guest
     <script>
-        const fields = ['postal', 'address', 'name', 'tel', 'fax', 'mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3'];
+        const fields = ['postal', 'address', 'company_name', 'tel', 'fax', 'registration_number', 'company_mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3', 'note'];
 
         fields.forEach(field => {
             const input = document.getElementById(field);

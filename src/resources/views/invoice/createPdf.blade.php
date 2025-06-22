@@ -176,7 +176,7 @@
                 </div>
                 <div>{!! $invoice->company_name ?? '&nbsp;' !!}</div>
                 <div>
-                    {!! $invoice->invoice_number ? '登録番号: ' . e($invoice->invoice_number) : '&nbsp;' !!}
+                    {!! $invoice->registration_number ? '登録番号: ' . e($invoice->registration_number) : '&nbsp;' !!}
                 </div>
                 <div>
                     {!! $invoice->tel ? 'TEL:' . e($invoice->tel) : '' !!}
@@ -184,9 +184,9 @@
                     {!! (!$invoice->tel && !$invoice->fax) ? '&nbsp;' : '' !!}
                 </div>
                 <div>
-                    {!! $invoice->mail ? 'Mail:' . e($invoice->mail) : '' !!}
+                    {!! $invoice->company_mail ? 'Mail:' . e($invoice->company_mail) : '' !!}
                     {!! $invoice->url ? ' URL:' . e($invoice->url) : '' !!}
-                    {!! (!$invoice->mail && !$invoice->url) ? '&nbsp;' : '' !!}
+                    {!! (!$invoice->company_mail && !$invoice->url) ? '&nbsp;' : '' !!}
                 </div>
             </div>
 

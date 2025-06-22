@@ -15,6 +15,8 @@ class PdfController extends Controller
         $view = $request->input('view');
         $page = $view;
 
+        // dd($request->all());
+
         // アクセス制限
         if (! $accessService->canAccess($page)) {
             return redirect()->back()->with([
@@ -58,16 +60,17 @@ class PdfController extends Controller
                 'date',
                 'page_count',
                 'total',
-                'invoice_number',
-                'name',
+                'registration_number',
+                'company_name',
                 'address',
                 'tel',
                 'fax',
-                'mail',
+                'company_mail',
                 'url',
-                'transfar_1',
-                'transfar_2',
-                'transfar_3',
+                'transfer_1',
+                'transfer_2',
+                'transfer_3',
+                'note',
             ]);
 
             // price_x が未定義なら 0 に補完
