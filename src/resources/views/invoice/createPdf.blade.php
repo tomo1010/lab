@@ -188,6 +188,9 @@
                     {!! $invoice->url ? ' URL:' . e($invoice->url) : '' !!}
                     {!! (!$invoice->company_mail && !$invoice->url) ? '&nbsp;' : '' !!}
                 </div>
+                <div>
+                    {!! $invoice->note ? ' ' . e($invoice->note) : '&nbsp;' !!}
+                </div>
             </div>
 
             {{-- 振込先情報 --}}
