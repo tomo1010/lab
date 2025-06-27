@@ -58,7 +58,6 @@
                 <div class="mb-6" x-data="invoiceForm()" x-init="init()">
                     <label class="block mb-1">請求内容：</label>
 
-
                     <template x-for="(item, i) in items" :key="i">
                         <div class="flex gap-4 mb-2">
                             <input :name="`items[${i}][name]`" x-model="item.name" class="w-2/3 border rounded px-2 py-1" placeholder="項目">

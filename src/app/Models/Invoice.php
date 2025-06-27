@@ -16,17 +16,13 @@ class Invoice extends Model
         'client',
         'to_suffix',
         'client_address',
-        'item_1',
-        'item_2',
-        'item_3',
-        'item_4',
-        'item_5',
-        'price_1',
-        'price_2',
-        'price_3',
-        'price_4',
-        'price_5',
+        'items',
         'total',
         'message',
+    ];
+
+    //$casts は、**「データベースから取り出した値の型を自動的に変換してくれる機能」**
+    protected $casts = [
+        'items' => 'array',
     ];
 }

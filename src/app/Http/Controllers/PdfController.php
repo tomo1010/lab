@@ -36,26 +36,16 @@ class PdfController extends Controller
 
         // データ取得：保存済か未保存かを分岐（未保存の場合_idが取得できない）
         if ($request->filled('invoice_id')) {
+            // 保存済データ（Eloquentモデル）
             $invoice = Invoice::findOrFail($request->invoice_id);
-
             $data = ['invoice' => $invoice];
         } else {
-            // 未保存の入力データを使って、仮のオブジェクトを構築
+            // 未保存データ（仮のオブジェクトにする）
             $invoice = (object) $request->only([
                 'postal',
                 'client',
                 'to_suffix',
                 'client_address',
-                'item_1',
-                'item_2',
-                'item_3',
-                'item_4',
-                'item_5',
-                'price_1',
-                'price_2',
-                'price_3',
-                'price_4',
-                'price_5',
                 'message',
                 'date',
                 'page_count',
@@ -73,13 +63,18 @@ class PdfController extends Controller
                 'note',
             ]);
 
-            // price_x が未定義なら 0 に補完
-            foreach (range(1, 5) as $i) {
-                $invoice->{'price_' . $i} = (int) ($invoice->{'price_' . $i} ?? 0);
-            }
+            // ✅ 正しいitemsの取り出し方（フォーム構造と一致）
+            $items = collect($request->input('items', []))
+                ->filter(fn($item) => !empty($item['name']) || !empty($item['price']))
+                ->values()
+                ->all();
 
+            $invoice->items = $items;
+            //dd($invoice->items);
+            // ✅ データをBladeに渡す
             $data = ['invoice' => $invoice];
         }
+
 
         $data['date'] = now()->format('Y-m-d'); // 出力日を共通で追加
 

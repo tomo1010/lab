@@ -122,38 +122,38 @@
             以下の通りご請求申し上げます。<br><br>
 
             {{-- 請求明細表 --}}
+            @php
+            $items = is_array($invoice->items)
+            ? $invoice->items
+            : json_decode(json_encode($invoice->items), true) ?? [];
+            @endphp
+
             <table>
                 <tr>
                     <th style="width: 70%;">項目</th>
                     <th>金額</th>
                 </tr>
 
-                @if ($invoice)
-                @for ($i = 1; $i <= 5; $i++)
-                    @php
-                    $item=$invoice->{'item_' . $i} ?? '';
-                    $price = $invoice->{'price_' . $i} ?? '';
-                    @endphp
-                    <tr>
-                        <td>{!! $item !!}</td>
-                        <td class="text-right">
-                            {{ ($price !== '' && $price != 0) ? number_format($price) . ' 円' : '' }}
-                        </td>
-                    </tr>
-                    @endfor
+                @if (count($items) > 0)
+                @foreach ($items as $item)
+                <tr>
+                    <td>{{ $item['name'] ?? '' }}</td>
+                    <td class="text-right">
+                        {{ isset($item['price']) && $item['price'] != 0 ? number_format($item['price']) . ' 円' : '' }}
+                    </td>
+                </tr>
+                @endforeach
 
-                    <tr class="total-row">
-                        <td class="text-center">合計</td>
-                        <td class="text-right">{{ number_format($invoice->total ?? 0) }} 円</td>
-                    </tr>
-                    @else
-                    {{-- 請求書が存在しない場合の表示 --}}
-                    <tr>
-                        <td colspan="2" class="text-center text-gray-500">請求金額はありません</td>
-                    </tr>
-                    @endif
+                <tr class="total-row">
+                    <td class="text-center">合計</td>
+                    <td class="text-right">{{ number_format($invoice->total ?? 0) }} 円</td>
+                </tr>
+                @else
+                <tr>
+                    <td colspan="2" class="text-center text-gray-500">請求金額はありません</td>
+                </tr>
+                @endif
             </table>
-
 
             {{-- 備考欄 --}}
             <div class="message">
@@ -208,7 +208,8 @@
                 発行者情報が存在しません。
             </div>
             @endif
-
+        </div>
+    </div>
 </body>
 
 </html>
