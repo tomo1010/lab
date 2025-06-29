@@ -106,7 +106,7 @@
                 </div>
 
                 {{-- 発行者情報フォーム --}}
-                @include('components.company-info') {{-- 共通パーツ化していればここに含める --}}
+                @include('components.company-info')
 
 
                 {{-- ボタン群 --}}
