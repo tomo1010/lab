@@ -61,7 +61,7 @@ class InvoiceUpdateForm extends Component
     public function updateInvoice()
     {
         logger('✅ updateInvoice: 開始');
-        dd($this->items);
+        //dd($this->items);
 
         $this->validate([
             'date' => 'nullable|date',

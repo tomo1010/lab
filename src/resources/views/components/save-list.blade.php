@@ -9,14 +9,14 @@
         <ul class="mt-6 space-y-4">
             @foreach ($items as $item)
             @php
-            $man = $item->payment / 10000;
+            $man = $item->total / 10000;
             $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
             @endphp
             <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
                 <div>
                     <span class="text-lg font-semibold flex items-center space-x-2">
                         <a href="{{ route("{$routePrefix}.edit", $item->id) }}">
-                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->name }}
+                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->customer_name }}
                         </a>
                     </span>
                     <p class="text-sm text-gray-500">更新日時: {{ $item->updated_at->format('Y-m-d H:i') }}</p>

@@ -43,7 +43,7 @@
 
             <template x-for="(item, i) in items" :key="i">
                 <div class="flex gap-4 mb-2">
-                    <input :name="`items[${i}][name]`" x-model="item.name" class="w-2/3 border rounded px-2 py-1" placeholder="項目">
+                    <input :name="`items[${i}][name]`" x-model="item.name" wire:model="name" class="w-2/3 border rounded px-2 py-1" placeholder="項目">
                     <input :name="`items[${i}][price]`" x-model.number="item.price" @input="recalculateTotal()" type="number" class="w-1/3 border rounded px-2 py-1" placeholder="金額" min="0">
                 </div>
             </template>

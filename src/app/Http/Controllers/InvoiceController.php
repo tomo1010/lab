@@ -95,9 +95,10 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(\App\Models\Invoice $invoice)
     {
-        //
+            return view('invoice.show', compact('invoice'));
+
     }
 
     /**
@@ -118,7 +119,13 @@ class InvoiceController extends Controller
         // ログインユーザーの投稿一覧を取得
         $invoices = Invoice::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->paginate(10);
 
-        return view('invoice.edit', compact('invoice', 'invoices'));
+        return view('invoice.edit', [
+            'invoice' => $invoice,
+            'invoices' => $invoices,
+            'items' => $invoice->items ?? [],
+        ]);
+
+        //return view('invoice.edit', compact('invoice', 'invoices'));
     }
 
     /**
@@ -128,9 +135,35 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        $validated = $request->validate([
+            'date' => 'nullable|date',
+            'page_count' => 'nullable|integer|min:1|max:10',
+            'client' => 'nullable|string|max:255',
+            'to_suffix' => 'nullable|string|max:10',
+            'client_address' => 'nullable|string|max:255',
+            'message' => 'nullable|string|max:500',
+            'items' => 'array',
+            'items.*.name' => 'nullable|string|max:255',
+            'items.*.price' => 'nullable|numeric|min:0',
+            'total' => 'nullable|integer|min:0',
+        ]);
+
+        $filteredItems = collect($validated['items'])->filter(fn($item) => !empty($item['name']) || !empty($item['price']))->values()->all();
+
+        $invoice->update([
+            'date' => $validated['date'],
+            'page_count' => $validated['page_count'],
+            'client' => $validated['client'],
+            'to_suffix' => $validated['to_suffix'],
+            'client_address' => $validated['client_address'],
+            'message' => $validated['message'],
+            'items' => $filteredItems,
+            'total' => $validated['total'],
+        ]);
+
+        return redirect()->route('invoice.edit', $invoice)->with('success', '保存しました');
     }
 
     /**

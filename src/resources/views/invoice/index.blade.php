@@ -97,13 +97,13 @@
                     }
                 </script>
 
-
-
-
                 <div class="mb-6">
                     <label class="block mb-1">備考：</label>
                     <textarea name="message" class="w-full h-24 border rounded px-2 py-1 text-sm"></textarea>
                 </div>
+
+
+
 
                 {{-- 発行者情報フォーム --}}
                 @include('components.company-info')
