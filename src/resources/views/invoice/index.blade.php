@@ -27,17 +27,20 @@
 
                 <div class="text-right text-xs text-gray-600 mb-4">
                     明細枚数（本紙含む）：
-                    <select name="page_count" class="border rounded px-2 py-1 text-xs">
-                        @for ($i = 1; $i <= 10; $i++)
-                            <option value="{{ $i }}" {{ $i === 1 ? 'selected' : '' }}>{{ $i }}</option>
-                            @endfor
-                    </select>
+                    <div class="relative inline-block">
+                        <select name="page_count"
+                            class="border rounded px-4 py-1 text-xs pr-6">
+                            @for ($i = 1; $i <= 10; $i++)
+                                <option value="{{ $i }}" {{ $i === 1 ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mb-6">
                     <label class="block mb-1">請求先宛名：</label>
                     <div class="flex gap-2">
-                        <input type="text" name="customer_name" class="w-full border rounded px-2 py-1">
+                        <input type="text" name="customer_name" class="appearance-none w-full border rounded px-2 py-1">
                         <select name="to_suffix" class="border rounded px-2 py-1 text-sm">
                             <option value="様">様</option>
                             <option value="御中">御中</option>
