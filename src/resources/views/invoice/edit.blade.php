@@ -38,7 +38,7 @@
                 <div class="mb-6">
                     <label class="block mb-1">請求先宛名：</label>
                     <div class="flex gap-2">
-                        <input type="text" name="client" class="w-full border rounded px-2 py-1" value="{{ $invoice->client }}">
+                        <input type="text" name="customer_name" class="w-full border rounded px-2 py-1" value="{{ $invoice->customer_name }}">
                         <select name="to_suffix" class="border rounded px-2 py-1 text-sm">
                             <option value="様" {{ $invoice->to_suffix === '様' ? 'selected' : '' }}>様</option>
                             <option value="御中" {{ $invoice->to_suffix === '御中' ? 'selected' : '' }}>御中</option>
@@ -48,7 +48,7 @@
 
                 <div class="mb-6">
                     <label class="block mb-1">請求先住所：</label>
-                    <input type="text" name="client_address" class="w-full border rounded px-2 py-1" value="{{ $invoice->client_address }}">
+                    <input type="text" name="customer_address" class="w-full border rounded px-2 py-1" value="{{ $invoice->customer_address }}">
                 </div>
 
                 {{-- 請求内容 --}}
@@ -104,17 +104,6 @@
                 @include('components.company-info')
 
                 <div class="flex justify-center gap-4 mt-6">
-                    {{-- 保存ボタン（PUT） --}}
-                    <button
-                        type="submit"
-                        @click="
-            actionUrl = '{{ route('invoice.update', $invoice->id) }}';
-            $el.form.target = '_self';
-        "
-                        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-                        保存
-                    </button>
-
                     {{-- PDFボタン（POST） --}}
                     <button
                         type="submit"
@@ -124,10 +113,20 @@
             $el.form.querySelector('input[name=_method]')?.remove();
         "
                         class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
-                        PDF出力
+                        PDF作成
+                    </button>
+
+                    {{-- 保存ボタン（PUT） --}}
+                    <button
+                        type="submit"
+                        @click="
+            actionUrl = '{{ route('invoice.update', $invoice->id) }}';
+            $el.form.target = '_self';
+        "
+                        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                        更新
                     </button>
                 </div>
-
             </div>
         </form>
 

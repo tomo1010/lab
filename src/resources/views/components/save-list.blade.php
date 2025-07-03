@@ -23,6 +23,13 @@
                 </div>
 
                 <div class="flex space-x-2">
+                    <!-- 編集 -->
+                    <a href="{{ route("{$routePrefix}.edit", $item->id) }}"
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center space-x-2"
+                        title="編集">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
                     <!-- コピー -->
                     <form action="{{ route("{$routePrefix}.copy", $item->id) }}" method="POST">
                         @csrf
@@ -33,11 +40,15 @@
                     <form action="{{ route("{$routePrefix}.destroy", $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2" title="削除" onclick="return confirm('本当に削除しますか？');">
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center space-x-2"
+                            title="削除"
+                            onclick="return confirm('本当に削除しますか？');">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
                 </div>
+
             </li>
             @endforeach
         </ul>

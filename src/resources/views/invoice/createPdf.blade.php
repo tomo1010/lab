@@ -32,7 +32,7 @@
             margin-bottom: 4px;
         }
 
-        .client {
+        .customer {
             margin-top: 20px;
             margin-bottom: 60px;
             font-size: 12pt;
@@ -100,7 +100,7 @@
             font-weight: bold;
         }
 
-        .client-name {
+        .customer-name {
             font-size: 16pt;
         }
     </style>
@@ -113,10 +113,10 @@
         <div class="right-align-small">発行日：{{ $invoice->date ?? '　　' }}</div>
         <div class="right-align-small">明細枚数：{{ $invoice->page_count ?? '　' }}枚 (本紙含む)</div>
 
-        <div class="client">
+        <div class="customer">
             <div>
-                <div>{{ $invoice->client_address ?? '' }}</div>
-                <div class="client-name">{{ $invoice->client ?? '' }} {{ $invoice->to_suffix ?? '' }}</div>
+                <div>{{ $invoice->customer_address ?? '' }}</div>
+                <div class="customer-name">{{ $invoice->customer_name ?? '' }} {{ $invoice->to_suffix ?? '' }}</div>
             </div>
 
             以下の通りご請求申し上げます。<br><br>

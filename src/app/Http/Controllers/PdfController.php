@@ -43,9 +43,9 @@ class PdfController extends Controller
             // 未保存データ（仮のオブジェクトにする）
             $invoice = (object) $request->only([
                 'postal',
-                'client',
+                'customer_name',
                 'to_suffix',
-                'client_address',
+                'customer_address',
                 'message',
                 'date',
                 'page_count',

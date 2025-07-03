@@ -37,7 +37,7 @@
                 <div class="mb-6">
                     <label class="block mb-1">請求先宛名：</label>
                     <div class="flex gap-2">
-                        <input type="text" name="client" class="w-full border rounded px-2 py-1">
+                        <input type="text" name="customer_name" class="w-full border rounded px-2 py-1">
                         <select name="to_suffix" class="border rounded px-2 py-1 text-sm">
                             <option value="様">様</option>
                             <option value="御中">御中</option>
@@ -47,7 +47,7 @@
 
                 <div class="mb-6">
                     <label class="block mb-1">請求先住所：</label>
-                    <input type="text" name="client_address" class="w-full border rounded px-2 py-1" placeholder="〒を全角入力→変換">
+                    <input type="text" name="customer_address" class="w-full border rounded px-2 py-1" placeholder="〒を全角入力→変換">
                 </div>
 
                 {{-- 請求内容と合計 --}}

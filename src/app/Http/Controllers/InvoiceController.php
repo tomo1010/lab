@@ -52,10 +52,10 @@ class InvoiceController extends Controller
     {
         //dd($request);
         $validated = $request->validate([
-            'client' => 'nullable|string|max:255',
+            'customer_name' => 'nullable|string|max:255',
             'to_suffix' => 'nullable|string|max:10',
             'postal' => 'nullable|string|max:10',
-            'client_address' => 'nullable|string|max:255',
+            'customer_address' => 'nullable|string|max:255',
 
             'items' => 'array',
             'items.*.name' => 'nullable|string|max:255',
@@ -77,9 +77,9 @@ class InvoiceController extends Controller
             'user_id' => auth()->id(),
             'date' => $validated['date'] ?? null,
             'page_count' => $validated['page_count'] ?? null,
-            'client' => $validated['client'] ?? null,
+            'customer_name' => $validated['customer_name'] ?? null,
             'to_suffix' => $validated['to_suffix'] ?? null,
-            'client_address' => $validated['client_address'] ?? null,
+            'customer_address' => $validated['customer_address'] ?? null,
             'items' => $items,
             'total' => $validated['total'] ?? 0,
             'message' => $validated['message'] ?? null,
@@ -97,8 +97,7 @@ class InvoiceController extends Controller
      */
     public function show(\App\Models\Invoice $invoice)
     {
-            return view('invoice.show', compact('invoice'));
-
+        return view('invoice.show', compact('invoice'));
     }
 
     /**
@@ -140,9 +139,9 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'date' => 'nullable|date',
             'page_count' => 'nullable|integer|min:1|max:10',
-            'client' => 'nullable|string|max:255',
+            'customer_name' => 'nullable|string|max:255',
             'to_suffix' => 'nullable|string|max:10',
-            'client_address' => 'nullable|string|max:255',
+            'customer_address' => 'nullable|string|max:255',
             'message' => 'nullable|string|max:500',
             'items' => 'array',
             'items.*.name' => 'nullable|string|max:255',
@@ -155,9 +154,9 @@ class InvoiceController extends Controller
         $invoice->update([
             'date' => $validated['date'],
             'page_count' => $validated['page_count'],
-            'client' => $validated['client'],
+            'customer_name' => $validated['customer_name'],
             'to_suffix' => $validated['to_suffix'],
-            'client_address' => $validated['client_address'],
+            'customer_address' => $validated['customer_address'],
             'message' => $validated['message'],
             'items' => $filteredItems,
             'total' => $validated['total'],
@@ -212,9 +211,9 @@ class InvoiceController extends Controller
         $newInvoice->user_id = auth()->id();
 
         // 
-        $newInvoice->client = $invoice->client . "[コピー]";
+        $newInvoice->customer_name = $invoice->customer_name . "[コピー]";
         $newInvoice->to_suffix = $invoice->to_suffix;
-        $newInvoice->client_address = $invoice->client_address;
+        $newInvoice->customer_address = $invoice->customer_address;
         $newInvoice->date = $invoice->date;
         $newInvoice->page_count = $invoice->page_count;
         $newInvoice->item_1 = $invoice->item_1;

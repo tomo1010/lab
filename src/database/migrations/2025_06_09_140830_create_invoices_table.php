@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date')->nullable();
             $table->integer('page_count')->nullable();
-            $table->string('client')->nullable();
+            $table->string('customer_name')->nullable();
             $table->string('to_suffix')->nullable();
-            $table->string('client_address')->nullable();
+            $table->string('customer_address')->nullable();
             $table->json('items')->nullable(); // JSON形式でアイテムを保存
             $table->integer('total')->nullable();
             $table->string('message')->nullable();
