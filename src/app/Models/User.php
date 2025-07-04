@@ -25,6 +25,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'company_postal',
+        'company_address',
+        'company_name',
+        'company_tel',
+        'company_fax',
+        'company_mail',
+        'company_url',
+        'company_registration_number',
+        'company_transfer_1',
+        'company_transfer_2',
+        'company_transfer_3',
+        'company_note',
     ];
 
 
@@ -75,7 +87,7 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class);
     }
 
-    
+
     /**
      * ユーザの保存　制限設定（プレミアム会員　：　一般会員）
      *

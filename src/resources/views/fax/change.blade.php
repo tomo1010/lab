@@ -138,81 +138,8 @@
                     <textarea name=" message" class="textarea">車両入替えの手続きをお願いします。</textarea>
                 </div>
 
-                <div class="footer">
-                    <div class="mb-2">発信者情報：</div>
-                    <div class="mb-2">
-                        〒：
-                        <input
-                            type="text"
-                            name="postal"
-                            id="postal"
-                            style="width: 100px;"
-                            class="border rounded px-1"
-                            placeholder="123-4567"
-                            inputmode="numeric"
-                            autocomplete="postal-code">
-                        <input type="text" name="address" id="address" class="input-text mt-1" placeholder="住所を入力してください">
-                        <input type="text" name="name" id="name" class="input-text mt-1" placeholder="名前を入力してください">
-                    </div>
-                    <!-- TEL / FAX -->
-                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
-                        <div class="md:w-1/2 mb-2 md:mb-0">
-                            TEL：
-                            <input
-                                type="tel"
-                                name="tel"
-                                id="tel"
-                                class="border rounded px-1 w-full"
-                                placeholder="090-1234-5678"
-                                inputmode="tel"
-                                autocomplete="tel">
-                        </div>
-                        <div class="md:w-1/2">
-                            FAX：
-                            <input
-                                type="tel"
-                                name="fax"
-                                id="fax"
-                                class="border rounded px-1 w-full"
-                                placeholder="03-1234-5678"
-                                inputmode="tel"
-                                autocomplete="tel">
-                        </div>
-                    </div>
-
-
-                    <!-- E-Mail / URL -->
-                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
-                        <div class="md:w-1/2 mb-2 md:mb-0">
-                            E-Mail：
-                            <input
-                                type="email"
-                                name="mail"
-                                id="mail"
-                                class="border rounded px-1 w-full"
-                                placeholder="example@example.com"
-                                autocomplete="email">
-                        </div>
-                        <div class="md:w-1/2">
-                            URL：
-                            <input
-                                type="url"
-                                name="url"
-                                id="url"
-                                class="border rounded px-1 w-full"
-                                placeholder="https://example.com"
-                                autocomplete="url">
-                        </div>
-                    </div>
-
-
-                    <div class="mb-4 mt-2">
-                        <label>
-                            <input type="checkbox" id="save_to_cookie" class="mr-1">
-                            発信者情報を保存しておく
-                        </label>
-                    </div>
-                </div>
+                {{-- 発行者情報 --}}
+                @include('components.company-info')
 
                 <div class="submit-btn">
                     <button type="submit" class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">

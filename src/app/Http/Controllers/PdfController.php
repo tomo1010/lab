@@ -15,6 +15,8 @@ class PdfController extends Controller
         $view = $request->input('view');
         $page = $view;
 
+        // dd($request->all());
+
         // アクセス制限
         if (! $accessService->canAccess($page)) {
             return redirect()->back()->with([
@@ -34,48 +36,46 @@ class PdfController extends Controller
 
         // データ取得：保存済か未保存かを分岐（未保存の場合_idが取得できない）
         if ($request->filled('invoice_id')) {
+            // 保存済データ（Eloquentモデル）
             $invoice = Invoice::findOrFail($request->invoice_id);
             $data = ['invoice' => $invoice];
         } else {
-            // 未保存の入力データを使って、仮のオブジェクトを構築
+            // 未保存データ（仮のオブジェクトにする）
             $invoice = (object) $request->only([
-                'postal',
-                'client',
+                'company_postal',
+                'customer_name',
                 'to_suffix',
-                'client_address',
-                'item_1',
-                'item_2',
-                'item_3',
-                'item_4',
-                'item_5',
-                'price_1',
-                'price_2',
-                'price_3',
-                'price_4',
-                'price_5',
+                'customer_address',
                 'message',
                 'date',
                 'page_count',
                 'total',
-                'invoice_number',
-                'name',
-                'address',
-                'tel',
-                'fax',
-                'mail',
-                'url',
-                'transfar_1',
-                'transfar_2',
-                'transfar_3',
+                'company_registration_number',
+                'company_name',
+                'company_address',
+                'company_tel',
+                'company_fax',
+                'company_mail',
+                'company_url',
+                'company_transfer_1',
+                'company_transfer_2',
+                'company_transfer_3',
+                'company_note',
             ]);
 
-            // price_x が未定義なら 0 に補完
-            foreach (range(1, 5) as $i) {
-                $invoice->{'price_' . $i} = (int) ($invoice->{'price_' . $i} ?? 0);
-            }
 
+            // ✅ 正しいitemsの取り出し方（フォーム構造と一致）
+            $items = collect($request->input('items', []))
+                ->filter(fn($item) => !empty($item['name']) || !empty($item['price']))
+                ->values()
+                ->all();
+
+            $invoice->items = $items;
+            //dd($invoice->items);
+            // ✅ データをBladeに渡す
             $data = ['invoice' => $invoice];
         }
+
 
         $data['date'] = now()->format('Y-m-d'); // 出力日を共通で追加
 

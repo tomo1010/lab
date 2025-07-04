@@ -221,7 +221,7 @@ Route::post('/pdf/generatePdf', [PdfController::class, 'generatePdf'])->name('pd
 */
 Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
 Route::middleware('auth')->group(function () {
-    Route::resource('invoice', InvoiceController::class)->only(['store', 'destroy', 'edit', 'update']);
+    Route::resource('invoice', InvoiceController::class)->only(['store', 'destroy', 'edit', 'update', 'show']);
     Route::post('invoice/{invoice}/copy', [InvoiceController::class, 'storeCopy'])->name('invoice.copy');
 });
 Route::post('invoice/createPdf', [InvoiceController::class, 'createPdf'])->name('invoice.createPdf');

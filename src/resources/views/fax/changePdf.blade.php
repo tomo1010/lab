@@ -113,21 +113,22 @@
         <div class="footer">
             <div>発信者：</div>
             <div>
-                {{ $postal ? '〒' . $postal : '' }}
-                {{ $address ?? '' }}
+                {{ $company_postal ? '〒' . $company_postal : '' }}
+                {{ $company_address ?? '' }}
             </div>
             <div>
-                {{ $name ?? '' }}
+                {{ $company_name ?? '' }}
             </div>
             <div>
-                {{ $tel ? 'TEL:' . $tel : '' }}
-                {{ $fax ? 'FAX:' . $fax : '' }}
+                {{ $company_tel ? 'TEL:' . $company_tel : '' }}
+                {{ $company_fax ? 'FAX:' . $company_fax : '' }}
             </div>
             <div>
-                {{ $mail ? 'Mail:' . $mail : '' }}
-                {{ $url ? 'URL:' . $url : '' }}
+                {{ $company_mail ? 'Mail:' . $company_mail : '' }}
+                {{ $company_url ? 'URL:' . $company_url : '' }}
             </div>
         </div>
+
     </div>
 </body>
 

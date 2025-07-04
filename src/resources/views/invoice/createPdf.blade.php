@@ -32,7 +32,7 @@
             margin-bottom: 4px;
         }
 
-        .client {
+        .customer {
             margin-top: 20px;
             margin-bottom: 60px;
             font-size: 12pt;
@@ -100,7 +100,7 @@
             font-weight: bold;
         }
 
-        .client-name {
+        .customer-name {
             font-size: 16pt;
         }
     </style>
@@ -113,47 +113,47 @@
         <div class="right-align-small">発行日：{{ $invoice->date ?? '　　' }}</div>
         <div class="right-align-small">明細枚数：{{ $invoice->page_count ?? '　' }}枚 (本紙含む)</div>
 
-        <div class="client">
+        <div class="customer">
             <div>
-                <div>{{ $invoice->client_address ?? '' }}</div>
-                <div class="client-name">{{ $invoice->client ?? '' }} {{ $invoice->to_suffix ?? '' }}</div>
+                <div>{{ $invoice->customer_address ?? '' }}</div>
+                <div class="customer-name">{{ $invoice->customer_name ?? '' }} {{ $invoice->to_suffix ?? '' }}</div>
             </div>
 
             以下の通りご請求申し上げます。<br><br>
 
             {{-- 請求明細表 --}}
+            @php
+            $items = is_array($invoice->items)
+            ? $invoice->items
+            : json_decode(json_encode($invoice->items), true) ?? [];
+            @endphp
+
             <table>
                 <tr>
                     <th style="width: 70%;">項目</th>
                     <th>金額</th>
                 </tr>
 
-                @if ($invoice)
-                @for ($i = 1; $i <= 5; $i++)
-                    @php
-                    $item=$invoice->{'item_' . $i} ?? '';
-                    $price = $invoice->{'price_' . $i} ?? '';
-                    @endphp
-                    <tr>
-                        <td>{!! $item !!}</td>
-                        <td class="text-right">
-                            {{ ($price !== '' && $price != 0) ? number_format($price) . ' 円' : '' }}
-                        </td>
-                    </tr>
-                    @endfor
+                @if (count($items) > 0)
+                @foreach ($items as $item)
+                <tr>
+                    <td>{{ $item['name'] ?? '' }}</td>
+                    <td class="text-right">
+                        {{ isset($item['price']) && $item['price'] != 0 ? number_format($item['price']) . ' 円' : '' }}
+                    </td>
+                </tr>
+                @endforeach
 
-                    <tr class="total-row">
-                        <td class="text-center">合計</td>
-                        <td class="text-right">{{ number_format($invoice->total ?? 0) }} 円</td>
-                    </tr>
-                    @else
-                    {{-- 請求書が存在しない場合の表示 --}}
-                    <tr>
-                        <td colspan="2" class="text-center text-gray-500">請求金額はありません</td>
-                    </tr>
-                    @endif
+                <tr class="total-row">
+                    <td class="text-center">合計</td>
+                    <td class="text-right">{{ number_format($invoice->total ?? 0) }} 円</td>
+                </tr>
+                @else
+                <tr>
+                    <td colspan="2" class="text-center text-gray-500">請求金額はありません</td>
+                </tr>
+                @endif
             </table>
-
 
             {{-- 備考欄 --}}
             <div class="message">
@@ -171,32 +171,35 @@
             {{-- 発行者情報 --}}
             <div class="billing">
                 <div>
-                    {!! ($invoice->postal ? '〒' . e($invoice->postal) : '') !!}
-                    {!! $invoice->address ?? '&nbsp;' !!}
+                    {!! ($invoice->company_postal ? '〒' . e($invoice->company_postal) : '') !!}
+                    {!! $invoice->company_address ?? '&nbsp;' !!}
                 </div>
-                <div>{!! $invoice->name ?? '&nbsp;' !!}</div>
+                <div>{!! $invoice->company_name ?? '&nbsp;' !!}</div>
                 <div>
-                    {!! $invoice->invoice_number ? '登録番号: ' . e($invoice->invoice_number) : '&nbsp;' !!}
-                </div>
-                <div>
-                    {!! $invoice->tel ? 'TEL:' . e($invoice->tel) : '' !!}
-                    {!! $invoice->fax ? ' FAX:' . e($invoice->fax) : '' !!}
-                    {!! (!$invoice->tel && !$invoice->fax) ? '&nbsp;' : '' !!}
+                    {!! $invoice->company_registration_number ? '登録番号: ' . e($invoice->company_registration_number) : '&nbsp;' !!}
                 </div>
                 <div>
-                    {!! $invoice->mail ? 'Mail:' . e($invoice->mail) : '' !!}
-                    {!! $invoice->url ? ' URL:' . e($invoice->url) : '' !!}
-                    {!! (!$invoice->mail && !$invoice->url) ? '&nbsp;' : '' !!}
+                    {!! $invoice->company_tel ? 'TEL:' . e($invoice->company_tel) : '' !!}
+                    {!! $invoice->company_fax ? ' FAX:' . e($invoice->company_fax) : '' !!}
+                    {!! (!$invoice->company_tel && !$invoice->company_fax) ? '&nbsp;' : '' !!}
+                </div>
+                <div>
+                    {!! $invoice->company_mail ? 'Mail:' . e($invoice->company_mail) : '' !!}
+                    {!! $invoice->company_url ? ' URL:' . e($invoice->company_url) : '' !!}
+                    {!! (!$invoice->company_mail && !$invoice->company_url) ? '&nbsp;' : '' !!}
+                </div>
+                <div>
+                    {!! $invoice->company_note ? ' ' . e($invoice->company_note) : '&nbsp;' !!}
                 </div>
             </div>
 
             {{-- 振込先情報 --}}
-            @if (!empty($invoice->transfer_1))
+            @if (!empty($invoice->company_transfer_1))
             <div class="transfer">
                 <strong>【振込先】</strong><br>
-                {!! nl2br(e($invoice->transfer_1)) !!}<br>
-                @if (!empty($invoice->transfer_2)) {!! nl2br(e($invoice->transfer_2)) !!}<br> @endif
-                @if (!empty($invoice->transfer_3)) {!! nl2br(e($invoice->transfer_3)) !!}<br> @endif
+                {!! nl2br(e($invoice->company_transfer_1)) !!}<br>
+                @if (!empty($invoice->company_transfer_2)) {!! nl2br(e($invoice->company_transfer_2)) !!}<br> @endif
+                @if (!empty($invoice->company_transfer_3)) {!! nl2br(e($invoice->company_transfer_3)) !!}<br> @endif
             </div>
             @endif
             @else
@@ -206,6 +209,8 @@
             </div>
             @endif
 
+        </div>
+    </div>
 </body>
 
 </html>

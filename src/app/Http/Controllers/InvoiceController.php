@@ -50,53 +50,44 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-
-        $request->validate([
-            'client' => 'nullable|string|max:255',
+        //dd($request);
+        $validated = $request->validate([
+            'customer_name' => 'nullable|string|max:255',
             'to_suffix' => 'nullable|string|max:10',
             'postal' => 'nullable|string|max:10',
-            'client_address' => 'nullable|string|max:255',
+            'customer_address' => 'nullable|string|max:255',
 
-            'item_1' => 'nullable|string|max:255',
-            'item_2' => 'nullable|string|max:255',
-            'item_3' => 'nullable|string|max:255',
-            'item_4' => 'nullable|string|max:255',
-            'item_5' => 'nullable|string|max:255',
-
-            'price_1' => 'nullable|integer|min:0',
-            'price_2' => 'nullable|integer|min:0',
-            'price_3' => 'nullable|integer|min:0',
-            'price_4' => 'nullable|integer|min:0',
-            'price_5' => 'nullable|integer|min:0',
+            'items' => 'array',
+            'items.*.name' => 'nullable|string|max:255',
+            'items.*.price' => 'nullable|numeric|min:0',
 
             'total' => 'nullable|integer|min:0',
             'message' => 'nullable|string|max:500',
+            'date' => 'nullable|date',
+            'page_count' => 'nullable|integer|min:1',
         ]);
+        //dd($validated);
+
+        $items = collect($validated['items'])->filter(function ($item) {
+            return !empty($item['name']) || !empty($item['price']);
+        })->values()->all();
+
 
         $invoice = Invoice::create([
-            'user_id' => \Auth::id(),
-            'date' => $request->input('date'),
-            'page_count' => $request->input('page_count'),
-            'client' => $request->input('client'),
-            'to_suffix' => $request->input('to_suffix'),
-            'client_address' => $request->input('client_address'),
-            'item_1' => $request->input('item_1'),
-            'item_2' => $request->input('item_2'),
-            'item_3' => $request->input('item_3'),
-            'item_4' => $request->input('item_4'),
-            'item_5' => $request->input('item_5'),
-            'price_1' => $request->input('price_1'),
-            'price_2' => $request->input('price_2'),
-            'price_3' => $request->input('price_3'),
-            'price_4' => $request->input('price_4'),
-            'price_5' => $request->input('price_5'),
-            'total' => $request->input('total'),
-            'message' => $request->input('message'),
+            'user_id' => auth()->id(),
+            'date' => $validated['date'] ?? null,
+            'page_count' => $validated['page_count'] ?? null,
+            'customer_name' => $validated['customer_name'] ?? null,
+            'to_suffix' => $validated['to_suffix'] ?? null,
+            'customer_address' => $validated['customer_address'] ?? null,
+            'items' => $items,
+            'total' => $validated['total'] ?? 0,
+            'message' => $validated['message'] ?? null,
         ]);
-
+        //dd($invoice->items);
         return redirect()->route('invoice.index')->with('success', '投稿が完了しました');
     }
+
 
     /**
      * Display the specified resource.
@@ -104,9 +95,9 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(\App\Models\Invoice $invoice)
     {
-        //
+        return view('invoice.show', compact('invoice'));
     }
 
     /**
@@ -127,7 +118,13 @@ class InvoiceController extends Controller
         // ログインユーザーの投稿一覧を取得
         $invoices = Invoice::where('user_id', auth()->id())->orderBy('updated_at', 'desc')->paginate(10);
 
-        return view('invoice.edit', compact('invoice', 'invoices'));
+        return view('invoice.edit', [
+            'invoice' => $invoice,
+            'invoices' => $invoices,
+            'items' => $invoice->items ?? [],
+        ]);
+
+        //return view('invoice.edit', compact('invoice', 'invoices'));
     }
 
     /**
@@ -137,9 +134,35 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        $validated = $request->validate([
+            'date' => 'nullable|date',
+            'page_count' => 'nullable|integer|min:1|max:10',
+            'customer_name' => 'nullable|string|max:255',
+            'to_suffix' => 'nullable|string|max:10',
+            'customer_address' => 'nullable|string|max:255',
+            'message' => 'nullable|string|max:500',
+            'items' => 'array',
+            'items.*.name' => 'nullable|string|max:255',
+            'items.*.price' => 'nullable|numeric|min:0',
+            'total' => 'nullable|integer|min:0',
+        ]);
+
+        $filteredItems = collect($validated['items'])->filter(fn($item) => !empty($item['name']) || !empty($item['price']))->values()->all();
+
+        $invoice->update([
+            'date' => $validated['date'],
+            'page_count' => $validated['page_count'],
+            'customer_name' => $validated['customer_name'],
+            'to_suffix' => $validated['to_suffix'],
+            'customer_address' => $validated['customer_address'],
+            'message' => $validated['message'],
+            'items' => $filteredItems,
+            'total' => $validated['total'],
+        ]);
+
+        return redirect()->route('invoice.edit', $invoice)->with('success', '保存しました');
     }
 
     /**
@@ -188,9 +211,9 @@ class InvoiceController extends Controller
         $newInvoice->user_id = auth()->id();
 
         // 
-        $newInvoice->client = $invoice->client . "[コピー]";
+        $newInvoice->customer_name = $invoice->customer_name . "[コピー]";
         $newInvoice->to_suffix = $invoice->to_suffix;
-        $newInvoice->client_address = $invoice->client_address;
+        $newInvoice->customer_address = $invoice->customer_address;
         $newInvoice->date = $invoice->date;
         $newInvoice->page_count = $invoice->page_count;
         $newInvoice->item_1 = $invoice->item_1;
