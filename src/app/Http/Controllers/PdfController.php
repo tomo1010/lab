@@ -42,7 +42,7 @@ class PdfController extends Controller
         } else {
             // 未保存データ（仮のオブジェクトにする）
             $invoice = (object) $request->only([
-                'postal',
+                'company_postal',
                 'customer_name',
                 'to_suffix',
                 'customer_address',
@@ -50,18 +50,19 @@ class PdfController extends Controller
                 'date',
                 'page_count',
                 'total',
-                'registration_number',
+                'company_registration_number',
                 'company_name',
-                'address',
-                'tel',
-                'fax',
+                'company_address',
+                'company_tel',
+                'company_fax',
                 'company_mail',
-                'url',
-                'transfer_1',
-                'transfer_2',
-                'transfer_3',
-                'note',
+                'company_url',
+                'company_transfer_1',
+                'company_transfer_2',
+                'company_transfer_3',
+                'company_note',
             ]);
+
 
             // ✅ 正しいitemsの取り出し方（フォーム構造と一致）
             $items = collect($request->input('items', []))

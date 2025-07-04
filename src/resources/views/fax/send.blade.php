@@ -124,140 +124,16 @@
                     <textarea name="message" class="textarea">日頃よりお世話になっております。</textarea>
                 </div>
 
-                <div class="footer">
-                    <div class="mb-2">発信者情報：</div>
-                    <div class="mb-2">
-                        〒：
-                        <input
-                            type="text"
-                            name="postal"
-                            id="postal"
-                            style="width: 100px;"
-                            class="border rounded px-1"
-                            placeholder="123-4567"
-                            inputmode="numeric"
-                            autocomplete="postal-code">
-                        <input type="text" name="address" id="address" class="input-text mt-1" placeholder="住所を入力してください">
-                        <input type="text" name="name" id="name" class="input-text mt-1" placeholder="名前を入力してください">
-                    </div>
-                    <!-- TEL / FAX -->
-                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
-                        <div class="md:w-1/2 mb-2 md:mb-0">
-                            TEL：
-                            <input
-                                type="tel"
-                                name="tel"
-                                id="tel"
-                                class="border rounded px-1 w-full"
-                                placeholder="090-1234-5678"
-                                inputmode="tel"
-                                autocomplete="tel">
-                        </div>
-                        <div class="md:w-1/2">
-                            FAX：
-                            <input
-                                type="tel"
-                                name="fax"
-                                id="fax"
-                                class="border rounded px-1 w-full"
-                                placeholder="03-1234-5678"
-                                inputmode="tel"
-                                autocomplete="tel">
-                        </div>
-                    </div>
 
-
-                    <!-- E-Mail / URL -->
-                    <div class="mb-2 flex flex-col md:flex-row md:space-x-4">
-                        <div class="md:w-1/2 mb-2 md:mb-0">
-                            E-Mail：
-                            <input
-                                type="email"
-                                name="mail"
-                                id="mail"
-                                class="border rounded px-1 w-full"
-                                placeholder="example@example.com"
-                                autocomplete="email">
-                        </div>
-                        <div class="md:w-1/2">
-                            URL：
-                            <input
-                                type="url"
-                                name="url"
-                                id="url"
-                                class="border rounded px-1 w-full"
-                                placeholder="https://example.com"
-                                autocomplete="url">
-                        </div>
-                    </div>
-
-
-                    <div class="mb-4 mt-2">
-                        <label>
-                            <input type="checkbox" id="save_to_cookie" class="mr-1">
-                            発信者情報を保存しておく
-                        </label>
-                    </div>
-                </div>
+                {{-- 発行者情報 --}}
+                @include('components.company-info')
 
                 <div class="submit-btn">
                     <button type="submit" class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">
                         PDF作成
                     </button>
                 </div>
-            </div>
         </form>
     </div>
-
-
-
-    <script>
-        const fields = ['postal', 'address', 'name', 'tel', 'fax'];
-
-        window.addEventListener('DOMContentLoaded', () => {
-            fields.forEach(field => {
-                const value = getCookie(field);
-                if (value) {
-                    document.getElementById(field).value = value;
-                }
-            });
-
-            if (fields.some(field => getCookie(field))) {
-                document.getElementById('save_to_cookie').checked = true;
-            }
-        });
-
-        document.getElementById('save_to_cookie').addEventListener('change', function() {
-            if (this.checked) {
-                fields.forEach(field => {
-                    const value = document.getElementById(field).value;
-                    setCookie(field, value, 30); // 30日
-                });
-                alert('発信者情報をクッキーに保存しました。');
-            } else {
-                fields.forEach(field => {
-                    deleteCookie(field);
-                });
-                alert('クッキーから発信者情報を削除しました。');
-            }
-        });
-
-        function setCookie(name, value, days) {
-            const expires = new Date(Date.now() + days * 864e5).toUTCString();
-            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
-        }
-
-        function getCookie(name) {
-            return document.cookie.split('; ').reduce((r, v) => {
-                const parts = v.split('=');
-                return parts[0] === name ? decodeURIComponent(parts[1]) : r
-            }, '');
-        }
-
-        function deleteCookie(name) {
-            setCookie(name, '', -1);
-        }
-    </script>
-
 
 </x-app-layout>

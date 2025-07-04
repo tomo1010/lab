@@ -9,37 +9,38 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('postal')->nullable()->after('password');
-            $table->string('address')->nullable()->after('postal');
-            $table->string('company_name')->nullable()->after('address'); // ← 追加
-            $table->string('tel')->nullable()->after('company_name'); // ← 位置調整
-            $table->string('fax')->nullable()->after('tel');
-            $table->string('company_mail')->nullable()->after('fax');
-            $table->string('url')->nullable()->after('company_mail'); // ← 'mail' → 'company_mail' に修正
-            $table->string('registration_number')->nullable()->after('url');
-            $table->string('transfer_1')->nullable()->after('registration_number');
-            $table->string('transfer_2')->nullable()->after('transfer_1');
-            $table->string('transfer_3')->nullable()->after('transfer_2');
-            $table->text('note')->nullable()->after('transfer_3');
+            $table->string('company_postal')->nullable(); // 郵便番号
+            $table->string('company_address')->nullable(); // 住所
+            $table->string('company_name')->nullable(); // 会社名
+            $table->string('company_tel')->nullable(); // 電話番号
+            $table->string('company_fax')->nullable(); // FAX
+            $table->string('company_mail')->nullable(); // メール
+            $table->string('company_url')->nullable(); // ホームページURL
+            $table->string('company_registration_number')->nullable(); // 登録番号（法人番号など）
+            $table->string('company_transfer_1')->nullable(); // 振込先1
+            $table->string('company_transfer_2')->nullable(); // 振込先2
+            $table->string('company_transfer_3')->nullable(); // 振込先3
+            $table->text('company_note')->nullable(); // 備考欄
         });
     }
+
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
-                'postal',
-                'address',
-                'company_name', // ← 追加
-                'tel',
-                'fax',
+                'company_postal',
+                'company_address',
+                'company_name',
+                'company_tel',
+                'company_fax',
                 'company_mail',
-                'url',
-                'registration_number',
-                'transfer_1',
-                'transfer_2',
-                'transfer_3',
-                'note',
+                'company_url',
+                'company_registration_number',
+                'company_transfer_1',
+                'company_transfer_2',
+                'company_transfer_3',
+                'company_note',
             ]);
         });
     }

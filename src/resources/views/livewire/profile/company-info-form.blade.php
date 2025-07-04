@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            請求書に表示される発行者情報を編集できます。
+            各ページに表示される会社情報を編集できます。
         </p>
     </header>
 
@@ -21,23 +21,23 @@
 
         <div class="flex flex-col md:flex-row md:space-x-4">
             <div class="md:w-1/3">
-                <x-input-label for="postal" value="郵便番号" />
-                <x-text-input id="postal" type="text" class="mt-1 block w-full" wire:model.defer="postal" />
+                <x-input-label for="company_postal" value="郵便番号" />
+                <x-text-input id="company_postal" type="text" class="mt-1 block w-full" wire:model.defer="company_postal" />
             </div>
             <div class="md:w-2/3 mt-4 md:mt-0">
-                <x-input-label for="address" value="住所" />
-                <x-text-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="address" />
+                <x-input-label for="company_address" value="住所" />
+                <x-text-input id="company_address" type="text" class="mt-1 block w-full" wire:model.defer="company_address" />
             </div>
         </div>
 
         <div class="flex flex-col md:flex-row md:space-x-4">
             <div class="md:w-1/2">
-                <x-input-label for="tel" value="TEL" />
-                <x-text-input id="tel" type="text" class="mt-1 block w-full" wire:model.defer="tel" />
+                <x-input-label for="company_tel" value="TEL" />
+                <x-text-input id="company_tel" type="text" class="mt-1 block w-full" wire:model.defer="company_tel" />
             </div>
             <div class="md:w-1/2 mt-4 md:mt-0">
-                <x-input-label for="fax" value="FAX" />
-                <x-text-input id="fax" type="text" class="mt-1 block w-full" wire:model.defer="fax" />
+                <x-input-label for="company_fax" value="FAX" />
+                <x-text-input id="company_fax" type="text" class="mt-1 block w-full" wire:model.defer="company_fax" />
             </div>
         </div>
 
@@ -47,25 +47,25 @@
         </div>
 
         <div>
-            <x-input-label for="url" value="URL" />
-            <x-text-input id="url" type="url" class="mt-1 block w-full" wire:model.defer="url" />
+            <x-input-label for="company_url" value="URL" />
+            <x-text-input id="company_url" type="url" class="mt-1 block w-full" wire:model.defer="company_url" />
         </div>
 
         <div>
-            <x-input-label for="registration_number" value="登録番号（インボイス）" />
-            <x-text-input id="registration_number" type="text" class="mt-1 block w-full" wire:model.defer="registration_number" />
+            <x-input-label for="company_registration_number" value="登録番号（インボイス）" />
+            <x-text-input id="company_registration_number" type="text" class="mt-1 block w-full" wire:model.defer="company_registration_number" />
         </div>
 
         <div>
             <x-input-label value="振込先（最大3つ）" />
-            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="transfer_1" />
-            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="transfer_2" />
-            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="transfer_3" />
+            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="company_transfer_1" />
+            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="company_transfer_2" />
+            <x-text-input type="text" class="mt-1 block w-full" wire:model.defer="company_transfer_3" />
         </div>
 
         <div>
-            <x-input-label for="note" value="メモ" />
-            <textarea id="note" rows="4" wire:model.defer="note" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <x-input-label for="company_note" value="メモ" />
+            <textarea id="company_note" rows="4" wire:model.defer="company_note" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
         </div>
 
         <div class="flex items-center gap-4">
@@ -80,7 +80,5 @@
                 class="text-sm text-gray-600">
                 保存されました
             </div>
-
-
         </div>
 </section>

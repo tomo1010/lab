@@ -88,7 +88,7 @@
                     <td>施工年月日：{{ $date }}</td>
                 </tr>
                 <tr>
-                    <td>顧客名：{{ $customer }}</td>
+                    <td>顧客名：{{ $customer_name }}</td>
                     <td>車種：{{ $carName }}</td>
                 </tr>
                 <tr>
@@ -128,7 +128,7 @@
                     <td>施工年月日：{{ $date }}</td>
                 </tr>
                 <tr>
-                    <td>顧客名：{{ $customer }}</td>
+                    <td>顧客名：{{ $customer_name }}</td>
                     <td>車種：{{ $carName }}</td>
                 </tr>
                 <tr>
@@ -147,16 +147,19 @@
         <div class="sender-info-lower">
             <table>
                 <tr>
-                    <td>〒{{ $postal }}<br>{{ $address }}</td>
+                    <td>〒{{ $company_postal }}<br>{{ $company_address }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">{{ $name }}</td>
+                    <td colspan="2">{{ $company_name }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">TEL：{{ $tel }}　FAX：{{ $fax }}<br>
-                        Email：{{ $mail }}　URL：{{ $url }}</td>
+                    <td colspan="2">
+                        TEL：{{ $company_tel }}　FAX：{{ $company_fax }}<br>
+                        Email：{{ $company_mail }}　URL：{{ $company_url }}
+                    </td>
                 </tr>
             </table>
+
         </div>
     </div>
 

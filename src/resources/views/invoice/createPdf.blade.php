@@ -171,35 +171,35 @@
             {{-- 発行者情報 --}}
             <div class="billing">
                 <div>
-                    {!! ($invoice->postal ? '〒' . e($invoice->postal) : '') !!}
-                    {!! $invoice->address ?? '&nbsp;' !!}
+                    {!! ($invoice->company_postal ? '〒' . e($invoice->company_postal) : '') !!}
+                    {!! $invoice->company_address ?? '&nbsp;' !!}
                 </div>
                 <div>{!! $invoice->company_name ?? '&nbsp;' !!}</div>
                 <div>
-                    {!! $invoice->registration_number ? '登録番号: ' . e($invoice->registration_number) : '&nbsp;' !!}
+                    {!! $invoice->company_registration_number ? '登録番号: ' . e($invoice->company_registration_number) : '&nbsp;' !!}
                 </div>
                 <div>
-                    {!! $invoice->tel ? 'TEL:' . e($invoice->tel) : '' !!}
-                    {!! $invoice->fax ? ' FAX:' . e($invoice->fax) : '' !!}
-                    {!! (!$invoice->tel && !$invoice->fax) ? '&nbsp;' : '' !!}
+                    {!! $invoice->company_tel ? 'TEL:' . e($invoice->company_tel) : '' !!}
+                    {!! $invoice->company_fax ? ' FAX:' . e($invoice->company_fax) : '' !!}
+                    {!! (!$invoice->company_tel && !$invoice->company_fax) ? '&nbsp;' : '' !!}
                 </div>
                 <div>
                     {!! $invoice->company_mail ? 'Mail:' . e($invoice->company_mail) : '' !!}
-                    {!! $invoice->url ? ' URL:' . e($invoice->url) : '' !!}
-                    {!! (!$invoice->company_mail && !$invoice->url) ? '&nbsp;' : '' !!}
+                    {!! $invoice->company_url ? ' URL:' . e($invoice->company_url) : '' !!}
+                    {!! (!$invoice->company_mail && !$invoice->company_url) ? '&nbsp;' : '' !!}
                 </div>
                 <div>
-                    {!! $invoice->note ? ' ' . e($invoice->note) : '&nbsp;' !!}
+                    {!! $invoice->company_note ? ' ' . e($invoice->company_note) : '&nbsp;' !!}
                 </div>
             </div>
 
             {{-- 振込先情報 --}}
-            @if (!empty($invoice->transfer_1))
+            @if (!empty($invoice->company_transfer_1))
             <div class="transfer">
                 <strong>【振込先】</strong><br>
-                {!! nl2br(e($invoice->transfer_1)) !!}<br>
-                @if (!empty($invoice->transfer_2)) {!! nl2br(e($invoice->transfer_2)) !!}<br> @endif
-                @if (!empty($invoice->transfer_3)) {!! nl2br(e($invoice->transfer_3)) !!}<br> @endif
+                {!! nl2br(e($invoice->company_transfer_1)) !!}<br>
+                @if (!empty($invoice->company_transfer_2)) {!! nl2br(e($invoice->company_transfer_2)) !!}<br> @endif
+                @if (!empty($invoice->company_transfer_3)) {!! nl2br(e($invoice->company_transfer_3)) !!}<br> @endif
             </div>
             @endif
             @else
@@ -208,6 +208,7 @@
                 発行者情報が存在しません。
             </div>
             @endif
+
         </div>
     </div>
 </body>

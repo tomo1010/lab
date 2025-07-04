@@ -14,16 +14,16 @@
     <div x-show="open" x-transition>
         <div class="mb-2">
             〒：
-            <input type="text" name="postal" id="postal"
+            <input type="text" name="company_postal" id="company_postal"
                 class="w-24 border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="123-4567" inputmode="numeric" autocomplete="postal-code"
-                value="{{ old('postal', auth()->check() ? auth()->user()->postal : '') }}"
+                value="{{ old('company_postal', auth()->check() ? auth()->user()->company_postal : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
 
-            <input type="text" name="address" id="address"
+            <input type="text" name="company_address" id="company_address"
                 class="w-full border rounded px-2 py-1 mt-2 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="住所を入力してください"
-                value="{{ old('address', auth()->check() ? auth()->user()->address : '') }}"
+                value="{{ old('company_address', auth()->check() ? auth()->user()->company_address : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
 
             <input type="text" name="company_name" id="company_name"
@@ -36,19 +36,19 @@
         <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
             <div class="md:w-1/2">
                 TEL：
-                <input type="tel" name="tel" id="tel"
+                <input type="tel" name="company_tel" id="company_tel"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                     placeholder="090-1234-5678" inputmode="tel" autocomplete="tel"
-                    value="{{ old('tel', auth()->check() ? auth()->user()->tel : '') }}"
+                    value="{{ old('company_tel', auth()->check() ? auth()->user()->company_tel : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
 
             <div class="md:w-1/2 mt-2 md:mt-0">
                 FAX：
-                <input type="tel" name="fax" id="fax"
+                <input type="tel" name="company_fax" id="company_fax"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                     placeholder="03-1234-5678" inputmode="tel" autocomplete="tel"
-                    value="{{ old('fax', auth()->check() ? auth()->user()->fax : '') }}"
+                    value="{{ old('company_fax', auth()->check() ? auth()->user()->company_fax : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
         </div>
@@ -65,19 +65,19 @@
 
             <div class="md:w-1/2 mt-2 md:mt-0">
                 URL：
-                <input type="text" name="url" id="url"
+                <input type="text" name="company_url" id="company_url"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                     placeholder="https://example.com" autocomplete="url"
-                    value="{{ old('url', auth()->check() ? auth()->user()->url : '') }}"
+                    value="{{ old('company_url', auth()->check() ? auth()->user()->company_url : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
 
             <div class="md:w-1/2 mt-2 md:mt-0">
                 インボイス番号：
-                <input type="text" name="registration_number" id="registration_number"
+                <input type="text" name="company_registration_number" id="company_registration_number"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                     placeholder="T+13桁"
-                    value="{{ old('registration_number', auth()->check() ? auth()->user()->registration_number : '') }}"
+                    value="{{ old('company_registration_number', auth()->check() ? auth()->user()->company_registration_number : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
         </div>
@@ -85,38 +85,36 @@
         <div class="mb-4">
             <label class="block mb-1">振込先</label>
 
-            <input type="text" name="transfer_1" id="transfer_1"
+            <input type="text" name="company_transfer_1" id="company_transfer_1"
                 class="w-full border rounded px-2 py-1 mb-2 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="○○銀行 ○○支店　普通　口座 1234567"
-                value="{{ old('transfer_1', auth()->check() ? auth()->user()->transfer_1 : '') }}"
+                value="{{ old('company_transfer_1', auth()->check() ? auth()->user()->company_transfer_1 : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
 
-            <input type="text" name="transfer_2" id="transfer_2"
+            <input type="text" name="company_transfer_2" id="company_transfer_2"
                 class="w-full border rounded px-2 py-1 mb-2 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="○○銀行 ○○支店　普通　口座 1234567"
-                value="{{ old('transfer_2', auth()->check() ? auth()->user()->transfer_2 : '') }}"
+                value="{{ old('company_transfer_2', auth()->check() ? auth()->user()->company_transfer_2 : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
 
-            <input type="text" name="transfer_3" id="transfer_3"
+            <input type="text" name="company_transfer_3" id="company_transfer_3"
                 class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="○○銀行 ○○支店　普通　口座 1234567"
-                value="{{ old('transfer_3', auth()->check() ? auth()->user()->transfer_3 : '') }}"
+                value="{{ old('company_transfer_3', auth()->check() ? auth()->user()->company_transfer_3 : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
         </div>
 
         <div class="mb-4">
             <label class="block mb-1">備考</label>
 
-            <input type="text" name="note" id="note"
+            <input type="text" name="company_note" id="company_note"
                 class="w-full border rounded px-2 py-1 mb-2 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
                 placeholder="営業時間など備考欄"
-                value="{{ old('note', auth()->check() ? auth()->user()->note : '') }}"
+                value="{{ old('company_note', auth()->check() ? auth()->user()->company_note : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
         </div>
 
-
         {{-- クッキー保存スクリプト（ゲスト） --}}
-
         @guest
         <div class="mt-4">
             <label class="inline-flex items-center">
@@ -126,7 +124,11 @@
         </div>
 
         <script>
-            const fields = ['postal', 'address', 'company_name', 'tel', 'fax', 'registration_number', 'company_mail', 'url', 'transfer_1', 'transfer_2', 'transfer_3', 'note'];
+            const fields = [
+                'company_postal', 'company_address', 'company_name', 'company_tel', 'company_fax',
+                'company_registration_number', 'company_mail', 'company_url',
+                'company_transfer_1', 'company_transfer_2', 'company_transfer_3', 'company_note'
+            ];
 
             fields.forEach(field => {
                 const input = document.getElementById(field);
@@ -183,9 +185,6 @@
         </script>
         @endguest
 
-
-
     </div>
-
 
 </div>
