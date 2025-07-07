@@ -61,13 +61,26 @@ class TirecalcController extends Controller
         foreach ([1, 2, 3] as $i) {
             $cost = $request->input("item{$i}_cost");
             $quantity = $request->input("item{$i}_quantity");
+
+            // cost が null または空ならスキップ
+            if (is_null($cost) || $cost === '') {
+                continue;
+            }
+
             $items[] = [
                 'label' => "商品{$i}",
                 'cost' => $cost,
                 'quantity' => $quantity,
             ];
         }
-        //dd($request->input('laborItems'));
+
+        // price が null/空文字/0 のものを除外
+        $laborItemsRaw = $request->input('laborItems', []);
+        $laborItems = collect($laborItemsRaw)->filter(function ($item) {
+            $price = $item['price'] ?? null;
+            return !is_null($price) && $price !== '' && $price != 0;
+        })->values()->all();
+        //dd($laborItems);
 
         $data = [
             'items' => $items,
@@ -75,10 +88,10 @@ class TirecalcController extends Controller
             'grossB' => $request->grossB,
             'taxMode' => $request->taxMode,
             'laborTaxMode' => $request->laborTaxMode,
-            'laborItems' => $request->input('laborItems', []),
+            'laborItems' => $laborItems,
             'date' => now()->format('Y-m-d'),
         ];
-        //dd($data);
+        //        dd($data);
         $fileName = "{$data['date']}.pdf";
 
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
