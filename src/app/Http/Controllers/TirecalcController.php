@@ -56,88 +56,32 @@ class TirecalcController extends Controller
 
     public function createPdf(Request $request)
     {
-        // フォームから送信されたデータを受け取る
-        $comment = $request->input('comment');
-        $productData = $request->input('productData'); 
-        $maker1 = $request->input('maker1');
-        $maker2 = $request->input('maker2');
-        $maker3 = $request->input('maker3');
-        $sizeFree = $request->input('sizeFree');
-        $sizeGeneral = $request->input('sizeGeneral');
-        $selectTire = $request->input('selectTire');
-        $address = $request->input('address');
-        $honorific = $request->input('honorific');
+        $items = [];
 
-//dd($productData);        
-
-    // selectTireに応じた画像パスを決定
-    $tireImages = [
-        '夏タイヤ' => 'img/tirecalc/summer.png',
-        '夏タイヤAWセット' => 'img/tirecalc/summerSet.png',
-        '冬タイヤ' => 'public/img/tirecalc/studless.png',
-        '冬タイヤAWセット' => 'public/img/tirecalc/studlessSet.png',
-        'オールシーズンタイヤ' => 'public/img/tirecalc/summer.png',
-        'オールシーズンタイヤAWセット' => 'public/img/tirecalc/summerSet.png',
-    ];
-
-    // 画像パスを取得（未定義の場合はnull）
-    $imagePath = $tireImages[$selectTire] ?? null;
-
-    // "profitTotal" が "0" の要素を削除
-    $productData = array_filter($productData, function ($product) {
-        return isset($product['profitTotal']) && $product['profitTotal'] != 0;
-    });
-
-//dd($productData);
-        // 商品データを整形
-        $formattedProducts = [];
-        foreach ($productData as $key => $product) {
-            $formattedProducts[] = [
-                'productNumber' => $key,
-                'profitTotal' => $product['profitTotal'] ?? 0,
-                'wagesTotal' => $product['wagesTotal'] ?? 0,
-                'taxExcludedTotal' => $product['taxExcludedTotal'] ?? 0,
-                'taxIncludedTotal' => $product['taxIncludedTotal'] ?? 0,
-                'tax' => $product['tax'] ?? 0, // 消費税を追加
+        foreach ([1, 2, 3] as $i) {
+            $cost = $request->input("item{$i}_cost");
+            $quantity = $request->input("item{$i}_quantity");
+            $items[] = [
+                'label' => "商品{$i}",
+                'cost' => $cost,
+                'quantity' => $quantity,
             ];
         }
+        //dd($request->input('laborItems'));
 
-        // 現在日時を取得
-        $now = Carbon::now();
-        // 現在日時を××××-××-××に変換
-        $date = $now->format('Y-m-d');
-
-//dd($formattedProducts);
-        // 印刷設定をデータに追加
         $data = [
-            'products' => $formattedProducts,
-            'makers' => [
-                'maker1' => $maker1,
-                'maker2' => $maker2,
-                'maker3' => $maker3,
-            ],
-            'sizeFree' => $sizeFree,
-            'sizeGeneral' => $sizeGeneral,
-            'selectTire' => $selectTire,
-            'imagePath' => 'file://' . $imagePath, // 画像パスを渡す
-            'comment' => $comment,
-            'address' => $address,
-            'honorific' => $honorific,
-            'date' => $date,
-
+            'items' => $items,
+            'grossA' => $request->grossA,
+            'grossB' => $request->grossB,
+            'taxMode' => $request->taxMode,
+            'laborTaxMode' => $request->laborTaxMode,
+            'laborItems' => $request->input('laborItems', []),
+            'date' => now()->format('Y-m-d'),
         ];
-    
-        // 動的なPDFファイル名を生成
-        $fileName = "{$date}{$address}{$sizeFree}{$sizeGeneral}.pdf";
+        //dd($data);
+        $fileName = "{$data['date']}.pdf";
 
-        // PDF生成とビューにデータを渡す
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
-        
-        // PDFをダウンロード（ファイル名を指定）
         return $pdf->download($fileName);
     }
-    
-    
 }
-
-
