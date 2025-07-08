@@ -90,11 +90,22 @@ class TirecalcController extends Controller
             'laborTaxMode' => $request->laborTaxMode,
             'laborItems' => $laborItems,
             'date' => now()->format('Y-m-d'),
+
+            // PDF印刷・コピー設定
+            'maker1' => $request->input('maker1'),
+            'maker2' => $request->input('maker2'),
+            'maker3' => $request->input('maker3'),
+            'address' => $request->input('address'),
+            'honorific' => $request->input('honorific'),
+            'selectTire' => $request->input('selectTire'),
+            'sizeGeneral' => $request->input('sizeGeneral'),
+            'sizeFree' => $request->input('sizeFree'),
+            'comment' => $request->input('comment'),
         ];
-        //        dd($data);
+        //dd($data);
         $fileName = "{$data['date']}.pdf";
 
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
-        return $pdf->download($fileName);
+        return $pdf->stream($fileName);
     }
 }
