@@ -41,7 +41,6 @@
 
                 <!-- PDF印刷設定フォームの値を送信 -->
 
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">PDF出力</button>
 
 
 
@@ -616,6 +615,10 @@
 
 
         </div>
+
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">PDF出力</button>
+
 
         </form>
 
