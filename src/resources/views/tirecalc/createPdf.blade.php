@@ -76,19 +76,22 @@
         <div class="header">タイヤ御見積書</div>
 
         <div class="section flex">
-            <div>
-                <u>{{ $address ?? '　　　　　' }} {{ $honorific ?? '' }}</u>
-            </div>
             <br>
             <div style="text-align: right;">
-                <strong>発行日:</strong> {{ $date }}
+                発行日: {{ $date }}
             </div>
+            <br>
+
+            <div>
+                <u>{{ $customer_name ?? '　　　　　' }} {{ $honorific ?? '' }}</u>
+            </div>
+
 
         </div>
 
         <div class="section">
-            <p><strong>タイヤ:</strong> {{ $selectTire ?? '' }}</p>
             <p><strong>サイズ:</strong> {{ $sizeFree ?? $sizeGeneral ?? '未指定' }}</p>
+            <p><strong>タイヤ:</strong> {{ $selectTire ?? '' }}</p>
         </div>
 
         @foreach ($items as $item)
@@ -108,15 +111,25 @@
         if ($laborTaxMode === 'excluding') $laborTotal *= 1.1;
 
         $total = $price + $laborTotal;
+
+        // メーカー名取得
+        $maker = null;
+        if ($loop->index === 0) {
+        $maker = $maker1 ?? '';
+        } elseif ($loop->index === 1) {
+        $maker = $maker2 ?? '';
+        } elseif ($loop->index === 2) {
+        $maker = $maker3 ?? '';
+        }
         @endphp
 
         <div class="section">
-            <h4>{{ $item['label'] }}</h4>
+            <h4>{{ $item['label'] }}：{{ $maker }}</h4>
             <table class="summary-table">
                 <thead>
                     <tr>
-                        <th>表示単価</th>
-                        <th>工賃小計</th>
+                        <th>商品</th>
+                        <th>工賃</th>
                         <th>合計</th>
                     </tr>
                 </thead>
