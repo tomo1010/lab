@@ -16,7 +16,7 @@
                 <div>
                     <span class="text-lg font-semibold flex items-center space-x-2">
                         <a href="{{ route("{$routePrefix}.edit", $item->id) }}">
-                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->customer_name }}
+                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->customer_name }}様 {{ $item->item1_cost }}
                         </a>
                     </span>
                     <p class="text-sm text-gray-500">更新日時: {{ $item->updated_at->format('Y-m-d H:i') }}</p>
@@ -24,12 +24,13 @@
 
                 <div class="flex space-x-2">
                     <!-- 編集 -->
+                    <!--
                     <a href="{{ route("{$routePrefix}.edit", $item->id) }}"
                         class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center space-x-2"
                         title="編集">
                         <i class="fas fa-edit"></i>
                     </a>
-
+-->
                     <!-- コピー -->
                     <form action="{{ route("{$routePrefix}.copy", $item->id) }}" method="POST">
                         @csrf

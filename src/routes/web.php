@@ -125,17 +125,7 @@ Route::get('baby/result', [BabyController::class, 'get_rakuten_items'])->name('b
 //Route::post('tire/createPdf', [TireController::class, 'createPdf'])->name('tire.createPdf');
 
 
-/*
-タイヤ計算機
-*/
-//Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.index');
-////Route::get('tirecalc/setPdf', [TirecalcController::class, 'setPdf'])->name('tirecalc.setPdf');
-//Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
 
-Route::middleware(['web'])->group(function () {
-    Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.index');
-    Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
-});
 
 
 /*
@@ -225,3 +215,15 @@ Route::middleware('auth')->group(function () {
     Route::post('invoice/{invoice}/copy', [InvoiceController::class, 'storeCopy'])->name('invoice.copy');
 });
 Route::post('invoice/createPdf', [InvoiceController::class, 'createPdf'])->name('invoice.createPdf');
+
+
+
+/*
+タイヤ計算機
+*/
+Route::get('tirecalc', [TirecalcController::class, 'index'])->name('tirecalc.index');
+Route::middleware('auth')->group(function () {
+    Route::resource('tirecalc', TirecalcController::class)->only(['store', 'destroy', 'edit', 'update', 'show']);
+    Route::post('tirecalc/{tirecalc}/copy', [TirecalcController::class, 'storeCopy'])->name('tirecalc.copy');
+});
+Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
