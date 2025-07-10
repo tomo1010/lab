@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Cashier\Billable;
+use App\Models\Tirecalc;
+
 
 
 class User extends Authenticatable
@@ -96,5 +98,13 @@ class User extends Authenticatable
     public function limit(): int
     {
         return $this->subscribed() ? 10 : 3;
+    }
+
+    /**
+     ** このユーザが所有するタイヤ計算
+     */
+    public function tirecalcs()
+    {
+        return $this->hasMany(Tirecalc::class);
     }
 }
