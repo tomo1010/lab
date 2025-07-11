@@ -266,141 +266,6 @@
 
 
 
-
-
-                <!-- Alpine.js ロジック -->
-                <script>
-                    function taxCalculator() {
-                        return {
-                            taxMode: 'including',
-                            grossA: null,
-                            grossB: null,
-
-                            item1: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item2: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item3: {
-                                cost: null,
-                                quantity: 1
-                            },
-
-                            laborTaxMode: 'excluding',
-
-                            // ✅ 工賃明細：名前入りで初期化
-                            laborItems: [{
-                                    name: '組替えバランス',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '脱着',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '廃棄タイヤ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'バルブ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'ナット',
-                                    price: null,
-                                    quantity: 16
-                                },
-                            ],
-
-                            addLaborItem() {
-                                this.laborItems.push({
-                                    name: '',
-                                    price: 0,
-                                    quantity: 1,
-                                });
-                            },
-
-                            get laborSubtotal() {
-                                const subtotal = this.laborItems.reduce((sum, item) => {
-                                    const price = Number(item.price) || 0;
-                                    const quantity = Number(item.quantity) || 0;
-                                    return sum + (price * quantity);
-                                }, 0);
-
-                                return this.laborTaxMode === 'including' ?
-                                    subtotal :
-                                    Math.round(subtotal * 1.1);
-                            },
-
-                            applyGrossMargin(cost) {
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-                                const safeAdd = isNaN(add) ? 0 : add;
-                                const safeMul = isNaN(mul) ? 1 : mul;
-                                return Math.round((cost + safeAdd) * safeMul);
-                            },
-
-                            displayUnitPrice(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const priceWithProfit = (base + safeAdd) * safeMul;
-
-                                return this.taxMode === 'including' ?
-                                    Math.round(priceWithProfit) :
-                                    Math.round(priceWithProfit * 1.1);
-                            },
-
-
-                            getProfitAmount(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const finalPrice = (base + safeAdd) * safeMul;
-
-                                return Math.round(finalPrice - base);
-                            },
-
-
-
-                            totalPrice(item) {
-                                return this.displayUnitPrice(item) * item.quantity;
-                            },
-
-                            totalWithLabor(item) {
-                                return this.displayUnitPrice(item) + this.laborSubtotal;
-                            }
-
-                        }
-                    }
-                </script>
-
-
-
-
-
-
                 <!-- アコーディオンメニュー -->
                 <div x-data="{ open: false }" class="max-w-4xl mx-auto bg-white rounded-lg p-6 my-6 ">
 
@@ -624,6 +489,8 @@
                 </div>
 
 
+
+
                 {{-- ボタン群 --}}
                 <div class="flex justify-center gap-4 mt-6">
                     {{-- PDFボタン --}}
@@ -643,6 +510,18 @@
                         保存
                     </button>
                     @endauth
+
+
+                    <div x-data="taxCalculator()">
+                        <!-- コピー ボタン -->
+                        <button type="button"
+                            class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700""
+                            @click=" copyToClipboard">
+                            コピー
+                        </button>
+                    </div>
+
+
                 </div>
 
             </form>
@@ -660,5 +539,165 @@
 
         </div>
     </div>
+
+
+
+
+
+
+
+
+    <!-- Alpine.js ロジック -->
+    <script>
+        function taxCalculator() {
+            return {
+                taxMode: 'including',
+                grossA: null,
+                grossB: null,
+
+                item1: {
+                    cost: null,
+                    quantity: 1
+                },
+                item2: {
+                    cost: null,
+                    quantity: 1
+                },
+                item3: {
+                    cost: null,
+                    quantity: 1
+                },
+
+                laborTaxMode: 'excluding',
+
+                laborItems: [{
+                        name: '組替えバランス',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '脱着',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '廃棄タイヤ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'バルブ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'ナット',
+                        price: null,
+                        quantity: 16
+                    },
+                ],
+
+                addLaborItem() {
+                    this.laborItems.push({
+                        name: '',
+                        price: 0,
+                        quantity: 1
+                    });
+                },
+
+                get laborSubtotal() {
+                    const subtotal = this.laborItems.reduce((sum, item) => {
+                        const price = Number(item.price) || 0;
+                        const quantity = Number(item.quantity) || 0;
+                        return sum + (price * quantity);
+                    }, 0);
+                    return this.laborTaxMode === 'including' ? subtotal : Math.round(subtotal * 1.1);
+                },
+
+                applyGrossMargin(cost) {
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = isNaN(add) ? 0 : add;
+                    const safeMul = isNaN(mul) ? 1 : mul;
+                    return Math.round((cost + safeAdd) * safeMul);
+                },
+
+                displayUnitPrice(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const priceWithProfit = (base + safeAdd) * safeMul;
+                    return this.taxMode === 'including' ? Math.round(priceWithProfit) : Math.round(priceWithProfit * 1.1);
+                },
+
+                getProfitAmount(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const finalPrice = (base + safeAdd) * safeMul;
+                    return Math.round(finalPrice - base);
+                },
+
+                totalPrice(item) {
+                    return this.displayUnitPrice(item) * item.quantity;
+                },
+
+                totalWithLabor(item) {
+                    return this.displayUnitPrice(item) + this.laborSubtotal;
+                },
+
+                // クリップボードにコピーする関数
+                async copyToClipboard() {
+
+                    let output = '';
+
+                    const address = document.getElementById('address')?.value || '';
+                    const honorific = document.getElementById('honorific')?.value || '';
+                    output += `■ 宛名\n${address} ${honorific}\n\n`;
+
+                    const selectTire = document.getElementById('selectTire')?.value || '未選択';
+                    output += `■ タイトル\n${selectTire}\n\n`;
+
+                    const sizeGeneral = document.getElementById('sizeGeneral')?.value;
+                    const sizeFree = document.getElementById('sizeFree')?.value;
+                    output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
+
+                    const maker1 = document.getElementById('maker1')?.value || '未選択';
+                    const maker2 = document.getElementById('maker2')?.value || '未選択';
+                    const maker3 = document.getElementById('maker3')?.value || '未選択';
+
+                    output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
+                    output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
+                    output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+
+                    output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+
+                    const comment = document.getElementById('comment')?.value || '';
+                    output += `■ コメント\n${comment.trim()}\n`;
+
+                    try {
+                        await navigator.clipboard.writeText(output);
+                        alert('入力内容をクリップボードにコピーしました！');
+                    } catch (e) {
+                        alert('コピーに失敗しました');
+                    }
+                }
+            };
+        }
+    </script>
+
+
 
 </x-app-layout>

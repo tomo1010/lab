@@ -230,16 +230,14 @@
                         <h3 class="text-lg font-bold mb-2">工賃設定</h3>
 
                         <!-- 税込み/税抜きトグル -->
-                        <div x-data="{ laborTaxMode: 'excluding' }">
-                            <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
-                                税込み
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
-                                税抜き
-                            </label>
-                        </div>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                            税込み
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                            税抜き
+                        </label>
 
                         <!-- 明細行 -->
                         <template x-for="(row, index) in laborItems" :key="index">
@@ -264,141 +262,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-                <!-- Alpine.js ロジック -->
-                <script>
-                    function taxCalculator() {
-                        return {
-                            taxMode: 'including',
-                            grossA: null,
-                            grossB: null,
-
-                            item1: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item2: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item3: {
-                                cost: null,
-                                quantity: 1
-                            },
-
-                            laborTaxMode: 'including',
-
-                            // ✅ 工賃明細：名前入りで初期化
-                            laborItems: [{
-                                    name: '組替えバランス',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '脱着',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '廃棄タイヤ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'バルブ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'ナット',
-                                    price: null,
-                                    quantity: 16
-                                },
-                            ],
-
-                            addLaborItem() {
-                                this.laborItems.push({
-                                    name: '',
-                                    price: 0,
-                                    quantity: 1,
-                                });
-                            },
-
-                            get laborSubtotal() {
-                                const subtotal = this.laborItems.reduce((sum, item) => {
-                                    const price = Number(item.price) || 0;
-                                    const quantity = Number(item.quantity) || 0;
-                                    return sum + (price * quantity);
-                                }, 0);
-
-                                return this.laborTaxMode === 'including' ?
-                                    subtotal :
-                                    Math.round(subtotal * 1.1);
-                            },
-
-                            applyGrossMargin(cost) {
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-                                const safeAdd = isNaN(add) ? 0 : add;
-                                const safeMul = isNaN(mul) ? 1 : mul;
-                                return Math.round((cost + safeAdd) * safeMul);
-                            },
-
-                            displayUnitPrice(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const priceWithProfit = (base + safeAdd) * safeMul;
-
-                                return this.taxMode === 'including' ?
-                                    Math.round(priceWithProfit) :
-                                    Math.round(priceWithProfit * 1.1);
-                            },
-
-
-                            getProfitAmount(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const finalPrice = (base + safeAdd) * safeMul;
-
-                                return Math.round(finalPrice - base);
-                            },
-
-
-
-                            totalPrice(item) {
-                                return this.displayUnitPrice(item) * item.quantity;
-                            },
-
-                            totalWithLabor(item) {
-                                return this.displayUnitPrice(item) + this.laborSubtotal;
-                            }
-
-                        }
-                    }
-                </script>
-
-
 
 
 
@@ -626,6 +489,8 @@
                 </div>
 
 
+
+
                 {{-- ボタン群 --}}
                 <div class="flex justify-center gap-4 mt-6">
                     {{-- PDFボタン --}}
@@ -645,6 +510,18 @@
                         保存
                     </button>
                     @endauth
+
+
+                    <div x-data="taxCalculator()">
+                        <!-- コピー ボタン -->
+                        <button type="button"
+                            class="bg-blue-500 text-white px-4 py-2 rounded"
+                            @click="copyToClipboard">
+                            コピー
+                        </button>
+                    </div>
+
+
                 </div>
 
             </form>
@@ -662,5 +539,145 @@
 
         </div>
     </div>
+
+
+
+
+    <!-- Alpine.js ロジック -->
+    <script>
+        function taxCalculator() {
+            return {
+                taxMode: 'including',
+                grossA: null,
+                grossB: null,
+
+                item1: {
+                    cost: null,
+                    quantity: 1
+                },
+                item2: {
+                    cost: null,
+                    quantity: 1
+                },
+                item3: {
+                    cost: null,
+                    quantity: 1
+                },
+
+                laborTaxMode: 'excluding', //初期設定
+
+                // ✅ 工賃明細：名前入りで初期化
+                laborItems: [{
+                        name: '組替えバランス',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '脱着',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '廃棄タイヤ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'バルブ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'ナット',
+                        price: null,
+                        quantity: 16
+                    },
+                ],
+
+                addLaborItem() {
+                    this.laborItems.push({
+                        name: '',
+                        price: 0,
+                        quantity: 1,
+                    });
+                },
+
+                get laborSubtotal() {
+                    const subtotal = this.laborItems.reduce((sum, item) => {
+                        const price = Number(item.price) || 0;
+                        const quantity = Number(item.quantity) || 0;
+                        return sum + (price * quantity);
+                    }, 0);
+
+                    return this.laborTaxMode === 'including' ?
+                        subtotal :
+                        Math.round(subtotal * 1.1);
+                },
+
+                applyGrossMargin(cost) {
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = isNaN(add) ? 0 : add;
+                    const safeMul = isNaN(mul) ? 1 : mul;
+                    return Math.round((cost + safeAdd) * safeMul);
+                },
+
+                displayUnitPrice(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const priceWithProfit = (base + safeAdd) * safeMul;
+
+                    return this.taxMode === 'including' ?
+                        Math.round(priceWithProfit) :
+                        Math.round(priceWithProfit * 1.1);
+                },
+
+
+                getProfitAmount(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const finalPrice = (base + safeAdd) * safeMul;
+
+                    return Math.round(finalPrice - base);
+                },
+
+
+
+                totalPrice(item) {
+                    return this.displayUnitPrice(item) * item.quantity;
+                },
+
+                totalWithLabor(item) {
+                    return this.displayUnitPrice(item) + this.laborSubtotal;
+                }
+
+            }
+
+
+
+
+        }
+    </script>
+
+
+
+
+
 
 </x-app-layout>
