@@ -152,7 +152,7 @@
 
                         <!-- 合計 -->
                         <div>
-                            <p class="font-bold text-lg">合計：<span x-text="totalWithLabor(item1).toLocaleString()"></span> 円</p>
+                            <p class="font-bold text-lg">合計：<span x-text="totalWithLabor(item2).toLocaleString()"></span> 円</p>
                         </div>
                     </div>
 
@@ -230,7 +230,7 @@
                         <h3 class="text-lg font-bold mb-2">工賃設定</h3>
 
                         <!-- 税込み/税抜きトグル -->
-                        <div>
+                        <div x-data="{ laborTaxMode: 'excluding' }">
                             <label class="inline-flex items-center mr-4">
                                 <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
                                 税込み
@@ -456,63 +456,63 @@
                                 <select name="maker2" id="maker2" class="w-full px-4 py-2 border rounded-lg bg-blue-50">
                                     <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>商品２</option>
                                     <optgroup label="分類">
-                                        <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
-                                        <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
-                                        <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+                                        <option value="国内メーカー" {{ request('maker2') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+                                        <option value="海外メーカー" {{ request('maker2') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+                                        <option value="アジアンタイヤ" {{ request('maker2') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
                                     </optgroup>
                                     <optgroup label="国内メーカー">
-                                        <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-                                        <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
-                                        <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
-                                        <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
-                                        <option value="セーバリング" {{ request('maker1') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
-                                        <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
-                                        <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+                                        <option value="ブリヂストン" {{ request('maker2') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+                                        <option value="ダンロップ" {{ request('maker2') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+                                        <option value="ヨコハマ" {{ request('maker2') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+                                        <option value="トーヨータイヤ" {{ request('maker2') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+                                        <option value="セーバリング" {{ request('maker2') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
+                                        <option value="ファルケン" {{ request('maker2') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+                                        <option value="ニットー" {{ request('maker2') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
                                     </optgroup>
                                     <optgroup label="海外メーカー">
-                                        <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-                                        <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-                                        <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-                                        <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+                                        <option value="グッドイヤー" {{ request('maker2') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+                                        <option value="ミシュラン" {{ request('maker2') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+                                        <option value="ピレリ" {{ request('maker2') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+                                        <option value="コンチネンタル" {{ request('maker2') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
                                     </optgroup>
                                     <optgroup label="アジアンタイヤ">
-                                        <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
-                                        <option value="ハンコック（韓国）" {{ request('maker1') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
-                                        <option value="クムホ（韓国）" {{ request('maker1') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
-                                        <option value="マキシス（台湾）" {{ request('maker1') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
-                                        <option value="ジーテックス（中国）" {{ request('maker1') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
-                                        <option value="トライアングル（中国）" {{ request('maker1') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
+                                        <option value="ナンカン（台湾）" {{ request('maker2') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
+                                        <option value="ハンコック（韓国）" {{ request('maker2') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
+                                        <option value="クムホ（韓国）" {{ request('maker2') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
+                                        <option value="マキシス（台湾）" {{ request('maker2') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
+                                        <option value="ジーテックス（中国）" {{ request('maker2') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
+                                        <option value="トライアングル（中国）" {{ request('maker2') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
                                     </optgroup>
                                 </select>
                                 <select name="maker3" id="maker3" class="w-full px-4 py-2 border rounded-lg bg-yellow-50">
                                     <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>商品３</option>
                                     <optgroup label="分類">
-                                        <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
-                                        <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
-                                        <option value="アジアンタイヤ" {{ request('maker1') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
+                                        <option value="国内メーカー" {{ request('maker3') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
+                                        <option value="海外メーカー" {{ request('maker3') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
+                                        <option value="アジアンタイヤ" {{ request('maker3') == 'アジアンタイヤ' ? 'selected' : '' }}>アジアンタイヤ</option>
                                     </optgroup>
                                     <optgroup label="国内メーカー">
-                                        <option value="ブリヂストン" {{ request('maker1') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
-                                        <option value="ダンロップ" {{ request('maker1') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
-                                        <option value="ヨコハマ" {{ request('maker1') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
-                                        <option value="トーヨータイヤ" {{ request('maker1') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
-                                        <option value="セーバリング" {{ request('maker1') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
-                                        <option value="ファルケン" {{ request('maker1') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
-                                        <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
+                                        <option value="ブリヂストン" {{ request('maker3') == 'ブリヂストン' ? 'selected' : '' }}>ブリヂストン</option>
+                                        <option value="ダンロップ" {{ request('maker3') == 'ダンロップ' ? 'selected' : '' }}>ダンロップ</option>
+                                        <option value="ヨコハマ" {{ request('maker3') == 'ヨコハマ' ? 'selected' : '' }}>ヨコハマ</option>
+                                        <option value="トーヨータイヤ" {{ request('maker3') == 'トーヨータイヤ' ? 'selected' : '' }}>トーヨータイヤ</option>
+                                        <option value="セーバリング" {{ request('maker3') == 'セーバリング' ? 'selected' : '' }}>セーバリング</option>
+                                        <option value="ファルケン" {{ request('maker3') == 'ファルケン' ? 'selected' : '' }}>ファルケン</option>
+                                        <option value="ニットー" {{ request('maker3') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
                                     </optgroup>
                                     <optgroup label="海外メーカー">
-                                        <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-                                        <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-                                        <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-                                        <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+                                        <option value="グッドイヤー" {{ request('maker3') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
+                                        <option value="ミシュラン" {{ request('maker3') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
+                                        <option value="ピレリ" {{ request('maker3') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
+                                        <option value="コンチネンタル" {{ request('maker3') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
                                     </optgroup>
                                     <optgroup label="アジアンタイヤ">
-                                        <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
-                                        <option value="ハンコック（韓国）" {{ request('maker1') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
-                                        <option value="クムホ（韓国）" {{ request('maker1') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
-                                        <option value="マキシス（台湾）" {{ request('maker1') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
-                                        <option value="ジーテックス（中国）" {{ request('maker1') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
-                                        <option value="トライアングル（中国）" {{ request('maker1') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
+                                        <option value="ナンカン（台湾）" {{ request('maker3') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
+                                        <option value="ハンコック（韓国）" {{ request('maker3') == 'ハンコック（韓国）' ? 'selected' : '' }}>ハンコック（韓国）</option>
+                                        <option value="クムホ（韓国）" {{ request('maker3') == 'クムホ（韓国）' ? 'selected' : '' }}>クムホ（韓国）</option>
+                                        <option value="マキシス（台湾）" {{ request('maker3') == 'マキシス（台湾）' ? 'selected' : '' }}>マキシス（台湾）</option>
+                                        <option value="ジーテックス（中国）" {{ request('maker3') == 'ジーテックス（中国）' ? 'selected' : '' }}>ジーテックス（中国）</option>
+                                        <option value="トライアングル（中国）" {{ request('maker3') == 'トライアングル（中国）' ? 'selected' : '' }}>トライアングル（中国）</option>
                                     </optgroup>
                                 </select>
                             </div>

@@ -230,16 +230,14 @@
                         <h3 class="text-lg font-bold mb-2">工賃設定</h3>
 
                         <!-- 税込み/税抜きトグル -->
-                        <div x-data="{ laborTaxMode: 'excluding' }">
-                            <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
-                                税込み
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
-                                税抜き
-                            </label>
-                        </div>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                            税込み
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                            税抜き
+                        </label>
 
                         <!-- 明細行 -->
                         <template x-for="(row, index) in laborItems" :key="index">
@@ -291,7 +289,7 @@
                                 quantity: 1
                             },
 
-                            laborTaxMode: 'including',
+                            laborTaxMode: 'excluding',
 
                             // ✅ 工賃明細：名前入りで初期化
                             laborItems: [{
