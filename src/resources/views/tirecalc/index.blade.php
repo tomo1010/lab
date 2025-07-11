@@ -13,7 +13,7 @@
 
     <div class="py-12">
 
-        <div x-data="taxCalculator()" class="max-w-2xl p-6 bg-white rounded shadow space-y-8">
+        <div x-data="taxCalculator()" class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
 
             <form method="POST" :action="action" x-data="{ action: '{{ route('tirecalc.createPdf') }}' }" id="pdf-form">
 
@@ -53,351 +53,184 @@
 
 
 
+                <div class="p-4 border rounded space-y-6 bg-white mb-4">
 
-
-
-                <!-- 共通設定：税区分 -->
-                <div>
-                    <h2 class="text-xl font-bold mb-2">税区分の選択</h2>
-                    <label class="inline-flex items-center mr-4">
-                        <input type="radio" x-model="taxMode" value="including" class="mr-1">
-                        税込み
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
-                        税抜き
-                    </label>
-                </div>
-
-
-
-
-                <!-- 商品 1 -->
-                <div class="p-4 border rounded space-y-4">
-                    <!-- 商品 1 -->
-                    <div class="p-4 border rounded space-y-4">
-                        <h3 class="text-lg font-semibold">商品 1</h3>
-
-                        <!-- 単価 -->
-                        <div>
-                            <label class="block mb-1 font-bold">単価</label>
-                            <input type="number" x-model.number="item1.cost" min="0" class="w-full border rounded px-2 py-1">
-                        </div>
-
-                        <!-- 数量 -->
-                        <div>
-                            <label class="block mb-1 font-bold">数量</label>
-                            <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1">
-                                <option value="1">1個</option>
-                                <option value="2">2個</option>
-                                <option value="3">3個</option>
-                                <option value="4">4個</option>
-                            </select>
-                        </div>
-
-                        <!-- 表示単価 -->
-                        <div>
-                            <!-- 表示単価 -->
-                            <div>
-                                <p>
-                                    表示単価：
-                                    <span x-text="displayUnitPrice(item1).toLocaleString()"></span> 円
-                                    （粗利 <span x-text="getProfitAmount(item1).toLocaleString()"></span> 円）
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 工賃小計 -->
-                        <div>
-                            <p>工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
-                        </div>
-
-                        <!-- 合計 -->
-                        <div>
-                            <p class="font-bold text-lg">合計：<span x-text="totalWithLabor(item1).toLocaleString()"></span> 円</p>
-                        </div>
-                    </div>
-
-
-                    <!-- 商品 2 -->
-                    <div class="p-4 border rounded space-y-4">
-                        <h3 class="text-lg font-semibold">商品 2</h3>
-
-                        <div>
-                            <label class="block mb-1 font-bold">単価</label>
-                            <input type="number" x-model.number="item2.cost" min="0" class="w-full border rounded px-2 py-1">
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-bold">数量</label>
-                            <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1">
-                                <option value="1">1個</option>
-                                <option value="2">2個</option>
-                                <option value="3">3個</option>
-                                <option value="4">4個</option>
-                            </select>
-                        </div>
-
-                        <!-- 表示単価 -->
-                        <div>
-                            表示単価：
-                            <span x-text="displayUnitPrice(item2).toLocaleString()"></span> 円
-                            （粗利 <span x-text="getProfitAmount(item2).toLocaleString()"></span> 円）
-                        </div>
-
-                        <!-- 工賃小計 -->
-                        <div>
-                            <p>工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
-                        </div>
-
-                        <!-- 合計 -->
-                        <div>
-                            <p class="font-bold text-lg">合計：<span x-text="totalWithLabor(item2).toLocaleString()"></span> 円</p>
-                        </div>
-                    </div>
-
-
-                    <!-- 商品 3 -->
-                    <div class="p-4 border rounded space-y-4">
-                        <h3 class="text-lg font-semibold">商品 3</h3>
-
-                        <!-- 単価 -->
-                        <div>
-                            <label class="block mb-1 font-bold">単価</label>
-                            <input type="number" x-model.number="item3.cost" min="0" class="w-full border rounded px-2 py-1">
-                        </div>
-
-                        <!-- 数量 -->
-                        <div>
-                            <label class="block mb-1 font-bold">数量</label>
-                            <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1">
-                                <option value="1">1個</option>
-                                <option value="2">2個</option>
-                                <option value="3">3個</option>
-                                <option value="4">4個</option>
-                            </select>
-                        </div>
-
-                        <!-- 表示単価 -->
-                        <div>
-                            表示単価：
-                            <span x-text="displayUnitPrice(item3).toLocaleString()"></span> 円
-                            （粗利 <span x-text="getProfitAmount(item3).toLocaleString()"></span> 円）
-                        </div>
-
-                        <!-- 工賃小計 -->
-                        <div>
-                            <p>工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
-                        </div>
-
-                        <!-- 合計 -->
-                        <div>
-                            <p class="font-bold text-lg">合計：<span x-text="totalWithLabor(item3).toLocaleString()"></span> 円</p>
-                        </div>
-                    </div>
-
-
-
-
-                    <!-- 共通設定：粗利 -->
-                    <div class="p-4 border rounded space-y-4">
-                        <div>
-                            <label class="block font-bold mb-1">粗利A（加算）</label>
-                            <select x-model="grossA" class="w-full border rounded px-2 py-1">
-                                <option :value="null">選択してください</option>
-                                <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
-                                    <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
-                                </template>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block font-bold mb-1">粗利B（掛け算）</label>
-                            <!-- 粗利B（掛け算） -->
-                            <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                <option :value="null">選択してください</option>
-                                <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
-                                    <option :value="rate" x-text="rate.toFixed(1)"></option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-
-
-
-                    <!-- ✅ 工賃設定フォーム -->
-                    <div class="space-y-2 border p-4 rounded">
-                        <h3 class="text-lg font-bold mb-2">工賃設定</h3>
-
-                        <!-- 税込み/税抜きトグル -->
-                        <div x-data="{ laborTaxMode: 'excluding' }">
+                    <!-- 消費税選択 -->
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">①原価入力</h2>
                             <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                                <input type="radio" x-model="taxMode" value="including" class="mr-1">
                                 税込み
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
                                 税抜き
                             </label>
-                        </div>
-
-                        <!-- 明細行 -->
-                        <template x-for="(row, index) in laborItems" :key="index">
-                            <div class="grid grid-cols-3 gap-2 mb-2">
-                                <input type="text" x-model="row.name" class="border rounded px-2 py-1" placeholder="項目名">
-                                <input type="number" x-model.number="row.price" min="0" class="border rounded px-2 py-1" placeholder="金額">
-                                <select x-model.number="row.quantity" class="border rounded px-2 py-1">
-                                    <option value="1">1個</option>
-                                    <option value="2">2個</option>
-                                    <option value="3">3個</option>
-                                    <option value="4">4個</option>
-                                </select>
-                            </div>
-                        </template>
-
-                        <!-- 明細追加ボタン -->
-                        <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
-
-                        <!-- 工賃小計 -->
-                        <div class="mt-4 font-bold">
-                            工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
-                        </div>
                     </div>
+
+                    <!-- 商品1 -->
+                    <div class="p-4 border rounded bg-red-50 space-y-3">
+                        <h4 class="text-lg font-semibold">商品 1</h3>
+
+                            <div class="flex gap-4">
+                                <div class="w-[70%]">
+
+                                    <input type="number" x-model.number="item1.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                </div>
+                                <div class="w-[30%]">
+
+                                    <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1">
+                                        <option value="1">1個</option>
+                                        <option value="2">2個</option>
+                                        <option value="3">3個</option>
+                                        <option value="4">4個</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-sm leading-relaxed space-y-1">
+                                <p>
+                                    タイヤ代：<span x-text="displayUnitPrice(item1).toLocaleString()"></span> 円
+                                    （粗利 <span x-text="getProfitAmount(item1).toLocaleString()"></span> 円）
+                                </p>
+                                <p>工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
+                                <p class="font-bold text-base mt-1">合計：<span x-text="totalWithLabor(item1).toLocaleString()"></span> 円</p>
+                            </div>
+                    </div>
+
+                    <!-- 商品2 -->
+                    <div class="p-4 border rounded bg-blue-50 space-y-3">
+                        <h4 class="text-lg font-semibold">商品 2</h3>
+
+                            <div class="flex gap-4">
+                                <div class="w-[70%]">
+
+                                    <input type="number" x-model.number="item2.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                </div>
+                                <div class="w-[30%]">
+
+                                    <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1">
+                                        <option value="1">1個</option>
+                                        <option value="2">2個</option>
+                                        <option value="3">3個</option>
+                                        <option value="4">4個</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-sm leading-relaxed space-y-1">
+                                <p>
+                                    タイヤ代：<span x-text="displayUnitPrice(item2).toLocaleString()"></span> 円
+                                    （粗利 <span x-text="getProfitAmount(item2).toLocaleString()"></span> 円）
+                                </p>
+                                <p>工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
+                                <p class="font-bold text-base mt-1">合計：<span x-text="totalWithLabor(item2).toLocaleString()"></span> 円</p>
+                            </div>
+                    </div>
+
+                    <!-- 商品3 -->
+                    <div class="p-4 border rounded bg-yellow-50 space-y-3">
+                        <h4 class="text-lg font-semibold">商品 3</h3>
+
+                            <div class="flex gap-4">
+                                <div class="w-[70%]">
+
+                                    <input type="number" x-model.number="item3.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                </div>
+                                <div class="w-[30%]">
+
+                                    <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1">
+                                        <option value="1">1個</option>
+                                        <option value="2">2個</option>
+                                        <option value="3">3個</option>
+                                        <option value="4">4個</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-sm leading-relaxed space-y-1">
+                                <p>
+                                    タイヤ代：<span x-text="displayUnitPrice(item3).toLocaleString()"></span> 円
+                                    （粗利 <span x-text="getProfitAmount(item3).toLocaleString()"></span> 円）
+                                </p>
+                                <p>工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
+                                <p class="font-bold text-base mt-1">合計：<span x-text="totalWithLabor(item3).toLocaleString()"></span> 円</p>
+                            </div>
+                    </div>
+
                 </div>
 
 
 
 
 
+                <!-- 共通設定：粗利 -->
+                <div class="p-4 border rounded space-y-4 mb-4">
+                    <h3 class="text-xl font-bold mb-2">②粗利設定</h2>
 
-                <!-- Alpine.js ロジック -->
-                <script>
-                    function taxCalculator() {
-                        return {
-                            taxMode: 'including',
-                            grossA: null,
-                            grossB: null,
+                        <!-- 横並び：粗利A・粗利B -->
+                        <div class="flex gap-4">
+                            <!-- 粗利A（加算） -->
+                            <div class="w-1/2">
+                                <select x-model="grossA" class="w-full border rounded px-2 py-1">
+                                    <option :value="null">粗利A</option>
+                                    <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
+                                        <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
+                                    </template>
+                                </select>
+                            </div>
 
-                            item1: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item2: {
-                                cost: null,
-                                quantity: 1
-                            },
-                            item3: {
-                                cost: null,
-                                quantity: 1
-                            },
-
-                            laborTaxMode: 'including',
-
-                            // ✅ 工賃明細：名前入りで初期化
-                            laborItems: [{
-                                    name: '組替えバランス',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '脱着',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: '廃棄タイヤ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'バルブ',
-                                    price: null,
-                                    quantity: 4
-                                },
-                                {
-                                    name: 'ナット',
-                                    price: null,
-                                    quantity: 16
-                                },
-                            ],
-
-                            addLaborItem() {
-                                this.laborItems.push({
-                                    name: '',
-                                    price: 0,
-                                    quantity: 1,
-                                });
-                            },
-
-                            get laborSubtotal() {
-                                const subtotal = this.laborItems.reduce((sum, item) => {
-                                    const price = Number(item.price) || 0;
-                                    const quantity = Number(item.quantity) || 0;
-                                    return sum + (price * quantity);
-                                }, 0);
-
-                                return this.laborTaxMode === 'including' ?
-                                    subtotal :
-                                    Math.round(subtotal * 1.1);
-                            },
-
-                            applyGrossMargin(cost) {
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-                                const safeAdd = isNaN(add) ? 0 : add;
-                                const safeMul = isNaN(mul) ? 1 : mul;
-                                return Math.round((cost + safeAdd) * safeMul);
-                            },
-
-                            displayUnitPrice(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const priceWithProfit = (base + safeAdd) * safeMul;
-
-                                return this.taxMode === 'including' ?
-                                    Math.round(priceWithProfit) :
-                                    Math.round(priceWithProfit * 1.1);
-                            },
-
-
-                            getProfitAmount(item) {
-                                const cost = Number(item.cost) || 0;
-                                const quantity = Number(item.quantity) || 0;
-                                const base = cost * quantity;
-
-                                const add = parseFloat(this.grossA);
-                                const mul = parseFloat(this.grossB);
-
-                                const safeAdd = !isNaN(add) ? add : 0;
-                                const safeMul = !isNaN(mul) ? mul : 1;
-
-                                const finalPrice = (base + safeAdd) * safeMul;
-
-                                return Math.round(finalPrice - base);
-                            },
+                            <!-- 粗利B（掛け算） -->
+                            <div class="w-1/2">
+                                <select x-model="grossB" class="w-full border rounded px-2 py-1">
+                                    <option :value="null">粗利B</option>
+                                    <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
+                                        <option :value="rate" x-text="rate.toFixed(1)"></option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                </div>
 
 
 
-                            totalPrice(item) {
-                                return this.displayUnitPrice(item) * item.quantity;
-                            },
 
-                            totalWithLabor(item) {
-                                return this.displayUnitPrice(item) + this.laborSubtotal;
-                            }
+                <!-- ✅ 工賃設定フォーム -->
+                <div class="space-y-2 border p-4 rounded">
+                    <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
 
-                        }
-                    }
-                </script>
+                    <!-- 税込み/税抜きトグル -->
+                    <label class="inline-flex items-center mr-4">
+                        <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                        税込み
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                        税抜き
+                    </label>
 
+                    <!-- 明細行（5:3:2 レイアウト） -->
+                    <template x-for="(row, index) in laborItems" :key="index">
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" x-model="row.name" class="w-[50%] border rounded px-2 py-1" placeholder="項目名">
+                            <input type="number" x-model.number="row.price" min="0" class="w-[30%] border rounded px-2 py-1" placeholder="金額">
+                            <select x-model.number="row.quantity" class="w-[20%] border rounded px-2 py-1">
+                                <option value="1">1個</option>
+                                <option value="2">2個</option>
+                                <option value="3">3個</option>
+                                <option value="4">4個</option>
+                            </select>
+                        </div>
+                    </template>
+
+                    <!-- 明細追加ボタン -->
+                    <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
+
+                    <!-- 工賃小計 -->
+                    <div class="mt-4 font-bold">
+                        工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                    </div>
+                </div>
 
 
 
@@ -626,6 +459,8 @@
                 </div>
 
 
+
+
                 {{-- ボタン群 --}}
                 <div class="flex justify-center gap-4 mt-6">
                     {{-- PDFボタン --}}
@@ -645,6 +480,18 @@
                         保存
                     </button>
                     @endauth
+
+
+                    <div x-data="taxCalculator()">
+                        <!-- コピー ボタン -->
+                        <button type="button"
+                            class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700""
+                            @click=" copyToClipboard">
+                            コピー
+                        </button>
+                    </div>
+
+
                 </div>
 
             </form>
@@ -662,5 +509,165 @@
 
         </div>
     </div>
+
+
+
+
+
+
+
+
+    <!-- Alpine.js ロジック -->
+    <script>
+        function taxCalculator() {
+            return {
+                taxMode: 'including',
+                grossA: null,
+                grossB: null,
+
+                item1: {
+                    cost: null,
+                    quantity: 1
+                },
+                item2: {
+                    cost: null,
+                    quantity: 1
+                },
+                item3: {
+                    cost: null,
+                    quantity: 1
+                },
+
+                laborTaxMode: 'excluding',
+
+                laborItems: [{
+                        name: '組替えバランス',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '脱着',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: '廃棄タイヤ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'バルブ',
+                        price: null,
+                        quantity: 4
+                    },
+                    {
+                        name: 'ナット',
+                        price: null,
+                        quantity: 16
+                    },
+                ],
+
+                addLaborItem() {
+                    this.laborItems.push({
+                        name: '',
+                        price: 0,
+                        quantity: 1
+                    });
+                },
+
+                get laborSubtotal() {
+                    const subtotal = this.laborItems.reduce((sum, item) => {
+                        const price = Number(item.price) || 0;
+                        const quantity = Number(item.quantity) || 0;
+                        return sum + (price * quantity);
+                    }, 0);
+                    return this.laborTaxMode === 'including' ? subtotal : Math.round(subtotal * 1.1);
+                },
+
+                applyGrossMargin(cost) {
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = isNaN(add) ? 0 : add;
+                    const safeMul = isNaN(mul) ? 1 : mul;
+                    return Math.round((cost + safeAdd) * safeMul);
+                },
+
+                displayUnitPrice(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const priceWithProfit = (base + safeAdd) * safeMul;
+                    return this.taxMode === 'including' ? Math.round(priceWithProfit) : Math.round(priceWithProfit * 1.1);
+                },
+
+                getProfitAmount(item) {
+                    const cost = Number(item.cost) || 0;
+                    const quantity = Number(item.quantity) || 0;
+                    const base = cost * quantity;
+
+                    const add = parseFloat(this.grossA);
+                    const mul = parseFloat(this.grossB);
+                    const safeAdd = !isNaN(add) ? add : 0;
+                    const safeMul = !isNaN(mul) ? mul : 1;
+
+                    const finalPrice = (base + safeAdd) * safeMul;
+                    return Math.round(finalPrice - base);
+                },
+
+                totalPrice(item) {
+                    return this.displayUnitPrice(item) * item.quantity;
+                },
+
+                totalWithLabor(item) {
+                    return this.displayUnitPrice(item) + this.laborSubtotal;
+                },
+
+                // クリップボードにコピーする関数
+                async copyToClipboard() {
+
+                    let output = '';
+
+                    const address = document.getElementById('address')?.value || '';
+                    const honorific = document.getElementById('honorific')?.value || '';
+                    output += `■ 宛名\n${address} ${honorific}\n\n`;
+
+                    const selectTire = document.getElementById('selectTire')?.value || '未選択';
+                    output += `■ タイトル\n${selectTire}\n\n`;
+
+                    const sizeGeneral = document.getElementById('sizeGeneral')?.value;
+                    const sizeFree = document.getElementById('sizeFree')?.value;
+                    output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
+
+                    const maker1 = document.getElementById('maker1')?.value || '未選択';
+                    const maker2 = document.getElementById('maker2')?.value || '未選択';
+                    const maker3 = document.getElementById('maker3')?.value || '未選択';
+
+                    output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
+                    output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
+                    output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+
+                    output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+
+                    const comment = document.getElementById('comment')?.value || '';
+                    output += `■ コメント\n${comment.trim()}\n`;
+
+                    try {
+                        await navigator.clipboard.writeText(output);
+                        alert('入力内容をクリップボードにコピーしました！');
+                    } catch (e) {
+                        alert('コピーに失敗しました');
+                    }
+                }
+            };
+        }
+    </script>
+
+
 
 </x-app-layout>
