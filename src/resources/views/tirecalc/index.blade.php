@@ -53,27 +53,19 @@
 
 
 
-
-
-
-                <!-- 共通設定：税区分 -->
-                <div>
-                    <h2 class="text-xl font-bold mb-2">税区分の選択</h2>
-                    <label class="inline-flex items-center mr-4">
-                        <input type="radio" x-model="taxMode" value="including" class="mr-1">
-                        税込み
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
-                        税抜き
-                    </label>
-                </div>
-
-
-
-
-                <!-- 商品 1 -->
                 <div class="p-4 border rounded space-y-4">
+                    <!-- 共通設定：税区分 -->
+                    <div>
+                        <h2 class="text-xl font-bold mb-2">原価入力</h2>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" x-model="taxMode" value="including" class="mr-1">
+                            税込み
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
+                            税抜き
+                        </label>
+                    </div>
                     <!-- 商品 1 -->
                     <div class="p-4 border rounded space-y-4">
                         <h3 class="text-lg font-semibold">商品 1</h3>
@@ -196,70 +188,72 @@
                         </div>
                     </div>
 
+                </div>
 
 
 
-                    <!-- 共通設定：粗利 -->
-                    <div class="p-4 border rounded space-y-4">
-                        <div>
-                            <label class="block font-bold mb-1">粗利A（加算）</label>
-                            <select x-model="grossA" class="w-full border rounded px-2 py-1">
-                                <option :value="null">選択してください</option>
-                                <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
-                                    <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
-                                </template>
-                            </select>
-                        </div>
+                <!-- 共通設定：粗利 -->
+                <div class="p-4 border rounded space-y-4">
+                    <h2 class="text-xl font-bold mb-2">粗利設定</h2>
 
-                        <div>
-                            <label class="block font-bold mb-1">粗利B（掛け算）</label>
-                            <!-- 粗利B（掛け算） -->
-                            <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                <option :value="null">選択してください</option>
-                                <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
-                                    <option :value="rate" x-text="rate.toFixed(1)"></option>
-                                </template>
-                            </select>
-                        </div>
+                    <div>
+                        <label class="block font-bold mb-1">粗利A（加算）</label>
+                        <select x-model="grossA" class="w-full border rounded px-2 py-1">
+                            <option :value="null">選択してください</option>
+                            <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
+                                <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
+                            </template>
+                        </select>
                     </div>
 
+                    <div>
+                        <label class="block font-bold mb-1">粗利B（掛け算）</label>
+                        <!-- 粗利B（掛け算） -->
+                        <select x-model="grossB" class="w-full border rounded px-2 py-1">
+                            <option :value="null">選択してください</option>
+                            <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
+                                <option :value="rate" x-text="rate.toFixed(1)"></option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
 
 
-                    <!-- ✅ 工賃設定フォーム -->
-                    <div class="space-y-2 border p-4 rounded">
-                        <h3 class="text-lg font-bold mb-2">工賃設定</h3>
 
-                        <!-- 税込み/税抜きトグル -->
-                        <label class="inline-flex items-center mr-4">
-                            <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
-                            税込み
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
-                            税抜き
-                        </label>
+                <!-- ✅ 工賃設定フォーム -->
+                <div class="space-y-2 border p-4 rounded">
+                    <h3 class="text-lg font-bold mb-2">工賃設定</h3>
 
-                        <!-- 明細行 -->
-                        <template x-for="(row, index) in laborItems" :key="index">
-                            <div class="grid grid-cols-3 gap-2 mb-2">
-                                <input type="text" x-model="row.name" class="border rounded px-2 py-1" placeholder="項目名">
-                                <input type="number" x-model.number="row.price" min="0" class="border rounded px-2 py-1" placeholder="金額">
-                                <select x-model.number="row.quantity" class="border rounded px-2 py-1">
-                                    <option value="1">1個</option>
-                                    <option value="2">2個</option>
-                                    <option value="3">3個</option>
-                                    <option value="4">4個</option>
-                                </select>
-                            </div>
-                        </template>
+                    <!-- 税込み/税抜きトグル -->
+                    <label class="inline-flex items-center mr-4">
+                        <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                        税込み
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                        税抜き
+                    </label>
 
-                        <!-- 明細追加ボタン -->
-                        <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
-
-                        <!-- 工賃小計 -->
-                        <div class="mt-4 font-bold">
-                            工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                    <!-- 明細行 -->
+                    <template x-for="(row, index) in laborItems" :key="index">
+                        <div class="grid grid-cols-3 gap-2 mb-2">
+                            <input type="text" x-model="row.name" class="border rounded px-2 py-1" placeholder="項目名">
+                            <input type="number" x-model.number="row.price" min="0" class="border rounded px-2 py-1" placeholder="金額">
+                            <select x-model.number="row.quantity" class="border rounded px-2 py-1">
+                                <option value="1">1個</option>
+                                <option value="2">2個</option>
+                                <option value="3">3個</option>
+                                <option value="4">4個</option>
+                            </select>
                         </div>
+                    </template>
+
+                    <!-- 明細追加ボタン -->
+                    <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
+
+                    <!-- 工賃小計 -->
+                    <div class="mt-4 font-bold">
+                        工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
                     </div>
                 </div>
 
