@@ -53,9 +53,9 @@
 
 
 
-                <div class="p-4 border rounded space-y-6 bg-white mb-4">
+                <div class="p-4 border rounded space-y-6 bg-white mb-4 p-6">
 
-                    <!-- 消費税選択 -->
+                    <!-- 原価入力 -->
                     <div>
                         <h3 class="text-xl font-bold mb-2">①原価入力</h3>
                         <label class="inline-flex items-center mr-4">
@@ -161,11 +161,8 @@
                 </div>
 
 
-
-
-
                 <!-- 共通設定：粗利 -->
-                <div class="p-4 border rounded space-y-4 mb-4">
+                <div class="p-4 border rounded space-y-4 mb-4 p-6">
                     <h3 class="text-xl font-bold mb-2">②粗利設定</h2>
 
                         <!-- 横並び：粗利A・粗利B -->
@@ -193,23 +190,23 @@
                 </div>
 
 
-
-
                 <!-- ✅ 工賃設定フォーム -->
-                <div class="space-y-2 border p-4 rounded">
-                    <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
-                    <label class="inline-flex items-center mr-4">
-                        <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
-                        税込み
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
-                        税抜き
-                    </label>
+                <div class="space-y-2 border p-6 rounded">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
+                            税込み
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
+                            税抜き
+                        </label>
+                    </div>
 
                     <!-- 明細行（5:3:2 レイアウト） -->
                     <template x-for="(row, index) in laborItems" :key="index">
-                        <div class="flex gap-2 mb-2">
+                        <div class="flex gap-2 mb-3">
                             <input type="text" x-model="row.name" class="w-[50%] border rounded px-2 py-1" placeholder="項目名">
                             <input type="number" x-model.number="row.price" min="0" class="w-[30%] border rounded px-2 py-1" placeholder="金額">
                             <select x-model.number="row.quantity" class="w-[20%] border rounded px-2 py-1">
@@ -235,15 +232,15 @@
 
 
                 <!-- アコーディオンメニュー -->
-                <div x-data="{ open: false }" class="max-w-4xl mx-auto bg-white rounded-lg p-6 my-6 ">
+                <div x-data="{ open: false }" class="mt-6 border-t pt-4">
 
                     <!-- トグル見出し -->
                     <div class="flex items-center justify-between cursor-pointer mb-4" @click="open = !open">
-                        <h2 class="text-2xl font-bold text-gray-800">PDF印刷・コピー設定</h2>
-                        <div class="text-xl">
-                            <span x-show="!open">＋</span>
-                            <span x-show="open">−</span>
-                        </div>
+                        <h3 class="text-lg font-bold text-gray-800">PDF設定・コピー設定</h4>
+                            <div class="text-xl">
+                                <span x-show="!open">＋</span>
+                                <span x-show="open">−</span>
+                            </div>
                     </div>
 
                     <!-- アコーディオン内容 -->
@@ -251,7 +248,7 @@
 
                         <!-- メーカー選択 -->
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">メーカー</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-2">メーカー</h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <select name="maker1" id="maker1" class="w-full px-4 py-2 border rounded-lg bg-red-50">
                                     <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品A</option>
@@ -352,7 +349,7 @@
 
                         <!-- タイトル選択 -->
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">タイトル</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-2">タイトル</h4>
                             <div class="mb-6">
                                 <select name="selectTire" id="selectTire" class="w-full px-4 py-2 border rounded-lg">
                                     <option value="0" {{ request('selectTire') == '' ? 'selected' : '' }}>選択してください</option>
@@ -369,7 +366,7 @@
 
                         <!-- タイヤサイズ選択 -->
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">タイヤサイズ</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-2">タイヤサイズ</h4>
                             <select name="sizeGeneral" id="sizeGeneral" class="w-full px-4 py-2 border rounded-lg">
                                 <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
 
@@ -433,7 +430,7 @@
 
                         <!-- 宛名 -->
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">宛名</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-2">宛名</h4>
                             <div class="flex gap-2">
                                 <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg"
                                     placeholder="宛名を入力">
@@ -446,7 +443,7 @@
 
                         <!-- コメント -->
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-2">コメント</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-2">コメント</h4>
                             <textarea id="comment" name="comment" rows="4" class="w-full px-4 py-2 border rounded-lg">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
                                 </textarea>
                         </div>
@@ -455,6 +452,12 @@
 
 
                 </div>
+
+
+
+
+                {{-- 発行者情報フォーム --}}
+                @include('components.company-info')
 
 
 
