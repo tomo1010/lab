@@ -57,20 +57,20 @@
 
                     <!-- 消費税選択 -->
                     <div>
-                        <h3 class="text-xl font-bold mb-2">①原価入力</h2>
-                            <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="taxMode" value="including" class="mr-1">
-                                税込み
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
-                                税抜き
-                            </label>
+                        <h3 class="text-xl font-bold mb-2">①原価入力</h3>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" x-model="taxMode" value="including" class="mr-1">
+                            税込み
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
+                            税抜き
+                        </label>
                     </div>
 
                     <!-- 商品1 -->
                     <div class="p-4 border rounded bg-red-50 space-y-3">
-                        <h4 class="text-lg font-semibold">商品 1</h3>
+                        <h4 class="text-lg font-semibold">商品 A</h3>
 
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
@@ -100,7 +100,7 @@
 
                     <!-- 商品2 -->
                     <div class="p-4 border rounded bg-blue-50 space-y-3">
-                        <h4 class="text-lg font-semibold">商品 2</h3>
+                        <h4 class="text-lg font-semibold">商品 B</h3>
 
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
@@ -130,7 +130,7 @@
 
                     <!-- 商品3 -->
                     <div class="p-4 border rounded bg-yellow-50 space-y-3">
-                        <h4 class="text-lg font-semibold">商品 3</h3>
+                        <h4 class="text-lg font-semibold">商品 C</h3>
 
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
@@ -173,7 +173,7 @@
                             <!-- 粗利A（加算） -->
                             <div class="w-1/2">
                                 <select x-model="grossA" class="w-full border rounded px-2 py-1">
-                                    <option :value="null">粗利A</option>
+                                    <option :value="null">粗利（加算）</option>
                                     <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
                                         <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
                                     </template>
@@ -183,7 +183,7 @@
                             <!-- 粗利B（掛け算） -->
                             <div class="w-1/2">
                                 <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                    <option :value="null">粗利B</option>
+                                    <option :value="null">粗利（乗算）</option>
                                     <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
                                         <option :value="rate" x-text="rate.toFixed(1)"></option>
                                     </template>
@@ -198,8 +198,6 @@
                 <!-- ✅ 工賃設定フォーム -->
                 <div class="space-y-2 border p-4 rounded">
                     <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
-
-                    <!-- 税込み/税抜きトグル -->
                     <label class="inline-flex items-center mr-4">
                         <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
                         税込み
@@ -256,7 +254,7 @@
                             <h3 class="text-lg font-semibold text-gray-700 mb-2">メーカー</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <select name="maker1" id="maker1" class="w-full px-4 py-2 border rounded-lg bg-red-50">
-                                    <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品１</option>
+                                    <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品A</option>
                                     <optgroup label="分類">
                                         <option value="国内メーカー" {{ request('maker1') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
                                         <option value="海外メーカー" {{ request('maker1') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
@@ -287,7 +285,7 @@
                                     </optgroup>
                                 </select>
                                 <select name="maker2" id="maker2" class="w-full px-4 py-2 border rounded-lg bg-blue-50">
-                                    <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>商品２</option>
+                                    <option value="" {{ request('maker2') == '' ? 'selected' : '' }}>商品B</option>
                                     <optgroup label="分類">
                                         <option value="国内メーカー" {{ request('maker2') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
                                         <option value="海外メーカー" {{ request('maker2') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
@@ -318,7 +316,7 @@
                                     </optgroup>
                                 </select>
                                 <select name="maker3" id="maker3" class="w-full px-4 py-2 border rounded-lg bg-yellow-50">
-                                    <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>商品３</option>
+                                    <option value="" {{ request('maker3') == '' ? 'selected' : '' }}>商品C</option>
                                     <optgroup label="分類">
                                         <option value="国内メーカー" {{ request('maker3') == '国産メーカー' ? 'selected' : '' }}>国産メーカー</option>
                                         <option value="海外メーカー" {{ request('maker3') == '輸入メーカー' ? 'selected' : '' }}>輸入メーカー</option>
