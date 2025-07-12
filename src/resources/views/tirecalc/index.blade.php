@@ -53,10 +53,10 @@
 
 
 
-                <div class="p-4 border rounded space-y-6 bg-white mb-4 p-6">
+                <div class="mt-6 pt-4">
 
                     <!-- 原価入力 -->
-                    <div>
+                    <div class="mb-4">
                         <h3 class="text-xl font-bold mb-2">①原価入力</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="taxMode" value="including" class="mr-1">
@@ -69,7 +69,7 @@
                     </div>
 
                     <!-- 商品1 -->
-                    <div class="p-4 border rounded bg-red-50 space-y-3">
+                    <div class="p-4 border rounded bg-red-50 space-y-3 mb-4">
                         <h4 class="text-lg font-semibold">商品 A</h3>
 
                             <div class="flex gap-4">
@@ -99,7 +99,7 @@
                     </div>
 
                     <!-- 商品2 -->
-                    <div class="p-4 border rounded bg-blue-50 space-y-3">
+                    <div class="p-4 border rounded bg-blue-50 space-y-3 mb-4">
                         <h4 class="text-lg font-semibold">商品 B</h3>
 
                             <div class="flex gap-4">
@@ -118,7 +118,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-sm leading-relaxed space-y-1">
+                            <div class="text-sm leading-relaxed space-y-1 mb-4">
                                 <p>
                                     タイヤ代：<span x-text="displayUnitPrice(item2).toLocaleString()"></span> 円
                                     （粗利 <span x-text="getProfitAmount(item2).toLocaleString()"></span> 円）
@@ -162,7 +162,7 @@
 
 
                 <!-- 共通設定：粗利 -->
-                <div class="p-4 border rounded space-y-4 mb-4 p-6">
+                <div class="mt-6 border-t pt-4">
                     <h3 class="text-xl font-bold mb-2">②粗利設定</h2>
 
                         <!-- 横並び：粗利A・粗利B -->
@@ -191,8 +191,8 @@
 
 
                 <!-- ✅ 工賃設定フォーム -->
-                <div class="space-y-2 border p-6 rounded">
-                    <div class="mb-6">
+                <div class="mt-6 border-t pt-4">
+                    <div class="mb-4">
                         <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
