@@ -68,11 +68,10 @@
 
 
 
+                <div class="mt-6 pt-4">
 
-
-                <!-- 原価入力 -->
-                <div class="p-4 border rounded space-y-6 bg-white mb-4 p-6">
-                    <div>
+                    <!-- 原価入力 -->
+                    <div class="mb-4">
                         <h3 class="text-xl font-bold mb-2">①原価入力</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="taxMode" value="including" class="mr-1">
@@ -86,7 +85,7 @@
 
 
                     <!-- 商品1 -->
-                    <div class="p-4 border rounded bg-red-50 space-y-3">
+                    <div class="p-4 border rounded bg-red-50 space-y-3 mb-4">
                         <h4 class="text-lg font-semibold">商品 A</h4>
 
                         <div class="flex gap-4">
@@ -116,7 +115,7 @@
 
 
                     <!-- 商品2 -->
-                    <div class="p-4 border rounded bg-blue-50 space-y-3">
+                    <div class="p-4 border rounded bg-blue-50 space-y-3 mb-4">
                         <h4 class="text-lg font-semibold">商品 B</h4>
 
                         <div class="flex gap-4">
@@ -145,7 +144,7 @@
 
 
                     <!-- 商品3 -->
-                    <div class="p-4 border rounded bg-yellow-50 space-y-3">
+                    <div class="p-4 border rounded bg-yellow-50 space-y-3 mb-4">
                         <h4 class="text-lg font-semibold">商品 C</h4>
 
                         <div class="flex gap-4">
@@ -170,14 +169,13 @@
                             <p>工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円</p>
                             <p class="font-bold text-base mt-1">合計：<span x-text="totalWithLabor(item3).toLocaleString()"></span> 円</p>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
 
 
-
                 <!-- 共通設定：粗利 -->
-                <div class="p-4 border rounded space-y-4 mb-4 p-6">
+                <div class="mt-6 border-t pt-4">
                     <h3 class="text-xl font-bold mb-2">②粗利設定</h3>
 
                     <!-- 横並び：粗利A・粗利B -->
@@ -208,7 +206,7 @@
 
 
                 <!-- ✅ 工賃設定フォーム -->
-                <div class="space-y-2 border p-6 rounded">
+                <div class="mt-6 border-t pt-4">
                     <div class="mb-6">
                         <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
                         <label class="inline-flex items-center mr-4">
@@ -237,10 +235,9 @@
 
                     <!-- 明細追加ボタン -->
                     <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
-
                     <!-- 工賃小計 -->
-                    <div class="mt-4 font-bold">
-                        工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                    <div class="mt-1 font-bold text-right text-gray-500">
+                        工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
                     </div>
                 </div>
 
@@ -650,7 +647,7 @@
                         type="submit"
                         @click="action = '{{ route('tirecalc.store') }}'"
                         class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-                        保存
+                        更新
                     </button>
                     @endauth
                 </div>

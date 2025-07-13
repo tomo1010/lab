@@ -222,8 +222,8 @@
                     <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
 
                     <!-- 工賃小計 -->
-                    <div class="mt-4 font-bold">
-                        工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                    <div class="mt-1 font-bold text-right text-gray-500">
+                        工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
                     </div>
                 </div>
 
