@@ -26,6 +26,8 @@
             <form method="POST" :action="action" x-data="{ action: '{{ route('tirecalc.createPdf') }}' }" id="pdf-form">
 
                 @csrf
+                <input type="hidden" name="_method" value="PUT">
+
                 <input type="hidden" name="view" value="tirecalc.createPdf">
 
 
@@ -645,8 +647,10 @@
                     {{-- 保存ボタン（ログインユーザーのみ） --}}
                     <button
                         type="submit"
-                        @click="action = '{{ route('tirecalc.store') }}'"
-                        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                        @click="
+            actionUrl = '{{ route('tirecalc.update', $tirecalc->id) }}';
+            $el.form.target = '_self';"
+                        class=" bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                         更新
                     </button>
                     @endauth

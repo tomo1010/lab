@@ -142,7 +142,8 @@
                 </tbody>
             </table>
 
-            @if (count($laborItems))
+            {{-- ✅ 工賃内訳はループの最後のときだけ表示 --}}
+            @if ($loop->last && count($laborItems))
             <div class="mt-2"><strong>工賃内訳</strong></div>
             <table class="labor-table">
                 <thead>
@@ -166,8 +167,13 @@
                     </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="right">工賃合計（税込）</td>
+                        <td><strong>{{ number_format($laborTotal) }} 円</strong></td>
+                    </tr>
+                </tfoot>
             </table>
-
             @endif
         </div>
         @endforeach
@@ -179,7 +185,22 @@
         <div class="section right" style="font-size: 10px;">
             ※見積もり有効期限は発行から１週間です
         </div>
-    </div>
+        <div class="section" style="font-size: 10px; line-height: 1.4;">
+            <strong>会社情報：</strong><br>
+            {{ $company_name ?? '' }}<br>
+            {{ $company_postal ?? '' }} {{ $company_address ?? '' }}<br>
+            TEL:{{ $company_tel ?? '' }} FAX:{{ $company_fax ?? '' }}<br>
+            Email:{{ $company_email ?? '' }} URL:{{ $company_url ?? '' }}<br>
+            登録番号:{{ $company_registration_number ?? '' }}<br>
+            <br>
+            ■ 振込先<br>
+            {{ $company_transfer_1 ?? '' }}<br>
+            {{ $company_transfer_2 ?? '' }}<br>
+            {{ $company_transfer_3 ?? '' }}<br>
+            <br>
+            {{ $company_note ?? '' }}
+        </div>
+
 </body>
 
 </html>
