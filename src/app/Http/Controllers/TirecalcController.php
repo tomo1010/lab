@@ -115,6 +115,21 @@ class TirecalcController extends Controller
             'sizeGeneral' => $request->input('sizeGeneral'),
             'sizeFree' => $request->input('sizeFree'),
             'comment' => $request->input('comment'),
+
+            //会社情報
+            'company_postal' => $request->input('company_postal'),
+            'company_address' => $request->input('company_address'),
+            'company_name' => $request->input('company_name'),
+            'company_tel' => $request->input('company_tel'),
+            'company_fax' => $request->input('company_fax'),
+            'company_email' => $request->input('company_mail'),
+            'company_url' => $request->input('company_url'),
+            'company_registration_number' => $request->input('company_registration_number'),
+            'company_transfer_1' => $request->input('company_transfer_1'),
+            'company_transfer_2' => $request->input('company_transfer_2'),
+            'company_transfer_3' => $request->input('company_transfer_3'),
+            'company_note' => $request->input('company_note'),
+
         ];
         //dd($data);
         $fileName = "{$data['date']}.pdf";
@@ -262,6 +277,7 @@ class TirecalcController extends Controller
             'taxMode' => 'nullable|string',
             'laborTaxMode' => 'nullable|string',
             'laborItems' => 'nullable|array',
+            //PDF印刷・コピー設定
             'maker1' => 'nullable|string',
             'maker2' => 'nullable|string',
             'maker3' => 'nullable|string',

@@ -222,8 +222,8 @@
                     <button type="button" @click="addLaborItem()" class="text-blue-600 text-sm">＋ 明細を追加</button>
 
                     <!-- 工賃小計 -->
-                    <div class="mt-4 font-bold">
-                        工賃小計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                    <div class="mt-1 font-bold text-right text-gray-500">
+                        工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
                     </div>
                 </div>
 
@@ -432,7 +432,7 @@
                         <div class="mb-6">
                             <h4 class="text-lg font-semibold text-gray-700 mb-2">宛名</h4>
                             <div class="flex gap-2">
-                                <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg"
+                                <input type="text" name="customer_name" id="customer_name" class="w-full px-4 py-2 border rounded-lg"
                                     placeholder="宛名を入力">
                                 <select name="honorific" id="honorific" class="px-4 py-2 border rounded-lg">
                                     <option value="様">様</option>
@@ -634,9 +634,9 @@
 
                     let output = '';
 
-                    const address = document.getElementById('address')?.value || '';
+                    const customer_name = document.getElementById('customer_name')?.value || '';
                     const honorific = document.getElementById('honorific')?.value || '';
-                    output += `■ 宛名\n${address} ${honorific}\n\n`;
+                    output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
 
                     const selectTire = document.getElementById('selectTire')?.value || '未選択';
                     output += `■ タイトル\n${selectTire}\n\n`;
