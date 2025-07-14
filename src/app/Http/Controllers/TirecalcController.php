@@ -289,7 +289,10 @@ class TirecalcController extends Controller
             'comment' => 'nullable|string',
         ]);
 
-        $filteredItems = collect($validated['items'])->filter(fn($item) => !empty($item['name']) || !empty($item['price']))->values()->all();
+        $filteredItems = collect($validated['laborItems'] ?? [])
+            ->filter(fn($item) => !empty($item['name']) || !empty($item['price']))
+            ->values()
+            ->all();
 
         $tirecalc->update([
             'item1_cost' => $validated['item1_cost'],

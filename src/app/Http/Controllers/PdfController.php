@@ -84,5 +84,6 @@ class PdfController extends Controller
         $filename = class_basename(str_replace('.', '_', $view)) . '_' . $data['date'] . '.pdf';
 
         return $pdf->stream($filename);
+        //return $pdf->download($filename);
     }
 }

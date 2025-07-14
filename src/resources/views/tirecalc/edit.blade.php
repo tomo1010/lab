@@ -12,25 +12,18 @@
     @endif
 
     <div class="py-12">
-        <!--
-        <div x-data='taxCalculator({
-    item1_cost: {{ $tirecalc->item1_cost ?? 0 }},
-    item1_quantity: {{ $tirecalc->item1_quantity ?? 1 }}
-})' class="max-w-2xl p-6 bg-white rounded shadow space-y-8">
--->
 
         <div x-data='taxCalculator(@json($tirecalc))' class=" max-w-2xl p-6 bg-white rounded shadow space-y-8">
 
-
-
-            <form method="POST" :action="action" x-data="{ action: '{{ route('tirecalc.createPdf') }}' }" id="pdf-form">
-
+            <form
+                x-data="formHandler('{{ route('tirecalc.update', $tirecalc->id) }}')"
+                :action="actionUrl"
+                method="POST"
+                x-ref="form">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">
-
-                <input type="hidden" name="view" value="tirecalc.createPdf">
 
 
+                <!-- 商品情報 -->
                 <input type="hidden" name="item1_cost" :value="item1.cost">
                 <input type="hidden" name="item1_quantity" :value="item1.quantity">
                 <input type="hidden" name="item2_cost" :value="item2.cost">
@@ -38,7 +31,6 @@
                 <input type="hidden" name="item3_cost" :value="item3.cost">
                 <input type="hidden" name="item3_quantity" :value="item3.quantity">
 
-                <!-- 粗利A/B、工賃税モードなども同様に送信 -->
                 <template x-for="(item, i) in laborItems" :key="i">
                     <div>
                         <input type="hidden" :name="`laborItems[${i}][name]`" :value="item.name">
@@ -47,27 +39,21 @@
                     </div>
                 </template>
 
-
                 <input type="hidden" name="grossA" :value="grossA">
                 <input type="hidden" name="grossB" :value="grossB">
                 <input type="hidden" name="taxMode" :value="taxMode">
                 <input type="hidden" name="laborTaxMode" :value="laborTaxMode">
-
                 <input type="hidden" name="laborSubtotal" :value="laborSubtotal">
                 <input type="hidden" name="totalWithLabor1" :value="totalWithLabor(item1)">
                 <input type="hidden" name="totalWithLabor2" :value="totalWithLabor(item2)">
                 <input type="hidden" name="totalWithLabor3" :value="totalWithLabor(item3)">
 
-                <!-- PDF印刷設定フォームの値を送信 -->
+                <!-- Laravel用の隠し _method フィールド -->
+                <template x-if="method === 'PUT'">
+                    <input type="hidden" name="_method" value="PUT">
+                </template>
 
-
-
-
-
-
-
-
-
+                <input type="hidden" name="view" value="tirecalc.createPdf">
 
 
                 <div class="mt-6 pt-4">
@@ -88,7 +74,6 @@
 
                     <!-- 商品1 -->
                     <div class="p-4 border rounded bg-red-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 A</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
@@ -118,7 +103,6 @@
 
                     <!-- 商品2 -->
                     <div class="p-4 border rounded bg-blue-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 B</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
@@ -147,7 +131,6 @@
 
                     <!-- 商品3 -->
                     <div class="p-4 border rounded bg-yellow-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 C</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
@@ -635,28 +618,45 @@
 
                 {{-- ボタン群 --}}
                 <div class="flex justify-center gap-4 mt-6">
-                    {{-- PDFボタン --}}
-                    <button
-                        type="submit"
-                        @click="action = '{{ route('tirecalc.createPdf') }}'"
+                    <!-- ✅ PDF作成ボタン -->
+                    <button type="submit"
+                        @click.prevent="submitAsPdf"
                         class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                         PDF作成
                     </button>
 
-                    @auth
-                    {{-- 保存ボタン（ログインユーザーのみ） --}}
-                    <button
-                        type="submit"
-                        @click="
-            actionUrl = '{{ route('tirecalc.update', $tirecalc->id) }}';
-            $el.form.target = '_self';"
-                        class=" bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                    <!-- ✅ 保存（更新）ボタン -->
+                    <button type="submit"
+                        @click.prevent="submitAsUpdate"
+                        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                         更新
                     </button>
-                    @endauth
                 </div>
 
             </form>
+
+
+            <script>
+                function formHandler(defaultAction) {
+                    return {
+                        actionUrl: defaultAction, // 初期状態は「保存ルート」
+                        method: 'PUT',
+
+                        submitAsPdf() {
+                            this.actionUrl = '{{ route('tirecalc.createPdf') }}';
+                            this.method = 'POST';
+                            this.$nextTick(() => this.$refs.form.submit());
+                        },
+
+                        submitAsUpdate() {
+                            this.actionUrl = '{{ route('tirecalc.update', $tirecalc->id) }}';
+                            this.method = 'PUT';
+                            this.$nextTick(() => this.$refs.form.submit());
+                        }
+                    }
+                }
+            </script>
+
 
 
             {{-- 保存済み一覧 --}}
