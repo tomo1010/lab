@@ -74,7 +74,6 @@
 
                     <!-- 商品1 -->
                     <div class="p-4 border rounded bg-red-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 A</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
@@ -104,7 +103,6 @@
 
                     <!-- 商品2 -->
                     <div class="p-4 border rounded bg-blue-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 B</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
@@ -133,7 +131,6 @@
 
                     <!-- 商品3 -->
                     <div class="p-4 border rounded bg-yellow-50 space-y-3 mb-4">
-                        <h4 class="text-lg font-semibold">商品 C</h4>
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
