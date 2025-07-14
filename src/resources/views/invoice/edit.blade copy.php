@@ -12,16 +12,9 @@
     <div class="max-w-4xl mx-auto mt-6">
 
         {{-- PDF作成フォーム --}}
-        <form
-            x-data="formHandler('{{ route('invoice.update', $invoice->id) }}')"
-            :action="actionUrl"
-            method="POST"
-            x-ref="form">
+        <form method="POST" id="sharedForm" x-data="{ actionUrl: '{{ route('invoice.update', $invoice->id) }}' }" :action="actionUrl" target="_self">
             @csrf
-            <!-- Laravel用の隠し _method フィールド -->
-            <template x-if="method === 'PUT'">
-                <input type="hidden" name="_method" value="PUT">
-            </template>
+            <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="view" value="invoice.createPdf">
 
 
@@ -111,46 +104,31 @@
                 @include('components.company-info')
 
                 <div class="flex justify-center gap-4 mt-6">
-                    <!-- ✅ PDF作成ボタン -->
-                    <button type="submit"
-                        @click.prevent="submitAsPdf"
+                    {{-- PDFボタン（POST） --}}
+                    <button
+                        type="submit"
+                        @click="
+            actionUrl = '{{ route('pdf.generatePdf') }}';
+            $el.form.method = 'POST';
+            $el.form.querySelector('input[name=_method]')?.remove();
+        "
                         class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                         PDF作成
                     </button>
 
-                    <!-- ✅ 保存（更新）ボタン -->
-                    <button type="submit"
-                        @click.prevent="submitAsUpdate"
+                    {{-- 保存ボタン（PUT） --}}
+                    <button
+                        type="submit"
+                        @click="
+            actionUrl = '{{ route('invoice.update', $invoice->id) }}';
+            $el.form.target = '_self';
+        "
                         class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                         更新
                     </button>
                 </div>
             </div>
         </form>
-
-
-
-        <script>
-            
-            function formHandler(defaultAction) {
-                return {
-                    actionUrl: defaultAction, // 初期状態は「保存ルート」
-                    method: 'PUT',
-
-                    submitAsPdf() {
-                        this.actionUrl = '{{ route('pdf.generatePdf') }}';
-                        this.method = 'POST';
-                        this.$nextTick(() => this.$refs.form.submit());
-                    },
-
-                    submitAsUpdate() {
-                        this.actionUrl = '{{ route('invoice.update', $invoice->id) }}';
-                        this.method = 'PUT';
-                        this.$nextTick(() => this.$refs.form.submit());
-                    }
-                }
-            }
-        </script>
 
 
 
