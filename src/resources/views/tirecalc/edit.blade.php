@@ -12,9 +12,8 @@
     @endif
 
     <div class="py-12">
-
-        <div x-data='taxCalculator(@json($tirecalc))' class=" max-w-2xl p-6 bg-white rounded shadow space-y-8">
-
+        <div x-data='taxCalculator(@json($tirecalc))' class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
+<h3 class="text-2xl font-bold text-center mb-2">編集</h3>
             <form
                 x-data="formHandler('{{ route('tirecalc.update', $tirecalc->id) }}')"
                 :action="actionUrl"
@@ -56,11 +55,11 @@
                 <input type="hidden" name="view" value="tirecalc.createPdf">
 
 
-                <div class="mt-6 pt-4">
+                <div class="mt-1 pt-2">
 
                     <!-- 原価入力 -->
                     <div class="mb-4">
-                        <h3 class="text-xl font-bold mb-2">①原価入力</h3>
+                        <h3 class="text-xl font-bold mb-1">①原価入力</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="taxMode" value="including" class="mr-1">
                             税込み
@@ -77,7 +76,7 @@
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
-                                <input type="number" x-model.number="item1.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                <input type="number" x-model.number="item1.cost" min="0" placeholder="商品Aの原価" class="w-full border rounded px-2 py-1">
                             </div>
                             <div class="w-[30%]">
                                 <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1">
@@ -106,7 +105,7 @@
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
-                                <input type="number" x-model.number="item2.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                <input type="number" x-model.number="item2.cost" min="0" placeholder="商品Bの原価" class="w-full border rounded px-2 py-1">
                             </div>
                             <div class="w-[30%]">
                                 <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1">
@@ -134,7 +133,7 @@
 
                         <div class="flex gap-4">
                             <div class="w-[70%]">
-                                <input type="number" x-model.number="item3.cost" min="0" placeholder="原価を入力" class="w-full border rounded px-2 py-1">
+                                <input type="number" x-model.number="item3.cost" min="0" placeholder="商品Cの原価" class="w-full border rounded px-2 py-1">
                             </div>
                             <div class="w-[30%]">
                                 <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1">
