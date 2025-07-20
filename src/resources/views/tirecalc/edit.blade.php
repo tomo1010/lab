@@ -13,7 +13,7 @@
 
     <div class="py-12">
         <div x-data='taxCalculator(@json($tirecalc))' class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
-<h3 class="text-2xl font-bold text-center mb-2">編集</h3>
+            <h3 class="text-2xl font-bold text-center mb-2">編集</h3>
             <form
                 x-data="formHandler('{{ route('tirecalc.update', $tirecalc->id) }}')"
                 :action="actionUrl"
@@ -374,7 +374,7 @@
 
 
                 <!-- アコーディオンメニュー -->
-                <div x-data="{ open: false }" class="mt-6 border-t pt-4">
+                <div x-data="{ open: true }" class="mt-6 border-t pt-4">
 
                     <!-- トグル見出し -->
                     <div class="flex items-center justify-between cursor-pointer mb-4" @click="open = !open">
@@ -623,6 +623,15 @@
                         class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                         PDF作成
                     </button>
+
+                    <!-- コピー ボタン -->
+                    <div x-data="taxCalculator()">
+                        <button type="button"
+                            class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
+                        @click=" copyToClipboard">
+                            コピー
+                        </button>
+                    </div>
 
                     <!-- ✅ 保存（更新）ボタン -->
                     <button type="submit"

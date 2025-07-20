@@ -233,7 +233,7 @@ class TirecalcController extends Controller
         $newTirecalc->selectTire = $tirecalc->selectTire;
         $newTirecalc->sizeGeneral = $tirecalc->sizeGeneral;
         $newTirecalc->sizeFree = $tirecalc->sizeFree;
-        $newTirecalc->customer_name = $tirecalc->customer_name;
+        $newTirecalc->customer_name = $tirecalc->customer_name . "[コピー]";
         $newTirecalc->honorific = $tirecalc->honorific;
         $newTirecalc->comment = $tirecalc->comment;
 

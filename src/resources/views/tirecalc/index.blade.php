@@ -15,7 +15,7 @@
         <div x-data="{ showLoginModal: false }">
 
             <div x-data="taxCalculator()" class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
-<h3 class="text-2xl font-bold text-center mb-2">新規</h3>
+                <h3 class="text-2xl font-bold text-center mb-2">新規</h3>
 
                 <form method="POST" :action="action" x-data="{ action: '{{ route('tirecalc.createPdf') }}' }" id="pdf-form">
 
@@ -475,7 +475,7 @@
                         <!-- コピー ボタン -->
                         <div x-data="taxCalculator()">
                             <button type="button"
-                                class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700""
+                                class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
                             @click=" copyToClipboard">
                                 コピー
                             </button>
