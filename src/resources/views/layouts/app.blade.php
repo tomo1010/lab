@@ -24,7 +24,7 @@
         crossorigin="anonymous"></script>
 
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'クルマ屋ラボ') }}</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
