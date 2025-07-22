@@ -13,7 +13,7 @@
                                 '画像' => '<img src="' . asset('img/' . $car->year . '/180/' . $car->maker_kana . '/' . $car->model . '.jpg') . '" alt="' . $car->maker . $car->name . '">',
                                 'メーカー' => $car->maker,
                                 '車名' => $car->name,
-                                '発売日' => $car->release->format('Y年m月') . '〜',
+                                '発売日' => $car->release . '〜',
                                 'グレード' => $car->grade,
                                 '価格' => $car->price . '万円〜',
                                 '型式' => $car->model,
