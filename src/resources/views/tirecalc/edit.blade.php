@@ -1,7 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            タイヤ計算機
+            <a href="{{ route('tirecalc.index') }}">
+                タイヤ計算機
+            </a>
         </h2>
     </x-slot>
 
@@ -13,7 +15,7 @@
 
     <div class="py-12">
         <div x-data='taxCalculator(@json($tirecalc))' class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
-            <h3 class="text-2xl font-bold text-center mb-2">編集</h3>
+
             <form
                 x-data="formHandler('{{ route('tirecalc.update', $tirecalc->id) }}')"
                 :action="actionUrl"

@@ -227,3 +227,11 @@ Route::middleware('auth')->group(function () {
     Route::post('tirecalc/{tirecalc}/copy', [TirecalcController::class, 'storeCopy'])->name('tirecalc.copy');
 });
 Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->name('tirecalc.createPdf');
+
+
+/*
+モーダルログインからのリダイレクト先
+*/
+Route::post('/store-intended', function (\Illuminate\Http\Request $request) {
+    session(['url.intended' => $request->input('intended')]);
+})->name('store.intended');
