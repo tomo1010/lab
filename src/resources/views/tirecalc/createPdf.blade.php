@@ -2,149 +2,228 @@
 <html>
 
 <head>
-    <title>タイヤ御見積書</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>御見積書</title>
     <style>
+        /* 日本語フォントの設定 (laravel-mpdfで日本語を表示させるための重要設定) 
         body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
+            font-family: 'ipaexg', 'ipag', 'sans-serif';
+            font-size: 10pt;
+            color: #333;
+        }*/
 
-        @page {
-            margin: 20px;
-        }
-
+        /* 全体を囲うコンテナ */
         .container {
             width: 100%;
-            padding: 10px;
         }
 
-        .header {
-            background-color: #d82c2c;
-            color: white;
-            padding: 10px;
-            font-size: 16px;
+        /* 汎用スタイル */
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .font-weight-bold {
             font-weight: bold;
         }
 
-        .section {
-            margin-bottom: 20px;
+        .mt-1 {
+            margin-top: 4px;
         }
 
-        .info-table,
-        .summary-table,
-        .labor-table {
+        .mt-2 {
+            margin-top: 8px;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+
+        .p-2 {
+            padding: 8px;
+        }
+
+        .border {
+            border: 1px solid #ccc;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        /* ヘッダー */
+        .header-title {
+            font-size: 20pt;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #333;
+        }
+
+        /* 宛名・発行者情報 */
+        .info-table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .info-table td {
+            vertical-align: top;
+            padding: 5px;
+        }
+
+        .customer-name {
+            font-size: 14pt;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* 明細表 */
+        .summary-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
-        .info-table td,
         .summary-table th,
-        .summary-table td,
-        .labor-table th,
-        .labor-table td {
-            border: none;
-            padding: 6px;
+        .summary-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
             text-align: center;
         }
 
         .summary-table th {
-            background-color: #f0f0f0;
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .summary-table .item-name {
+            text-align: left;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #d82c2c;
+        }
+
+        /* 工賃内訳 */
+        .labor-table {
+            width: 70%;
+            /* 少し小さく見せる */
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-left: auto;
+            /* 右寄せ */
+        }
+
+        .labor-table th,
+        .labor-table td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+            font-size: 9pt;
         }
 
         .labor-table th {
             background-color: #fafafa;
         }
 
-        .highlight {
-            color: #d82c2c;
-            font-weight: bold;
+        .labor-table .labor-name {
+            text-align: left;
         }
 
-        .right {
-            text-align: right;
-        }
-
-        .mt-2 {
-            margin-top: 8px;
+        /* 備考・会社情報 */
+        .notes,
+        .company-info-footer {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+            font-size: 9pt;
+            line-height: 1.6;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="header">タイヤ御見積書</div>
 
-        <div class="section flex">
-            <br>
-            <div style="text-align: right;">
-                発行日: {{ $date }}
-            </div>
-            <br>
+        <h1 class="header-title">御 見 積 書</h1>
 
-            <div>
-                <u>{{ $customer_name ?? '　　　　　' }} {{ $honorific ?? '' }}</u>
-            </div>
+        <table class="info-table">
+            <tr>
+                <td style="width: 60%;">
+                    <p class="customer-name">{{ $customer_name ?? '　　　　　' }} {{ $honorific ?? '' }}</p>
+                    <p class="mt-4">下記の通りお見積申し上げます。</p>
+                    <p><strong>■ご希望サイズ:</strong> {{ $sizeFree ?? $sizeGeneral ?? '未指定' }}</p>
+                    <p><strong>■ご希望タイヤ:</strong> {{ $selectTire ?? '' }}</p>
+                </td>
+                <td style="width: 40%; vertical-align: top; text-align: right;">
+                    <p>発行日: {{ $date }}</p>
+                </td>
+            </tr>
+        </table>
 
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th style="width: 45%;">商品</th>
+                    <th style="width: 20%;">商品代金(税込)</th>
+                    <th style="width: 20%;">工賃(税込)</th>
+                    <th style="width: 15%;">合計金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($items as $item)
+                @php
+                // 商品価格の計算
+                $cost = $item['cost'];
+                $quantity = $item['quantity'];
+                $base = $cost * $quantity;
+                $add = is_numeric($grossA) ? $grossA : 0;
+                $mul = is_numeric($grossB) ? $grossB : 1;
+                $price = ($base + $add) * $mul;
+                if ($taxMode === 'excluding') $price *= 1.1;
 
-        </div>
+                // 工賃合計の計算
+                $laborTotal = 0;
+                foreach ($laborItems as $labor) {
+                $laborTotal += $labor['price'] * $labor['quantity'];
+                }
+                if ($laborTaxMode === 'excluding') $laborTotal *= 1.1;
 
-        <div class="section">
-            <p><strong>サイズ:</strong> {{ $sizeFree ?? $sizeGeneral ?? '未指定' }}</p>
-            <p><strong>タイヤ:</strong> {{ $selectTire ?? '' }}</p>
-        </div>
+                // 商品代金と工賃の合計
+                $total = $price + $laborTotal;
 
-        @foreach ($items as $item)
-        @php
-        $cost = $item['cost'];
-        $quantity = $item['quantity'];
-        $base = $cost * $quantity;
-        $add = is_numeric($grossA) ? $grossA : 0;
-        $mul = is_numeric($grossB) ? $grossB : 1;
-        $price = ($base + $add) * $mul;
-        if ($taxMode === 'excluding') $price *= 1.1;
+                // メーカー名取得
+                $maker = null;
+                if ($loop->index === 0) {
+                $maker = $maker1 ?? '';
+                } elseif ($loop->index === 1) {
+                $maker = $maker2 ?? '';
+                } elseif ($loop->index === 2) {
+                $maker = $maker3 ?? '';
+                }
+                @endphp
+                <tr>
+                    <td class="item-name"><strong>【プラン{{ $loop->iteration }}】</strong> {{ $maker }}</td>
+                    <td class="text-right">{{ number_format($price) }} 円</td>
+                    <td class="text-right">{{ number_format($laborTotal) }} 円</td>
+                    <td class="text-right highlight">{{ number_format($total) }} 円</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-        $laborTotal = 0;
-        foreach ($laborItems as $labor) {
-        $laborTotal += $labor['price'] * $labor['quantity'];
-        }
-        if ($laborTaxMode === 'excluding') $laborTotal *= 1.1;
-
-        $total = $price + $laborTotal;
-
-        // メーカー名取得
-        $maker = null;
-        if ($loop->index === 0) {
-        $maker = $maker1 ?? '';
-        } elseif ($loop->index === 1) {
-        $maker = $maker2 ?? '';
-        } elseif ($loop->index === 2) {
-        $maker = $maker3 ?? '';
-        }
-        @endphp
-
-        <div class="section">
-            <h4>{{ $item['label'] }}：{{ $maker }}</h4>
-            <table class="summary-table">
-                <thead>
-                    <tr>
-                        <th>商品</th>
-                        <th>工賃</th>
-                        <th>合計</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ number_format($price) }} 円</td>
-                        <td>{{ number_format($laborTotal) }} 円</td>
-                        <td class="highlight">{{ number_format($total) }} 円</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            {{-- ✅ 工賃内訳はループの最後のときだけ表示 --}}
-            @if ($loop->last && count($laborItems))
-            <div class="mt-2"><strong>工賃内訳</strong></div>
+        {{-- 工賃内訳は商品ループの最後のときだけ表示 --}}
+        @if (count($laborItems))
+        <div class="mt-4">
+            <strong class="font-weight-bold">■ 工賃内訳</strong>
             <table class="labor-table">
                 <thead>
                     <tr>
@@ -160,47 +239,45 @@
                     $subtotal = $labor['price'] * $labor['quantity'];
                     @endphp
                     <tr>
-                        <td>{{ $labor['name'] }}</td>
-                        <td>{{ number_format($labor['price']) }} 円</td>
+                        <td class="labor-name">{{ $labor['name'] }}</td>
+                        <td class="text-right">{{ number_format($labor['price']) }} 円</td>
                         <td>{{ $labor['quantity'] }}</td>
-                        <td>{{ number_format($subtotal) }} 円</td>
+                        <td class="text-right">{{ number_format($subtotal) }} 円</td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3" class="right">工賃合計（税込）</td>
-                        <td><strong>{{ number_format($laborTotal) }} 円</strong></td>
+                        <td colspan="3" class="text-right font-weight-bold">工賃合計（税込）</td>
+                        <td class="text-right font-weight-bold">{{ number_format($laborTotal) }} 円</td>
                     </tr>
                 </tfoot>
             </table>
-            @endif
         </div>
-        @endforeach
+        @endif
 
-        <div class="section">
-            <strong>備考：</strong> {{ $comment ?? '' }}
+        <div class="notes">
+            <strong>■ 備考</strong><br>
+            {!! nl2br(e($comment ?? '')) !!}<br>
+            ※見積もり有効期限は発行から１週間です。
         </div>
 
-        <div class="section right" style="font-size: 10px;">
-            ※見積もり有効期限は発行から１週間です
-        </div>
-        <div class="section" style="font-size: 10px; line-height: 1.4;">
-            <strong>会社情報：</strong><br>
-            {{ $company_name ?? '' }}<br>
-            {{ $company_postal ?? '' }} {{ $company_address ?? '' }}<br>
-            TEL:{{ $company_tel ?? '' }} FAX:{{ $company_fax ?? '' }}<br>
-            Email:{{ $company_email ?? '' }} URL:{{ $company_url ?? '' }}<br>
-            登録番号:{{ $company_registration_number ?? '' }}<br>
-            <br>
-            ■ 振込先<br>
+        <div class="company-info-footer">
+            <strong>{{ $company_name ?? '' }}</strong><br>
+            〒{{ $company_postal ?? '' }} {{ $company_address ?? '' }}<br>
+            TEL: {{ $company_tel ?? '' }} FAX: {{ $company_fax ?? '' }}<br>
+            Email: {{ $company_email ?? '' }} URL: {{ $company_url ?? '' }}<br>
+            登録番号: {{ $company_registration_number ?? '' }}<br>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 8px 0;">
+            <strong>■ 振込先</strong><br>
             {{ $company_transfer_1 ?? '' }}<br>
             {{ $company_transfer_2 ?? '' }}<br>
             {{ $company_transfer_3 ?? '' }}<br>
-            <br>
-            {{ $company_note ?? '' }}
+            <hr style="border: none; border-top: 1px solid #eee; margin: 8px 0;">
+            {!! nl2br(e($company_note ?? '')) !!}
         </div>
 
+    </div>
 </body>
 
 </html>

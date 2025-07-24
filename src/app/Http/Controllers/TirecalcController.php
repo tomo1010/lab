@@ -71,7 +71,7 @@ class TirecalcController extends Controller
     public function createPdf(Request $request)
     {
         $items = [];
-
+        //dd($request);
         foreach ([1, 2, 3] as $i) {
             $cost = $request->input("item{$i}_cost");
             $quantity = $request->input("item{$i}_quantity");

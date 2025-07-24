@@ -366,13 +366,6 @@
                 </script>
 
 
-
-
-
-
-
-
-
                 <!-- アコーディオンメニュー -->
                 <div x-data="{ open: true }" class="mt-6 border-t pt-4">
 
