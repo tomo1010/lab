@@ -9,52 +9,6 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    {{--
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    --}}
-                    <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
-                        見積もり作成
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
-                        タイヤ計算機
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')">
-                        年齢計算機
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('fax.send')" :active="request()->routeIs('fax.send')">
-                        FAX送付状
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('fax.change')" :active="request()->routeIs('fax.change')">
-                        車両入替え送付状
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">
-                        ラベル印刷
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')">
-                        施工証明書
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')">
-                        売約済み（横書き）
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')">
-                        クイック請求書
-                    </x-nav-link>
-
-
-                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -201,6 +155,53 @@
                     @endauth
 
                 </div>
+            </div>
+        </div>
+        <!-- Navigation Links -->
+        <div class="overflow-x-auto">
+            <div id="nav-carousel" class="space-x-8 sm:ml-10 flex items-center h-16">
+                {{--
+                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+                --}}
+                <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')" class="text-nowrap">
+                    見積もり作成
+                </x-nav-link>
+
+                <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')" class="text-nowrap">
+                    タイヤ計算機
+                </x-nav-link>
+
+                <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')" class="text-nowrap">
+                    年齢計算機
+                </x-nav-link>
+
+                <x-nav-link :href="route('fax.send')" :active="request()->routeIs('fax.send')" class="text-nowrap">
+                    FAX送付状
+                </x-nav-link>
+
+                <x-nav-link :href="route('fax.change')" :active="request()->routeIs('fax.change')" class="text-nowrap">
+                    車両入替え送付状
+                </x-nav-link>
+
+                <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')" class="text-nowrap">
+                    ラベル印刷
+                </x-nav-link>
+
+                <x-nav-link :href="route('pdf.construction')" :active="request()->routeIs('pdf.construction')" class="text-nowrap">
+                    施工証明書
+                </x-nav-link>
+
+                <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')" class="text-nowrap">
+                    売約済み（横書き）
+                </x-nav-link>
+
+                <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')" class="text-nowrap">
+                    クイック請求書
+                </x-nav-link>
+
+
             </div>
         </div>
     </div>
