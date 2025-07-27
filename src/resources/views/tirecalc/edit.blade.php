@@ -245,6 +245,7 @@
                             grossA: data.grossA ?? null,
                             grossB: data.grossB ?? null,
 
+
                             item1: {
                                 cost: data.item1_cost ?? 0,
                                 quantity: data.item1_quantity ?? 1,
