@@ -1,12 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            タイヤ計算機
+            <a href="{{ route('tirecalc.index') }}">
+                タイヤ計算機
+            </a>
         </h2>
+
     </x-slot>
 
     @if (session('success'))
-    <div class="bg-green-100 text-green-800 p-2 mb-4 rounded">
+    <div class=" bg-green-100 text-green-800 p-2 mb-4 rounded">
         {{ session('success') }}
     </div>
     @endif
@@ -15,7 +18,6 @@
         <div x-data="{ showLoginModal: false }">
 
             <div x-data="taxCalculator()" class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
-                <h3 class="text-2xl font-bold text-center mb-2">新規</h3>
 
                 <form method="POST" :action="action" x-data="{ action: '{{ route('tirecalc.createPdf') }}' }" id="pdf-form">
 
@@ -163,7 +165,8 @@
 
                     <!-- 共通設定：粗利 -->
                     <div class="mt-6 border-t pt-4">
-                        <h3 class="text-xl font-bold mb-2">②粗利設定</h2>
+                        <h3 class="text-xl font-bold mb-2">②粗利設定
+                            </h2>
 
                             <!-- 横並び：粗利A・粗利B -->
                             <div class="flex gap-4">
@@ -680,6 +683,8 @@
                         }
                     }
                 };
+
+
             }
         </script>
 
