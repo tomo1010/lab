@@ -92,7 +92,7 @@
                     </x-nav-link>
                     --}}
                     <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')">
-                        見積もり作成
+                        見積もり
                     </x-nav-link>
 
                     <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')">
@@ -108,7 +108,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('fax.change')" :active="request()->routeIs('fax.change')">
-                        車両入替え送付状
+                        FAX送付状（車両入替）
                     </x-nav-link>
 
                     <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')">
@@ -120,11 +120,11 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('pdf.soldHorizental')" :active="request()->routeIs('pdf.soldHorizental')">
-                        売約済み（横書き）
+                        売約済み
                     </x-nav-link>
 
                     <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')">
-                        クイック請求書
+                        請求書
                     </x-nav-link>
 
                     <hr class="my-2 border-gray-200">
