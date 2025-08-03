@@ -286,18 +286,23 @@
                                     {
                                         name: 'ナット',
                                         price: 0,
-                                        quantity: 16
+                                        quantity: 4
                                     },
                                 ],
 
 
                             addLaborItem() {
-                                this.laborItems.push({
-                                    name: '',
-                                    price: 0,
-                                    quantity: 1,
-                                });
+                                if (this.laborItems.length < 10) {
+                                    this.laborItems.push({
+                                        name: '',
+                                        price: 0,
+                                        quantity: 1
+                                    });
+                                } else {
+                                    alert('明細は最大10件までです');
+                                }
                             },
+
 
                             get laborSubtotal() {
                                 const subtotal = this.laborItems.reduce((sum, item) => {
