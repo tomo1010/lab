@@ -226,7 +226,14 @@
 
                         <!-- 工賃小計 -->
                         <div class="mt-1 font-bold text-right text-gray-500">
-                            工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円
+                            <!--工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円-->
+                            <!-- 税込表示（従来通り） -->
+                            <p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
+
+                            <!-- 税抜表示（新たに追加） -->
+                            <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
+
+
                         </div>
                     </div>
 
@@ -598,14 +605,41 @@
                     },
 
 
+                    //get laborSubtotal() {
+                    //    const subtotal = this.laborItems.reduce((sum, item) => {
+                    //        const price = Number(item.price) || 0;
+                    //        const quantity = Number(item.quantity) || 0;
+                    //        return sum + (price * quantity);
+                    //    }, 0);
+                    //    return this.laborTaxMode === 'including' ? subtotal : Math.round(subtotal * 1.1);
+                    //},
+
                     get laborSubtotal() {
                         const subtotal = this.laborItems.reduce((sum, item) => {
                             const price = Number(item.price) || 0;
                             const quantity = Number(item.quantity) || 0;
                             return sum + (price * quantity);
                         }, 0);
-                        return this.laborTaxMode === 'including' ? subtotal : Math.round(subtotal * 1.1);
+
+                        return this.laborTaxMode === 'including' ?
+                            subtotal :
+                            Math.round(subtotal * 1.1); // ← ここで税込に換算
                     },
+
+                    get laborSubtotalExcludingTax() {
+                        const subtotal = this.laborItems.reduce((sum, item) => {
+                            const price = Number(item.price) || 0;
+                            const quantity = Number(item.quantity) || 0;
+                            return sum + (price * quantity);
+                        }, 0);
+
+                        return this.laborTaxMode === 'including' ?
+                            Math.round(subtotal / 1.1) // 税込→税抜
+                            :
+                            subtotal; // そのまま税抜
+                    },
+
+
 
                     applyGrossMargin(cost) {
                         const add = parseFloat(this.grossA);
