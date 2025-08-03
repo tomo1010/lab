@@ -12,8 +12,8 @@ $(document).ready(function () {
         slidesToShow: 5,
         slidesToScroll: 1,
         arrows: true,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fa-solid fa-circle-chevron-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fa-solid fa-circle-chevron-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa-solid fa-angle-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa-solid fa-angle-right"></i></button>',
         responsive: [
           {
             breakpoint: 1024,
