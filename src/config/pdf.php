@@ -4,7 +4,7 @@ return [
     'mode'                 => '',
     'format'               => 'A4',
     'default_font_size'    => '12',
-    'default_font'         => 'sans-serif',
+    'default_font'         => 'ipaexg',
     'margin_left'          => 10,
     'margin_right'         => 10,
     'margin_top'           => 10,
@@ -25,8 +25,8 @@ return [
     'pdfaauto'      => false,
     'custom_font_dir' => base_path('resources/fonts/'),
     'custom_font_data' => [
-        'ipag' => [
-        'R'  => 'ipag.ttf',
+        'ipaexg' => [
+            'R'  => 'ipaexg.ttf',
         ],
     ],
 ];

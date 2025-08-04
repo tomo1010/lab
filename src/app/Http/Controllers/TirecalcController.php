@@ -135,6 +135,7 @@ class TirecalcController extends Controller
         $fileName = "{$data['date']}.pdf";
 
         $pdf = PDF::loadView('tirecalc.createPdf', $data);
+
         return $pdf->stream($fileName);
     }
 
