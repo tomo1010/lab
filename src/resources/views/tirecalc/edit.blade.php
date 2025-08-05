@@ -398,7 +398,44 @@ get laborSubtotalExcludingTax() {
 
                             totalWithLabor(item) {
                                 return this.displayUnitPrice(item) + this.laborSubtotal;
-                            }
+                            },
+
+                                                // クリップボードにコピーする関数
+                    async copyToClipboard() {
+
+                        let output = '';
+
+                        const customer_name = document.getElementById('customer_name')?.value || '';
+                        const honorific = document.getElementById('honorific')?.value || '';
+                        output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
+
+                        const selectTire = document.getElementById('selectTire')?.value || '未選択';
+                        output += `■ タイトル\n${selectTire}\n\n`;
+
+                        const sizeGeneral = document.getElementById('sizeGeneral')?.value;
+                        const sizeFree = document.getElementById('sizeFree')?.value;
+                        output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
+
+                        const maker1 = document.getElementById('maker1')?.value || '未選択';
+                        const maker2 = document.getElementById('maker2')?.value || '未選択';
+                        const maker3 = document.getElementById('maker3')?.value || '未選択';
+
+                        output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
+                        output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
+                        output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+
+                        output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+
+                        const comment = document.getElementById('comment')?.value || '';
+                        output += `■ コメント\n${comment.trim()}\n`;
+
+                        try {
+                            await navigator.clipboard.writeText(output);
+                            alert('入力内容をクリップボードにコピーしました！');
+                        } catch (e) {
+                            alert('コピーに失敗しました');
+                        }
+                    }
 
                         }
                     }
