@@ -10,6 +10,8 @@ use PDF;
 use App\Models\Tirecalc;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PdfAccessService;
+
 
 
 
@@ -68,8 +70,26 @@ class TirecalcController extends Controller
 
 
 
-    public function createPdf(Request $request)
+    public function createPdf(Request $request, PdfAccessService $accessService)
     {
+
+
+        $view = $request->input('view');
+        $page = $view;
+
+        // アクセス制限
+        if (! $accessService->canAccess($page)) {
+            return redirect()->back()->with([
+                'error' => '上限に達しました。',
+                'access_type' => Auth::check()
+                    ? (Auth::user()->subscribed() ? null : 'subscribe')
+                    : 'register',
+            ]);
+        }
+
+        $accessService->logAccess($page);
+
+
         $items = [];
         //dd($request);
         foreach ([1, 2, 3] as $i) {

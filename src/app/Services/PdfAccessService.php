@@ -27,15 +27,15 @@ class PdfAccessService
                 ->whereDate('access_date', $today)
                 ->count();
 
-            return $count < 1000;
+            return $count < 20;
         } else {
-            // 未ログインユーザーはIPアドレスで判定、1日1回まで（厳密でなくてOK）
+            // 未ログインユーザーは1日1回まで（IPアドレスで判定）
             $count = PdfAccessLog::where('ip_address', $ip)
                 ->where('page', $page)
                 ->whereDate('access_date', $today)
                 ->count();
 
-            return $count < 10;
+            return $count < 3;
         }
     }
 

@@ -470,8 +470,6 @@
                     @include('components.company-info')
 
 
-
-
                     {{-- ボタン群 --}}
                     <div class="flex justify-center gap-4 mt-6">
                         <!-- PDFボタン -->

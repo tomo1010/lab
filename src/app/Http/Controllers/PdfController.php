@@ -15,8 +15,6 @@ class PdfController extends Controller
         $view = $request->input('view');
         $page = $view;
 
-        // dd($request->all());
-
         // アクセス制限
         if (! $accessService->canAccess($page)) {
             return redirect()->back()->with([

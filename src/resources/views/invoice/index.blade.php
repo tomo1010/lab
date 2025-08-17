@@ -9,6 +9,20 @@
     </div>
     @endif
 
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ session('error') }}
+
+        @if (session('access_type') === 'register')
+        <p class="text-sm mt-1">会員登録してご利用ください。</p>
+        @elseif (session('access_type') === 'subscribe')
+        <p class="text-sm mt-1">有料プランにご加入いただくと制限なく使えます。</p>
+        @endif
+    </div>
+    @endif
+
+
+
     <div class="max-w-4xl mx-auto mt-6">
 
         {{-- PDF作成フォーム --}}

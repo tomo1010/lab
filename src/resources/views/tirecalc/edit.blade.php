@@ -225,10 +225,10 @@
                     <div class="mt-1 font-bold text-right text-gray-500">
                         <!--工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円-->
                         <!-- 税込表示（従来通り） -->
-<p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
+                        <p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
 
-<!-- 税抜表示（新たに追加） -->
-<p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
+                        <!-- 税抜表示（新たに追加） -->
+                        <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
 
                     </div>
                 </div>
@@ -323,28 +323,29 @@
                             //},
 
                             get laborSubtotal() {
-    const subtotal = this.laborItems.reduce((sum, item) => {
-        const price = Number(item.price) || 0;
-        const quantity = Number(item.quantity) || 0;
-        return sum + (price * quantity);
-    }, 0);
+                                const subtotal = this.laborItems.reduce((sum, item) => {
+                                    const price = Number(item.price) || 0;
+                                    const quantity = Number(item.quantity) || 0;
+                                    return sum + (price * quantity);
+                                }, 0);
 
-    return this.laborTaxMode === 'including'
-        ? subtotal
-        : Math.round(subtotal * 1.1); // ← ここで税込に換算
-},
+                                return this.laborTaxMode === 'including' ?
+                                    subtotal :
+                                    Math.round(subtotal * 1.1); // ← ここで税込に換算
+                            },
 
-get laborSubtotalExcludingTax() {
-    const subtotal = this.laborItems.reduce((sum, item) => {
-        const price = Number(item.price) || 0;
-        const quantity = Number(item.quantity) || 0;
-        return sum + (price * quantity);
-    }, 0);
+                            get laborSubtotalExcludingTax() {
+                                const subtotal = this.laborItems.reduce((sum, item) => {
+                                    const price = Number(item.price) || 0;
+                                    const quantity = Number(item.quantity) || 0;
+                                    return sum + (price * quantity);
+                                }, 0);
 
-    return this.laborTaxMode === 'including'
-        ? Math.round(subtotal / 1.1) // 税込→税抜
-        : subtotal; // そのまま税抜
-},
+                                return this.laborTaxMode === 'including' ?
+                                    Math.round(subtotal / 1.1) // 税込→税抜
+                                    :
+                                    subtotal; // そのまま税抜
+                            },
 
 
                             applyGrossMargin(cost) {
@@ -400,42 +401,42 @@ get laborSubtotalExcludingTax() {
                                 return this.displayUnitPrice(item) + this.laborSubtotal;
                             },
 
-                                                // クリップボードにコピーする関数
-                    async copyToClipboard() {
+                            // クリップボードにコピーする関数
+                            async copyToClipboard() {
 
-                        let output = '';
+                                let output = '';
 
-                        const customer_name = document.getElementById('customer_name')?.value || '';
-                        const honorific = document.getElementById('honorific')?.value || '';
-                        output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
+                                const customer_name = document.getElementById('customer_name')?.value || '';
+                                const honorific = document.getElementById('honorific')?.value || '';
+                                output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
 
-                        const selectTire = document.getElementById('selectTire')?.value || '未選択';
-                        output += `■ タイトル\n${selectTire}\n\n`;
+                                const selectTire = document.getElementById('selectTire')?.value || '未選択';
+                                output += `■ タイトル\n${selectTire}\n\n`;
 
-                        const sizeGeneral = document.getElementById('sizeGeneral')?.value;
-                        const sizeFree = document.getElementById('sizeFree')?.value;
-                        output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
+                                const sizeGeneral = document.getElementById('sizeGeneral')?.value;
+                                const sizeFree = document.getElementById('sizeFree')?.value;
+                                output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
 
-                        const maker1 = document.getElementById('maker1')?.value || '未選択';
-                        const maker2 = document.getElementById('maker2')?.value || '未選択';
-                        const maker3 = document.getElementById('maker3')?.value || '未選択';
+                                const maker1 = document.getElementById('maker1')?.value || '未選択';
+                                const maker2 = document.getElementById('maker2')?.value || '未選択';
+                                const maker3 = document.getElementById('maker3')?.value || '未選択';
 
-                        output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
-                        output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
-                        output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+                                output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
+                                output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
+                                output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
 
-                        output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+                                output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
 
-                        const comment = document.getElementById('comment')?.value || '';
-                        output += `■ コメント\n${comment.trim()}\n`;
+                                const comment = document.getElementById('comment')?.value || '';
+                                output += `■ コメント\n${comment.trim()}\n`;
 
-                        try {
-                            await navigator.clipboard.writeText(output);
-                            alert('入力内容をクリップボードにコピーしました！');
-                        } catch (e) {
-                            alert('コピーに失敗しました');
-                        }
-                    }
+                                try {
+                                    await navigator.clipboard.writeText(output);
+                                    alert('入力内容をクリップボードにコピーしました！');
+                                } catch (e) {
+                                    alert('コピーに失敗しました');
+                                }
+                            }
 
                         }
                     }

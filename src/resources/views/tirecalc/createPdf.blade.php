@@ -7,11 +7,16 @@
     <style>
         /* 日本語フォントの設定 (laravel-mpdfで日本語を表示させるための重要設定) */
         body {
-            font-family: 'ipaexg', 'ipag', 'sans-serif';
+            font-family: 'notosansjp', 'ipaexg', 'ipag', 'sans-serif';
             font-size: 10pt;
             color: #333;
             margin: 30px 40px;
             /* 上下左右の余白を調整 */
+        }
+
+        /* すべての要素にフォントを強制適用 */
+        * {
+            font-family: 'notosansjp', 'ipaexg', 'ipag', 'sans-serif' !important;
         }
 
         /* 全体を囲うコンテナ */
@@ -96,13 +101,13 @@
             font-weight: bold;
             border-bottom: 1px solid #333;
             padding-bottom: 5px;
-            margin: 0 0 0.5em 0;
-            /* 行間を0.5行分に統一 */
+            margin: 0 0 1em 0;
+            /* 行間を1行分に拡大 */
         }
 
         .estimate-intro {
-            margin: 0 0 0.5em 0;
-            /* 行間を0.5行分に統一 */
+            margin: 0 0 1em 0;
+            /* 行間を1行分に拡大 */
         }
 
         .preferences {
@@ -111,8 +116,8 @@
         }
 
         .preferences p {
-            margin: 0 0 0.5em 0;
-            /* 行間を0.5行分に統一 */
+            margin: 0 0 0.8em 0;
+            /* 行間を0.8行分に拡大 */
         }
 
         /* 最後の行の下には余白が不要なためリセット */
@@ -124,20 +129,20 @@
 
         /* 商品セクション */
         .product-section {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .product-title {
             font-size: 12pt;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             color: #333;
         }
 
         .product-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .product-table th,
@@ -192,30 +197,24 @@
         }
 
         /* 工賃内訳 */
-        .labor-section {
-            display: flex;
-            align-items: baseline;
-            margin-top: 20px;
-        }
-
         .labor-title {
-            font-size: 9pt;
+            /*font-size: 8pt;*/
             font-weight: bold;
             margin: 0;
+            line-height: 1;
         }
 
         .labor-table {
-            width: 70%;
+            width: 100%;
             border-collapse: collapse;
-            margin-left: auto;
         }
 
         .labor-table th,
         .labor-table td {
             border: 1px solid #ddd;
-            padding: 6px;
+            padding: 5px;
             text-align: center;
-            font-size: 8pt;
+            font-size: 6pt;
         }
 
         .labor-table th {
@@ -266,14 +265,17 @@
         <table class="info-table">
             <tr>
                 <td style="width: 60%;">
-                    <p class="customer-name">{{ $customer_name ?? '　　　　　' }} {{ $honorific ?? '' }}</p><br>
-                    <p class="estimate-intro">下記の通りお見積申し上げます。</p><br>
+                    <p class="customer-name">{{ $customer_name ?? '　　　　　' }} {{ $honorific ?? '' }}</p>
+                    <br>
+                    <p class="estimate-intro">下記の通りお見積申し上げます。</p>
+                    <br>
                     <div class="preferences">
                         <p><strong>■ご希望サイズ:</strong> {{ $sizeFree ?? $sizeGeneral ?? '未指定' }}</p>
                         <p><strong>■ご希望タイヤ:</strong> {{ $selectTire ?? '' }}</p>
+                        <br><br>
                     </div>
                 </td>
-                <td style="width: 40%; vertical-align: top; text-align: left;">
+                <td style="width: 40%; vertical-align: top;">
                     <div class="company-info-header">
                         <strong>{{ $company_name ?? '' }}</strong><br>
                         〒{{ $company_postal ?? '' }} {{ $company_address ?? '' }}<br>
@@ -343,52 +345,59 @@
 
         {{-- 工賃内訳は商品ループの最後のときだけ表示 --}}
         @if (count($laborItems))
-        <div class="labor-section">
-            <div class="labor-title">■ 工賃内訳</div>
-            <table class="labor-table">
-                <thead>
-                    <tr>
-                        <th>項目名</th>
-                        <th>単価</th>
-                        <th>数量</th>
-                        <th>小計</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($laborItems as $labor)
-                    @php
-                    $subtotal = $labor['price'] * $labor['quantity'];
-                    @endphp
-                    <tr>
-                        <td class="labor-name">{{ $labor['name'] }}</td>
-                        <td class="text-right">{{ number_format($labor['price']) }} 円</td>
-                        <td>{{ $labor['quantity'] }}</td>
-                        <td class="text-right">{{ number_format($subtotal) }} 円</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-right font-weight-bold">工賃合計（税込）</td>
-                        <td class="text-right font-weight-bold">{{ number_format($laborTotal) }} 円</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <tr>
+                <td style="width: 30%; vertical-align: top; padding-top: 8px;">
+                    <div class="labor-title">工賃内訳</div>
+                </td>
+                <td style="width: 70%;">
+                    <table class="labor-table">
+                        <thead>
+                            <tr>
+                                <th>項目名</th>
+                                <th>単価</th>
+                                <th>数量</th>
+                                <th>小計</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($laborItems as $labor)
+                            @php
+                            $subtotal = $labor['price'] * $labor['quantity'];
+                            @endphp
+                            <tr>
+                                <td class="labor-name">{{ $labor['name'] }}</td>
+                                <td class="text-right">{{ number_format($labor['price']) }} 円</td>
+                                <td>{{ $labor['quantity'] }}</td>
+                                <td class="text-right">{{ number_format($subtotal) }} 円</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right font-weight-bold">工賃合計（税込）</td>
+                                <td class="text-right font-weight-bold">{{ number_format($laborTotal) }} 円</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </td>
+            </tr>
+        </table>
         @endif
 
-        <div class="notes">
-            <strong>■ 備考</strong><br>
-            {!! nl2br(e($comment ?? '')) !!}<br>
-            ※見積もり有効期限は発行から１週間です。
-        </div>
+        <!--<div class="notes">-->
+        <br>
+        <strong>備考</strong><br>
+        {!! nl2br(e($comment ?? '')) !!}<br>
+        ※見積もり有効期限は発行から１週間です。
+        <!--</div>-->
 
         <div class="company-info-footer">
-            <strong>■ 振込先</strong><br>
-            {{ $company_transfer_1 ?? '' }}<br>
-            {{ $company_transfer_2 ?? '' }}<br>
-            {{ $company_transfer_3 ?? '' }}<br>
-            {!! nl2br(e($company_note ?? '')) !!}
+            <strong>＜振込先＞</strong><br>
+            @if($company_transfer_1){{ $company_transfer_1 }}<br>@endif
+            @if($company_transfer_2){{ $company_transfer_2 }}<br>@endif
+            @if($company_transfer_3){{ $company_transfer_3 }}<br>@endif
+            {{ $company_note ?? '' }}
         </div>
 
     </div>
