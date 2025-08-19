@@ -168,10 +168,14 @@
                     <div class="flex gap-4">
                         <!-- 粗利A（加算） -->
                         <div class="w-1/2">
-                            <select x-model="grossA" class="w-full border rounded px-2 py-1">
+                            <select x-model.number="grossA" class="w-full border rounded px-2 py-1">
                                 <option :value="null">粗利（加算）</option>
                                 <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
-                                    <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
+                                    <option
+                                            :value="amount"
+                                            :selected="Number(grossA) === Number(amount)"
+                                            x-text="`${amount.toLocaleString()} 円`">
+                                    </option>
                                 </template>
                             </select>
                         </div>
@@ -181,7 +185,11 @@
                             <select x-model="grossB" class="w-full border rounded px-2 py-1">
                                 <option :value="null">粗利（乗算）</option>
                                 <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
-                                    <option :value="rate" x-text="rate.toFixed(1)"></option>
+                                    <option
+                                            :value="rate"
+                                            :selected="Number(grossB) === Number(rate)"
+                                            x-text="`${rate.toFixed(1)}`">
+                                    </option>
                                 </template>
                             </select>
                         </div>
@@ -695,7 +703,7 @@
                     </button>
 
                     <!-- コピー ボタン -->
-                    <div x-data="taxCalculator()">
+                    <div>
                         <button type="button"
                             class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
                         @click=" copyToClipboard">
