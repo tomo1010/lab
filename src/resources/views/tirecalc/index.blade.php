@@ -63,11 +63,11 @@
                         <div class="mb-4">
                             <h3 class="text-xl font-bold mb-1">①原価入力</h3>
                             <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="taxMode" value="including" class="mr-1">
+                                <input type="radio" x-model="taxMode" value="including" class="mr-1 taxMode">
                                 税込み
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
+                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1 taxMode">
                                 税抜き
                             </label>
                         </div>
@@ -78,11 +78,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item1.cost" min="0" placeholder="商品Aの原価" class="w-full border rounded px-2 py-1">
+                                    <input type="number" x-model.number="item1.cost" min="0" placeholder="商品Aの原価" class="w-full border rounded px-2 py-1" id="cost1">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1">
+                                    <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1" id="quantity1">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -107,11 +107,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item2.cost" min="0" placeholder="商品Bの原価" class="w-full border rounded px-2 py-1">
+                                    <input type="number" x-model.number="item2.cost" min="0" placeholder="商品Bの原価" class="w-full border rounded px-2 py-1" id="cost2">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1">
+                                    <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1" id="quantity2">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -137,11 +137,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item3.cost" min="0" placeholder="商品Cの原価" class="w-full border rounded px-2 py-1">
+                                    <input type="number" x-model.number="item3.cost" min="0" placeholder="商品Cの原価" class="w-full border rounded px-2 py-1" id="cost3">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1">
+                                    <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1" id="quantity3">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -172,7 +172,7 @@
                             <div class="flex gap-4">
                                 <!-- 粗利A（加算） -->
                                 <div class="w-1/2">
-                                    <select x-model="grossA" class="w-full border rounded px-2 py-1">
+                                    <select x-model="grossA" class="w-full border rounded px-2 py-1" id="grossA">
                                         <option :value="null">粗利（加算）</option>
                                         <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
                                             <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
@@ -182,7 +182,7 @@
 
                                 <!-- 粗利B（掛け算） -->
                                 <div class="w-1/2">
-                                    <select x-model="grossB" class="w-full border rounded px-2 py-1">
+                                    <select x-model="grossB" class="w-full border rounded px-2 py-1" id="grossB">
                                         <option :value="null">粗利（乗算）</option>
                                         <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
                                             <option :value="rate" x-text="rate.toFixed(1)"></option>
@@ -533,13 +533,6 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
         <!-- Alpine.js ロジック -->
         <script>
             function taxCalculator() {
@@ -725,6 +718,63 @@
             }
         </script>
 
+        <!-- Cookieに自動保存 & 初期値反映 -->
+        <script>
+          // 自動保存する項目のIDを設定 (input, select)
+          const auto_save_fields = [
+            'cost1', 'quantity1', 'cost2', 'quantity2', 'cost3', 'quantity3', 'grossA', 'grossB'
+          ];
+          // 自動保存する項目のクラスを設定 (radio)
+          const auto_save_radio_fields = [
+            'taxMode'
+          ];
 
+          // input, selectの変更を保存
+          auto_save_fields.forEach(field => {
+            const input = document.getElementById(field);
+            if (input) {
+              input.addEventListener('input', function() {
+                setCookie(field, this.value, 30);
+              });
+            }
+          });
+          // radioの変更を保存
+          auto_save_radio_fields.forEach(field => {
+            const radios = document.querySelectorAll(`input[type="radio"].${field}`);
+            if (radios.length) {
+              radios.forEach((r) => {
+                r.addEventListener('change', function () {
+                  // チェックされている場合は保存
+                  if (this.checked) setCookie(field, this.value, 30);
+                });
+              });
+            }
+          });
 
+          window.addEventListener('DOMContentLoaded', () => {
+            // input, selectの初期値反映
+            auto_save_fields.forEach(field => {
+              const value = getCookie(field);
+              const input = document.getElementById(field);
+              if (input && value) {
+                input.value = value;
+                const event = input.tagName === 'SELECT' ? 'change' : 'input';
+                input.dispatchEvent(new Event(event, { bubbles: true }));
+              }
+            });
+            // radioの初期値反映
+            auto_save_radio_fields.forEach(field => {
+              const value = getCookie(field);
+              const radios = document.querySelectorAll(`input[type="radio"].${field}`);
+              if (radios.length && value) {
+                const is_checked = Array.from(radios).find(r => r.value == value);
+                if (is_checked) {
+                  is_checked.checked = true;
+                  is_checked.dispatchEvent(new Event('change', { bubbles: true }));
+                  return;
+                }
+              }
+            });
+          });
+        </script>
 </x-app-layout>
