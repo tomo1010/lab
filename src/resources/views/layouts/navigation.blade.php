@@ -165,15 +165,15 @@
                     {{ __('Dashboard') }}
                 </x-nav-link>
                 --}}
-                <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.index')" class="text-nowrap">
+                <x-nav-link :href="route('quote.index')" :active="request()->routeIs('quote.*')" class="text-nowrap">
                     見積もり作成
                 </x-nav-link>
 
-                <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.index')" class="text-nowrap">
+                <x-nav-link :href="route('tirecalc.index')" :active="request()->routeIs('tirecalc.*')" class="text-nowrap">
                     タイヤ計算機
                 </x-nav-link>
 
-                <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.index')" class="text-nowrap">
+                <x-nav-link :href="route('agecalc.index')" :active="request()->routeIs('agecalc.*')" class="text-nowrap">
                     年齢計算機
                 </x-nav-link>
 
@@ -185,7 +185,7 @@
                     車両入替え送付状
                 </x-nav-link>
 
-                <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.index')" class="text-nowrap">
+                <x-nav-link :href="route('label.index')" :active="request()->routeIs('label.*')" class="text-nowrap">
                     ラベル印刷
                 </x-nav-link>
 
@@ -197,7 +197,7 @@
                     売約済み（横書き）
                 </x-nav-link>
 
-                <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.index')" class="text-nowrap">
+                <x-nav-link :href="route('invoice.index')" :active="request()->routeIs('invoice.*')" class="text-nowrap">
                     クイック請求書
                 </x-nav-link>
 

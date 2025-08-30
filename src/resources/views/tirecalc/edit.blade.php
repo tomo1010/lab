@@ -168,10 +168,14 @@
                     <div class="flex gap-4">
                         <!-- 粗利A（加算） -->
                         <div class="w-1/2">
-                            <select x-model="grossA" class="w-full border rounded px-2 py-1">
-                                <option :value="null">粗利（加算）</option>
+                            <select x-model.number="grossA" class="w-full border rounded px-2 py-1">
+                                <option value="">粗利（加算）</option>
                                 <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
-                                    <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
+                                    <option
+                                            :value="amount"
+                                            :selected="Number(grossA) === Number(amount)"
+                                            x-text="`${amount.toLocaleString()} 円`">
+                                    </option>
                                 </template>
                             </select>
                         </div>
@@ -179,9 +183,13 @@
                         <!-- 粗利B（掛け算） -->
                         <div class="w-1/2">
                             <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                <option :value="null">粗利（乗算）</option>
+                                <option value="">粗利（乗算）</option>
                                 <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
-                                    <option :value="rate" x-text="rate.toFixed(1)"></option>
+                                    <option
+                                            :value="rate"
+                                            :selected="Number(grossB) === Number(rate)"
+                                            x-text="`${rate.toFixed(1)}`">
+                                    </option>
                                 </template>
                             </select>
                         </div>
@@ -417,15 +425,35 @@
                                 const sizeFree = document.getElementById('sizeFree')?.value;
                                 output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
 
+                                /**
+                                 * 商品情報
+                                 */
                                 const maker1 = document.getElementById('maker1')?.value || '未選択';
                                 const maker2 = document.getElementById('maker2')?.value || '未選択';
                                 const maker3 = document.getElementById('maker3')?.value || '未選択';
 
-                                output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
-                                output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
-                                output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+                                output += `■ 商品1：${maker1}\nタイヤ：${this.displayUnitPrice(this.item1).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item1).toLocaleString()} 円\n\n`;
+                                output += `■ 商品2：${maker2}\nタイヤ：${this.displayUnitPrice(this.item2).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item2).toLocaleString()} 円\n\n`;
+                                output += `■ 商品3：${maker3}\nタイヤ：${this.displayUnitPrice(this.item3).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item3).toLocaleString()} 円\n\n`;
 
-                                output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+                                /**
+                                 * 工賃詳細 - 動的に生成
+                                 */
+                                const laborLines = (this.laborItems || [])
+                                  // 名前と金額が入力されているもののみにフィルタリング
+                                  .filter(r => (r?.name ?? '').toString().trim() !== '' && Number(r?.price) > 0)
+                                  .map(r => {
+                                    const name = r.name; // 名前
+                                    const qty = Number(r?.quantity ?? 1); // 個数
+                                    const price = Number(r?.price ?? 0); // 金額
+                                    const amount = price * qty; // 合計
+                                    return `${name}：${amount.toLocaleString()} 円`;
+                                  })
+                                  .join('\n');
+
+                                output += `■ 工賃詳細\n${laborLines || '（未入力）'}\n` +
+                                  `税抜合計：${this.laborSubtotal.toLocaleString()} 円\n` +
+                                  `税込合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
 
                                 const comment = document.getElementById('comment')?.value || '';
                                 output += `■ コメント\n${comment.trim()}\n`;
@@ -695,10 +723,10 @@
                     </button>
 
                     <!-- コピー ボタン -->
-                    <div x-data="taxCalculator()">
+                    <div>
                         <button type="button"
-                            class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
-                        @click=" copyToClipboard">
+                            class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                            @click="copyToClipboard">
                             コピー
                         </button>
                     </div>
