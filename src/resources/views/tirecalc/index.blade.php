@@ -63,11 +63,11 @@
                         <div class="mb-4">
                             <h3 class="text-xl font-bold mb-1">①原価入力</h3>
                             <label class="inline-flex items-center mr-4">
-                                <input type="radio" x-model="taxMode" value="including" class="mr-1 taxMode">
+                                <input type="radio" x-model="taxMode" value="including" class="mr-1">
                                 税込み
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1 taxMode">
+                                <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
                                 税抜き
                             </label>
                         </div>
@@ -78,11 +78,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item1.cost" min="0" placeholder="商品Aの原価" class="w-full border rounded px-2 py-1" id="cost1">
+                                    <input type="number" x-model.number="item1.cost" min="0" placeholder="商品Aの原価" class="w-full border rounded px-2 py-1">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1" id="quantity1">
+                                    <select x-model.number="item1.quantity" class="w-full border rounded px-2 py-1">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -107,11 +107,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item2.cost" min="0" placeholder="商品Bの原価" class="w-full border rounded px-2 py-1" id="cost2">
+                                    <input type="number" x-model.number="item2.cost" min="0" placeholder="商品Bの原価" class="w-full border rounded px-2 py-1">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1" id="quantity2">
+                                    <select x-model.number="item2.quantity" class="w-full border rounded px-2 py-1">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -137,11 +137,11 @@
                             <div class="flex gap-4">
                                 <div class="w-[70%]">
 
-                                    <input type="number" x-model.number="item3.cost" min="0" placeholder="商品Cの原価" class="w-full border rounded px-2 py-1" id="cost3">
+                                    <input type="number" x-model.number="item3.cost" min="0" placeholder="商品Cの原価" class="w-full border rounded px-2 py-1">
                                 </div>
                                 <div class="w-[30%]">
 
-                                    <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1" id="quantity3">
+                                    <select x-model.number="item3.quantity" class="w-full border rounded px-2 py-1">
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
@@ -172,7 +172,7 @@
                             <div class="flex gap-4">
                                 <!-- 粗利A（加算） -->
                                 <div class="w-1/2">
-                                    <select x-model="grossA" class="w-full border rounded px-2 py-1" id="grossA">
+                                    <select x-model="grossA" class="w-full border rounded px-2 py-1">
                                         <option :value="null">粗利（加算）</option>
                                         <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
                                             <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
@@ -182,7 +182,7 @@
 
                                 <!-- 粗利B（掛け算） -->
                                 <div class="w-1/2">
-                                    <select x-model="grossB" class="w-full border rounded px-2 py-1" id="grossB">
+                                    <select x-model="grossB" class="w-full border rounded px-2 py-1">
                                         <option :value="null">粗利（乗算）</option>
                                         <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
                                             <option :value="rate" x-text="rate.toFixed(1)"></option>
@@ -234,13 +234,6 @@
                             <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
 
 
-                        </div>
-
-                        <div class="mt-2">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" id="save_labor_to_cookie" class="mr-2">
-                                工賃設定を保存しておく
-                            </label>
                         </div>
                     </div>
 
@@ -540,13 +533,16 @@
             </div>
         </div>
 
+
+
+
+
+
+
+
         <!-- Alpine.js ロジック -->
         <script>
             function taxCalculator() {
-                // Cookie保存用KEY
-                const ROW_COOKIE_KEY = 'labor_rows_json';
-                const MODE_COOKIE_KEY = 'laborTaxMode';
-
                 return {
                     taxMode: 'including',
                     grossA: null,
@@ -593,88 +589,6 @@
                             quantity: 4
                         },
                     ],
-                    // 工賃設定保存フラグ
-                    saveLaborToCookie: false,
-                    // 初期化フック
-                    init() {
-                      // initを1度しか実行しないようにする
-                      if (window.__taxCalcBooted) return;
-                      window.__taxCalcBooted = true;
-
-                      // 保存チェック初期値反映
-                      const chk = document.getElementById('save_labor_to_cookie');
-                      if (chk) {
-                        this.saveLaborToCookie = !!getCookie('save_labor_to_cookie');
-                        chk.checked = this.saveLaborToCookie; // checked (true/false)を設定
-
-                        // リスナー重複防止
-                        if (!chk.dataset.laborBound) {
-                          // 保存チェック変更時
-                          chk.addEventListener('change', () => {
-                            this.saveLaborToCookie = chk.checked;
-                            if (this.saveLaborToCookie) {
-                              setCookie('save_labor_to_cookie', true, 30);
-                              this.$nextTick(() => { // Alpineが直前の入力を反映し終わってから保存
-                                // 明細保存
-                                this.saveLaborRows();
-                                // radio保存
-                                setCookie(MODE_COOKIE_KEY, this.laborTaxMode, 30);
-                                alert('工賃設定をクッキーに保存しました。');
-                              });
-                            } else {
-                              // 工賃設定周り削除
-                              deleteCookie('save_labor_to_cookie');
-                              deleteCookie(ROW_COOKIE_KEY);
-                              deleteCookie(MODE_COOKIE_KEY);
-                              alert('クッキーから工賃設定を削除しました。');
-                            }
-                          });
-                          // 重複防止用
-                          chk.dataset.laborBound = '1';
-                        }
-                      }
-
-                      // radio初期値反映
-                      const mode = getCookie(MODE_COOKIE_KEY);
-                      if (mode) this.laborTaxMode = mode;
-
-                      // 明細初期値反映（Cookieから整形してlaborItemsに代入）
-                      const rowsStr = getCookie(ROW_COOKIE_KEY);
-                      if (rowsStr) {
-                        try {
-                          const parsed = JSON.parse(rowsStr);
-                          if (Array.isArray(parsed)) {
-                            this.laborItems = parsed.slice(0, 10).map(r => ({
-                              name: r?.name ?? '',
-                              price: r?.price === '' || r?.price == null ? null : Number(r.price),
-                              quantity: r?.quantity === '' || r?.quantity == null ? 1 : Number(r.quantity),
-                            }));
-                          }
-                        } catch {}
-                      }
-
-                      // 変更監視 (保存チェックONの場合のみ)
-                      this.$watch(() => JSON.stringify(this.laborItems), () => {
-                        if (this.saveLaborToCookie) this.saveLaborRows();
-                      });
-                      this.$watch('laborTaxMode', (v) => {
-                        if (this.saveLaborToCookie) setCookie(MODE_COOKIE_KEY, v, 30);
-                      });
-                    },
-                    /**
-                     * 明細をCookieに保存する
-                     */
-                    saveLaborRows() {
-                      const rows = this.laborItems
-                        .filter(r => `${(r.name??'')}${(r.price??'')}${(r.quantity??'')}`.trim() !== '')
-                        .map(r => ({
-                          name: r.name ?? '',
-                          price: r.price === '' || r.price == null ? null : Number(r.price),
-                          quantity: r.quantity === '' || r.quantity == null ? 1 : Number(r.quantity),
-                        }));
-                        // 配列をjson文字列に変換してCookie保存
-                        setCookie(ROW_COOKIE_KEY, JSON.stringify(rows), 30);
-                    },
 
                     addLaborItem() {
                         if (this.laborItems.length < 10) {
@@ -811,63 +725,6 @@
             }
         </script>
 
-        <!-- Cookieに自動保存 & 初期値反映 -->
-        <script>
-          // 自動保存する項目のIDを設定 (input, select)
-          const auto_save_fields = [
-            'cost1', 'quantity1', 'cost2', 'quantity2', 'cost3', 'quantity3', 'grossA', 'grossB'
-          ];
-          // 自動保存する項目のクラスを設定 (radio)
-          const auto_save_radio_fields = [
-            'taxMode'
-          ];
 
-          // input, selectの変更を保存
-          auto_save_fields.forEach(field => {
-            const input = document.getElementById(field);
-            if (input) {
-              input.addEventListener('input', function() {
-                setCookie(field, this.value, 30);
-              });
-            }
-          });
-          // radioの変更を保存
-          auto_save_radio_fields.forEach(field => {
-            const radios = document.querySelectorAll(`input[type="radio"].${field}`);
-            if (radios.length) {
-              radios.forEach((r) => {
-                r.addEventListener('change', function () {
-                  // チェックされている場合は保存
-                  if (this.checked) setCookie(field, this.value, 30);
-                });
-              });
-            }
-          });
 
-          window.addEventListener('DOMContentLoaded', () => {
-            // input, selectの初期値反映
-            auto_save_fields.forEach(field => {
-              const value = getCookie(field);
-              const input = document.getElementById(field);
-              if (input && value) {
-                input.value = value;
-                const event = input.tagName === 'SELECT' ? 'change' : 'input';
-                input.dispatchEvent(new Event(event, { bubbles: true }));
-              }
-            });
-            // radioの初期値反映
-            auto_save_radio_fields.forEach(field => {
-              const value = getCookie(field);
-              const radios = document.querySelectorAll(`input[type="radio"].${field}`);
-              if (radios.length && value) {
-                const is_checked = Array.from(radios).find(r => r.value == value);
-                if (is_checked) {
-                  is_checked.checked = true;
-                  is_checked.dispatchEvent(new Event('change', { bubbles: true }));
-                  return;
-                }
-              }
-            });
-          });
-        </script>
 </x-app-layout>
