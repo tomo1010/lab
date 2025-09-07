@@ -40,7 +40,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script src="{{ asset('/js/cookie.js') }}"></script>
 
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
