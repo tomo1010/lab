@@ -235,6 +235,12 @@
 
 
                         </div>
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="save_labor_to_cookie" class="mr-2">
+                                工賃設定を保存しておく
+                            </label>
+                        </div>
                     </div>
 
 
@@ -543,7 +549,11 @@
         <!-- Alpine.js ロジック -->
         <script>
             function taxCalculator() {
-                return {
+              // Cookie保存用KEY
+              const ROW_COOKIE_KEY = 'labor_rows_json';
+              const MODE_COOKIE_KEY = 'laborTaxMode';
+
+              return {
                     taxMode: 'including',
                     grossA: null,
                     grossB: null,
@@ -589,6 +599,90 @@
                             quantity: 4
                         },
                     ],
+
+                    // 工賃設定保存フラグ
+                    saveLaborToCookie: false,
+                    // 初期化フック
+                    init() {
+                      // initを1度しか実行しないようにする
+                      if (window.__taxCalcBooted) return;
+                      window.__taxCalcBooted = true;
+
+                      // 保存チェック初期値反映
+                      const chk = document.getElementById('save_labor_to_cookie');
+                      if (chk) {
+                        this.saveLaborToCookie = !!getCookie('save_labor_to_cookie');
+                        chk.checked = this.saveLaborToCookie; // checked (true/false)を設定
+
+                        // リスナー重複防止
+                        if (!chk.dataset.laborBound) {
+                          // 保存チェック変更時
+                          chk.addEventListener('change', () => {
+                            this.saveLaborToCookie = chk.checked;
+                            if (this.saveLaborToCookie) {
+                              setCookie('save_labor_to_cookie', true, 30);
+                              this.$nextTick(() => { // Alpineが直前の入力を反映し終わってから保存
+                                // 明細保存
+                                this.saveLaborRows();
+                                // radio保存
+                                setCookie(MODE_COOKIE_KEY, this.laborTaxMode, 30);
+                                alert('工賃設定をクッキーに保存しました。');
+                              });
+                            } else {
+                              // 工賃設定周り削除
+                              deleteCookie('save_labor_to_cookie');
+                              deleteCookie(ROW_COOKIE_KEY);
+                              deleteCookie(MODE_COOKIE_KEY);
+                              alert('クッキーから工賃設定を削除しました。');
+                            }
+                          });
+                          // 重複防止用
+                          chk.dataset.laborBound = '1';
+                        }
+                      }
+
+                      // radio初期値反映
+                      const mode = getCookie(MODE_COOKIE_KEY);
+                      if (mode) this.laborTaxMode = mode;
+
+                      // 明細初期値反映（Cookieから整形してlaborItemsに代入）
+                      const rowsStr = getCookie(ROW_COOKIE_KEY);
+                      if (rowsStr) {
+                        try {
+                          const parsed = JSON.parse(rowsStr);
+                          if (Array.isArray(parsed)) {
+                            this.laborItems = parsed.slice(0, 10).map(r => ({
+                              name: r?.name ?? '',
+                              price: r?.price === '' || r?.price == null ? null : Number(r.price),
+                              quantity: r?.quantity === '' || r?.quantity == null ? 1 : Number(r.quantity),
+                            }));
+                          }
+                        } catch {}
+                      }
+
+                      // 変更監視 (保存チェックONの場合のみ)
+                      this.$watch(() => JSON.stringify(this.laborItems), () => {
+                        if (this.saveLaborToCookie) this.saveLaborRows();
+                      });
+                      this.$watch('laborTaxMode', (v) => {
+                        if (this.saveLaborToCookie) setCookie(MODE_COOKIE_KEY, v, 30);
+                      });
+                    },
+                    /**
+                     * 明細をCookieに保存する
+                     */
+                    saveLaborRows() {
+                      const rows = this.laborItems
+                        .filter(r => `${(r.name??'')}${(r.price??'')}${(r.quantity??'')}`.trim() !== '')
+                        .map(r => ({
+                          name: r.name ?? '',
+                          price: r.price === '' || r.price == null ? null : Number(r.price),
+                          quantity: r.quantity === '' || r.quantity == null ? 1 : Number(r.quantity),
+                        }));
+                      // 配列をjson文字列に変換してCookie保存
+                      setCookie(ROW_COOKIE_KEY, JSON.stringify(rows), 30);
+                    },
+
 
                     addLaborItem() {
                         if (this.laborItems.length < 10) {
