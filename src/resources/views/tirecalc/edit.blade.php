@@ -61,7 +61,7 @@
 
                     <!-- 原価入力 -->
                     <div class="mb-4">
-                        <h3 class="text-xl font-bold mb-1">①原価入力</h3>
+                        <h3 class="text-xl font-bold mb-1">①原価</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="taxMode" value="including" class="mr-1">
                             税込み
@@ -162,19 +162,19 @@
 
                 <!-- 共通設定：粗利 -->
                 <div class="mt-6 border-t pt-4">
-                    <h3 class="text-xl font-bold mb-2">②粗利設定</h3>
+                    <h3 class="text-xl font-bold mb-2">②粗利</h3>
 
                     <!-- 横並び：粗利A・粗利B -->
                     <div class="flex gap-4">
                         <!-- 粗利A（加算） -->
                         <div class="w-1/2">
                             <select x-model.number="grossA" class="w-full border rounded px-2 py-1">
-                                <option value="">粗利（加算）</option>
-                                <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
+                                <option value="">+加算</option>
+                                <template x-for="amount in [5000, 10000, 15000, 20000, 25000, 30000]" :key="amount">
                                     <option
-                                            :value="amount"
-                                            :selected="Number(grossA) === Number(amount)"
-                                            x-text="`${amount.toLocaleString()} 円`">
+                                        :value="amount"
+                                        :selected="Number(grossA) === Number(amount)"
+                                        x-text="`${amount.toLocaleString()} 円`">
                                     </option>
                                 </template>
                             </select>
@@ -183,12 +183,12 @@
                         <!-- 粗利B（掛け算） -->
                         <div class="w-1/2">
                             <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                <option value="">粗利（乗算）</option>
+                                <option value="">×乗算</option>
                                 <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
                                     <option
-                                            :value="rate"
-                                            :selected="Number(grossB) === Number(rate)"
-                                            x-text="`${rate.toFixed(1)}`">
+                                        :value="rate"
+                                        :selected="Number(grossB) === Number(rate)"
+                                        x-text="`${rate.toFixed(1)}`">
                                     </option>
                                 </template>
                             </select>
@@ -202,7 +202,7 @@
                 <!-- ✅ 工賃設定フォーム -->
                 <div class="mt-6 border-t pt-4">
                     <div class="mb-6">
-                        <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
+                        <h3 class="text-xl font-bold mb-2">③工賃</h3>
                         <label class="inline-flex items-center mr-4">
                             <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
                             税込み
@@ -219,10 +219,31 @@
                             <input type="text" x-model="row.name" class="w-[50%] border rounded px-2 py-1" placeholder="項目名">
                             <input type="number" x-model.number="row.price" min="0" class="w-[30%] border rounded px-2 py-1" placeholder="金額">
                             <select x-model.number="row.quantity" class="w-[20%] border rounded px-2 py-1">
-                                <option value="1">1個</option>
-                                <option value="2">2個</option>
-                                <option value="3">3個</option>
-                                <option value="4">4個</option>
+                                    <option value="1">1個</option>
+                                    <option value="2">2個</option>
+                                    <option value="3">3個</option>
+                                    <option value="4">4個</option>
+                                    <option value="5">5個</option>
+                                    <option value="6">6個</option>
+                                    <option value="7">7個</option>
+                                    <option value="8">8個</option>
+                                    <option value="9">9個</option>
+                                    <option value="10">10個</option>
+                                    <option value="10">11個</option>
+                                    <option value="10">12個</option>
+                                    <option value="10">13個</option>
+                                    <option value="10">14個</option>
+                                    <option value="10">15個</option>
+                                    <option value="10">16個</option>
+                                    <option value="10">17個</option>
+                                    <option value="10">18個</option>
+                                    <option value="10">19個</option>
+                                    <option value="10">20個</option>
+                                    <option value="10">21個</option>
+                                    <option value="10">22個</option>
+                                    <option value="10">23個</option>
+                                    <option value="10">24個</option>
+                                    <option value="10">25個</option>
                             </select>
                         </div>
                     </template>
@@ -232,11 +253,10 @@
                     <!-- 工賃小計 -->
                     <div class="mt-1 font-bold text-right text-gray-500">
                         <!--工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円-->
-                        <!-- 税込表示（従来通り） -->
-                        <p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
-
                         <!-- 税抜表示（新たに追加） -->
                         <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
+                        <!-- 税込表示（従来通り） -->
+                        <p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
 
                     </div>
                 </div>
@@ -416,10 +436,10 @@
 
                                 const customer_name = document.getElementById('customer_name')?.value || '';
                                 const honorific = document.getElementById('honorific')?.value || '';
-                                output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
+                                output += `${customer_name} ${honorific}\n\n`;
 
                                 const selectTire = document.getElementById('selectTire')?.value || '未選択';
-                                output += `■ タイトル\n${selectTire}\n\n`;
+                                output += `■ 商品\n${selectTire}\n\n`;
 
                                 const sizeGeneral = document.getElementById('sizeGeneral')?.value;
                                 const sizeFree = document.getElementById('sizeFree')?.value;
@@ -428,35 +448,35 @@
                                 /**
                                  * 商品情報
                                  */
-                                const maker1 = document.getElementById('maker1')?.value || '未選択';
-                                const maker2 = document.getElementById('maker2')?.value || '未選択';
-                                const maker3 = document.getElementById('maker3')?.value || '未選択';
+                                const maker1 = document.getElementById('maker1')?.value || '-';
+                                const maker2 = document.getElementById('maker2')?.value || '-';
+                                const maker3 = document.getElementById('maker3')?.value || '-';
 
-                                output += `■ 商品1：${maker1}\nタイヤ：${this.displayUnitPrice(this.item1).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item1).toLocaleString()} 円\n\n`;
-                                output += `■ 商品2：${maker2}\nタイヤ：${this.displayUnitPrice(this.item2).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item2).toLocaleString()} 円\n\n`;
-                                output += `■ 商品3：${maker3}\nタイヤ：${this.displayUnitPrice(this.item3).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item3).toLocaleString()} 円\n\n`;
+                                output += `■ 商品A：${maker1}\nタイヤ：${this.displayUnitPrice(this.item1).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item1).toLocaleString()} 円\n\n`;
+                                output += `■ 商品B：${maker2}\nタイヤ：${this.displayUnitPrice(this.item2).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item2).toLocaleString()} 円\n\n`;
+                                output += `■ 商品C：${maker3}\nタイヤ：${this.displayUnitPrice(this.item3).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item3).toLocaleString()} 円\n\n`;
 
                                 /**
                                  * 工賃詳細 - 動的に生成
                                  */
                                 const laborLines = (this.laborItems || [])
-                                  // 名前と金額が入力されているもののみにフィルタリング
-                                  .filter(r => (r?.name ?? '').toString().trim() !== '' && Number(r?.price) > 0)
-                                  .map(r => {
-                                    const name = r.name; // 名前
-                                    const qty = Number(r?.quantity ?? 1); // 個数
-                                    const price = Number(r?.price ?? 0); // 金額
-                                    const amount = price * qty; // 合計
-                                    return `${name}：${amount.toLocaleString()} 円`;
-                                  })
-                                  .join('\n');
+                                    // 名前と金額が入力されているもののみにフィルタリング
+                                    .filter(r => (r?.name ?? '').toString().trim() !== '' && Number(r?.price) > 0)
+                                    .map(r => {
+                                        const name = r.name; // 名前
+                                        const qty = Number(r?.quantity ?? 1); // 個数
+                                        const price = Number(r?.price ?? 0); // 金額
+                                        const amount = price * qty; // 合計
+                                        return `${name}：${amount.toLocaleString()} 円`;
+                                    })
+                                    .join('\n');
 
                                 output += `■ 工賃詳細\n${laborLines || '（未入力）'}\n` +
-                                  `税抜合計：${this.laborSubtotal.toLocaleString()} 円\n` +
-                                  `税込合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
+                                    `税抜合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
+                                    `税込合計：${this.laborSubtotal.toLocaleString()} 円\n` +
 
                                 const comment = document.getElementById('comment')?.value || '';
-                                output += `■ コメント\n${comment.trim()}\n`;
+                                output += `■ 備考\n${comment.trim()}\n`;
 
                                 try {
                                     await navigator.clipboard.writeText(output);
@@ -476,7 +496,7 @@
 
                     <!-- トグル見出し -->
                     <div class="flex items-center justify-between cursor-pointer mb-4" @click="open = !open">
-                        <h3 class="text-lg font-bold text-gray-800">PDF設定・コピー設定</h3>
+                        <h3 class="text-lg font-bold text-gray-800">PDF設定</h3>
                         <div class="text-xl">
                             <span x-show="!open">＋</span>
                             <span x-show="open">−</span>
@@ -487,7 +507,7 @@
                     <div x-show="open" x-transition>
                         <!-- メーカー選択 -->
                         <div class="mb-6">
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">メーカー</h4>
+                            <h4 class="text-base font-semibold text-gray-700 mb-2">メーカー</h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <select name="maker1" id="maker1" class="w-full px-4 py-2 border rounded-lg bg-red-50">
                                     <option value="" {{ $tirecalc->maker1 == '' ? 'selected' : '' }}>商品１</option>
@@ -590,7 +610,7 @@
 
                         <!-- タイトル選択 -->
                         <div class="mb-6">
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">タイトル</h4>
+                            <h4 class="text-base font-semibold text-gray-700 mb-2">タイトル</h4>
                             <div class="mb-6">
                                 <select name="selectTire" id="selectTire" class="w-full px-4 py-2 border rounded-lg">
                                     <option value="0" {{ $tirecalc->selectTire == '0' || $tirecalc->selectTire == '' ? 'selected' : '' }}>選択してください</option>
@@ -608,7 +628,7 @@
 
                         <!-- タイヤサイズ選択 -->
                         <div class="mb-6">
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">タイヤサイズ</h4>
+                            <h4 class="text-base font-semibold text-gray-700 mb-2">タイヤサイズ</h4>
                             <select name="sizeGeneral" id="sizeGeneral" class="w-full px-4 py-2 border rounded-lg">
                                 <option value="0" {{ $tirecalc->sizeGeneral == '0' ? 'selected' : '' }}>汎用サイズ</option>
 
@@ -680,7 +700,7 @@
 
                         <!-- 宛名 -->
                         <div class="mb-6">
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">宛名</h4>
+                            <h4 class="text-base font-semibold text-gray-700 mb-2">宛名</h4>
                             <div class="flex gap-2">
                                 <input
                                     type="text"
@@ -698,7 +718,7 @@
 
                         <!-- コメント -->
                         <div class="mb-6">
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">コメント</h4>
+                            <h4 class="text-base font-semibold text-gray-700 mb-2">コメント</h4>
                             <textarea
                                 id="comment"
                                 name="comment"

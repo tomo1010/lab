@@ -3,7 +3,7 @@
 
     <!-- トグル見出し -->
     <div class="flex items-center justify-between mb-2 cursor-pointer" @click="open = !open">
-        <div class="text-lg font-semibold">発行者（会社情報）</div>
+        <div class="text-lg font-semibold">会社情報</div>
         <div class="text-xl">
             <span x-show="!open">＋</span>
             <span x-show="open">−</span>
@@ -116,10 +116,10 @@
 
         {{-- クッキー保存スクリプト（ゲスト） --}}
         @guest
-        <div class="mt-4">
+        <div class="mt-4 text-sm">
             <label class="inline-flex items-center">
                 <input type="checkbox" id="save_to_cookie" class="mr-2">
-                発信者情報を保存しておく
+                会社情報を保存
             </label>
         </div>
 

@@ -61,7 +61,7 @@
 
                         <!-- 原価入力 -->
                         <div class="mb-4">
-                            <h3 class="text-xl font-bold mb-1">①原価入力</h3>
+                            <h3 class="text-xl font-bold mb-1">①原価</h3>
                             <label class="inline-flex items-center mr-4">
                                 <input type="radio" x-model="taxMode" value="including" class="mr-1">
                                 税込み
@@ -86,7 +86,7 @@
                                         <option value="1">1個</option>
                                         <option value="2">2個</option>
                                         <option value="3">3個</option>
-                                        <option value="4">4個</option>
+                                        <option value="4" selected>4個</option>
                                     </select>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
 
                     <!-- 共通設定：粗利 -->
                     <div class="mt-6 border-t pt-4">
-                        <h3 class="text-xl font-bold mb-2">②粗利設定
+                        <h3 class="text-xl font-bold mb-2">②粗利
                             </h2>
 
                             <!-- 横並び：粗利A・粗利B -->
@@ -173,8 +173,8 @@
                                 <!-- 粗利A（加算） -->
                                 <div class="w-1/2">
                                     <select x-model="grossA" class="w-full border rounded px-2 py-1">
-                                        <option :value="null">粗利（加算）</option>
-                                        <template x-for="amount in [5000, 10000, 15000, 20000]" :key="amount">
+                                        <option :value="null">+加算</option>
+                                        <template x-for="amount in [5000, 10000, 15000, 20000, 25000, 30000]" :key="amount">
                                             <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
                                         </template>
                                     </select>
@@ -183,7 +183,7 @@
                                 <!-- 粗利B（掛け算） -->
                                 <div class="w-1/2">
                                     <select x-model="grossB" class="w-full border rounded px-2 py-1">
-                                        <option :value="null">粗利（乗算）</option>
+                                        <option :value="null">×乗算</option>
                                         <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
                                             <option :value="rate" x-text="rate.toFixed(1)"></option>
                                         </template>
@@ -196,7 +196,7 @@
                     <!-- ✅ 工賃設定フォーム -->
                     <div class="mt-6 border-t pt-4">
                         <div class="mb-4">
-                            <h3 class="text-xl font-bold mb-2">③工賃設定</h3>
+                            <h3 class="text-xl font-bold mb-2">③工賃</h3>
                             <label class="inline-flex items-center mr-4">
                                 <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
                                 税込み
@@ -217,6 +217,27 @@
                                     <option value="2">2個</option>
                                     <option value="3">3個</option>
                                     <option value="4">4個</option>
+                                    <option value="5">5個</option>
+                                    <option value="6">6個</option>
+                                    <option value="7">7個</option>
+                                    <option value="8">8個</option>
+                                    <option value="9">9個</option>
+                                    <option value="10">10個</option>
+                                    <option value="10">11個</option>
+                                    <option value="10">12個</option>
+                                    <option value="10">13個</option>
+                                    <option value="10">14個</option>
+                                    <option value="10">15個</option>
+                                    <option value="10">16個</option>
+                                    <option value="10">17個</option>
+                                    <option value="10">18個</option>
+                                    <option value="10">19個</option>
+                                    <option value="10">20個</option>
+                                    <option value="10">21個</option>
+                                    <option value="10">22個</option>
+                                    <option value="10">23個</option>
+                                    <option value="10">24個</option>
+                                    <option value="10">25個</option>
                                 </select>
                             </div>
                         </template>
@@ -227,18 +248,16 @@
                         <!-- 工賃小計 -->
                         <div class="mt-1 font-bold text-right text-gray-500">
                             <!--工賃合計：<span x-text="laborSubtotal.toLocaleString()"></span> 円-->
+                            <!-- 税抜表示（新たに追加） -->
+                            <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
                             <!-- 税込表示（従来通り） -->
                             <p>税込：<span x-text="laborSubtotal.toLocaleString() + ' 円'"></span></p>
 
-                            <!-- 税抜表示（新たに追加） -->
-                            <p>税抜：<span x-text="laborSubtotalExcludingTax.toLocaleString() + ' 円'"></span></p>
-
-
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-2 text-sm">
                             <label class="inline-flex items-center">
                                 <input type="checkbox" id="save_labor_to_cookie" class="mr-2">
-                                工賃設定を保存しておく
+                                工賃設定を保存
                             </label>
                         </div>
                     </div>
@@ -252,7 +271,7 @@
 
                         <!-- トグル見出し -->
                         <div class="flex items-center justify-between cursor-pointer mb-4" @click="open = !open">
-                            <h3 class="text-lg font-bold text-gray-800">PDF設定・コピー設定</h4>
+                            <h3 class="text-lg font-bold text-gray-800">PDF設定</h4>
                                 <div class="text-xl">
                                     <span x-show="!open">＋</span>
                                     <span x-show="open">−</span>
@@ -264,7 +283,7 @@
 
                             <!-- メーカー選択 -->
                             <div class="mb-6">
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">メーカー</h4>
+                                <h4 class="text-base font-semibold text-gray-700 mb-2">メーカー</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <select name="maker1" id="maker1" class="w-full px-4 py-2 border rounded-lg bg-red-50">
                                         <option value="" {{ request('maker1') == '' ? 'selected' : '' }}>商品A</option>
@@ -365,7 +384,7 @@
 
                             <!-- タイトル選択 -->
                             <div class="mb-6">
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">タイトル</h4>
+                                <h4 class="text-base font-semibold text-gray-700 mb-2">タイトル</h4>
                                 <div class="mb-6">
                                     <select name="selectTire" id="selectTire" class="w-full px-4 py-2 border rounded-lg">
                                         <option value="0" {{ request('selectTire') == '' ? 'selected' : '' }}>選択してください</option>
@@ -382,7 +401,7 @@
 
                             <!-- タイヤサイズ選択 -->
                             <div class="mb-6">
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">タイヤサイズ</h4>
+                                <h4 class="text-base font-semibold text-gray-700 mb-2">タイヤサイズ</h4>
                                 <select name="sizeGeneral" id="sizeGeneral" class="w-full px-4 py-2 border rounded-lg">
                                     <option value="0" {{ request('sizeGeneral') == '0' ? 'selected' : '' }}>汎用サイズ</option>
 
@@ -446,7 +465,7 @@
 
                             <!-- 宛名 -->
                             <div class="mb-6">
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">宛名</h4>
+                                <h4 class="text-base font-semibold text-gray-700 mb-2">宛名</h4>
                                 <div class="flex gap-2">
                                     <input type="text" name="customer_name" id="customer_name" class="w-full px-4 py-2 border rounded-lg"
                                         placeholder="宛名を入力">
@@ -459,7 +478,7 @@
 
                             <!-- コメント -->
                             <div class="mb-6">
-                                <h4 class="text-lg font-semibold text-gray-700 mb-2">コメント</h4>
+                                <h4 class="text-base font-semibold text-gray-700 mb-2">コメント</h4>
                                 <textarea id="comment" name="comment" rows="4" class="w-full px-4 py-2 border rounded-lg">※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。
                                 </textarea>
                             </div>
@@ -549,11 +568,11 @@
         <!-- Alpine.js ロジック -->
         <script>
             function taxCalculator() {
-              // Cookie保存用KEY
-              const ROW_COOKIE_KEY = 'labor_rows_json';
-              const MODE_COOKIE_KEY = 'laborTaxMode';
+                // Cookie保存用KEY
+                const ROW_COOKIE_KEY = 'labor_rows_json';
+                const MODE_COOKIE_KEY = 'laborTaxMode';
 
-              return {
+                return {
                     taxMode: 'including',
                     grossA: null,
                     grossB: null,
@@ -604,83 +623,83 @@
                     saveLaborToCookie: false,
                     // 初期化フック
                     init() {
-                      // initを1度しか実行しないようにする
-                      if (window.__taxCalcBooted) return;
-                      window.__taxCalcBooted = true;
+                        // initを1度しか実行しないようにする
+                        if (window.__taxCalcBooted) return;
+                        window.__taxCalcBooted = true;
 
-                      // 保存チェック初期値反映
-                      const chk = document.getElementById('save_labor_to_cookie');
-                      if (chk) {
-                        this.saveLaborToCookie = !!getCookie('save_labor_to_cookie');
-                        chk.checked = this.saveLaborToCookie; // checked (true/false)を設定
+                        // 保存チェック初期値反映
+                        const chk = document.getElementById('save_labor_to_cookie');
+                        if (chk) {
+                            this.saveLaborToCookie = !!getCookie('save_labor_to_cookie');
+                            chk.checked = this.saveLaborToCookie; // checked (true/false)を設定
 
-                        // リスナー重複防止
-                        if (!chk.dataset.laborBound) {
-                          // 保存チェック変更時
-                          chk.addEventListener('change', () => {
-                            this.saveLaborToCookie = chk.checked;
-                            if (this.saveLaborToCookie) {
-                              setCookie('save_labor_to_cookie', true, 30);
-                              this.$nextTick(() => { // Alpineが直前の入力を反映し終わってから保存
-                                // 明細保存
-                                this.saveLaborRows();
-                                // radio保存
-                                setCookie(MODE_COOKIE_KEY, this.laborTaxMode, 30);
-                                alert('工賃設定をクッキーに保存しました。');
-                              });
-                            } else {
-                              // 工賃設定周り削除
-                              deleteCookie('save_labor_to_cookie');
-                              deleteCookie(ROW_COOKIE_KEY);
-                              deleteCookie(MODE_COOKIE_KEY);
-                              alert('クッキーから工賃設定を削除しました。');
+                            // リスナー重複防止
+                            if (!chk.dataset.laborBound) {
+                                // 保存チェック変更時
+                                chk.addEventListener('change', () => {
+                                    this.saveLaborToCookie = chk.checked;
+                                    if (this.saveLaborToCookie) {
+                                        setCookie('save_labor_to_cookie', true, 30);
+                                        this.$nextTick(() => { // Alpineが直前の入力を反映し終わってから保存
+                                            // 明細保存
+                                            this.saveLaborRows();
+                                            // radio保存
+                                            setCookie(MODE_COOKIE_KEY, this.laborTaxMode, 30);
+                                            alert('工賃設定をクッキーに保存しました。');
+                                        });
+                                    } else {
+                                        // 工賃設定周り削除
+                                        deleteCookie('save_labor_to_cookie');
+                                        deleteCookie(ROW_COOKIE_KEY);
+                                        deleteCookie(MODE_COOKIE_KEY);
+                                        alert('クッキーから工賃設定を削除しました。');
+                                    }
+                                });
+                                // 重複防止用
+                                chk.dataset.laborBound = '1';
                             }
-                          });
-                          // 重複防止用
-                          chk.dataset.laborBound = '1';
                         }
-                      }
 
-                      // radio初期値反映
-                      const mode = getCookie(MODE_COOKIE_KEY);
-                      if (mode) this.laborTaxMode = mode;
+                        // radio初期値反映
+                        const mode = getCookie(MODE_COOKIE_KEY);
+                        if (mode) this.laborTaxMode = mode;
 
-                      // 明細初期値反映（Cookieから整形してlaborItemsに代入）
-                      const rowsStr = getCookie(ROW_COOKIE_KEY);
-                      if (rowsStr) {
-                        try {
-                          const parsed = JSON.parse(rowsStr);
-                          if (Array.isArray(parsed)) {
-                            this.laborItems = parsed.slice(0, 10).map(r => ({
-                              name: r?.name ?? '',
-                              price: r?.price === '' || r?.price == null ? null : Number(r.price),
-                              quantity: r?.quantity === '' || r?.quantity == null ? 1 : Number(r.quantity),
-                            }));
-                          }
-                        } catch {}
-                      }
+                        // 明細初期値反映（Cookieから整形してlaborItemsに代入）
+                        const rowsStr = getCookie(ROW_COOKIE_KEY);
+                        if (rowsStr) {
+                            try {
+                                const parsed = JSON.parse(rowsStr);
+                                if (Array.isArray(parsed)) {
+                                    this.laborItems = parsed.slice(0, 10).map(r => ({
+                                        name: r?.name ?? '',
+                                        price: r?.price === '' || r?.price == null ? null : Number(r.price),
+                                        quantity: r?.quantity === '' || r?.quantity == null ? 1 : Number(r.quantity),
+                                    }));
+                                }
+                            } catch {}
+                        }
 
-                      // 変更監視 (保存チェックONの場合のみ)
-                      this.$watch(() => JSON.stringify(this.laborItems), () => {
-                        if (this.saveLaborToCookie) this.saveLaborRows();
-                      });
-                      this.$watch('laborTaxMode', (v) => {
-                        if (this.saveLaborToCookie) setCookie(MODE_COOKIE_KEY, v, 30);
-                      });
+                        // 変更監視 (保存チェックONの場合のみ)
+                        this.$watch(() => JSON.stringify(this.laborItems), () => {
+                            if (this.saveLaborToCookie) this.saveLaborRows();
+                        });
+                        this.$watch('laborTaxMode', (v) => {
+                            if (this.saveLaborToCookie) setCookie(MODE_COOKIE_KEY, v, 30);
+                        });
                     },
                     /**
                      * 明細をCookieに保存する
                      */
                     saveLaborRows() {
-                      const rows = this.laborItems
-                        .filter(r => `${(r.name??'')}${(r.price??'')}${(r.quantity??'')}`.trim() !== '')
-                        .map(r => ({
-                          name: r.name ?? '',
-                          price: r.price === '' || r.price == null ? null : Number(r.price),
-                          quantity: r.quantity === '' || r.quantity == null ? 1 : Number(r.quantity),
-                        }));
-                      // 配列をjson文字列に変換してCookie保存
-                      setCookie(ROW_COOKIE_KEY, JSON.stringify(rows), 30);
+                        const rows = this.laborItems
+                            .filter(r => `${(r.name??'')}${(r.price??'')}${(r.quantity??'')}`.trim() !== '')
+                            .map(r => ({
+                                name: r.name ?? '',
+                                price: r.price === '' || r.price == null ? null : Number(r.price),
+                                quantity: r.quantity === '' || r.quantity == null ? 1 : Number(r.quantity),
+                            }));
+                        // 配列をjson文字列に変換してCookie保存
+                        setCookie(ROW_COOKIE_KEY, JSON.stringify(rows), 30);
                     },
 
 
