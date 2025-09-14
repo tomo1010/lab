@@ -62,11 +62,11 @@
                     <!-- 原価入力 -->
                     <div class="mb-4">
                         <h3 class="text-xl font-bold mb-1">①原価</h3>
-                        <label class="inline-flex items-center mr-4">
+                        <label class="inline-flex items-center mr-4 text-sm">
                             <input type="radio" x-model="taxMode" value="including" class="mr-1">
                             税込み
                         </label>
-                        <label class="inline-flex items-center">
+                        <label class="inline-flex items-center text-sm">
                             <input type="radio" x-model="taxMode" value="excluding" class="mr-1">
                             税抜き
                         </label>
@@ -203,11 +203,11 @@
                 <div class="mt-6 border-t pt-4">
                     <div class="mb-6">
                         <h3 class="text-xl font-bold mb-2">③工賃</h3>
-                        <label class="inline-flex items-center mr-4">
+                        <label class="inline-flex items-center mr-4 text-sm">
                             <input type="radio" x-model="laborTaxMode" value="including" class="mr-1">
                             税込み
                         </label>
-                        <label class="inline-flex items-center">
+                        <label class="inline-flex items-center text-sm">
                             <input type="radio" x-model="laborTaxMode" value="excluding" class="mr-1">
                             税抜き
                         </label>
