@@ -716,21 +716,46 @@
         }
 
         // ポップアップ内の税金選択
+        // 旧: document.getElementById('tax_1') に入れていた実装は破棄
+        // 新: tax_1〜tax_5 → #charges-tax-rows の 1〜5 行目の金額 input にセット
         function selectTax(amount, taxType) {
-            const input = document.getElementById(taxType); // 例: 'tax_1'
-            if (!input) {
-                console.warn('selectTax target not found:', taxType);
+            try {
+                // taxType 例: 'tax_1' / 'tax_2' ... 'tax_5'
+                const m = String(taxType).match(/^tax_(\d)$/);
+                if (!m) return;
+
+                const rowIndex = parseInt(m[1], 10) - 1; // 1→0, 2→1, ...
+
+                // 税金・保険料ブロック内の行を取得（プリセット順が tax_1..tax_5 で並ぶ前提）
+                const rows = document.querySelectorAll('#charges-tax-rows .charge-row');
+                if (!rows || rowIndex < 0 || rowIndex >= rows.length) {
+                    // 対応する行が存在しない場合は何もしない（必要なら console.warn で通知）
+                    // console.warn('tax row not found for', taxType);
+                    closeTaxPopup(taxType);
+                    return;
+                }
+
+                // 対象行の「金額」input（charges[tax][i][amount]）を探す
+                const amountInput = rows[rowIndex].querySelector('input[name^="charges[tax]"][name$="[amount]"]');
+                if (amountInput) {
+                    amountInput.value = parseInt(amount, 10) || 0;
+
+                    // 変更イベントを発火して小計・合計を再計算
+                    amountInput.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                }
+
+                // ポップアップを閉じる（既存関数を利用）
                 closeTaxPopup(taxType);
-                return;
+
+                // フォーム送信などのデフォルト抑止（念のため）
+                if (typeof event !== 'undefined' && event.preventDefault) event.preventDefault();
+            } catch (e) {
+                // 失敗してもUIを固めない
+                // console.error(e);
+                closeTaxPopup(taxType);
             }
-            input.value = amount;
-
-            // 即時に小計/合計を更新させる
-            input.dispatchEvent(new Event('input', {
-                bubbles: true
-            }));
-
-            closeTaxPopup(taxType);
         }
     </script>
 
