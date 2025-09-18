@@ -1,4 +1,5 @@
-                        <!-- ポップアップウィンドウ（重量税月割表） -->
+
+<!-- ポップアップウィンドウ（重量税月割表） -->
                         <div id="taxPopup2" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
                             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl overflow-auto max-h-full">
                                 <h2 class="text-lg font-semibold mb-4">重量税</h2>                                                                
@@ -35,7 +36,7 @@
         <td class="border px-2 py-1"><button onclick="selectTax(3700, 'tax_2')">3700</button></td>
         <td class="border px-2 py-1"><button onclick="selectTax(5600, 'tax_2')">5600</button></td>
         <td class="border px-2 py-1"><button onclick="selectTax(12300, 'tax_2')">12300</button></td>
-    </tr>
+    </tr
     <tr>
         <td class='border px-2 py-1'>～1t</td>
         <td class="border px-2 py-1"><button onclick="selectTax(0, 'tax_2')">0</button></td>

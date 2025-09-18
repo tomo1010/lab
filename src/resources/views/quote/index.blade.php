@@ -150,11 +150,16 @@
                                     id="price"
                                     class="w-full px-4 py-2 border rounded-lg"
                                     inputmode="numeric" pattern="\d*"
-                                    required
                                     oninput="updatePriceDisplay(); recalcAll();">
                             </div>
                         </div>
                     </div>
+
+
+                    @include('quote.popup.tax_1')
+                    @include('quote.popup.tax_2')
+                    @include('quote.popup.tax_3')
+
 
                     {{-- ▼▼▼ ここから諸費用（quote_charges対応 / プリセット無し） ▼▼▼ --}}
                     <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">
@@ -249,6 +254,7 @@
                     </div>
                     {{-- ▲▲▲ オプション終わり ▲▲▲ --}}
 
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
                     <!-- 車両コミコミ合計（= 本体価格 + オプション小計） -->
                     <div class="mb-4">
                         <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
@@ -327,35 +333,74 @@
         }
 
         // ------- 諸費用行テンプレ -------
+        // 税金・保険料アイコン用の固定リスト
+        const taxIcons = [{
+                id: 'tax_1',
+                label: '自動車税'
+            },
+            {
+                id: 'tax_2',
+                label: '重量税'
+            },
+            {
+                id: 'tax_3',
+                label: '自賠責保険'
+            },
+            {
+                id: 'tax_4',
+                label: '環境性能割'
+            },
+            {
+                id: 'tax_5',
+                label: 'リサイクル費用'
+            },
+        ];
+
+        // 行テンプレート生成
         function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
+            const hasTaxIcon = (kind === 'tax' && index < taxIcons.length);
+            const taxMeta = hasTaxIcon ? taxIcons[index] : null;
+
+            const iconHtml = hasTaxIcon ? `
+    <button type="button"
+            onclick="openTaxPopup('${taxMeta.id}')"
+            class="ml-2 text-gray-500 hover:text-gray-700"
+            title="${taxMeta.label}">
+      <i class="fas fa-info-circle"></i>
+    </button>
+  ` : '';
+
+            const amountIdAttr = hasTaxIcon ? `id="${taxMeta.id}"` : '';
+
             return `
-      <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
-           data-kind="${kind}" data-index="${index}">
-        <div class="col-span-9 flex items-center gap-2">
-          <input type="text"
-                 name="charges[${kind}][${index}][name]"
-                 class="w-full px-3 py-2 border rounded"
-                 placeholder="例）自賠責保険 / 登録費用 など"
-                 value="${nameValue ?? ''}">
-          <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
-          <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
-        </div>
-        <div class="col-span-3 flex items-center gap-2">
-          <input type="number"
-                 name="charges[${kind}][${index}][amount]"
-                 class="charge-amount w-full px-3 py-2 border rounded text-right"
-                 inputmode="numeric" pattern="\\d*"
-                 placeholder="0"
-                 value="${amountValue ?? ''}">
-          <button type="button"
-                  class="shrink-0 px-2 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                  title="行を削除"
-                  onclick="removeChargeRow(this)">
-            −
-          </button>
-        </div>
-      </div>`;
+    <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
+         data-kind="${kind}" data-index="${index}">
+      <div class="col-span-9 flex items-center gap-2">
+        <input type="text"
+               name="charges[${kind}][${index}][name]"
+               class="w-full px-3 py-2 border rounded"
+               placeholder="例）自賠責保険 / 登録費用 など"
+               value="${nameValue ?? ''}">
+        <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
+        <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
+        ${iconHtml}
+      </div>
+      <div class="col-span-3 flex items-center gap-2">
+        <input type="number"
+               ${amountIdAttr}
+               name="charges[${kind}][${index}][amount]"
+               class="charge-amount w-full px-3 py-2 border rounded text-right"
+               inputmode="numeric" pattern="\\d*"
+               placeholder="0"
+               value="${amountValue ?? ''}">
+        <button type="button"
+                class="shrink-0 px-2 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                title="行を削除"
+                onclick="removeChargeRow(this)">−</button>
+      </div>
+    </div>`;
         }
+
 
         function addChargeRow(kind, nameValue = '', amountValue = '') {
             const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
@@ -605,6 +650,63 @@
                 document.getElementById(id)?.addEventListener('input', recalcPayment);
             });
         });
+
+
+
+        // ポップアップウインドウ操作（税金）
+        function openTaxPopup(taxType) {
+            const popupId = `taxPopup${taxType.replace('tax_', '')}`;
+            document.getElementById(popupId).classList.remove('hidden');
+            highlightCurrentMonth(popupId); // ポップアップを開くときに当月をハイライト    
+        }
+
+        function closeTaxPopup(taxType) {
+            const popupId = `taxPopup${taxType.replace('tax_', '')}`;
+            document.getElementById(popupId).classList.add('hidden');
+        }
+
+        function selectTax(amount, taxType) {
+            const inputId = taxType;
+            document.getElementById(inputId).value = amount;
+            closeTaxPopup(taxType); // クリック後ポップアップを閉じる
+        }
+
+
+        // 現在の月をハイライト
+        function highlightCurrentMonth(popupId) {
+            // 現在の月を取得（1月 = 1, 2月 = 2, ..., 12月 = 12）
+            const currentMonth = new Date().getMonth() + 1;
+
+            // すべてのthのハイライトをリセット
+            document.querySelectorAll(`#${popupId} th[data-month]`).forEach(th => {
+                th.classList.remove('bg-yellow-300', 'text-black');
+            });
+
+            // 該当するthにハイライトを適用
+            const currentTh = document.querySelector(`#${popupId} th[data-month="${currentMonth}"]`);
+            if (currentTh) {
+                currentTh.classList.add('bg-yellow-300', 'text-black');
+            }
+
+        }
+
+        // ポップアップ内の税金選択
+        function selectTax(amount, taxType) {
+            const input = document.getElementById(taxType); // 例: 'tax_1'
+            if (!input) {
+                console.warn('selectTax target not found:', taxType);
+                closeTaxPopup(taxType);
+                return;
+            }
+            input.value = amount;
+
+            // 即時に小計/合計を更新させる
+            input.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
+
+            closeTaxPopup(taxType);
+        }
     </script>
 
 
