@@ -334,48 +334,68 @@
 
         // ------- 諸費用行テンプレ -------
         // 税金・保険料アイコン用の固定リスト
+        // 税金・保険料アイコン用の固定リスト
         const taxIcons = [{
                 id: 'tax_1',
-                label: '自動車税'
+                label: '自動車税',
+                type: 'popup'
             },
             {
                 id: 'tax_2',
-                label: '重量税'
+                label: '重量税',
+                type: 'popup'
             },
             {
                 id: 'tax_3',
-                label: '自賠責保険'
+                label: '自賠責保険',
+                type: 'popup'
             },
             {
                 id: 'tax_4',
-                label: '環境性能割'
+                label: '環境性能割',
+                type: 'link',
+                url: 'https://www.jucda.or.jp/tax/kankyouseinouwari/'
             },
             {
                 id: 'tax_5',
-                label: 'リサイクル費用'
+                label: 'リサイクル費用',
+                type: 'link',
+                url: 'http://www.jars.gr.jp/gus/exju0010.html?date=20250324'
             },
         ];
 
         // 行テンプレート生成
         function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
-            const hasTaxIcon = (kind === 'tax' && index < taxIcons.length);
-            const taxMeta = hasTaxIcon ? taxIcons[index] : null;
+            // tax 用アイコン定義（既出の taxIcons を使う想定）
+            let iconHtml = '';
+            if (kind === 'tax' && index < taxIcons.length) {
+                const icon = taxIcons[index];
+                if (icon.type === 'popup') {
+                    iconHtml = `
+        <button type="button"
+                onclick="openTaxPopup('${icon.id}')"
+                class="text-gray-500 hover:text-gray-700"
+                title="${icon.label}">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      `;
+                } else if (icon.type === 'link') {
+                    iconHtml = `
+        <a href="${icon.url}" target="_blank" rel="noopener noreferrer"
+           class="text-gray-500 hover:text-gray-700"
+           title="${icon.label}">
+          <i class="fa-solid fa-square-arrow-up-right"></i>
+        </a>
+      `;
+                }
+            }
 
-            const iconHtml = hasTaxIcon ? `
-    <button type="button"
-            onclick="openTaxPopup('${taxMeta.id}')"
-            class="ml-2 text-gray-500 hover:text-gray-700"
-            title="${taxMeta.label}">
-      <i class="fas fa-info-circle"></i>
-    </button>
-  ` : '';
-
-            const amountIdAttr = hasTaxIcon ? `id="${taxMeta.id}"` : '';
-
+            // グリッド: 名称(7) / 金額(4) / アイコン(1)
             return `
     <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
          data-kind="${kind}" data-index="${index}">
-      <div class="col-span-9 flex items-center gap-2">
+      <!-- 名称入力 -->
+      <div class="col-span-7">
         <input type="text"
                name="charges[${kind}][${index}][name]"
                class="w-full px-3 py-2 border rounded"
@@ -383,23 +403,28 @@
                value="${nameValue ?? ''}">
         <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
         <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
-        ${iconHtml}
       </div>
-      <div class="col-span-3 flex items-center gap-2">
+
+      <!-- 金額入力 -->
+      <div class="col-span-4">
         <input type="number"
-               ${amountIdAttr}
                name="charges[${kind}][${index}][amount]"
                class="charge-amount w-full px-3 py-2 border rounded text-right"
                inputmode="numeric" pattern="\\d*"
                placeholder="0"
                value="${amountValue ?? ''}">
-        <button type="button"
-                class="shrink-0 px-2 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                title="行を削除"
-                onclick="removeChargeRow(this)">−</button>
+      </div>
+
+      <!-- アイコン -->
+      <div class="col-span-1 flex justify-end">
+        ${iconHtml}
       </div>
     </div>`;
         }
+
+
+
+
 
 
         function addChargeRow(kind, nameValue = '', amountValue = '') {
