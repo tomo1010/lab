@@ -160,6 +160,8 @@
                     @include('quote.popup.tax_2')
                     @include('quote.popup.tax_3')
                     @include('quote.popup.tax_item')
+                    @include('quote.popup.option_item')
+
 
 
 
@@ -518,35 +520,44 @@
         }
 
 
+
         // ------- オプション行 -------
         function optionRowTemplate(index, nameValue = '', unitPriceValue = '') {
             return `
-      <div class="grid grid-cols-12 gap-2 items-center mb-2 option-row" data-index="${index}">
-        <div class="col-span-9 flex items-center gap-2">
-          <input type="text"
-                 name="options[${index}][name]"
-                 class="w-full px-3 py-2 border rounded"
-                 placeholder="例）フロアマット / ナビ / ドラレコ"
-                 value="${nameValue ?? ''}">
-          <input type="hidden" name="options[${index}][option_type]" value="aftermarket">
-          <input type="hidden" name="options[${index}][tax_treatment]" value="taxable">
-        </div>
-        <div class="col-span-3 flex items-center gap-2">
-          <input type="number"
-                 name="options[${index}][unit_price]"
-                 class="option-unit-price w-full px-3 py-2 border rounded text-right"
-                 inputmode="numeric" pattern="\\d*"
-                 placeholder="0"
-                 value="${unitPriceValue ?? ''}">
-          <button type="button"
-                  class="shrink-0 px-2 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                  title="行を削除"
-                  onclick="removeOptionRow(this)">
-            −
-          </button>
-        </div>
-      </div>`;
+  <div class="grid grid-cols-12 gap-2 items-center mb-2 option-row" data-index="${index}">
+    <!-- 名称 -->
+    <div class="col-span-7">
+      <input type="text"
+             name="options[${index}][name]"
+             class="w-full px-3 py-2 border rounded"
+             placeholder="例）フロアマット / ナビ / ドラレコ"
+             value="${nameValue ?? ''}">
+      <input type="hidden" name="options[${index}][option_type]" value="aftermarket">
+      <input type="hidden" name="options[${index}][tax_treatment]" value="taxable">
+    </div>
+
+    <!-- 金額 -->
+    <div class="col-span-4">
+      <input type="number"
+             name="options[${index}][unit_price]"
+             class="option-unit-price w-full px-3 py-2 border rounded text-right"
+             inputmode="numeric" pattern="\\d*"
+             placeholder="0"
+             value="${unitPriceValue ?? ''}">
+    </div>
+
+    <!-- アイコン -->
+    <div class="col-span-1 flex justify-end">
+      <button type="button"
+              onclick="openOptionItemPopup(${index})"
+              class="text-gray-500 hover:text-gray-700"
+              title="候補から選ぶ">
+        <i class="fas fa-solid fa-file"></i>
+      </button>
+    </div>
+  </div>`;
         }
+
 
         function addOptionRow(nameValue = '', unitPriceValue = '') {
             const container = document.getElementById('options-rows');
@@ -817,6 +828,42 @@
                 closeTaxPopup('tax_item');
             } finally {
                 window.__taxItemTarget = null;
+            }
+        }
+
+
+        // 直近クリックしたオプション行の index を保持
+        window.__optionItemTargetIndex = null;
+
+        // ファイルアイコン → option_item ポップアップを開く
+        function openOptionItemPopup(index) {
+            window.__optionItemTargetIndex = index;
+            // openTaxPopup は 'option_item' を受け取ると id='taxPopupoption_item' を探す実装
+            openTaxPopup('option_item');
+        }
+
+        // ポップアップの候補クリック → 選択名をその行の「名称」へ入れる
+        function selectOptionItem(name) {
+            try {
+                const idx = window.__optionItemTargetIndex;
+                const rows = document.querySelectorAll('#options-rows .option-row');
+                if (!rows || idx == null || idx < 0 || idx >= rows.length) {
+                    closeTaxPopup('option_item');
+                    return;
+                }
+                const nameInput =
+                    rows[idx].querySelector(`input[name="options[${idx}][name]"]`) ||
+                    rows[idx].querySelector('input[name^="options"][name$="[name]"]');
+
+                if (nameInput) {
+                    nameInput.value = name;
+                    nameInput.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                }
+                closeTaxPopup('option_item');
+            } finally {
+                window.__optionItemTargetIndex = null;
             }
         }
     </script>
