@@ -12,7 +12,7 @@
         }
         @page {
             margin-top: 15mm;
-            margin-bottom: 15mmmm;
+            margin-bottom: 15mm; /* ← 元のtypo(15mmmm)を微修正 */
             margin-left: 30mm;
             margin-right: 30mm;
         }
@@ -81,20 +81,46 @@
                 <tr>
                     <th>車名</th><th>年式</th><th>走行距離(km)</th><th>車検</th>
                 </tr>
+                @php
+                    // 受け取り：$vehicle['car'|'color'|'transmission'|'drive'|'year'|'mileage'|'inspection_year'|'inspection_month']
+                    $veh = $vehicle ?? [];
+                    $inspectionText = '';
+                    if (!empty($veh['inspection_year']) && !empty($veh['inspection_month'])) {
+                        $inspectionText = $veh['inspection_year'] . '年 ' . $veh['inspection_month'] . '月';
+                    } elseif (!empty($veh['inspection_year'])) {
+                        $inspectionText = $veh['inspection_year'];
+                    } elseif (!empty($veh['inspection_month'])) {
+                        $inspectionText = $veh['inspection_month'] . '月';
+                    }
+                @endphp
                 <tr>
-                    <td>{{ $car ?? '' }} {{ $color ?? '' }} {{ $transmission ?? '' }} {{ $drive ?? '' }}</td>
-                    <td>{{ $year ?? '' }}</td>
-                    <td>{{ $mileage ?? '' }}</td>
-                    <td>{{ $inspection ?? '' }}</td>
+                    <td>{{ ($veh['car'] ?? '') }} {{ ($veh['color'] ?? '') }} {{ ($veh['transmission'] ?? '') }} {{ ($veh['drive'] ?? '') }}</td>
+                    <td>{{ ($veh['year'] ?? '') }}</td>
+                    <td>{{ ($veh['mileage'] ?? '') }}</td>
+                    <td>{{ $inspectionText }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-<!--フォントサイズ指定-->
-@php
-    $small = 'style="font-size:10px;"';
-@endphp
+    <!--フォントサイズ指定-->
+    @php
+        $small = 'style="font-size:10px;"';
+        // number_format の短縮
+        $nf = fn($v) => number_format((int)($v ?? 0));
+        // 配列（コントローラから）：$tax_rows(name,amount), $fee_rows(name,amount), $option_rows(name,unit_price)
+        $taxRows   = collect($tax_rows ?? []);
+        $feeRows   = collect($fee_rows ?? []);
+        $optRows   = collect($option_rows ?? []);
+
+        // 諸費用ブロックのrowspan（明細行 + 合計行1つ）。最低1は確保
+        $chargeDetailCount = $taxRows->count() + $feeRows->count();
+        $chargeRowspan = max(1, $chargeDetailCount + 1);
+
+        // オプションブロックのrowspan（明細行 + 合計行1つ）。最低1
+        $optDetailCount = $optRows->count();
+        $optRowspan = max(1, $optDetailCount + 1);
+    @endphp
 
     <div class="section">
         <table class="table details-table">
@@ -102,90 +128,96 @@
                 <th colspan="2">項目</th>
                 <th>金額</th>
             </tr>
+            <!-- 車輌本体価格① -->
             <tr>
                 <td colspan="2">車輌本体価格①</td>
-                <td style="text-align: right;"><strong>{{ number_format($price ?? 0) }}</strong></td>
+                <td style="text-align: right;"><strong>{{ $nf($price ?? 0) }}</strong></td>
             </tr>
+
+            <!-- 諸費用（税金・保険料 + 販売諸費用 明細 → 合計②） -->
             <tr>
-                <td class="narrow-column" rowspan="8">諸費用</td>
-                <td class="align-left" {!! $small !!}>自動車税（月割）</td>
-                <td style="text-align: right; font-size:10px;">{{ $tax_1 > 0 ? number_format($tax_1) : '' }}</td>
+                <td class="narrow-column" rowspan="{{ $chargeRowspan }}">諸費用</td>
+                @php
+                    // 最初の明細行の内容をここで描画し、残りは後続<tr>で
+                    $firstLine = null;
+                    if ($taxRows->count() > 0) {
+                        $firstLine = ['name' => $taxRows[0]['name'] ?? '', 'amount' => (int)($taxRows[0]['amount'] ?? 0)];
+                        $taxRows = $taxRows->slice(1)->values();
+                    } elseif ($feeRows->count() > 0) {
+                        $firstLine = ['name' => $feeRows[0]['name'] ?? '', 'amount' => (int)($feeRows[0]['amount'] ?? 0)];
+                        $feeRows = $feeRows->slice(1)->values();
+                    } else {
+                        $firstLine = ['name' => '', 'amount' => 0];
+                    }
+                @endphp
+                <td class="align-left" {!! $small !!}>{{ $firstLine['name'] }}</td>
+                <td style="text-align: right; font-size:10px;">{{ $firstLine['amount'] > 0 ? $nf($firstLine['amount']) : '' }}</td>
             </tr>
+
+            @foreach($taxRows as $r)
+                <tr>
+                    <td class="align-left" {!! $small !!}>{{ $r['name'] ?? '' }}</td>
+                    <td style="text-align: right; font-size:10px;">{{ ($r['amount'] ?? 0) > 0 ? $nf($r['amount']) : '' }}</td>
+                </tr>
+            @endforeach
+            @foreach($feeRows as $r)
+                <tr>
+                    <td class="align-left" {!! $small !!}>{{ $r['name'] ?? '' }}</td>
+                    <td style="text-align: right; font-size:10px;">{{ ($r['amount'] ?? 0) > 0 ? $nf($r['amount']) : '' }}</td>
+                </tr>
+            @endforeach
+
             <tr>
-                <td class="align-left" {!! $small !!}>重量税</td>
-                <td style="text-align: right; font-size:10px;">{{ $tax_2 > 0 ? number_format($tax_2) : '' }} </td>
+                <td>諸費用合計②</td>
+                <td style="text-align: right;"><strong>{{ ($charges_total ?? 0) > 0 ? $nf($charges_total) : '' }}</strong></td>
             </tr>
+
+            <!-- オプションその他（明細 → 合計③） -->
             <tr>
-                <td class="align-left" {!! $small !!}>自賠責保険料</td>
-                <td style="text-align: right; font-size:10px;">{{ $tax_3 > 0 ? number_format($tax_3) : '' }} </td>
+                <td class="narrow-column" rowspan="{{ $optRowspan }}">オプションその他</td>
+                @php
+                    $firstOpt = $optRows->first();
+                    $optRows  = $optRows->slice(1)->values();
+                @endphp
+                <td {!! $small !!}>{{ $firstOpt['name'] ?? '' }}</td>
+                <td style="text-align: right; font-size:10px;">
+                    {{ isset($firstOpt['unit_price']) && (int)$firstOpt['unit_price'] > 0 ? $nf($firstOpt['unit_price']) : '' }}
+                </td>
             </tr>
-            <tr>
-                <td class="align-left" {!! $small !!}>環境性能割</td>
-                <td style="text-align: right; font-size:10px;">{{ $tax_4 > 0 ? number_format($tax_4) : '' }} </td>
-            </tr>
-            <tr>
-                <td class="align-left" {!! $small !!}>リサイクル預託金</td>
-                <td style="text-align: right; font-size:10px;">{{ $tax_5 > 0 ? number_format($tax_5) : '' }} </td>
-            </tr>
-            <tr>
-                <td class="align-left" {!! $small !!}>登録費用</td>
-                <td style="text-align: right; font-size:10px;">{{ $overhead_1 > 0 ? number_format($overhead_1) : '' }} </td>
-            </tr>
-            <tr>
-                <td class="align-left" {!! $small !!}>{{ $overheadName_11 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $overhead_11 > 0 ? number_format($overhead_11) : '' }} </td>
-            </tr>
-            <tr>
-            <td>諸費用合計②</td>
-                <td style="text-align: right;"><strong>{{ $overhead_total > 0 ? number_format($overhead_total) : '' }}</strong> </td>
-            </tr>
-            <tr>
-                <td class="narrow-column" rowspan="6">オプションその他</td>
-                <td {!! $small !!}>{{ $optionName_1 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $option_1 > 0 ? number_format($option_1) : '' }} </td>
-            </tr>
-            <tr>
-                <td {!! $small !!}>{{ $optionName_2 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $option_2 > 0 ? number_format($option_2) : '' }} </td>
-            </tr>
-            <tr>
-                <td {!! $small !!}>{{ $optionName_3 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $option_3 > 0 ? number_format($option_3) : '' }} </td>
-            </tr>
-            <tr>
-                <td {!! $small !!}>{{ $optionName_4 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $option_4 > 0 ? number_format($option_4) : '' }} </td>
-            </tr>
-            <tr>
-                <td {!! $small !!}>{{ $optionName_5 ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">{{ $option_5 > 0 ? number_format($option_5) : '' }} </td>
-            </tr>
+            @foreach($optRows as $r)
+                <tr>
+                    <td {!! $small !!}>{{ $r['name'] ?? '' }}</td>
+                    <td style="text-align: right; font-size:10px;">{{ ($r['unit_price'] ?? 0) > 0 ? $nf($r['unit_price']) : '' }}</td>
+                </tr>
+            @endforeach
             <tr>
                 <td>オプション合計③</td>
-                <td style="text-align: right;"><strong>{{ $option_total > 0 ? number_format($option_total) : '' }}</strong> </td>
+                <td style="text-align: right;"><strong>{{ ($option_total ?? 0) > 0 ? $nf($option_total) : '' }}</strong></td>
             </tr>
+
+            <!-- 総合計 -->
             <tr>
                 <td colspan="2">総 合 計（①＋②＋③）</td>
-                <td class="highlight" style="text-align: right; font-size:16px;"><strong>{{ number_format($total ?? 0) }}</strong> 円</td>
+                <td class="highlight" style="text-align: right; font-size:16px;"><strong>{{ $nf($total ?? 0) }}</strong> 円</td>
             </tr>
         </table>
     </div>
 
-    @if($payment ?? 0 > 0)
+    @if(($payment ?? 0) > 0)
         <div class="section">
             <table class="table details-table">
                 <tbody>
                     <tr>
                         <td>下取り</td>
-                        <td style="text-align: right;">{{ number_format($trade_price ?? 0) }} </td>
+                        <td style="text-align: right;">{{ $nf($trade_price ?? 0) }} </td>
                     </tr>
                     <tr>
                         <td>値引き</td>
-                        <td style="text-align: right;">{{ number_format($discount ?? 0) }} </td>
+                        <td style="text-align: right;">{{ $nf($discount ?? 0) }} </td>
                     </tr>
                     <tr>
                         <td>お支払い合計</td>
-                        <td class="highlight" style="text-align: right; font-size:16px;"><strong>{{ number_format($payment ?? 0) }}</strong> 円</td>
+                        <td class="highlight" style="text-align: right; font-size:16px;"><strong>{{ $nf($payment ?? 0) }}</strong> 円</td>
                     </tr>
                 </tbody>
             </table>

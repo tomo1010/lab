@@ -268,18 +268,47 @@
                     <!-- 下取り -->
                     <div class="mb-4">
                         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-                        <input type="number" name="trade_price" id="trade_price" inputmode="numeric" pattern="\d*"
-                            class="w-full px-4 py-2 border rounded-lg"
-                            oninput="recalcPayment()">
+                        <div class="flex items-center gap-2">
+                            <input
+                                type="number"
+                                name="trade_price"
+                                id="trade_price"
+                                inputmode="numeric" pattern="\d*"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                oninput="recalcPayment()">
+
+                            <!-- 端数トレード（万単位に揃える） -->
+                            <button type="button"
+                                class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                                title="お支払い総額の1万円未満を下取りへ"
+                                onclick="fillTradeRemainder()">
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
+                        </div>
                     </div>
+
 
                     <!-- 値引き -->
                     <div class="mb-4">
                         <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-                        <input type="number" name="discount" id="discount" inputmode="numeric" pattern="\d*"
-                            class="w-full px-4 py-2 border rounded-lg"
-                            oninput="recalcPayment()">
+                        <div class="flex items-center gap-2">
+                            <input type="number"
+                                name="discount"
+                                id="discount"
+                                inputmode="numeric" pattern="\d*"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                oninput="recalcPayment()">
+
+                            <!-- 端数調整（万単位に揃える） -->
+                            <button type="button"
+                                class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                                title="お支払い総額の1万円未満を値引きへ"
+                                onclick="fillDiscountRemainder()">
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
+                        </div>
                     </div>
+
 
                     <!-- お支払い総額 -->
                     <div class="mb-4">
@@ -865,6 +894,54 @@
             } finally {
                 window.__optionItemTargetIndex = null;
             }
+        }
+
+        // 「お支払い総額」の1万円未満（万未満の端数）を下取り価格に入れて、
+        // お支払い総額を万単位の丸い数字にする。
+        function fillTradeRemainder() {
+            // いったん最新値に更新（価格やオプション編集中でもOK）
+            recalcAll();
+
+            const paymentEl = document.getElementById('payment');
+            const tradeEl = document.getElementById('trade_price');
+            if (!paymentEl || !tradeEl) return;
+
+            const currentPayment = parseInt(paymentEl.value, 10) || 0;
+
+            // 1万円未満の端数（例：123,456 -> 3,456）
+            const remainder = currentPayment % 10000;
+
+            // 仕様：そのまま“上書き”でセット（既存の下取りは考慮せず上書き）
+            tradeEl.value = remainder;
+
+            // 変更を反映（合計を再計算）
+            tradeEl.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
+        }
+
+
+        // 「お支払い総額」の1万円未満を値引きに入れる
+        function fillDiscountRemainder() {
+            // 最新値に更新
+            recalcAll();
+
+            const paymentEl = document.getElementById('payment');
+            const discountEl = document.getElementById('discount');
+            if (!paymentEl || !discountEl) return;
+
+            const currentPayment = parseInt(paymentEl.value, 10) || 0;
+
+            // 1万円未満の端数を抽出
+            const remainder = currentPayment % 10000;
+
+            // 値引き欄へセット（既存値を無視して上書き）
+            discountEl.value = remainder;
+
+            // 再計算
+            discountEl.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
         }
     </script>
 

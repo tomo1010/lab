@@ -530,126 +530,147 @@ class QuoteController extends Controller
      */
     public function createPdf(Request $request)
     {
-        //dd($request);
+        // バリデーション（新フォーム構成）
         if (Auth::check()) {
             $request->validate([
-                'car' => 'nullable|max:255',
-                'grade' => 'nullable|max:255',
-                'color' => 'nullable|max:255',
-                'transmission' => 'nullable|max:255',
-                'drive' => 'nullable|max:255',
-                'year' => 'nullable|max:255',
-                'mileage' => 'nullable|max:255',
-                'inspection_year' => 'nullable|max:255',
-                'inspection_month' => 'nullable|max:255',
+                // 車両情報
+                'car'              => 'nullable|string|max:255',
+                'grade'            => 'nullable|string|max:255',
+                'color'            => 'nullable|string|max:255',
+                'transmission'     => 'nullable|string|max:255',
+                'drive'            => 'nullable|string|max:255',
+                'year'             => 'nullable|string|max:255',
+                'mileage'          => 'nullable|string|max:255',
+                'inspection_year'  => 'nullable|string|max:255',
+                'inspection_month' => 'nullable|string|max:255',
 
-                'price' => 'required|integer',
+                // 本体価格
+                'price'            => 'required|integer|min:0',
 
-                'tax_1' => 'nullable|integer',
-                'tax_2' => 'nullable|integer',
-                'tax_3' => 'nullable|integer',
-                'tax_4' => 'nullable|integer',
-                'tax_5' => 'nullable|integer',
-                'overhead_1' => 'nullable|integer',
-                'overheadName_11' => 'nullable|max:255', //諸費用フリー入力
-                'overhead_11' => 'nullable|integer',
-                'overhead_total' => 'nullable|integer', //taxとoverheadの合計
+                // 諸費用（配列）
+                'charges'                  => 'nullable|array',
+                'charges.tax'              => 'nullable|array',
+                'charges.tax.*.name'       => 'nullable|string|max:255',
+                'charges.tax.*.amount'     => 'nullable|integer|min:0',
+                'charges.fee'              => 'nullable|array',
+                'charges.fee.*.name'       => 'nullable|string|max:255',
+                'charges.fee.*.amount'     => 'nullable|integer|min:0',
 
-                'optionName_1' => 'nullable|max:255',
-                'optionName_2' => 'nullable|max:255',
-                'optionName_3' => 'nullable|max:255',
-                'optionName_4' => 'nullable|max:255',
-                'optionName_5' => 'nullable|max:255',
-                'option_1' => 'nullable|integer',
-                'option_2' => 'nullable|integer',
-                'option_3' => 'nullable|integer',
-                'option_4' => 'nullable|integer',
-                'option_5' => 'nullable|integer',
-                'option_total' => 'nullable|integer',
+                // オプション（配列）
+                'options'                  => 'nullable|array',
+                'options.*.name'           => 'nullable|string|max:255',
+                'options.*.unit_price'     => 'nullable|integer|min:0',
 
-                'total' => 'nullable|integer',
-                'trade_price' => 'nullable|integer',
-                'discount' => 'nullable|integer',
-                'payment' => 'nullable|integer',
+                // 決済関連
+                'trade_price'      => 'nullable|integer|min:0',
+                'discount'         => 'nullable|integer|min:0',
 
-                'memo' => 'nullable|max:255',
+                // 表示用メモ
+                'memo'             => 'nullable|string|max:255',
             ]);
         }
 
-
-
-        // フォームから送信されたデータを取得
-        $data = $request->only([
-            'car',
-            'grade',
-            'color',
-            'transmission',
-            'drive',
-            'year',
-            'mileage',
-            'inspection',
-            'price',
-            'tax_1',
-            'tax_2',
-            'tax_3',
-            'tax_4',
-            'tax_5',
-            'overhead_1',
-            'overheadName_11',
-            'overhead_11',
-            'overhead_total',
-            'optionName_1',
-            'optionName_2',
-            'optionName_3',
-            'optionName_4',
-            'optionName_5',
-            'option_1',
-            'option_2',
-            'option_3',
-            'option_4',
-            'option_5',
-            'option_total',
-            'total',
-            'trade_price',
-            'discount',
-            'payment',
-            'memo',
-        ]);
-
-
-        // null の場合は 0 を設定するキー　（creatPdf作成時に新規でnullのデータが作成されるため、編集では自動で0になる）
-        $numericFields = [
-            'tax_1',
-            'tax_2',
-            'tax_3',
-            'tax_4',
-            'tax_5',
-            'overhead_1',
-            'overhead_11',
-            'overhead_total',
-            'option_1',
-            'option_2',
-            'option_3',
-            'option_4',
-            'option_5',
-            'option_total'
+        // ---------- 入力の取り出し ----------
+        $vehicle = [
+            'car'              => $request->input('car'),
+            'grade'            => $request->input('grade'),
+            'color'            => $request->input('color'),
+            'transmission'     => $request->input('transmission'),
+            'drive'            => $request->input('drive'),
+            'year'             => $request->input('year'),
+            'mileage'          => $request->input('mileage'),
+            'inspection_year'  => $request->input('inspection_year'),
+            'inspection_month' => $request->input('inspection_month'),
         ];
 
-        // 指定したキーの値が null の場合は 0 にする
-        foreach ($numericFields as $field) {
-            if (!isset($data[$field]) || is_null($data[$field])) {
-                $data[$field] = 0;
-            }
-        }
+        $price        = (int) $request->input('price', 0);
+        $tradePrice   = (int) $request->input('trade_price', 0);
+        $discount     = (int) $request->input('discount', 0);
+        $memo         = $request->input('memo');
 
-        // 現在日時を取得
-        $date['date'] = now()->format('Y-m-d');
-        $data['date'] = $date['date'];
+        // ---------- 諸費用（税金・保険料 / 販売諸費用）を正規化 ----------
+        $charges = $request->input('charges', []);
+        $taxRows = collect(data_get($charges, 'tax', []))
+            ->map(function ($row) {
+                return [
+                    'name'   => (string)($row['name']   ?? ''),
+                    'amount' => (int)   ($row['amount'] ?? 0),
+                ];
+            })
+            // 空行（名称も金額も空）を除外
+            ->filter(fn($r) => ($r['name'] !== '') || ($r['amount'] > 0))
+            ->values()
+            ->all();
 
-        // PDF生成とビューにデータを渡す
+        $feeRows = collect(data_get($charges, 'fee', []))
+            ->map(function ($row) {
+                return [
+                    'name'   => (string)($row['name']   ?? ''),
+                    'amount' => (int)   ($row['amount'] ?? 0),
+                ];
+            })
+            ->filter(fn($r) => ($r['name'] !== '') || ($r['amount'] > 0))
+            ->values()
+            ->all();
+
+        $taxTotal = collect($taxRows)->sum('amount');
+        $feeTotal = collect($feeRows)->sum('amount');
+        $chargesTotal = $taxTotal + $feeTotal;
+
+        // ---------- オプションを正規化 ----------
+        $optionsInput = $request->input('options', []);
+        $optionRows = collect($optionsInput)
+            ->map(function ($row) {
+                return [
+                    'name'       => (string)($row['name']        ?? ''),
+                    'unit_price' => (int)   ($row['unit_price']  ?? 0),
+                ];
+            })
+            ->filter(fn($r) => ($r['name'] !== '') || ($r['unit_price'] > 0))
+            ->values()
+            ->all();
+
+        $optionTotal = collect($optionRows)->sum('unit_price');
+
+        // ---------- 合計をサーバで再計算（改ざん対策） ----------
+        $subtotal = $price + $chargesTotal + $optionTotal;     // 合計（税込）
+        $payment  = max($subtotal - $tradePrice - $discount, 0); // お支払い総額（下取り・値引き後）
+
+        // ---------- PDF に渡すデータ ----------
+        $data = [
+            // 日付
+            'date'           => now()->format('Y-m-d'),
+
+            // 車両情報
+            'vehicle'        => $vehicle,
+
+            // 金額
+            'price'          => $price,
+
+            // 諸費用
+            'tax_rows'       => $taxRows,      // [ ['name'=>..., 'amount'=>...], ... ]
+            'fee_rows'       => $feeRows,
+            'tax_total'      => $taxTotal,
+            'fee_total'      => $feeTotal,
+            'charges_total'  => $chargesTotal,
+
+            // オプション
+            'option_rows'    => $optionRows,   // [ ['name'=>..., 'unit_price'=>...], ... ]
+            'option_total'   => $optionTotal,
+
+            // 決済
+            'total'          => $subtotal,
+            'trade_price'    => $tradePrice,
+            'discount'       => $discount,
+            'payment'        => $payment,
+
+            // メモ
+            'memo'           => $memo,
+        ];
+
+        // ---------- PDF 生成 ----------
         $pdf = PDF::loadView('quote.createPdf', $data);
 
-        // PDFをブラウザで表示
-        return $pdf->stream('quote_' . $date['date'] . '.pdf');
+        return $pdf->stream('quote_' . $data['date'] . '.pdf');
     }
 }
