@@ -159,6 +159,8 @@
                     @include('quote.popup.tax_1')
                     @include('quote.popup.tax_2')
                     @include('quote.popup.tax_3')
+                    @include('quote.popup.tax_item')
+
 
 
                     {{-- ▼▼▼ ここから諸費用（quote_charges対応 / プリセット無し） ▼▼▼ --}}
@@ -333,8 +335,6 @@
         }
 
         // ------- 諸費用行テンプレ -------
-        // 税金・保険料アイコン用の固定リスト
-        // 税金・保険料アイコン用の固定リスト
         // 既存：tax_1〜tax_5 の定義（変更なし）
         const taxIcons = [{
                 id: 'tax_1',
@@ -397,7 +397,7 @@
               onclick="openTaxItemPopup('${kind}', ${index})"
               class="text-gray-500 hover:text-gray-700"
               title="候補から選ぶ">
-        <i class="fas fa-info-circle"></i>
+        <i class="fas fa-solid fa-file"></i>
       </button>
     `;
             }
@@ -767,6 +767,56 @@
                 // 失敗してもUIを固めない
                 // console.error(e);
                 closeTaxPopup(taxType);
+            }
+        }
+
+
+
+        // 直近クリックした行の保持用
+        window.__taxItemTarget = null;
+
+        // 6行目以降（tax/fee 共通）の「ファイル」アイコン → 汎用ポップアップを開く
+        function openTaxItemPopup(kind, index) {
+            window.__taxItemTarget = {
+                kind,
+                index
+            };
+            openTaxPopup('tax_item'); // tax_item 用ポップアップを開く
+        }
+
+        // 汎用ポップアップの候補をクリック → 行の「名称」フィールドへ反映
+        function selectTaxItem(name) {
+            try {
+                const target = window.__taxItemTarget;
+                if (!target) {
+                    closeTaxPopup('tax_item');
+                    return;
+                }
+
+                const {
+                    kind,
+                    index
+                } = target;
+                const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+                const rows = container?.querySelectorAll('.charge-row');
+                if (!rows || index < 0 || index >= rows.length) {
+                    closeTaxPopup('tax_item');
+                    return;
+                }
+
+                const nameInput =
+                    rows[index].querySelector(`input[name="charges[${kind}][${index}][name]"]`) ||
+                    rows[index].querySelector('input[name^="charges"][name$="[name]"]');
+
+                if (nameInput) {
+                    nameInput.value = name;
+                    nameInput.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                }
+                closeTaxPopup('tax_item');
+            } finally {
+                window.__taxItemTarget = null;
             }
         }
     </script>
