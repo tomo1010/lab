@@ -335,6 +335,7 @@
         // ------- 諸費用行テンプレ -------
         // 税金・保険料アイコン用の固定リスト
         // 税金・保険料アイコン用の固定リスト
+        // 既存：tax_1〜tax_5 の定義（変更なし）
         const taxIcons = [{
                 id: 'tax_1',
                 label: '自動車税',
@@ -364,11 +365,12 @@
             },
         ];
 
-        // 行テンプレート生成
+        // 行テンプレート生成（名称 → 金額 → アイコン）
         function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
-            // tax 用アイコン定義（既出の taxIcons を使う想定）
             let iconHtml = '';
+
             if (kind === 'tax' && index < taxIcons.length) {
+                // 1〜5行目（tax_1〜tax_5）
                 const icon = taxIcons[index];
                 if (icon.type === 'popup') {
                     iconHtml = `
@@ -388,13 +390,22 @@
         </a>
       `;
                 }
+            } else {
+                // 6行目以降の tax、または fee はすべて tax_item ポップアップ
+                iconHtml = `
+      <button type="button"
+              onclick="openTaxItemPopup('${kind}', ${index})"
+              class="text-gray-500 hover:text-gray-700"
+              title="候補から選ぶ">
+        <i class="fas fa-info-circle"></i>
+      </button>
+    `;
             }
 
-            // グリッド: 名称(7) / 金額(4) / アイコン(1)
             return `
     <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
          data-kind="${kind}" data-index="${index}">
-      <!-- 名称入力 -->
+      <!-- 名称 -->
       <div class="col-span-7">
         <input type="text"
                name="charges[${kind}][${index}][name]"
@@ -405,7 +416,7 @@
         <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
       </div>
 
-      <!-- 金額入力 -->
+      <!-- 金額 -->
       <div class="col-span-4">
         <input type="number"
                name="charges[${kind}][${index}][amount]"
@@ -421,6 +432,7 @@
       </div>
     </div>`;
         }
+
 
 
 
