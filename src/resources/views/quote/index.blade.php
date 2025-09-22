@@ -365,8 +365,7 @@
                 '';
         }
 
-        // ------- 諸費用行テンプレ -------
-        // 既存：tax_1〜tax_5 の定義（変更なし）
+        // ------- 諸費用アイコン定義（既存のまま） -------
         const taxIcons = [{
                 id: 'tax_1',
                 label: '自動車税',
@@ -396,42 +395,45 @@
             },
         ];
 
-        // 行テンプレート生成（名称 → 金額 → アイコン）
-        function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
-            let iconHtml = '';
-
+        // ------- アイコンHTMLを返すヘルパー -------
+        function getChargeIconHtml(kind, index) {
+            // taxの1〜5行目は taxIcons に従う
             if (kind === 'tax' && index < taxIcons.length) {
-                // 1〜5行目（tax_1〜tax_5）
                 const icon = taxIcons[index];
                 if (icon.type === 'popup') {
-                    iconHtml = `
+                    return `
         <button type="button"
                 onclick="openTaxPopup('${icon.id}')"
                 class="text-gray-500 hover:text-gray-700"
                 title="${icon.label}">
           <i class="fas fa-info-circle"></i>
-        </button>
-      `;
-                } else if (icon.type === 'link') {
-                    iconHtml = `
+        </button>`;
+                }
+                if (icon.type === 'link') {
+                    return `
         <a href="${icon.url}" target="_blank" rel="noopener noreferrer"
            class="text-gray-500 hover:text-gray-700"
            title="${icon.label}">
           <i class="fa-solid fa-square-arrow-up-right"></i>
-        </a>
-      `;
+        </a>`;
                 }
-            } else {
-                // 6行目以降の tax、または fee はすべて tax_item ポップアップ
-                iconHtml = `
-      <button type="button"
-              onclick="openTaxItemPopup('${kind}', ${index})"
-              class="text-gray-500 hover:text-gray-700"
-              title="候補から選ぶ">
-        <i class="fas fa-solid fa-file"></i>
-      </button>
-    `;
             }
+
+            // それ以外（taxの6行目以降 / fee 全行）は汎用ポップアップ tax_item
+            return `
+    <button type="button"
+            onclick="openTaxItemPopup('${kind}', ${index})"
+            class="text-gray-500 hover:text-gray-700"
+            title="候補から選ぶ">
+      <i class="fas fa-solid fa-file"></i>
+    </button>`;
+        }
+
+        // ------- 行テンプレート（名称 → 金額 → アイコン） -------
+        function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
+            // null/undefined は空に（placeholder="0"で未入力表示）
+            const safeAmount = (amountValue === null || amountValue === undefined) ? '' : amountValue;
+            const iconHtml = getChargeIconHtml(kind, index);
 
             return `
     <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
@@ -454,7 +456,7 @@
                class="charge-amount w-full px-3 py-2 border rounded text-right"
                inputmode="numeric" pattern="\\d*"
                placeholder="0"
-               value="${amountValue ?? ''}">
+               value="${safeAmount}">
       </div>
 
       <!-- アイコン -->
@@ -463,6 +465,7 @@
       </div>
     </div>`;
         }
+
 
 
 

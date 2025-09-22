@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
 
             // 初期金額
-            $table->unsignedInteger('default_amount')->default(0);
+            $table->unsignedInteger('default_amount')->nullable();
+
 
             // 'taxable' | 'non_taxable' | 'exempt'（今回は使わない想定でも残してOK）
             $table->string('tax_treatment')->nullable();
