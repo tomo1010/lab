@@ -274,9 +274,10 @@
                     {{-- ▲▲▲ オプション終わり ▲▲▲ --}}
 
                     <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
-                    <!-- 車両コミコミ合計（= 本体価格 + オプション小計） -->
+
+                    <!-- 合計 = 本体価格 + 諸費用合計 + オプション合計 -->
                     <div class="mb-4">
-                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
+                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計</label>
                         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
 
@@ -335,8 +336,8 @@
 
                     <!--メモ -->
                     <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
-                    <div class="mb-4 bg-gray-300 p-6 rounded-lg">
-                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考欄</label>
+                    <div class="mb-4 bg-gray-200 p-6 rounded-lg">
+                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考</label>
                         <input
                             type="text"
                             name="message"
@@ -772,9 +773,9 @@
             }
 
 
-            // 必ず「後に」空フォーム3行を追加（要件）
-            for (let i = 0; i < 3; i++) addChargeRow('tax');
-            for (let i = 0; i < 3; i++) addChargeRow('fee');
+            // 必ず「後に」空フォーム1行3行を追加（要件）
+            for (let i = 0; i < 1; i++) addChargeRow('tax');
+            for (let i = 0; i < 1; i++) addChargeRow('fee');
 
             // オプションは空3行
             for (let i = 0; i < 3; i++) addOptionRow();
