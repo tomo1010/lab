@@ -12,7 +12,7 @@
         }
         @page {
             margin-top: 15mm;
-            margin-bottom: 15mm; /* ← 元のtypo(15mmmm)を微修正 */
+            margin-bottom: 15mm;
             margin-left: 30mm;
             margin-right: 30mm;
         }
@@ -108,18 +108,35 @@
         $small = 'style="font-size:10px;"';
         // number_format の短縮
         $nf = fn($v) => number_format((int)($v ?? 0));
+
         // 配列（コントローラから）：$tax_rows(name,amount), $fee_rows(name,amount), $option_rows(name,unit_price)
-        $taxRows   = collect($tax_rows ?? []);
-        $feeRows   = collect($fee_rows ?? []);
-        $optRows   = collect($option_rows ?? []);
+        // 空行（nameなし＆金額0など）は先に除外してから使う
+        $taxRows = collect($tax_rows ?? [])
+            ->map(function($r){ return ['name' => $r['name'] ?? '', 'amount' => (int)($r['amount'] ?? 0)]; })
+            ->filter(fn($r) => filled($r['name']) || $r['amount'] > 0)
+            ->values();
+
+        $feeRows = collect($fee_rows ?? [])
+            ->map(function($r){ return ['name' => $r['name'] ?? '', 'amount' => (int)($r['amount'] ?? 0)]; })
+            ->filter(fn($r) => filled($r['name']) || $r['amount'] > 0)
+            ->values();
+
+        $optRowsOriginal = collect($option_rows ?? [])
+            ->map(function($r){ return ['name' => $r['name'] ?? '', 'unit_price' => (int)($r['unit_price'] ?? 0)]; })
+            ->filter(fn($r) => filled($r['name']) || $r['unit_price'] > 0)
+            ->values();
 
         // 諸費用ブロックのrowspan（明細行 + 合計行1つ）。最低1は確保
         $chargeDetailCount = $taxRows->count() + $feeRows->count();
         $chargeRowspan = max(1, $chargeDetailCount + 1);
 
-        // オプションブロックのrowspan（明細行 + 合計行1つ）。最低1
+        // オプションは表示要/不要をここで判定（1件以上の有効行があるときのみ表示）
+        $showOptions = $optRowsOriginal->count() > 0;
+        // 表示用に $optRows を分割操作できるようコピー（first/sliceで破壊的に扱うため）
+        $optRows = $optRowsOriginal->values();
+        // オプションのrowspan（明細行 + 合計行1つ）
         $optDetailCount = $optRows->count();
-        $optRowspan = max(1, $optDetailCount + 1);
+        $optRowspan = $showOptions ? max(1, $optDetailCount + 1) : 0;
     @endphp
 
     <div class="section">
@@ -128,6 +145,7 @@
                 <th colspan="2">項目</th>
                 <th>金額</th>
             </tr>
+
             <!-- 車輌本体価格① -->
             <tr>
                 <td colspan="2">車輌本体価格①</td>
@@ -138,13 +156,13 @@
             <tr>
                 <td class="narrow-column" rowspan="{{ $chargeRowspan }}">諸費用</td>
                 @php
-                    // 最初の明細行の内容をここで描画し、残りは後続<tr>で
+                    // 最初の明細行
                     $firstLine = null;
                     if ($taxRows->count() > 0) {
-                        $firstLine = ['name' => $taxRows[0]['name'] ?? '', 'amount' => (int)($taxRows[0]['amount'] ?? 0)];
+                        $firstLine = $taxRows->first();
                         $taxRows = $taxRows->slice(1)->values();
                     } elseif ($feeRows->count() > 0) {
-                        $firstLine = ['name' => $feeRows[0]['name'] ?? '', 'amount' => (int)($feeRows[0]['amount'] ?? 0)];
+                        $firstLine = $feeRows->first();
                         $feeRows = $feeRows->slice(1)->values();
                     } else {
                         $firstLine = ['name' => '', 'amount' => 0];
@@ -172,32 +190,35 @@
                 <td style="text-align: right;"><strong>{{ ($charges_total ?? 0) > 0 ? $nf($charges_total) : '' }}</strong></td>
             </tr>
 
-            <!-- オプションその他（明細 → 合計③） -->
-            <tr>
-                <td class="narrow-column" rowspan="{{ $optRowspan }}">オプションその他</td>
-                @php
-                    $firstOpt = $optRows->first();
-                    $optRows  = $optRows->slice(1)->values();
-                @endphp
-                <td {!! $small !!}>{{ $firstOpt['name'] ?? '' }}</td>
-                <td style="text-align: right; font-size:10px;">
-                    {{ isset($firstOpt['unit_price']) && (int)$firstOpt['unit_price'] > 0 ? $nf($firstOpt['unit_price']) : '' }}
-                </td>
-            </tr>
-            @foreach($optRows as $r)
+            <!-- ▼▼▼ オプションその他：有効データがあるときだけ描画 ▼▼▼ -->
+            @if($showOptions)
                 <tr>
-                    <td {!! $small !!}>{{ $r['name'] ?? '' }}</td>
-                    <td style="text-align: right; font-size:10px;">{{ ($r['unit_price'] ?? 0) > 0 ? $nf($r['unit_price']) : '' }}</td>
+                    <td class="narrow-column" rowspan="{{ $optRowspan }}">オプションその他</td>
+                    @php
+                        $firstOpt = $optRows->first();
+                        $optRows  = $optRows->slice(1)->values();
+                    @endphp
+                    <td {!! $small !!}>{{ $firstOpt['name'] ?? '' }}</td>
+                    <td style="text-align: right; font-size:10px;">
+                        {{ isset($firstOpt['unit_price']) && (int)$firstOpt['unit_price'] > 0 ? $nf($firstOpt['unit_price']) : '' }}
+                    </td>
                 </tr>
-            @endforeach
-            <tr>
-                <td>オプション合計③</td>
-                <td style="text-align: right;"><strong>{{ ($option_total ?? 0) > 0 ? $nf($option_total) : '' }}</strong></td>
-            </tr>
+                @foreach($optRows as $r)
+                    <tr>
+                        <td {!! $small !!}>{{ $r['name'] ?? '' }}</td>
+                        <td style="text-align: right; font-size:10px;">{{ ($r['unit_price'] ?? 0) > 0 ? $nf($r['unit_price']) : '' }}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td>オプション合計③</td>
+                    <td style="text-align: right;"><strong>{{ ($option_total ?? 0) > 0 ? $nf($option_total) : '' }}</strong></td>
+                </tr>
+            @endif
+            <!-- ▲▲▲ オプションその他ここまで ▲▲▲ -->
 
-            <!-- 総合計 -->
+            <!-- 総合計（①＋②＋③）※③が非表示でも $total はコントローラ計算を表示 -->
             <tr>
-                <td colspan="2">総 合 計（①＋②＋③）</td>
+                <td colspan="2">総 合 計（①＋②{{ $showOptions ? '＋③' : '' }}）</td>
                 <td class="highlight" style="text-align: right; font-size:16px;"><strong>{{ $nf($total ?? 0) }}</strong> 円</td>
             </tr>
         </table>
@@ -225,8 +246,8 @@
     @endif
 
     <div class="section">
-        <strong>メモ:</strong>
-        <p>{{ $memo }}</p>
+        <strong>備考:</strong>
+        <p>{{ $message }}</p>
     </div>
 
     <div class="footer">

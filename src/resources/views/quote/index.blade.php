@@ -180,7 +180,12 @@
                         <button type="button"
                             class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                             onclick="addChargeRow('tax')">
-                            ＋ 行を追加
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
+                            class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('tax')">
+                            − 削除
                         </button>
 
                         <div class="mt-4 text-right">
@@ -204,7 +209,12 @@
                         <button type="button"
                             class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                             onclick="addChargeRow('fee')">
-                            ＋ 行を追加
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
+                            class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('fee')">
+                            − 削除
                         </button>
 
                         <div class="mt-4 text-right">
@@ -243,13 +253,18 @@
                             <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="addOptionRow()">
-                                ＋ 行を追加
+                                ＋ 追加　
+                            </button>
+                            <button type="button"
+                                class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                                onclick="removeOptionRow()">
+                                − 削除
                             </button>
                         </div>
 
                         <div class="mt-6 text-right">
                             <span class="text-gray-700 font-semibold">
-                                オプション 小計：
+                                小計：
                                 <span id="option_total_display" class="text-gray-800 font-bold">0円</span>
                             </span>
                             <input type="hidden" id="option_total" name="option_total" value="0">
@@ -259,9 +274,10 @@
                     {{-- ▲▲▲ オプション終わり ▲▲▲ --}}
 
                     <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
-                    <!-- 車両コミコミ合計（= 本体価格 + オプション小計） -->
+
+                    <!-- 合計 = 本体価格 + 諸費用合計 + オプション合計 -->
                     <div class="mb-4">
-                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
+                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計</label>
                         <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
 
@@ -317,11 +333,29 @@
                             class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
 
+
                     <!--メモ -->
-                    <div class="mb-4">
-                        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
-                        <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
+                    <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
+                    <div class="mb-4 bg-gray-200 p-6 rounded-lg">
+                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <input
+                            type="text"
+                            name="message"
+                            id="message"
+                            class="w-full px-4 py-2 border rounded-lg">
+
+                        <!-- ここでスペースを追加 -->
+                        <label for="memo" class="mt-4 block text-gray-700 font-semibold mb-1">メモ</label>
+                        <input
+                            type="text"
+                            name="memo"
+                            id="memo"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            placeholder="社内メモ（見積書には印字されません）">
                     </div>
+
+
+
 
                     <!-- ログインユーザの制限処理 -->
                     @auth
@@ -365,8 +399,7 @@
                 '';
         }
 
-        // ------- 諸費用行テンプレ -------
-        // 既存：tax_1〜tax_5 の定義（変更なし）
+        // ------- 諸費用アイコン定義（既存のまま） -------
         const taxIcons = [{
                 id: 'tax_1',
                 label: '自動車税',
@@ -396,73 +429,91 @@
             },
         ];
 
-        // 行テンプレート生成（名称 → 金額 → アイコン）
-        function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
-            let iconHtml = '';
+        // HTML属性用エスケープ（壊れ防止＆安全）
+        function esc(v) {
+            return String(v)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
+        // ------- アイコンHTMLを返すヘルパー -------
+        function getChargeIconHtml(kind, index) {
+            // tax の 1〜5行目は taxIcons に従う
             if (kind === 'tax' && index < taxIcons.length) {
-                // 1〜5行目（tax_1〜tax_5）
                 const icon = taxIcons[index];
                 if (icon.type === 'popup') {
-                    iconHtml = `
-        <button type="button"
-                onclick="openTaxPopup('${icon.id}')"
-                class="text-gray-500 hover:text-gray-700"
-                title="${icon.label}">
-          <i class="fas fa-info-circle"></i>
-        </button>
-      `;
-                } else if (icon.type === 'link') {
-                    iconHtml = `
-        <a href="${icon.url}" target="_blank" rel="noopener noreferrer"
-           class="text-gray-500 hover:text-gray-700"
-           title="${icon.label}">
-          <i class="fa-solid fa-square-arrow-up-right"></i>
-        </a>
-      `;
+                    return `
+<button type="button"
+        onclick="openTaxPopup('${icon.id}')"
+        class="text-gray-500 hover:text-gray-700"
+        title="${esc(icon.label)}">
+  <i class="fas fa-info-circle"></i>
+</button>`;
                 }
-            } else {
-                // 6行目以降の tax、または fee はすべて tax_item ポップアップ
-                iconHtml = `
-      <button type="button"
-              onclick="openTaxItemPopup('${kind}', ${index})"
-              class="text-gray-500 hover:text-gray-700"
-              title="候補から選ぶ">
-        <i class="fas fa-solid fa-file"></i>
-      </button>
-    `;
+                if (icon.type === 'link') {
+                    return `
+<a href="${esc(icon.url)}" target="_blank" rel="noopener noreferrer"
+   class="text-gray-500 hover:text-gray-700"
+   title="${esc(icon.label)}">
+  <i class="fa-solid fa-square-arrow-up-right"></i>
+</a>`;
+                }
             }
 
+            // それ以外（taxの6行目以降 / fee 全行）は汎用ポップアップ tax_item
             return `
-    <div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
-         data-kind="${kind}" data-index="${index}">
-      <!-- 名称 -->
-      <div class="col-span-7">
-        <input type="text"
-               name="charges[${kind}][${index}][name]"
-               class="w-full px-3 py-2 border rounded"
-               placeholder="例）自賠責保険 / 登録費用 など"
-               value="${nameValue ?? ''}">
-        <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
-        <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
-      </div>
-
-      <!-- 金額 -->
-      <div class="col-span-4">
-        <input type="number"
-               name="charges[${kind}][${index}][amount]"
-               class="charge-amount w-full px-3 py-2 border rounded text-right"
-               inputmode="numeric" pattern="\\d*"
-               placeholder="0"
-               value="${amountValue ?? ''}">
-      </div>
-
-      <!-- アイコン -->
-      <div class="col-span-1 flex justify-end">
-        ${iconHtml}
-      </div>
-    </div>`;
+<button type="button"
+        onclick="openTaxItemPopup('${kind}', ${index})"
+        class="text-gray-500 hover:text-gray-700"
+        title="候補から選ぶ">
+  <i class="fas fa-solid fa-file"></i>
+</button>`;
         }
+
+        // ------- 行テンプレート（名称 → 金額 → アイコン） -------
+        function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
+            // null / undefined は空に（placeholder="0"で未入力表示）
+            // 文字列 "0" や数値 0 は 0 のまま保持（ユーザー入力を尊重）
+            const safeAmount =
+                amountValue === null || amountValue === undefined ? '' : String(amountValue);
+
+            const iconHtml = getChargeIconHtml(kind, index);
+
+            return `
+<div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row"
+     data-kind="${kind}" data-index="${index}">
+  <!-- 名称 -->
+  <div class="col-span-7">
+    <input type="text"
+           name="charges[${kind}][${index}][name]"
+           class="w-full px-3 py-2 border rounded"
+           placeholder="項目"
+           value="${nameValue == null ? '' : esc(nameValue)}">
+    <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
+    <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
+  </div>
+
+  <!-- 金額 -->
+  <div class="col-span-4">
+    <input type="number"
+           name="charges[${kind}][${index}][amount]"
+           class="charge-amount w-full px-3 py-2 border rounded text-right"
+           inputmode="numeric" pattern="\\d*"
+           placeholder="0"
+           value="${esc(safeAmount)}">
+  </div>
+
+  <!-- アイコン -->
+  <div class="col-span-1 flex justify-end">
+    ${iconHtml}
+  </div>
+</div>`;
+        }
+
+
 
 
 
@@ -477,14 +528,17 @@
             recalcAll();
         }
 
-        function removeChargeRow(btn) {
-            const row = btn.closest('.charge-row');
-            if (!row) return;
-            const kind = row.dataset.kind;
-            row.remove();
-            reindexChargeRows(kind);
-            recalcAll();
+        // 末尾の行を削除（tax/fee 共通）
+        function removeChargeRow(kind) {
+            const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+            const rows = container.querySelectorAll('.charge-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove(); // 最後の行を削除
+                reindexChargeRows(kind);
+                recalcAll();
+            }
         }
+
 
         function reindexChargeRows(kind) {
             const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
@@ -559,7 +613,7 @@
       <input type="text"
              name="options[${index}][name]"
              class="w-full px-3 py-2 border rounded"
-             placeholder="例）フロアマット / ナビ / ドラレコ"
+             placeholder="項目"
              value="${nameValue ?? ''}">
       <input type="hidden" name="options[${index}][option_type]" value="aftermarket">
       <input type="hidden" name="options[${index}][tax_treatment]" value="taxable">
@@ -595,12 +649,16 @@
             recalcAll();
         }
 
-        function removeOptionRow(btn) {
-            const row = btn.closest('.option-row');
-            if (!row) return;
-            row.remove();
-            reindexOptionRows();
-            recalcAll();
+
+        // 末尾のオプション行を削除
+        function removeOptionRow() {
+            const container = document.getElementById('options-rows');
+            const rows = container.querySelectorAll('.option-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove();
+                reindexOptionRows();
+                recalcAll();
+            }
         }
 
         function reindexOptionRows() {
@@ -695,15 +753,29 @@
 
             // プリセットを差し込み
             if (Array.isArray(taxPresets)) {
-                taxPresets.forEach(p => addChargeRow('tax', p.name ?? '', parseInt(p.default_amount ?? 0) || 0));
-            }
-            if (Array.isArray(feePresets)) {
-                feePresets.forEach(p => addChargeRow('fee', p.name ?? '', parseInt(p.default_amount ?? 0) || 0));
+                taxPresets.forEach(p => {
+                    addChargeRow(
+                        'tax',
+                        p.name ?? '',
+                        p.default_amount === null ? '' : p.default_amount
+                    );
+                });
             }
 
-            // 必ず「後に」空フォーム3行を追加（要件）
-            for (let i = 0; i < 3; i++) addChargeRow('tax');
-            for (let i = 0; i < 3; i++) addChargeRow('fee');
+            if (Array.isArray(feePresets)) {
+                feePresets.forEach(p => {
+                    addChargeRow(
+                        'fee',
+                        p.name ?? '',
+                        p.default_amount === null ? '' : p.default_amount
+                    );
+                });
+            }
+
+
+            // 必ず「後に」空フォーム1行3行を追加（要件）
+            for (let i = 0; i < 1; i++) addChargeRow('tax');
+            for (let i = 0; i < 1; i++) addChargeRow('fee');
 
             // オプションは空3行
             for (let i = 0; i < 3; i++) addOptionRow();
