@@ -246,8 +246,8 @@
     @endif
 
     <div class="section">
-        <strong>メモ:</strong>
-        <p>{{ $memo }}</p>
+        <strong>備考:</strong>
+        <p>{{ $message }}</p>
     </div>
 
     <div class="footer">

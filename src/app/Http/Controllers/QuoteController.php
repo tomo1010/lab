@@ -586,7 +586,7 @@ class QuoteController extends Controller
         $price        = (int) $request->input('price', 0);
         $tradePrice   = (int) $request->input('trade_price', 0);
         $discount     = (int) $request->input('discount', 0);
-        $memo         = $request->input('memo');
+        $message         = $request->input('message');
 
         // ---------- 諸費用（税金・保険料 / 販売諸費用）を正規化 ----------
         $charges = $request->input('charges', []);
@@ -665,7 +665,7 @@ class QuoteController extends Controller
             'payment'        => $payment,
 
             // メモ
-            'memo'           => $memo,
+            'message'           => $message,
         ];
 
         // ---------- PDF 生成 ----------

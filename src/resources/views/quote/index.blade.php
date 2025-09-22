@@ -264,7 +264,7 @@
 
                         <div class="mt-6 text-right">
                             <span class="text-gray-700 font-semibold">
-                                オプション 小計：
+                                小計：
                                 <span id="option_total_display" class="text-gray-800 font-bold">0円</span>
                             </span>
                             <input type="hidden" id="option_total" name="option_total" value="0">
@@ -332,11 +332,29 @@
                             class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
 
+
                     <!--メモ -->
-                    <div class="mb-4">
-                        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
-                        <input type="text" name="memo" id="memo" class="w-full px-4 py-2 border rounded-lg">
+                    <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
+                    <div class="mb-4 bg-gray-300 p-6 rounded-lg">
+                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考欄</label>
+                        <input
+                            type="text"
+                            name="message"
+                            id="message"
+                            class="w-full px-4 py-2 border rounded-lg">
+
+                        <!-- ここでスペースを追加 -->
+                        <label for="memo" class="mt-4 block text-gray-700 font-semibold mb-1">メモ</label>
+                        <input
+                            type="text"
+                            name="memo"
+                            id="memo"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            placeholder="社内メモ（見積書には印字されません）">
                     </div>
+
+
+
 
                     <!-- ログインユーザの制限処理 -->
                     @auth
