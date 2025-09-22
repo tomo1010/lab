@@ -180,7 +180,12 @@
                         <button type="button"
                             class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                             onclick="addChargeRow('tax')">
-                            ＋ 行を追加
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
+                            class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('tax')">
+                            − 削除
                         </button>
 
                         <div class="mt-4 text-right">
@@ -204,7 +209,12 @@
                         <button type="button"
                             class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                             onclick="addChargeRow('fee')">
-                            ＋ 行を追加
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
+                            class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('fee')">
+                            − 削除
                         </button>
 
                         <div class="mt-4 text-right">
@@ -243,7 +253,12 @@
                             <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="addOptionRow()">
-                                ＋ 行を追加
+                                ＋ 追加　
+                            </button>
+                            <button type="button"
+                                class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                                onclick="removeOptionRow()">
+                                − 削除
                             </button>
                         </div>
 
@@ -494,14 +509,17 @@
             recalcAll();
         }
 
-        function removeChargeRow(btn) {
-            const row = btn.closest('.charge-row');
-            if (!row) return;
-            const kind = row.dataset.kind;
-            row.remove();
-            reindexChargeRows(kind);
-            recalcAll();
+        // 末尾の行を削除（tax/fee 共通）
+        function removeChargeRow(kind) {
+            const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+            const rows = container.querySelectorAll('.charge-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove(); // 最後の行を削除
+                reindexChargeRows(kind);
+                recalcAll();
+            }
         }
+
 
         function reindexChargeRows(kind) {
             const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
@@ -612,12 +630,16 @@
             recalcAll();
         }
 
-        function removeOptionRow(btn) {
-            const row = btn.closest('.option-row');
-            if (!row) return;
-            row.remove();
-            reindexOptionRows();
-            recalcAll();
+
+        // 末尾のオプション行を削除
+        function removeOptionRow() {
+            const container = document.getElementById('options-rows');
+            const rows = container.querySelectorAll('.option-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove();
+                reindexOptionRows();
+                recalcAll();
+            }
         }
 
         function reindexOptionRows() {
