@@ -11,6 +11,8 @@
     </div>
 
     <div class="py-12">
+        <div x-data="{ showLoginModal: false }">
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
@@ -357,26 +359,50 @@
 
 
 
-                    <!-- ログインユーザの制限処理 -->
-                    @auth
-                    @php
-                    $limit = auth()->user()->limit();
-                    $quoteCount = auth()->user()->quotes()->count();
-                    $isOverLimit = $quoteCount >= $limit;
-                    @endphp
+                    {{-- ボタン群 --}}
+                    <div class="flex justify-center gap-4 mt-6">
+                        {{-- PDFボタン（ゲストでも使いたい場合は auth を外したルートにしておく） --}}
+                        <button
+                            type="submit"
+                            formaction="{{ route('quote.createPdf') }}"
+                            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                            PDF作成
+                        </button>
 
-                    <div class="flex space-x-2">
-                        <x-save-limit-modal :is-over-limit="$isOverLimit" />
+                        {{-- コピー（クォート修正！）--}}
+                        <div x-data="taxCalculator()">
+                            <button type="button"
+                                class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                @click="copyToClipboard">
+                                コピー
+                            </button>
+                        </div>
+
+                        @auth
+                        {{-- 保存（ログイン時のみ。保存は auth でOK） --}}
+                        <button
+                            type="submit"
+                            formaction="{{ route('quote.store') }}"
+                            class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                            保存
+                        </button>
                         @endauth
 
-                        <!-- PDFボタン -->
-                        <button type="submit"
-                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                            onclick="document.getElementById('quoteForm').action='{{ route('quote.createPdf') }}';">
-                            PDF
+                        @guest
+                        {{-- 保存（未ログインはモーダルを開く） --}}
+                        <button
+                            type="button"
+                            @click.prevent="showLoginModal = true"
+                            class="bg-gray-300 text-white px-6 py-2 rounded cursor-pointer">
+                            保存
                         </button>
+                        @endguest
                     </div>
+
                 </form>
+
+                {{-- 保存モーダル --}}
+                @include('components.save-modal')
             </div>
         </div>
 
