@@ -167,7 +167,7 @@ class QuoteController extends Controller
                 'inspection_year'  => ['nullable', 'max:255'],
                 'inspection_month' => ['nullable', 'max:255'],
 
-                'price'       => ['required', 'integer'],
+                'price'       => ['nullable', 'integer'],
                 'discount'    => ['nullable', 'integer'],
                 'trade_price' => ['nullable', 'integer'],
                 'message'     => ['nullable', 'max:255'],

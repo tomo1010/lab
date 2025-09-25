@@ -378,18 +378,30 @@
                                 </button>
                             </div>
 
+
+                            <!-- ログインユーザの制限処理 -->
                             @auth
-                            {{-- 保存（ログイン時のみ。保存は auth でOK） --}}
-                            <button
-                                type="submit"
-                                formaction="{{ route('quote.store') }}"
-                                class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-                                保存
-                            </button>
+                            @php
+                            $limit = auth()->user()->limit(); // Userモデルに定義（例：100 or 5）
+                            $quoteCount = auth()->user()->quotes()->count();
+                            $isOverLimit = $quoteCount >= $limit;
+                            @endphp
+                            @endauth
+
+
+                            @auth
+                            @php
+                            $limit = auth()->user()->limit();
+                            $quoteCount = auth()->user()->quotes()->count();
+                            $isOverLimit = $quoteCount >= $limit;
+                            @endphp
+
+                            {{-- 保存（上限超過時はモーダル） --}}
+                            <x-save-limit-modal :is-over-limit="$isOverLimit" />
                             @endauth
 
                             @guest
-                            {{-- 保存（未ログインはモーダルを開く） --}}
+                            {{-- 未ログインは既存のログインモーダル等を表示 --}}
                             <button
                                 type="button"
                                 @click.prevent="showLoginModal = true"
@@ -397,6 +409,7 @@
                                 保存
                             </button>
                             @endguest
+
                         </div>
 
                     </form>
@@ -406,15 +419,6 @@
                 </div>
             </div>
 
-
-            <!-- ログインユーザの制限処理 -->
-            @auth
-            @php
-            $limit = auth()->user()->limit(); // モデルに定義（例：100 or 5）
-            $quoteCount = auth()->user()->quotes()->count();
-            $isOverLimit = $quoteCount >= $limit;
-            @endphp
-            @endauth
 
             <!-- データ保存一覧 -->
             @auth
@@ -1054,6 +1058,16 @@
                     bubbles: true
                 }));
             }
+
+
+  // 保存フォーム送信（新規保存）
+  function saveOnly() {
+    const form = document.getElementById('quoteForm');
+    if (!form) return;
+    form.setAttribute('action', '{{ route('quote.store') }}');
+    form.submit();
+  }
+
         </script>
 
 

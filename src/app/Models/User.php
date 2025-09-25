@@ -64,6 +64,17 @@ class User extends Authenticatable
 
 
     /**
+     * ユーザの保存　制限設定（プレミアム会員　：　一般会員）
+     *
+     * @return bool
+     */
+    public function limit(): int
+    {
+        return $this->subscribed() ? 10 : 3;
+    }
+
+
+    /**
      ** このユーザが所有する見積もり
      */
     public function quotes()
@@ -89,16 +100,6 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class);
     }
 
-
-    /**
-     * ユーザの保存　制限設定（プレミアム会員　：　一般会員）
-     *
-     * @return bool
-     */
-    public function limit(): int
-    {
-        return $this->subscribed() ? 10 : 3;
-    }
 
     /**
      ** このユーザが所有するタイヤ計算
