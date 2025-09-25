@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\QuoteCharge;
 use App\Models\QuoteOption;
 use App\Models\ChargePreset;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -76,65 +77,138 @@ class QuoteController extends Controller
             abort(403, 'ログインが必要です');
         }
 
-        // 保存上限チェック（あなたの既存ロジック）
+        // 保存上限（既存ロジック）
         $limit = $user->limit();
         $count = $user->quotes()->count();
         if ($count >= $limit) {
             $user->quotes()->oldest()->first()?->delete();
         }
 
-        // 画面入力想定（名前は必要に応じて合わせてください）
-        // charges: [ [id|null, kind, name, amount, tax_treatment, tax_rate], ... ]
-        // options: [ [option_type, name, unit_price, tax_treatment, tax_rate], ... ]
-        $validated = $request->validate([
-            // 車両本体
-            'maker'        => 'nullable|max:255',
-            'car'          => 'nullable|max:255',
-            'grade'        => 'nullable|max:255',
-            'displacement' => 'nullable|max:255',
-            'transmission' => 'nullable|max:255',
-            'color'        => 'nullable|max:255',
-            'drive'        => 'nullable|max:255',
-            'model'        => 'nullable|max:255',
-            'number'       => 'nullable|max:255',
-            'year'         => 'nullable|max:255',
-            'mileage'      => 'nullable|max:255',
-            'inspection_year'  => 'nullable|max:255',
-            'inspection_month' => 'nullable|max:255',
+        // まず “生” 入力を受け取る（ここでは型チェックせず）
+        $raw = $request->all();
 
-            'price'    => 'required|integer',
-            'discount' => 'nullable|integer',
-            'trade_price' => 'nullable|integer',
+        // ---------- charges をフラット化 + 空行除外 ----------
+        $flatCharges = [];
+        foreach (['tax', 'fee'] as $kind) {
+            foreach ((array) data_get($raw, "charges.$kind", []) as $row) {
+                $name   = trim((string)($row['name']   ?? ''));
+                $amount = $row['amount'] ?? null; // 空なら null のまま
+                $taxTr  = $row['tax_treatment'] ?? null;
+                $taxRt  = $row['tax_rate']      ?? null;
 
-            // メモ等
-            'message' => 'nullable|max:255',
-            'memo'    => 'nullable|max:255',
+                // 「名前も金額も空」はスキップ
+                $isAmountEmpty = ($amount === '' || $amount === null);
+                if ($name === '' && $isAmountEmpty) {
+                    continue;
+                }
 
-            // 明細（税金/諸費用）
-            'charges'                      => 'nullable|array',
-            'charges.*.kind'               => 'required_with:charges|in:tax,fee',
-            'charges.*.name'               => 'required_with:charges|string|max:255',
-            'charges.*.amount'             => 'nullable|integer',
-            'charges.*.tax_treatment'      => 'nullable|in:taxable,exempt,non_taxable',
-            'charges.*.tax_rate'           => 'nullable|numeric',
+                $flatCharges[] = [
+                    'kind'          => $kind,
+                    'name'          => $name,                       // 空名の登録は許可しない
+                    'amount'        => $isAmountEmpty ? 0 : (int)$amount, // DB的には整数。空は 0 に丸める
+                    'tax_treatment' => $taxTr ?: null,
+                    'tax_rate'      => $taxRt ?: null,
+                ];
+            }
+        }
 
-            // オプション
-            'options'                      => 'nullable|array',
-            'options.*.option_type'        => 'required_with:options|in:dealer,maker,aftermarket',
-            'options.*.name'               => 'required_with:options|string|max:255',
-            'options.*.unit_price'         => 'nullable|integer',
-            'options.*.tax_treatment'      => 'nullable|in:taxable,exempt,non_taxable',
-            'options.*.tax_rate'           => 'nullable|numeric',
-        ]);
+        // ---------- options も空行を除外 ----------
+        $flatOptions = [];
+        foreach ((array) data_get($raw, 'options', []) as $row) {
+            $name   = trim((string)($row['name'] ?? ''));
+            $price  = $row['unit_price'] ?? null;
+            $optType = $row['option_type'] ?? 'aftermarket'; // 画面は hidden で after­market
 
-        // 合計はサーバ側で再計算するため、リクエスト total は受け取らない運用に寄せます
-        $discount    = (int)($validated['discount']     ?? 0);
-        $tradePrice  = (int)($validated['trade_price']  ?? 0);
+            $isPriceEmpty = ($price === '' || $price === null);
+            if ($name === '' && $isPriceEmpty) {
+                continue;
+            }
 
+            $flatOptions[] = [
+                'option_type'   => in_array($optType, ['dealer', 'maker', 'aftermarket'], true) ? $optType : 'aftermarket',
+                'name'          => $name,
+                'unit_price'    => $isPriceEmpty ? 0 : (int)$price,
+                'tax_treatment' => $row['tax_treatment'] ?? 'taxable',
+                'tax_rate'      => $row['tax_rate']      ?? null,
+            ];
+        }
+
+        // ---------- バリデーション ----------
+        // ※ ここでは “整形後の配列” を対象にする
+        $validated = Validator::make(
+            [
+                // そのままの単項目
+                'maker'        => $raw['maker']        ?? null,
+                'car'          => $raw['car']          ?? null,
+                'grade'        => $raw['grade']        ?? null,
+                'displacement' => $raw['displacement'] ?? null,
+                'transmission' => $raw['transmission'] ?? null,
+                'color'        => $raw['color']        ?? null,
+                'drive'        => $raw['drive']        ?? null,
+                'model'        => $raw['model']        ?? null,
+                'number'       => $raw['number']       ?? null,
+                'year'         => $raw['year']         ?? null,
+                'mileage'      => $raw['mileage']      ?? null,
+                'inspection_year'  => $raw['inspection_year']  ?? null,
+                'inspection_month' => $raw['inspection_month'] ?? null,
+
+                'price'       => $raw['price']       ?? null,
+                'discount'    => $raw['discount']    ?? null,
+                'trade_price' => $raw['trade_price'] ?? null,
+                'message'     => $raw['message']     ?? null,
+                'memo'        => $raw['memo']        ?? null,
+
+                // 整形済み
+                'charges'     => $flatCharges,
+                'options'     => $flatOptions,
+            ],
+            [
+                'maker'        => ['nullable', 'max:255'],
+                'car'          => ['nullable', 'max:255'],
+                'grade'        => ['nullable', 'max:255'],
+                'displacement' => ['nullable', 'max:255'],
+                'transmission' => ['nullable', 'max:255'],
+                'color'        => ['nullable', 'max:255'],
+                'drive'        => ['nullable', 'max:255'],
+                'model'        => ['nullable', 'max:255'],
+                'number'       => ['nullable', 'max:255'],
+                'year'         => ['nullable', 'max:255'],
+                'mileage'      => ['nullable', 'max:255'],
+                'inspection_year'  => ['nullable', 'max:255'],
+                'inspection_month' => ['nullable', 'max:255'],
+
+                'price'       => ['required', 'integer'],
+                'discount'    => ['nullable', 'integer'],
+                'trade_price' => ['nullable', 'integer'],
+                'message'     => ['nullable', 'max:255'],
+                'memo'        => ['nullable', 'max:255'],
+
+                'charges'                 => ['array'],
+                'charges.*.kind'          => ['required', 'in:tax,fee'],
+                'charges.*.name'          => ['required', 'string', 'max:255'],
+                'charges.*.amount'        => ['nullable', 'integer'],
+                'charges.*.tax_treatment' => ['nullable', 'in:taxable,exempt,non_taxable'],
+                'charges.*.tax_rate'      => ['nullable', 'numeric'],
+
+                // オプション
+                'options'                      => 'nullable|array',
+                'options.*.option_type'        => 'required_with:options|in:dealer,maker,aftermarket',
+                'options.*.name'               => 'required_with:options|string|max:255',
+                'options.*.amount'             => 'nullable|integer', // ← unit_price 削除して amount に統一
+                'options.*.tax_treatment'      => 'nullable|in:taxable,exempt,non_taxable',
+                'options.*.tax_rate'           => 'nullable|numeric',
+
+            ],
+            [], // カスタムメッセージ必要ならここに
+        )->validate();
+
+        // ここから DB 登録
+        $discount   = (int)($validated['discount']    ?? 0);
+        $tradePrice = (int)($validated['trade_price'] ?? 0);
         $quote = null;
 
         DB::transaction(function () use ($user, $validated, $discount, $tradePrice, &$quote) {
-            // 1) 見積（quotes）をまず作成
+            // 1) 見積ヘッダ
             $quote = $user->quotes()->create([
                 'name'         => $validated['name']         ?? null,
                 'post'         => $validated['post']         ?? null,
@@ -158,26 +232,23 @@ class QuoteController extends Controller
 
                 'price'        => (int)$validated['price'],
                 'discount'     => $discount,
-
-                // 下取りなど（必要に応じて追加の入力を載せてください）
                 'trade_price'  => $tradePrice,
 
                 'message'      => $validated['message'] ?? null,
                 'memo'         => $validated['memo']    ?? null,
 
-                // 小計・合計は後で再計算して更新
                 'subtotal'     => 0,
                 'total'        => 0,
                 'payment'      => 0,
             ]);
 
-            // 2) プリセットを複製して quote_charges へ（初期行を作成）
+            // 2) プリセット複製（amount は null を 0 に丸め）
             $presetRows = ChargePreset::orderBy('position')->get()->map(function ($p) use ($quote) {
                 return [
                     'quote_id'      => $quote->id,
                     'kind'          => $p->kind,
                     'name'          => $p->name,
-                    'amount'        => (int)$p->default_amount,
+                    'amount'        => (int)($p->default_amount ?? 0),
                     'tax_treatment' => $p->tax_treatment,
                     'tax_rate'      => $p->tax_rate,
                     'position'      => $p->position,
@@ -185,65 +256,60 @@ class QuoteController extends Controller
                     'updated_at'    => now(),
                 ];
             })->all();
-            if (!empty($presetRows)) {
+            if ($presetRows) {
                 QuoteCharge::insert($presetRows);
             }
 
-            // 3) もし画面から charges が来ていれば、同名行を上書き or 追加
-            if (!empty($validated['charges'])) {
-                foreach ($validated['charges'] as $i => $c) {
-                    // 既存（プリセット）に name が一致するものがあれば更新、なければ追加
-                    $existing = QuoteCharge::where('quote_id', $quote->id)
-                        ->where('name', $c['name'])
-                        ->where('kind', $c['kind'])
-                        ->first();
+            // 3) 画面入力（整形済み）で上書き or 追加
+            foreach ($validated['charges'] as $i => $c) {
+                $existing = QuoteCharge::where('quote_id', $quote->id)
+                    ->where('kind', $c['kind'])
+                    ->where('name', $c['name'])
+                    ->first();
 
-                    $payload = [
-                        'amount'        => isset($c['amount']) ? (int)$c['amount'] : 0,
-                        'tax_treatment' => $c['tax_treatment'] ?? ($existing->tax_treatment ?? 'taxable'),
-                        'tax_rate'      => $c['tax_rate']      ?? ($existing->tax_rate      ?? null),
-                        'position'      => $existing->position ?? ($i + 1),
-                    ];
+                $payload = [
+                    'amount'        => isset($c['amount']) ? (int)$c['amount'] : 0,
+                    'tax_treatment' => $c['tax_treatment'] ?? ($existing->tax_treatment ?? 'taxable'),
+                    'tax_rate'      => $c['tax_rate']      ?? ($existing->tax_rate      ?? null),
+                    'position'      => $existing->position ?? ($i + 1),
+                ];
 
-                    if ($existing) {
-                        $existing->update($payload);
-                    } else {
-                        QuoteCharge::create(array_merge([
-                            'quote_id' => $quote->id,
-                            'kind'     => $c['kind'],
-                            'name'     => $c['name'],
-                        ], $payload));
-                    }
+                if ($existing) {
+                    $existing->update($payload);
+                } else {
+                    QuoteCharge::create([
+                        'quote_id' => $quote->id,
+                        'kind'     => $c['kind'],
+                        'name'     => $c['name'],
+                    ] + $payload);
                 }
             }
 
-            // 4) オプション（qty/amount なし。unit_price のみ）
-            if (!empty($validated['options'])) {
-                foreach ($validated['options'] as $j => $o) {
-                    QuoteOption::create([
-                        'quote_id'      => $quote->id,
-                        'option_type'   => $o['option_type'],      // dealer|maker|aftermarket
-                        'name'          => $o['name'],
-                        'unit_price'    => isset($o['unit_price']) ? (int)$o['unit_price'] : 0,
-                        'tax_treatment' => $o['tax_treatment'] ?? 'taxable',
-                        'tax_rate'      => $o['tax_rate']      ?? null,
-                        'position'      => $j + 1,
-                    ]);
-                }
+            // 4) オプション（整形済み）
+            foreach ($validated['options'] as $j => $o) {
+                QuoteOption::create([
+                    'quote_id'      => $quote->id,
+                    'option_type'   => $o['option_type'],
+                    'name'          => $o['name'],
+                    'amount'        => (int)($o['amount'] ?? 0),   // ← amount に統一
+                    'tax_treatment' => $o['tax_treatment'] ?? 'taxable',
+                    'tax_rate'      => $o['tax_rate']      ?? null,
+                    'position'      => $j + 1,
+                ]);
             }
 
-            // 5) 合計をサーバ側で再計算して quotes を更新
+            // 5) 合計再計算
             $taxesSum = $quote->charges()->where('kind', 'tax')->sum('amount');
             $feesSum  = $quote->charges()->where('kind', 'fee')->sum('amount');
-            $optSum   = $quote->options()->sum('unit_price'); // ← qty/amount無し前提
+            $optSum = $quote->options()->sum('amount'); // ← unit_price ではなく amount
 
-            $subtotal = (int)$quote->price - (int)$quote->discount + $taxesSum + $feesSum + $optSum;
+            $subtotal = (int)$quote->price + $taxesSum + $feesSum + $optSum - (int)$quote->discount;
             $total    = $subtotal - (int)$quote->trade_price;
 
             $quote->update([
                 'subtotal' => $subtotal,
                 'total'    => $total,
-                'payment'  => $total, // ここは運用に合わせて。ローン計算を別で上書きするならそのままでもOK
+                'payment'  => $total,
             ]);
         });
 
@@ -253,6 +319,7 @@ class QuoteController extends Controller
             ->route('quote.edit', ['quote' => $quote->id])
             ->with('success', '見積もりを保存しました');
     }
+
 
 
 
@@ -304,132 +371,210 @@ class QuoteController extends Controller
 
 
     /**
-     * 投稿の更新
+     * 見積の更新（quotes / quote_charges / quote_options）
      */
     public function update(Request $request, $id)
     {
-        //dd($request);
-        // バリデーション
-        $request->validate([
-            'car' => 'nullable|max:255',
-            'grade' => 'nullable|max:255',
-            'color' => 'nullable|max:255',
-            'transmission' => 'nullable|max:255',
-            'drive' => 'nullable|max:255',
-            'year' => 'nullable|max:255',
-            'mileage' => 'nullable|max:255',
-            'inspection_year' => 'nullable|max:255',
-            'inspection_month' => 'nullable|max:255',
-
-            'price' => 'required|integer',
-
-            'tax_1' => 'nullable|integer',
-            'tax_2' => 'nullable|integer',
-            'tax_3' => 'nullable|integer',
-            'tax_4' => 'nullable|integer',
-            'tax_5' => 'nullable|integer',
-            'tax_total' => 'nullable|integer',
-            'overhead_1' => 'nullable|integer',
-            'overheadName_11' => 'nullable|max:255',
-            'overhead_11' => 'nullable|integer',
-            'overhead_total' => 'nullable|integer',
-
-            'optionName_1' => 'nullable|max:255',
-            'optionName_2' => 'nullable|max:255',
-            'optionName_3' => 'nullable|max:255',
-            'optionName_4' => 'nullable|max:255',
-            'optionName_5' => 'nullable|max:255',
-            'option_1' => 'nullable|integer',
-            'option_2' => 'nullable|integer',
-            'option_3' => 'nullable|integer',
-            'option_4' => 'nullable|integer',
-            'option_5' => 'nullable|integer',
-            'option_total' => 'nullable|integer',
-
-            'total' => 'nullable|integer',
-            'trade_price' => 'nullable|integer',
-            'discount' => 'nullable|integer',
-            'payment' => 'nullable|integer',
-
-            'memo' => 'nullable|max:255',
-        ]);
-
-
-
-
-        $quote = Quote::findOrFail($id);
+        $quote = Quote::with(['charges', 'options'])->findOrFail($id);
 
         // 投稿の所有者のみ更新可能
-        if (\Auth::id() !== $quote->user_id) {
+        if (Auth::id() !== $quote->user_id) {
             return redirect()->route('quote.index')->with('error', '不正な操作です');
         }
 
+        // --- 基本バリデーション（明細は配列の形だけチェック。中身は後で正規化） ---
+        $validated = $request->validate([
+            // 車両本体
+            'maker'            => 'nullable|string|max:255',
+            'car'              => 'nullable|string|max:255',
+            'grade'            => 'nullable|string|max:255',
+            'displacement'     => 'nullable|string|max:255',
+            'transmission'     => 'nullable|string|max:255',
+            'color'            => 'nullable|string|max:255',
+            'drive'            => 'nullable|string|max:255',
+            'model'            => 'nullable|string|max:255',
+            'number'           => 'nullable|string|max:255',
+            'year'             => 'nullable|string|max:255',
+            'mileage'          => 'nullable|string|max:255',
+            'inspection_year'  => 'nullable|string|max:255',
+            'inspection_month' => 'nullable|string|max:255',
 
-        // 年と月の取得とinspection文字列の生成は事前にやっておく
-        $year = $request->input('inspection_year');
-        $month = $request->input('inspection_month');
+            'price'        => 'required|integer',
+            'discount'     => 'nullable|integer',
+            'trade_price'  => 'nullable|integer',
 
-        if (in_array($year, ['2年付', '3年付'])) {
+            // 備考・メモ
+            'message' => 'nullable|string|max:255',
+            'memo'    => 'nullable|string|max:255',
+
+            // 明細（フォーム構造の許容）
+            'charges'       => 'nullable|array',
+            'charges.tax'   => 'nullable|array',
+            'charges.fee'   => 'nullable|array',
+
+            'options'       => 'nullable|array',
+            'options.*.name'        => 'nullable|string|max:255',
+            'options.*.amount'      => 'nullable|integer',
+            'options.*.option_type' => 'nullable|in:dealer,maker,aftermarket',
+            'options.*.tax_treatment' => 'nullable|in:taxable,exempt,non_taxable',
+            'options.*.tax_rate'      => 'nullable|numeric',
+        ]);
+
+        // 検査日文字列の組み立て
+        $inspection = null;
+        $year  = $validated['inspection_year']  ?? null;
+        $month = $validated['inspection_month'] ?? null;
+        if (in_array($year, ['2年付', '3年付'], true)) {
             $inspection = $year;
         } elseif ($year && $month) {
             $inspection = $year . '-' . $month;
-        } else {
-            $inspection = null;
         }
-        //dd($inspection);
-        // 内容を更新
-        $quote->update([
 
-            // 車両情報
-            'car' => $request->car,
-            'grade' => $request->grade,
-            'transmission' => $request->transmission,
-            'color' => $request->color,
-            'drive' => $request->drive,
-            'year' => $request->year,
-            'mileage' => $request->mileage,
-            'inspection' => $inspection,
+        // 画面の charges は charges[tax][i][...] / charges[fee][i][...] の二段配列なので正規化
+        $flatCharges = [];
+        $inCharges   = $validated['charges'] ?? [];
+        foreach (['tax', 'fee'] as $kind) {
+            if (!empty($inCharges[$kind]) && is_array($inCharges[$kind])) {
+                $pos = 1;
+                foreach ($inCharges[$kind] as $row) {
+                    $name   = trim((string)($row['name'] ?? ''));
+                    $amount = $row['amount'] ?? null;
 
-            // 車両価格
-            'price' => $request->price,
+                    // 完全に空行（name も amount も空）はスキップ
+                    if ($name === '' && ($amount === null || $amount === '')) {
+                        continue;
+                    }
 
-            // 税金・保険料
-            'tax_1' => $request->input('tax_1') ?? '0',
-            'tax_2' => $request->input('tax_2') ?? '0',
-            'tax_3' => $request->input('tax_3') ?? '0',
-            'tax_4' => $request->input('tax_4') ?? '0',
-            'tax_5' => $request->input('tax_5') ?? '0',
+                    $flatCharges[] = [
+                        'kind'          => $kind,
+                        'name'          => $name,
+                        'amount'        => (int)($amount ?? 0),
+                        'tax_treatment' => $row['tax_treatment'] ?? 'taxable',
+                        'tax_rate'      => $row['tax_rate'] ?? null,
+                        'position'      => $pos++,
+                    ];
+                }
+            }
+        }
 
-            // 諸費用
-            'overhead_1' => $request->input('overhead_1') ?? '0',
-            'overheadName_11' => $request->input('overheadName_11') ?? '0',
-            'overhead_11' => $request->input('overhead_11') ?? '0',
-            'overhead_total' => $request->input('overhead_total') ?? '0', //taxとoverheadの合計
+        // options も正規化（name も amount も空ならスキップ）
+        $normOptions = [];
+        $inOptions   = $validated['options'] ?? [];
+        $pos         = 1;
+        foreach ($inOptions as $row) {
+            $name   = trim((string)($row['name'] ?? ''));
+            $amount = $row['amount'] ?? null;
 
-            // オプション
-            'optionName_1' => $request->optionName_1,
-            'optionName_2' => $request->optionName_2,
-            'optionName_3' => $request->optionName_3,
-            'optionName_4' => $request->optionName_4,
-            'optionName_5' => $request->optionName_5,
-            'option_1' => $request->input('option_1') ?? '0',
-            'option_2' => $request->input('option_2') ?? '0',
-            'option_3' => $request->input('option_3') ?? '0',
-            'option_4' => $request->input('option_4') ?? '0',
-            'option_5' => $request->input('option_5') ?? '0',
-            'option_total' => $request->input('option_total') ?? '0',
+            if ($name === '' && ($amount === null || $amount === '')) {
+                continue;
+            }
 
-            // 支払い総額
-            'total' => $request->input('total') ?? '0',
-            'trade_price' => $request->input('trade_price') ?? '0',
-            'discount' => $request->input('discount') ?? '0',
-            'payment' => $request->input('payment') ?? '0',
+            $normOptions[] = [
+                'name'          => $name,
+                'amount'        => (int)($amount ?? 0),
+                'option_type'   => $row['option_type']   ?? 'aftermarket',
+                'tax_treatment' => $row['tax_treatment'] ?? 'taxable',
+                'tax_rate'      => $row['tax_rate']      ?? null,
+                'position'      => $pos++,
+            ];
+        }
 
-            'memo' => $request->memo,
-        ]);
+        // 金額系
+        $price      = (int)$validated['price'];
+        $discount   = (int)($validated['discount']    ?? 0);
+        $tradePrice = (int)($validated['trade_price'] ?? 0);
 
-        //return redirect()->route('quote.index')->with('success', '投稿を更新しました');
-        return redirect()->route('quote.edit', ['quote' => $id])->with('success', '見積もりを更新しました');
+        DB::transaction(function () use (
+            $quote,
+            $validated,
+            $inspection,
+            $price,
+            $discount,
+            $tradePrice,
+            $flatCharges,
+            $normOptions
+        ) {
+            // 1) 見積本体を更新
+            $quote->update([
+                'maker'        => $validated['maker']        ?? null,
+                'car'          => $validated['car']          ?? null,
+                'grade'        => $validated['grade']        ?? null,
+                'displacement' => $validated['displacement'] ?? null,
+                'transmission' => $validated['transmission'] ?? null,
+                'color'        => $validated['color']        ?? null,
+                'drive'        => $validated['drive']        ?? null,
+                'model'        => $validated['model']        ?? null,
+                'number'       => $validated['number']       ?? null,
+                'year'         => $validated['year']         ?? null,
+                'mileage'      => $validated['mileage']      ?? null,
+                'inspection'   => $inspection,
+
+                'price'        => $price,
+                'discount'     => $discount,
+                'trade_price'  => $tradePrice,
+
+                'message'      => $validated['message'] ?? null,
+                'memo'         => $validated['memo']    ?? null,
+            ]);
+
+            // 2) 明細を全入れ替え（シンプルで確実）
+            $quote->charges()->delete();
+            if (!empty($flatCharges)) {
+                $rows = array_map(function ($c) use ($quote) {
+                    return [
+                        'quote_id'      => $quote->id,
+                        'kind'          => $c['kind'],
+                        'name'          => $c['name'],
+                        'amount'        => $c['amount'],
+                        'tax_treatment' => $c['tax_treatment'],
+                        'tax_rate'      => $c['tax_rate'],
+                        'position'      => $c['position'],
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+                }, $flatCharges);
+                QuoteCharge::insert($rows);
+            }
+
+            $quote->options()->delete();
+            if (!empty($normOptions)) {
+                $rows = array_map(function ($o) use ($quote) {
+                    return [
+                        'quote_id'      => $quote->id,
+                        'option_type'   => $o['option_type'],
+                        'name'          => $o['name'],
+                        'amount'        => $o['amount'],
+                        'tax_treatment' => $o['tax_treatment'],
+                        'tax_rate'      => $o['tax_rate'],
+                        'position'      => $o['position'],
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+                }, $normOptions);
+                QuoteOption::insert($rows);
+            }
+
+            // 3) 合計をサーバ側で再計算
+            $taxesSum = $quote->charges()->where('kind', 'tax')->sum('amount');
+            $feesSum  = $quote->charges()->where('kind', 'fee')->sum('amount');
+            $optSum   = $quote->options()->sum('amount');
+
+            // 画面の「合計」は 本体 + 諸費用合計 + オプション合計
+            // 「支払総額」は 合計 - 下取り - 値引き（＝ store と同じ式に統一）
+            $subtotal = $price + $taxesSum + $feesSum + $optSum;
+            $total    = $subtotal;
+            $payment  = $total - $tradePrice - $discount;
+
+            $quote->update([
+                'subtotal' => $subtotal,
+                'total'    => $total,
+                'payment'  => $payment,
+            ]);
+        });
+
+        return redirect()
+            ->route('quote.edit', ['quote' => $quote->id])
+            ->with('success', '見積もりを更新しました');
     }
 
 
@@ -455,73 +600,112 @@ class QuoteController extends Controller
     /**
      * 投稿のコピー
      */
+
     public function storeCopy($id)
     {
-
         $user = Auth::user();
         if (! $user) {
             abort(403, 'ログインが必要です');
         }
 
-        // コピー元の投稿を取得
-        $quote = Quote::findOrFail($id);
+        // 元見積＋関連明細を取得
+        $quote = Quote::with(['charges', 'options'])->findOrFail($id);
 
-        // 制限件数を超えたら一番古いデータをさ削除
+        // 保存上限チェック（超過時は最古を削除）
         $limit = $user->limit();
         $count = $user->quotes()->count();
-
         if ($count >= $limit) {
             $user->quotes()->oldest()->first()?->delete();
         }
 
-        // 認証済みユーザーの投稿として新しいレコードを作成
-        $newQuote = new Quote();
-        $newQuote->user_id = auth()->id();
+        $newQuote = null;
 
-        // 車両情報
-        $newQuote->car = $quote->car . "[コピー]";
-        $newQuote->grade = $quote->grade;
-        $newQuote->color = $quote->color;
-        $newQuote->transmission = $quote->transmission;
-        $newQuote->drive = $quote->drive;
-        $newQuote->year = $quote->year;
-        $newQuote->mileage = $quote->mileage;
-        $newQuote->inspection = $quote->inspection;
-        // 車輌価格        
-        $newQuote->price = $quote->price;
-        // 税金・保険料
-        $newQuote->tax_1 = $quote->tax_1;
-        $newQuote->tax_2 = $quote->tax_2;
-        $newQuote->tax_3 = $quote->tax_3;
-        $newQuote->tax_4 = $quote->tax_4;
-        $newQuote->tax_5 = $quote->tax_5;
-        // 諸費用
-        $newQuote->overhead_1 = $quote->overhead_1;
-        $newQuote->overheadName_11 = $quote->overheadName_11;
-        $newQuote->overhead_11 = $quote->overhead_11;
-        $newQuote->overhead_total = $quote->overhead_total; //taxとoverheadの合計
-        // オプション
-        $newQuote->optionName_1 = $quote->optionName_1;
-        $newQuote->optionName_2 = $quote->optionName_2;
-        $newQuote->optionName_3 = $quote->optionName_3;
-        $newQuote->optionName_4 = $quote->optionName_4;
-        $newQuote->optionName_5 = $quote->optionName_5;
-        $newQuote->option_1 = $quote->option_1;
-        $newQuote->option_2 = $quote->option_2;
-        $newQuote->option_3 = $quote->option_3;
-        $newQuote->option_4 = $quote->option_4;
-        $newQuote->option_5 = $quote->option_5;
-        $newQuote->option_total = $quote->option_total;
-        // 支払い総額
-        $newQuote->total = $quote->total;
-        $newQuote->trade_price = $quote->trade_price;
-        $newQuote->discount = $quote->discount;
-        $newQuote->payment = $quote->payment;
+        DB::transaction(function () use ($user, $quote, &$newQuote) {
+            // 見積本体を複製
+            $newQuote = $user->quotes()->create([
+                // お好みで [コピー] を付与（重複付与防止）
+                'car'          => str_contains((string)$quote->car, '[コピー]') ? $quote->car : ($quote->car . ' [コピー]'),
+                'grade'        => $quote->grade,
+                'color'        => $quote->color,
+                'transmission' => $quote->transmission,
+                'drive'        => $quote->drive,
+                'year'         => $quote->year,
+                'mileage'      => $quote->mileage,
+                'inspection'   => $quote->inspection,
 
-        $newQuote->memo = $quote->memo;
-        $newQuote->save();
+                'price'        => (int)$quote->price,
+                'discount'     => (int)$quote->discount,
+                'trade_price'  => (int)$quote->trade_price,
 
-        return redirect()->route('quote.edit', ['quote' => $newQuote->id])->with('success', '見積もりをコピーしました。');
+                'message'      => $quote->message,
+                'memo'         => $quote->memo,
+
+                // いったん0で作成→後で再計算して更新
+                'subtotal'     => 0,
+                'total'        => 0,
+                'payment'      => 0,
+            ]);
+
+            // 明細（税金・保険料 / 販売諸費用）を複製
+            if ($quote->charges && $quote->charges->count()) {
+                $rows = $quote->charges->map(function ($c) use ($newQuote) {
+                    return [
+                        'quote_id'      => $newQuote->id,
+                        'kind'          => $c->kind,              // 'tax' | 'fee'
+                        'name'          => $c->name,
+                        'amount'        => (int)$c->amount,
+                        'tax_treatment' => $c->tax_treatment,     // 'taxable'|'exempt'|'non_taxable'
+                        'tax_rate'      => $c->tax_rate,
+                        'position'      => (int)$c->position,
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+                })->all();
+
+                if (!empty($rows)) {
+                    QuoteCharge::insert($rows);
+                }
+            }
+
+            // オプションを複製（amount で統一）
+            if ($quote->options && $quote->options->count()) {
+                $rows = $quote->options->map(function ($o) use ($newQuote) {
+                    return [
+                        'quote_id'      => $newQuote->id,
+                        'option_type'   => $o->option_type,       // 'dealer'|'maker'|'aftermarket'
+                        'name'          => $o->name,
+                        'amount'        => (int)$o->amount,
+                        'tax_treatment' => $o->tax_treatment,
+                        'tax_rate'      => $o->tax_rate,
+                        'position'      => (int)$o->position,
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+                })->all();
+
+                if (!empty($rows)) {
+                    QuoteOption::insert($rows);
+                }
+            }
+
+            // 合計再計算（サーバ側）
+            $taxesSum = $newQuote->charges()->where('kind', 'tax')->sum('amount');
+            $feesSum  = $newQuote->charges()->where('kind', 'fee')->sum('amount');
+            $optSum   = $newQuote->options()->sum('amount');
+
+            $subtotal = (int)$newQuote->price - (int)$newQuote->discount + (int)$taxesSum + (int)$feesSum + (int)$optSum;
+            $total    = $subtotal - (int)$newQuote->trade_price;
+
+            $newQuote->update([
+                'subtotal' => $subtotal,
+                'total'    => $total,
+                'payment'  => $total, // ここは運用に合わせて調整OK
+            ]);
+        });
+
+        return redirect()
+            ->route('quote.edit', ['quote' => $newQuote->id])
+            ->with('success', '見積もりをコピーしました。');
     }
 
 
@@ -545,7 +729,7 @@ class QuoteController extends Controller
                 'inspection_month' => 'nullable|string|max:255',
 
                 // 本体価格
-                'price'            => 'required|integer|min:0',
+                'price' => 'nullable|integer',
 
                 // 諸費用（配列）
                 'charges'                  => 'nullable|array',

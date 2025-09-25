@@ -1,71 +1,87 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            クイック見積もり編集
+            クイック見積もり
         </h2>
     </x-slot>
+
+    <div class="text-xs text-gray-500"></div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
-                <!-- バリデーションエラーメッセージ -->
-                @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-
-                @if (session('success'))
-                <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+                {{-- 成功・エラーメッセージ --}}
+                @if(session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
                     {{ session('success') }}
                 </div>
                 @endif
+                @if(session('error'))
+                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
+                    {{ session('error') }}
+                </div>
+                @endif
 
+                {{-- PDFポップアップ等 --}}
+                @include('quote.popup.tax_1')
+                @include('quote.popup.tax_2')
+                @include('quote.popup.tax_3')
+                @include('quote.popup.tax_item')
+                @include('quote.popup.option_item')
 
-                <!-- 更新フォーム (PUTメソッド)テスト -->
-                <form action="{{ route('quote.update', $quote->id) }}" method="POST" class="space-y-4">
+                {{-- 編集フォーム --}}
+                <form id="quoteForm" action="{{ route('quote.update', ['quote' => $quote->id]) }}" method="POST" class="mb-6">
                     @csrf
                     @method('PUT')
 
-
-
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車種</h3>
-
-                    <!-- 購入車種 -->
+                    {{-- ========== 車両情報 ========== --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
                     <div class="mb-4 bg-blue-100 p-6 rounded-lg">
+
                         <div class="mb-4">
                             <label for="car" class="block text-gray-700 font-semibold mb-1">車名</label>
-                            <input type="text" name="car" id="car" value="{{ old('car', $quote->car) }}" class="w-full px-4 py-2 border rounded-lg">
+                            <input type="text" name="car" id="car"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                value="{{ old('car', $quote->car) }}">
                         </div>
+
                         <div class="mb-4">
                             <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
-                            <input type="text" name="grade" id="grade" value="{{ old('grade', $quote->grade) }}" class="w-full px-4 py-2 border rounded-lg">
+                            <input type="text" name="grade" id="grade"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                value="{{ old('grade', $quote->grade) }}">
                         </div>
+
                         <div class="mb-4">
                             <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
-                            <input type="text" name="color" id="color" value="{{ old('color', $quote->color) }}" class="w-full px-4 py-2 border rounded-lg">
+                            <input type="text" name="color" id="color"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                value="{{ old('color', $quote->color) }}">
                         </div>
+
                         <div class="mb-4 flex space-x-8">
                             <div class="w-1/2">
-                                <label for="transmission" class="block text-gray-700 font-semibold mb-1">ミッション</label>
+                                <label class="block text-gray-700 font-semibold mb-1">ミッション</label>
                                 <div class="flex items-center">
-                                    <input type="radio" name="transmission" id="transmission_at" value="AT" {{ old('transmission', $quote->transmission) == 'AT' ? 'checked' : '' }} class="mr-2">
+                                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2"
+                                        {{ old('transmission', $quote->transmission) === 'AT' ? 'checked' : '' }}>
                                     <label for="transmission_at" class="mr-4">AT</label>
-                                    <input type="radio" name="transmission" id="transmission_mt" value="MT" {{ old('transmission', $quote->transmission) == 'MT' ? 'checked' : '' }} class="mr-2">
+
+                                    <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2"
+                                        {{ old('transmission', $quote->transmission) === 'MT' ? 'checked' : '' }}>
                                     <label for="transmission_mt">MT</label>
                                 </div>
                             </div>
                             <div class="w-1/2">
-                                <label for="drive" class="block text-gray-700 font-semibold mb-1">駆動</label>
+                                <label class="block text-gray-700 font-semibold mb-1">駆動</label>
                                 <div class="flex items-center">
-                                    <input type="radio" name="drive" id="drive_2wd" value="2WD" {{ old('drive', $quote->drive) == '2WD' ? 'checked' : '' }} class="mr-2">
+                                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2"
+                                        {{ old('drive', $quote->drive) === '2WD' ? 'checked' : '' }}>
                                     <label for="drive_2wd" class="mr-4">2WD</label>
-                                    <input type="radio" name="drive" id="drive_4wd" value="4WD" {{ old('drive', $quote->drive) == '4WD' ? 'checked' : '' }} class="mr-2">
+
+                                    <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2"
+                                        {{ old('drive', $quote->drive) === '4WD' ? 'checked' : '' }}>
                                     <label for="drive_4wd">4WD</label>
                                 </div>
                             </div>
@@ -77,26 +93,20 @@
                                 @php
                                 $currentYear = now()->year;
                                 $endYear = 1989;
-                                $eraNames = [
-                                2019 => '令和',
-                                1989 => '平成'
-                                ];
+                                $eraNames = [2019 => '令和', 1989 => '平成'];
                                 $selectedYear = old('year', $quote->year);
                                 @endphp
                                 <option value=""></option>
                                 @for ($year = $currentYear; $year >= $endYear; $year--)
                                 @php
-                                $era = '昭和'; // 初期値
-                                $eraYear = $year;
+                                $era = '昭和'; $eraYear = $year;
                                 foreach ($eraNames as $eraStart => $eraName) {
                                 if ($year >= $eraStart) {
-                                $era = $eraName;
-                                $eraYear = $year - $eraStart + 1;
-                                break;
+                                $era = $eraName; $eraYear = $year - $eraStart + 1; break;
                                 }
                                 }
                                 @endphp
-                                <option value="{{ $year }}" {{ (int)$selectedYear === $year ? 'selected' : '' }}>
+                                <option value="{{ $year }}" {{ (string)$selectedYear === (string)$year ? 'selected' : '' }}>
                                     {{ $year }}（{{ $era }}{{ $eraYear }}年）
                                 </option>
                                 @endfor
@@ -105,556 +115,790 @@
 
                         <div class="mb-4">
                             <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
-                            <input type="text" name="mileage" id="mileage" inputmode="numeric" value="{{ old('mileage', $quote->mileage) }}" class="w-full px-4 py-2 border rounded-lg">
+                            <input type="text" name="mileage" id="mileage"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                inputmode="numeric" pattern="\d*"
+                                value="{{ old('mileage', $quote->mileage) }}">
                         </div>
-
-
-                        @php
-                        $inspectionValue = old('inspection', $quote->inspection); // 例: '2025-7' or '2年付'
-                        $selectedInspectionYear = null;
-                        $selectedInspectionMonth = null;
-
-                        if ($inspectionValue === '2年付' || $inspectionValue === '3年付') {
-                        $selectedInspectionYear = $inspectionValue;
-                        } elseif ($inspectionValue && strpos($inspectionValue, '-') !== false) {
-                        [$selectedInspectionYear, $selectedInspectionMonth] = explode('-', $inspectionValue);
-                        $selectedInspectionYear = (int) $selectedInspectionYear;
-                        $selectedInspectionMonth = (int) $selectedInspectionMonth;
-                        }
-                        @endphp
 
                         <div class="mb-4">
                             <div class="flex items-center justify-between">
-                                <label for="inspection" class="text-gray-700 font-semibold mb-1">車検日</label>
+                                <label class="text-gray-700 font-semibold mb-1">車検日</label>
                                 <span id="inspection_result" class="text-gray-700 font-medium text-sm mb-1"></span>
                             </div>
-
+                            @php
+                            $inspectionYear = null;
+                            $inspectionMonth = null;
+                            if (old('inspection_year') !== null || old('inspection_month') !== null) {
+                            $inspectionYear = old('inspection_year');
+                            $inspectionMonth = old('inspection_month');
+                            } elseif (!empty($quote->inspection) && str_contains($quote->inspection, '-')) {
+                            [$inspectionYear, $inspectionMonth] = explode('-', $quote->inspection);
+                            }
+                            $inspectionYear = $inspectionYear ?: '';
+                            $inspectionMonth = $inspectionMonth ?: '';
+                            $reiwaStart = 2019; $startYear = now()->year; $endYear = $startYear + 3;
+                            @endphp
                             <div class="flex space-x-2 items-center">
-                                <!-- 年の選択 -->
                                 <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
-                                    @php
-                                    $currentYear = now()->year;
-                                    $reiwaStart = 2019;
-                                    $startYear = $currentYear;
-                                    $endYear = $currentYear + 3;
-                                    @endphp
                                     <option value=""></option>
-                                    <option value="2年付" {{ old('inspection_year', $selectedInspectionYear) === '2年付' ? 'selected' : '' }}>2年付</option>
-                                    <option value="3年付" {{ old('inspection_year', $selectedInspectionYear) === '3年付' ? 'selected' : '' }}>3年付</option>
-
-                                    @for ($year = $startYear; $year <= $endYear; $year++)
-                                        @php
-                                        $reiwa=$year - $reiwaStart + 1;
-                                        @endphp
-                                        <option value="{{ $year }}" {{ (int)old('inspection_year', $selectedInspectionYear) === $year ? 'selected' : '' }}>
-                                        {{ $year }}（令和{{ $reiwa }}年）
+                                    <option value="2年付" {{ $inspectionYear === '2年付' ? 'selected' : '' }}>2年付</option>
+                                    <option value="3年付" {{ $inspectionYear === '3年付' ? 'selected' : '' }}>3年付</option>
+                                    @for ($y = $startYear; $y <= $endYear; $y++)
+                                        @php $reiwa=$y - $reiwaStart + 1; @endphp
+                                        <option value="{{ $y }}" {{ (string)$inspectionYear === (string)$y ? 'selected' : '' }}>
+                                        {{ $y }}（令和{{ $reiwa }}年）
                                         </option>
                                         @endfor
                                 </select>
 
-                                <!-- 月の選択 -->
                                 <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
                                     <option value=""></option>
-                                    @foreach (range(1, 12) as $month)
-                                    <option value="{{ $month }}" {{ (int)old('inspection_month', $selectedInspectionMonth) === $month ? 'selected' : '' }}>
-                                        {{ $month }}月
+                                    @foreach (range(1, 12) as $m)
+                                    <option value="{{ $m }}" {{ (string)$inspectionMonth === (string)$m ? 'selected' : '' }}>
+                                        {{ $m }}月
                                     </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-
                     </div>
 
+                    {{-- ========== 車両価格 ========== --}}
                     <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
-
-                    <!-- 車輌価格 -->
                     <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
                         <div class="mb-4">
-                            <!-- ラベルと換算結果を横並びに -->
                             <div class="flex items-center justify-between">
                                 <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
                                 <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
                             </div>
-
-                            <!-- 入力と万表示 -->
                             <div class="flex items-center">
-                                <input
-                                    type="number"
-                                    name="price"
-                                    id="price"
-                                    value="{{ old('price', $quote->price) }}"
+                                <input type="number" name="price" id="price"
                                     class="w-full px-4 py-2 border rounded-lg"
                                     inputmode="numeric" pattern="\d*"
-                                    required
-                                    oninput="calculateTotal(); calculatePriceDisplay();">
+                                    value="{{ old('price', $quote->price) }}"
+                                    oninput="updatePriceDisplay(); recalcAll();">
                             </div>
                         </div>
                     </div>
 
+                    {{-- ========== 諸費用 ========== --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">
+                        諸費用（税金・保険料 / 販売諸費用）
+                    </h3>
 
-
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">諸費用</h3>
-
-                    <!-- 税金・保険料 -->
+                    {{-- 税金・保険料 --}}
                     <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                        <div class="mb-4">
-                            <label for="tax_1" class="block text-gray-700 font-semibold mb-1 flex items-center">
-                                自動車税
-                                <!-- ポップアップアイコンボタン -->
-                                <button type="button" onclick="openTaxPopup('tax_1')" class="ml-2 text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                            <input
-                                type="number"
-                                name="tax_1"
-                                id="tax_1"
-                                value="{{ old('tax_1', $quote->tax_1) }}"
-                                class="w-full px-4 py-2 border rounded-lg"
-                                inputmode="numeric" pattern="\d*"
-                                oninput="calculateOverheadTotal()">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-lg font-semibold text-gray-800">税金・保険料など</div>
                         </div>
 
-                        @include('quote.popup.tax_1')
+                        <div id="charges-tax-rows"></div>
+                        <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="addChargeRow('tax')">＋ 追加</button>
+                        <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('tax')">− 削除</button>
 
-                        <div class="mb-4">
-                            <label for="tax_2" class="block text-gray-700 font-semibold mb-1 flex items-center">
-                                重量税
-                                <!-- ポップアップアイコンボタン -->
-                                <button type="button" onclick="openTaxPopup('tax_2')" class="ml-2 text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                            <input
-                                type="number"
-                                name="tax_2"
-                                id="tax_2"
-                                value="{{ old('tax_2', $quote->tax_2) }}"
-                                class="w-full px-4 py-2 border rounded-lg"
-                                inputmode="numeric" pattern="\d*"
-                                oninput="calculateOverheadTotal()">
-                        </div>
-
-                        @include('quote.popup.tax_2')
-
-                        <div class="mb-4">
-                            <label for="tax_3" class="block text-gray-700 font-semibold mb-1 flex items-center">
-                                自賠責保険
-                                <!-- ポップアップアイコンボタン -->
-                                <button type="button" onclick="openTaxPopup('tax_3')" class="ml-2 text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
-                            </label>
-                            <input
-                                type="number"
-                                name="tax_3"
-                                id="tax_3"
-                                value="{{ old('tax_3', $quote->tax_3) }}"
-                                class="w-full px-4 py-2 border rounded-lg"
-                                inputmode="numeric" pattern="\d*"
-                                oninput="calculateOverheadTotal()">
-                        </div>
-
-                        @include('quote.popup.tax_3')
-
-                        <div class="mb-4">
-                            <label for="tax_4" class="block text-gray-700 font-semibold mb-1">環境性能割
-                                <a href="https://www.jucda.or.jp/tax/kankyouseinouwari/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="ml-2 text-gray-500 hover:text-gray-700">
-                                    <i class="fa-solid fa-square-arrow-up-right"></i>
-                                </a>
-                            </label>
-                            <input type="number" name="tax_4" id="tax_4" value="{{ old('tax_4', $quote->tax_4) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
-                        </div>
-                        <div class="mb-4">
-                            <label for="tax_5" class="block text-gray-700 font-semibold mb-1">リサイクル費用
-                                <a href="http://www1.jars.gr.jp/index.html"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="ml-2 text-gray-500 hover:text-gray-700">
-                                    <i class="fa-solid fa-square-arrow-up-right"></i>
-                                </a>
-                            </label>
-                            <input type="number" name="tax_5" id="tax_5" value="{{ old('tax_5', $quote->tax_5) }}" class="w-full px-4 py-2 border rounded-lg" inputmode="numeric" pattern="\d*" oninput="calculateOverheadTotal()">
+                        <div class="mt-4 text-right">
+                            <span class="text-gray-700 font-semibold">
+                                小計：<span id="charges_tax_total_display" class="text-gray-800 font-bold">0円</span>
+                            </span>
+                            <input type="hidden" id="charges_tax_total" name="charges_tax_total" value="0">
                         </div>
                     </div>
 
-
-                    <!-- 諸費用 -->
+                    {{-- 販売諸費用 --}}
                     <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="mb-4">
-                                <label for="overhead_1" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="overheadName_1" id="overheadName_1" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly placeholder="登録費用">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="overhead_1" id="overhead_1" inputmode="numeric" pattern="\d*" value="{{ old('overhead_1', $quote->overhead_1) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                            </div>
-                            <div class="mb-4">
-                                <label for="overheadName_11" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="overheadName_11" id="overheadName_11" value="{{ old('overheadName_11', $quote->overheadName_11) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="諸費用入力">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="overhead_11" id="overhead_11" inputmode="numeric" pattern="\d*" value="{{ old('overhead_11', $quote->overhead_11) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculateOverheadTotal()">
-                            </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-lg font-semibold text-gray-800">販売諸費用</div>
+                        </div>
+
+                        <div id="charges-fee-rows"></div>
+                        <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="addChargeRow('fee')">＋ 追加</button>
+                        <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                            onclick="removeChargeRow('fee')">− 削除</button>
+
+                        <div class="mt-4 text-right">
+                            <span class="text-gray-700 font-semibold">
+                                小計：<span id="charges_fee_total_display" class="text-gray-800 font-bold">0円</span>
+                            </span>
+                            <input type="hidden" id="charges_fee_total" name="charges_fee_total" value="0">
                         </div>
                     </div>
 
-
-                    <!-- 諸費用の合計 -->
-                    <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                        <div class="mb-4">
-                            <label for="overhead_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-                            <input type="number" name="overhead_total" id="overhead_total" value="{{ old('overhead_total', $quote->overhead_total) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
-                        </div>
+                    {{-- 諸費用 合計 --}}
+                    <div class="mb-4 bg-purple-100 p-6 rounded-lg text-right">
+                        <label class="text-gray-700 font-semibold">
+                            諸費用 合計：<span id="charges_total_display" class="text-gray-800 font-bold">0円</span>
+                        </label>
+                        <input type="hidden" id="charges_total" name="charges_total" value="0">
                     </div>
 
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプションその他</h3>
-
-                    <!-- オプション -->
+                    {{-- ========== オプション ========== --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプション</h3>
                     <div class="mb-4 bg-blue-200 p-6 rounded-lg">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="mb-4">
-                                <label for="optionName_1" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="optionName_1" id="optionName_1" value="{{ old('optionName_1', $quote->optionName_1) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="option_1" id="option_1" inputmode="numeric" pattern="\d*" value="{{ old('option_1', $quote->option_1) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
-                            </div>
-                            <div class="mb-4">
-                                <label for="optionName_2" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="optionName_2" id="optionName_2" value="{{ old('optionName_2', $quote->optionName_2) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="option_2" id="option_2" inputmode="numeric" pattern="\d*" value="{{ old('option_2', $quote->option_2) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
-                            </div>
-                            <div class="mb-4">
-                                <label for="optionName_3" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="optionName_3" id="optionName_3" value="{{ old('optionName_3', $quote->optionName_3) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="option_3" id="option_3" inputmode="numeric" pattern="\d*" value="{{ old('option_3', $quote->option_3) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
-                            </div>
-                            <div class="mb-4">
-                                <label for="optionName_4" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="optionName_4" id="optionName_4" value="{{ old('optionName_4', $quote->optionName_4) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="option_4" id="option_4" inputmode="numeric" pattern="\d*" value="{{ old('option_4', $quote->option_4) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
-                            </div>
-                            <div class="mb-4">
-                                <label for="optionName_5" class="block text-gray-700 font-semibold mb-1"></label>
-                                <input type="text" name="optionName_5" id="optionName_5" value="{{ old('optionName_5', $quote->optionName_5) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="オプションその他">
-                            </div>
-                            <div class="mb-4">
-                                <input type="number" name="option_5" id="option_5" inputmode="numeric" pattern="\d*" value="{{ old('option_5', $quote->option_5) }}" class="w-full px-4 py-2 border rounded-lg" placeholder="価格" oninput="calculateOptionTotal()">
-                            </div>
+                        <div id="options-rows"></div>
 
-                            <!-- オプション合計 -->
-                            <div class="mb-4 col-span-2">
-                                <label for="option_total" class="block text-gray-700 font-semibold mb-1">小計</label>
-                                <input type="number" name="option_total" id="option_total" value="{{ old('option_total', $quote->option_total) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly oninput="calculateTotal()">
-                            </div>
+                        <div class="mt-3">
+                            <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                                onclick="addOptionRow()">＋ 追加</button>
+                            <button type="button" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
+                                onclick="removeOptionRow()">− 削除</button>
+                        </div>
+
+                        <div class="mt-6 text-right">
+                            <span class="text-gray-700 font-semibold">
+                                小計：<span id="option_total_display" class="text-gray-800 font-bold">0円</span>
+                            </span>
+                            <input type="hidden" id="option_total" name="option_total" value="0">
                         </div>
                     </div>
 
-                    <!-- 車両コミコミ合計 -->
+                    {{-- ========== お支払い ========== --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
+
                     <div class="mb-4">
-                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計（税込）</label>
-                        <input type="number" name="total" id="total" value="{{ old('total', $quote->total) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                        <label for="total" class="block text-gray-700 font-semibold mb-1">合計</label>
+                        <input type="number" name="total" id="total"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
+
                     <div class="mb-4">
                         <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-                        <input type="number" name="trade_price" id="trade_price" inputmode="numeric" pattern="\d*" value="{{ old('trade_price', $quote->trade_price) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+                        <div class="flex items-center gap-2">
+                            <input type="number" name="trade_price" id="trade_price"
+                                inputmode="numeric" pattern="\d*"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                value="{{ old('trade_price', $quote->trade_price) }}"
+                                oninput="recalcPayment()">
+
+                            <button type="button"
+                                class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                                title="お支払い総額の1万円未満を下取りへ"
+                                onclick="fillTradeRemainder()">
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <div class="mb-4">
                         <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-                        <input type="number" name="discount" id="discount" inputmode="numeric" pattern="\d*" value="{{ old('discount', $quote->discount) }}" class="w-full px-4 py-2 border rounded-lg" oninput="calculatePayment()">
+                        <div class="flex items-center gap-2">
+                            <input type="number" name="discount" id="discount"
+                                inputmode="numeric" pattern="\d*"
+                                class="w-full px-4 py-2 border rounded-lg"
+                                value="{{ old('discount', $quote->discount) }}"
+                                oninput="recalcPayment()">
+
+                            <button type="button"
+                                class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                                title="お支払い総額の1万円未満を値引きへ"
+                                onclick="fillDiscountRemainder()">
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <div class="mb-4">
                         <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
-                        <input type="number" name="payment" id="payment" value="{{ old('payment', $quote->payment) }}" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                        <input type="number" name="payment" id="payment"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                     </div>
 
-                    <div>
-                        <label for="memo" class="block text-gray-700 font-semibold mb-1">メモ</label>
-                        <input type="text" name="memo" id="memo" value="{{ old('memo', $quote->memo) }}" class="w-full px-4 py-2 border rounded-lg">
+                    {{-- ========== その他 ========== --}}
+                    <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
+                    <div class="mb-4 bg-gray-200 p-6 rounded-lg">
+                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <input type="text" name="message" id="message"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            value="{{ old('message', $quote->message) }}">
+
+                        <label for="memo" class="mt-4 block text-gray-700 font-semibold mb-1">メモ</label>
+                        <input type="text" name="memo" id="memo"
+                            class="w-full px-4 py-2 border rounded-lg"
+                            placeholder="社内メモ（PDFには印字されません）"
+                            value="{{ old('memo', $quote->memo) }}">
                     </div>
 
-                    <!-- ボタンエリア（更新 & キャンセル） -->
-                    <div class="flex space-x-2">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    {{-- ========== ボタン群（PDF / 更新） ========== --}}
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button
+                            type="button"
+                            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+                            onclick="submitPdfFromEdit()">
+                            PDF生成
+                        </button>
+
+                            {{-- コピー --}}
+                            <div x-data="taxCalculator()">
+                                <button type="button"
+                                    class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                    @click="copyToClipboard">
+                                    コピー
+                                </button>
+                            </div>
+
+                        <button
+                            type="submit"
+                            class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                             更新
                         </button>
-                        <a href="{{ route('quote.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
-                            キャンセル
-                        </a>
                     </div>
                 </form>
-
-                <!--PDF生成用フォーム (POSTメソッド)-->
-                <form action="{{ route('quote.createPdf') }}" method="POST" class="mt-4">
-                    @csrf
-                    <input type="hidden" name="car" value="{{ $quote->car }}">
-                    <input type="hidden" name="grade" value="{{ $quote->grade }}">
-                    <input type="hidden" name="displacement" value="{{ $quote->displacement }}">
-                    <input type="hidden" name="transmission" value="{{ $quote->transmission }}">
-                    <input type="hidden" name="color" value="{{ $quote->color }}">
-                    <input type="hidden" name="drive" value="{{ $quote->drive }}">
-                    <input type="hidden" name="year" value="{{ $quote->year }}">
-                    <input type="hidden" name="mileage" value="{{ $quote->mileage }}">
-                    <input type="hidden" name="inspection" value="{{ $quote->inspection }}">
-                    <input type="hidden" name="price" value="{{ $quote->price }}">
-                    <input type="hidden" name="tax_1" value="{{ $quote->tax_1 }}">
-                    <input type="hidden" name="tax_2" value="{{ $quote->tax_2 }}">
-                    <input type="hidden" name="tax_3" value="{{ $quote->tax_3 }}">
-                    <input type="hidden" name="tax_4" value="{{ $quote->tax_4 }}">
-                    <input type="hidden" name="tax_5" value="{{ $quote->tax_5 }}">
-                    <input type="hidden" name="tax_total" value="{{ $quote->tax_total }}">
-                    <input type="hidden" name="overhead_1" value="{{ $quote->overhead_1 }}">
-                    <input type="hidden" name="overhead_2" value="{{ $quote->overhead_2 }}">
-                    <input type="hidden" name="overhead_total" value="{{ $quote->overhead_total }}">
-                    <input type="hidden" name="optionName_1" value="{{ $quote->optionName_1 }}">
-                    <input type="hidden" name="option_1" value="{{ $quote->option_1 }}">
-                    <input type="hidden" name="optionName_2" value="{{ $quote->optionName_2 }}">
-                    <input type="hidden" name="option_2" value="{{ $quote->option_2 }}">
-                    <input type="hidden" name="optionName_3" value="{{ $quote->optionName_3 }}">
-                    <input type="hidden" name="option_3" value="{{ $quote->option_3 }}">
-                    <input type="hidden" name="optionName_4" value="{{ $quote->optionName_4 }}">
-                    <input type="hidden" name="option_4" value="{{ $quote->option_4 }}">
-                    <input type="hidden" name="optionName_5" value="{{ $quote->optionName_5 }}">
-                    <input type="hidden" name="option_5" value="{{ $quote->option_5 }}">
-                    <input type="hidden" name="option_total" value="{{ $quote->option_total }}">
-                    <input type="hidden" name="total" value="{{ $quote->total }}">
-                    <input type="hidden" name="trade_price" value="{{ $quote->trade_price }}">
-                    <input type="hidden" name="discount" value="{{ $quote->discount }}">
-                    <input type="hidden" name="payment" value="{{ $quote->payment }}">
-                    <input type="hidden" name="memo" value="{{ $quote->memo }}">
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-                        PDF
-                    </button>
-                </form>
             </div>
+
+
+            <!-- ログインユーザの制限処理 -->
+            @auth
+            @php
+            $limit = auth()->user()->limit(); // モデルに定義（例：100 or 5）
+            $quoteCount = auth()->user()->quotes()->count();
+            $isOverLimit = $quoteCount >= $limit;
+            @endphp
+            @endauth
+            
+            <!-- データ保存一覧 -->
+            @auth
+            <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
+            @endauth
+
         </div>
+    </div>
 
 
-        <!-- ログインユーザの制限処理 -->
-        @php
-        $limit = auth()->user()->limit(); // モデルに定義（例：100 or 5）
-        $quoteCount = auth()->user()->quotes()->count();
-        $isOverLimit = $quoteCount >= $limit;
-        @endphp
 
-        <!-- データ保存一覧 -->
-        <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
+    @php
+    $taxRows = $quote->charges
+    ->where('kind', 'tax')
+    ->values()
+    ->map(function ($c) {
+    return [
+    'name' => $c->name,
+    'amount' => $c->amount,
+    'tax_treatment' => $c->tax_treatment,
+    'tax_rate' => $c->tax_rate,
+    ];
+    })
+    ->all();
 
+    $feeRows = $quote->charges
+    ->where('kind', 'fee')
+    ->values()
+    ->map(function ($c) {
+    return [
+    'name' => $c->name,
+    'amount' => $c->amount,
+    'tax_treatment' => $c->tax_treatment,
+    'tax_rate' => $c->tax_rate,
+    ];
+    })
+    ->all();
 
-        <script>
-            // 諸費用の合計
-            function calculateOverheadTotal() {
-                let tax1 = parseFloat(document.getElementById('tax_1')?.value) || 0;
-                let tax2 = parseFloat(document.getElementById('tax_2')?.value) || 0;
-                let tax3 = parseFloat(document.getElementById('tax_3')?.value) || 0;
-                let tax4 = parseFloat(document.getElementById('tax_4')?.value) || 0;
-                let tax5 = parseFloat(document.getElementById('tax_5')?.value) || 0;
-                let overhead1 = parseFloat(document.getElementById('overhead_1')?.value) || 0;
-                let overhead11 = parseFloat(document.getElementById('overhead_11')?.value) || 0;
-
-                let overhead_total = tax1 + tax2 + tax3 + tax4 + tax5 + overhead1 + overhead11;
-                document.getElementById('overhead_total').value = overhead_total;
-            }
-
-            // オプションの合計
-            function calculateOptionTotal() {
-                let option1 = parseFloat(document.getElementById('option_1')?.value) || 0;
-                let option2 = parseFloat(document.getElementById('option_2')?.value) || 0;
-                let option3 = parseFloat(document.getElementById('option_3')?.value) || 0;
-                let option4 = parseFloat(document.getElementById('option_4')?.value) || 0;
-                let option5 = parseFloat(document.getElementById('option_5')?.value) || 0;
-
-                let option_total = option1 + option2 + option3 + option4 + option5;
-                document.getElementById('option_total').value = option_total;
-            }
-
-
-            // 合計金額
-            function calculateTotal() {
-                let price = parseFloat(document.getElementById('price')?.value) || 0;
-                let overhead_total = parseFloat(document.getElementById('overhead_total')?.value) || 0;
-                let option_total = parseFloat(document.getElementById('option_total')?.value) || 0;
-
-                let total = price + overhead_total + option_total;
-                document.getElementById('total').value = total;
-
-                calculateTaxOverheadTotal();
-            }
-
-
-            document.addEventListener("DOMContentLoaded", function() {
-                let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5'];
-                inputs.forEach(id => {
-                    let element = document.getElementById(id);
-                    if (element) {
-                        element.addEventListener('input', function() {
-                            if (id.startsWith('overhead_')) {
-                                calculateOverheadTotal();
-                            } else if (id.startsWith('option_')) {
-                                calculateOptionTotal();
-                            }
-
-                            if (id === 'price') {
-                                updatePriceDisplay(); // 金額を万円に変換
-                            }
-
-                            calculateTotal();
-                        });
-                    }
-                });
-            });
-
-
-            // 支払い総額
-            function calculatePayment() {
-                let total = parseFloat(document.getElementById('total')?.value) || 0;
-                let trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
-                let discount = parseFloat(document.getElementById('discount')?.value) || 0;
-
-                let payment = total - trade_price - discount;
-                document.getElementById('payment').value = payment;
-            }
-
-            document.addEventListener("DOMContentLoaded", function() {
-                let inputs = ['price', 'tax_1', 'tax_2', 'tax_3', 'tax_4', 'tax_5', 'overhead_1', 'overhead_11', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'trade_price', 'discount'];
-                inputs.forEach(id => {
-                    let element = document.getElementById(id);
-                    if (element) {
-                        element.addEventListener('input', calculatePayment);
-                    }
-                });
-            });
-
-
-            ////保存・PDFボタン処理
-            //function setFormAction(action) {
-            //const form = document.getElementById('quoteForm');
-            //if (action === 'save') {
-            //    form.action = "{{ route('quote.store') }}";
-            //} else if (action === 'pdf') {
-            //    form.action = "{{ route('quote.createPdf') }}";
-            //}
-            //document.getElementById('action').value = action;
-            //}
+    $optionRows = $quote->options
+    ->values()
+    ->map(function ($o) {
+    return [
+    'name' => $o->name,
+    'amount' => $o->amount,
+    'option_type' => $o->option_type,
+    'tax_treatment' => $o->tax_treatment,
+    'tax_rate' => $o->tax_rate,
+    ];
+    })
+    ->all();
+    @endphp
 
 
 
 
-            // ポップアップウインドウ操作（税金）
-            function openTaxPopup(taxType) {
-                const popupId = `taxPopup${taxType.replace('tax_', '')}`;
-                document.getElementById(popupId).classList.remove('hidden');
-                highlightCurrentMonth(popupId); // ポップアップを開くときに当月をハイライト    
-            }
+    {{-- ====== JS（index.blade.php と同等。初期化だけ既存レコードに合わせる） ====== --}}
+    <script>
+        // 万円表示
+        function updatePriceDisplay() {
+            const priceInput = document.getElementById('price');
+            const convertedDisplay = document.getElementById('price_converted');
+            const value = parseFloat(priceInput.value);
+            convertedDisplay.textContent = !isNaN(value) ? `${(value / 10000).toFixed(1).replace(/\.0$/, '')}万円` : '';
+        }
 
-            function closeTaxPopup(taxType) {
-                const popupId = `taxPopup${taxType.replace('tax_', '')}`;
-                document.getElementById(popupId).classList.add('hidden');
-            }
+        // アイコン定義
+        const taxIcons = [{
+                id: 'tax_1',
+                label: '自動車税',
+                type: 'popup'
+            },
+            {
+                id: 'tax_2',
+                label: '重量税',
+                type: 'popup'
+            },
+            {
+                id: 'tax_3',
+                label: '自賠責保険',
+                type: 'popup'
+            },
+            {
+                id: 'tax_4',
+                label: '環境性能割',
+                type: 'link',
+                url: 'https://www.jucda.or.jp/tax/kankyouseinouwari/'
+            },
+            {
+                id: 'tax_5',
+                label: 'リサイクル費用',
+                type: 'link',
+                url: 'http://www.jars.gr.jp/gus/exju0010.html?date=20250324'
+            },
+        ];
 
-            function selectTax(amount, taxType) {
-                const inputId = taxType;
-                document.getElementById(inputId).value = amount;
-                closeTaxPopup(taxType); // クリック後ポップアップを閉じる
-            }
+        function esc(v) {
+            return String(v)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
-
-            function highlightCurrentMonth(popupId) {
-                // 現在の月を取得（1月 = 1, 2月 = 2, ..., 12月 = 12）
-                const currentMonth = new Date().getMonth() + 1;
-
-                // すべてのthのハイライトをリセット
-                document.querySelectorAll(`#${popupId} th[data-month]`).forEach(th => {
-                    th.classList.remove('bg-yellow-300', 'text-black');
-                });
-
-                // 該当するthにハイライトを適用
-                const currentTh = document.querySelector(`#${popupId} th[data-month="${currentMonth}"]`);
-                if (currentTh) {
-                    currentTh.classList.add('bg-yellow-300', 'text-black');
+        function getChargeIconHtml(kind, index) {
+            if (kind === 'tax' && index < taxIcons.length) {
+                const icon = taxIcons[index];
+                if (icon.type === 'popup') {
+                    return `
+<button type="button" onclick="openTaxPopup('${icon.id}')" class="text-gray-500 hover:text-gray-700" title="${esc(icon.label)}">
+  <i class="fas fa-info-circle"></i>
+</button>`;
                 }
+                if (icon.type === 'link') {
+                    return `
+<a href="${esc(icon.url)}" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-700" title="${esc(icon.label)}">
+  <i class="fa-solid fa-square-arrow-up-right"></i>
+</a>`;
+                }
+            }
+            return `
+<button type="button" onclick="openTaxItemPopup('${kind}', ${index})" class="text-gray-500 hover:text-gray-700" title="候補から選ぶ">
+  <i class="fas fa-solid fa-file"></i>
+</button>`;
+        }
 
+        function chargeRowTemplate(kind, index, nameValue = '', amountValue = '') {
+            const safeAmount = (amountValue === null || amountValue === undefined) ? '' : String(amountValue);
+            const iconHtml = getChargeIconHtml(kind, index);
+
+            return `
+<div class="grid grid-cols-12 gap-2 items-center mb-2 charge-row" data-kind="${kind}" data-index="${index}">
+  <div class="col-span-7">
+    <input type="text" name="charges[${kind}][${index}][name]" class="w-full px-3 py-2 border rounded" placeholder="項目" value="${nameValue == null ? '' : esc(nameValue)}">
+    <input type="hidden" name="charges[${kind}][${index}][kind]" value="${kind}">
+    <input type="hidden" name="charges[${kind}][${index}][tax_treatment]" value="taxable">
+  </div>
+  <div class="col-span-4">
+    <input type="number" name="charges[${kind}][${index}][amount]" class="charge-amount w-full px-3 py-2 border rounded text-right" inputmode="numeric" pattern="\\d*" placeholder="0" value="${esc(safeAmount)}">
+  </div>
+  <div class="col-span-1 flex justify-end">
+    ${iconHtml}
+  </div>
+</div>`;
+        }
+
+        function addChargeRow(kind, nameValue = '', amountValue = '') {
+            const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+            const nextIndex = container.querySelectorAll('.charge-row').length;
+            container.insertAdjacentHTML('beforeend', chargeRowTemplate(kind, nextIndex, nameValue, amountValue));
+            recalcAll();
+        }
+
+        function removeChargeRow(kind) {
+            const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+            const rows = container.querySelectorAll('.charge-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove();
+                reindexChargeRows(kind);
+                recalcAll();
+            }
+        }
+
+        function reindexChargeRows(kind) {
+            const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+            container.querySelectorAll('.charge-row').forEach((row, idx) => {
+                row.dataset.index = idx;
+                row.querySelectorAll('input[name]').forEach(input => {
+                    input.name = input.name.replace(new RegExp(`charges\\[${kind}\\]\\[\\d+\\]`), `charges[${kind}][${idx}]`);
+                });
+            });
+        }
+
+        function calcChargesTotal() {
+            let taxSum = 0,
+                feeSum = 0;
+
+            document.querySelectorAll('#charges-tax-rows .charge-amount').forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v)) taxSum += v;
+            });
+            const taxHidden = document.querySelector('#charges_tax_total');
+            if (taxHidden) taxHidden.value = taxSum || 0;
+            const taxDisplay = document.querySelector('#charges_tax_total_display');
+            if (taxDisplay) taxDisplay.textContent = (taxSum || 0).toLocaleString() + '円';
+
+            document.querySelectorAll('#charges-fee-rows .charge-amount').forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v)) feeSum += v;
+            });
+            const feeHidden = document.querySelector('#charges_fee_total');
+            if (feeHidden) feeHidden.value = feeSum || 0;
+            const feeDisplay = document.querySelector('#charges_fee_total_display');
+            if (feeDisplay) feeDisplay.textContent = (feeSum || 0).toLocaleString() + '円';
+
+            const total = (taxSum || 0) + (feeSum || 0);
+            const totalHidden = document.querySelector('#charges_total');
+            if (totalHidden) totalHidden.value = total;
+            const totalDisplay = document.querySelector('#charges_total_display');
+            if (totalDisplay) totalDisplay.textContent = total.toLocaleString() + '円';
+
+            return total;
+        }
+
+        // ====== オプション ======
+        function optionRowTemplate(index, nameValue = '', amountValue = '') {
+            return `
+<div class="grid grid-cols-12 gap-2 items-center mb-2 option-row" data-index="${index}">
+  <div class="col-span-7">
+    <input type="text" name="options[${index}][name]" class="w-full px-3 py-2 border rounded" placeholder="項目" value="${nameValue ?? ''}">
+    <input type="hidden" name="options[${index}][option_type]" value="aftermarket">
+    <input type="hidden" name="options[${index}][tax_treatment]" value="taxable">
+  </div>
+  <div class="col-span-4">
+    <input type="number" name="options[${index}][amount]" class="option-amount w-full px-3 py-2 border rounded text-right" inputmode="numeric" pattern="\\d*" placeholder="0" value="${amountValue ?? ''}">
+  </div>
+  <div class="col-span-1 flex justify-end">
+    <button type="button" onclick="openOptionItemPopup(${index})" class="text-gray-500 hover:text-gray-700" title="候補から選ぶ">
+      <i class="fas fa-solid fa-file"></i>
+    </button>
+  </div>
+</div>`;
+        }
+
+        function addOptionRow(nameValue = '', amountValue = '') {
+            const container = document.getElementById('options-rows');
+            const nextIndex = container.querySelectorAll('.option-row').length;
+            container.insertAdjacentHTML('beforeend', optionRowTemplate(nextIndex, nameValue, amountValue));
+            recalcAll();
+        }
+
+        function removeOptionRow() {
+            const container = document.getElementById('options-rows');
+            const rows = container.querySelectorAll('.option-row');
+            if (rows.length > 0) {
+                rows[rows.length - 1].remove();
+                reindexOptionRows();
+                recalcAll();
+            }
+        }
+
+        function reindexOptionRows() {
+            document.querySelectorAll('#options-rows .option-row').forEach((row, idx) => {
+                row.dataset.index = idx;
+                row.querySelectorAll('input[name]').forEach(input => {
+                    input.name = input.name.replace(/options\[\d+]/, `options[${idx}]`);
+                });
+            });
+        }
+
+        function calcOptionTotal() {
+            const inputs = document.querySelectorAll('.option-amount');
+            let sum = 0;
+            inputs.forEach(el => {
+                const v = parseFloat(el.value);
+                if (!isNaN(v)) sum += v;
+            });
+            const hidden = document.getElementById('option_total');
+            if (hidden) hidden.value = sum || 0;
+            const display = document.getElementById('option_total_display');
+            if (display) display.textContent = (sum || 0).toLocaleString() + '円';
+            return sum || 0;
+        }
+
+        // ====== 合計計算 ======
+        function recalcTotal() {
+            const price = parseFloat(document.getElementById('price')?.value) || 0;
+            const optionTotal = calcOptionTotal();
+            const chargesTotal = calcChargesTotal();
+            const total = price + optionTotal + chargesTotal;
+            document.getElementById('total').value = total;
+            return total;
+        }
+
+        function recalcPayment() {
+            const total = recalcTotal();
+            const trade_price = parseFloat(document.getElementById('trade_price')?.value) || 0;
+            const discount = parseFloat(document.getElementById('discount')?.value) || 0;
+            document.getElementById('payment').value = total - trade_price - discount;
+        }
+
+        function recalcAll() {
+            updatePriceDisplay();
+            recalcPayment();
+        }
+
+        // ====== 端数処理 ======
+        function fillTradeRemainder() {
+            recalcAll();
+            const paymentEl = document.getElementById('payment');
+            const tradeEl = document.getElementById('trade_price');
+            if (!paymentEl || !tradeEl) return;
+            const currentPayment = parseInt(paymentEl.value, 10) || 0;
+            const remainder = currentPayment % 10000;
+            tradeEl.value = remainder;
+            tradeEl.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
+        }
+
+        function fillDiscountRemainder() {
+            recalcAll();
+            const paymentEl = document.getElementById('payment');
+            const discountEl = document.getElementById('discount');
+            if (!paymentEl || !discountEl) return;
+            const currentPayment = parseInt(paymentEl.value, 10) || 0;
+            const remainder = currentPayment % 10000;
+            discountEl.value = remainder;
+            discountEl.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
+        }
+
+        // ====== 初期化（編集用：既存レコード反映） ======
+        document.addEventListener('DOMContentLoaded', function() {
+            const taxContainer = document.getElementById('charges-tax-rows');
+            const feeContainer = document.getElementById('charges-fee-rows');
+            if (taxContainer?.dataset.initialized === '1') return;
+            taxContainer.dataset.initialized = '1';
+
+            // 車検の残月表示
+            function calculateMonths() {
+                const y = document.getElementById('inspection_year')?.value;
+                const m = document.getElementById('inspection_month')?.value;
+                const span = document.getElementById('inspection_result');
+                const selectedYear = y ? parseInt(y) : null;
+                const selectedMonth = m ? parseInt(m) : null;
+                if (selectedYear && selectedMonth) {
+                    const today = new Date();
+                    const d = new Date(selectedYear, selectedMonth - 1, 1);
+                    const diff = (d.getFullYear() - today.getFullYear()) * 12 + (d.getMonth() - today.getMonth());
+                    span.textContent = diff >= 0 ? `残り${diff}ヶ月` : '過去の日付';
+                } else {
+                    span.textContent = '';
+                }
+            }
+            document.getElementById('inspection_year')?.addEventListener('change', calculateMonths);
+            document.getElementById('inspection_month')?.addEventListener('change', calculateMonths);
+
+
+
+            // クリーンスタート
+            taxContainer.innerHTML = '';
+            feeContainer.innerHTML = '';
+
+            // 既存の税金行を挿入（なければ1行だけ空）
+            if (Array.isArray(taxRows) && taxRows.length) {
+                taxRows.forEach((r, i) => addChargeRow('tax', r.name ?? '', r.amount ?? ''));
+            } else {
+                addChargeRow('tax');
             }
 
-            // ポップアップから選択しても他の合計関数が動くようにする処理
-            function selectTax(amount, taxType) {
-                const input = document.getElementById(taxType);
-                if (input) {
-                    input.value = amount;
+            // 既存の販売諸費用を挿入（なければ1行だけ空）
+            if (Array.isArray(feeRows) && feeRows.length) {
+                feeRows.forEach((r, i) => addChargeRow('fee', r.name ?? '', r.amount ?? ''));
+            } else {
+                addChargeRow('fee');
+            }
 
-                    // `input` イベントを手動で発火させる
-                    input.dispatchEvent(new Event('input', {
+            // 既存オプション（なければ3行空）
+            const optContainer = document.getElementById('options-rows');
+            optContainer.innerHTML = '';
+            if (Array.isArray(optionRows) && optionRows.length) {
+                optionRows.forEach((o, i) => addOptionRow(o.name ?? '', o.amount ?? ''));
+            } else {
+                for (let i = 0; i < 3; i++) addOptionRow();
+            }
+
+            // 入力で再計算
+            taxContainer.addEventListener('input', e => {
+                if (e.target.classList.contains('charge-amount')) recalcAll();
+            });
+            feeContainer.addEventListener('input', e => {
+                if (e.target.classList.contains('charge-amount')) recalcAll();
+            });
+            document.getElementById('options-rows').addEventListener('input', e => {
+                if (e.target.classList.contains('option-amount')) recalcAll();
+            });
+
+            // 初期計算
+            recalcAll();
+
+            // 下取り・値引きも監視
+            ['trade_price', 'discount'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', recalcPayment);
+            });
+        });
+
+        // ====== ポップアップ（税金・オプション） ======
+        function openTaxPopup(taxType) {
+            const popupId = `taxPopup${taxType.replace('tax_', '')}`;
+            const el = document.getElementById(popupId);
+            if (!el) return;
+            el.classList.remove('hidden');
+            if (taxType !== 'tax_item' && taxType !== 'option_item') {
+                highlightCurrentMonth(popupId);
+            }
+        }
+
+        function closeTaxPopup(taxType) {
+            const popupId = `taxPopup${taxType.replace('tax_', '')}`;
+            document.getElementById(popupId)?.classList.add('hidden');
+        }
+
+        function highlightCurrentMonth(popupId) {
+            const currentMonth = new Date().getMonth() + 1;
+            document.querySelectorAll(`#${popupId} th[data-month]`).forEach(th => th.classList.remove('bg-yellow-300', 'text-black'));
+            const currentTh = document.querySelector(`#${popupId} th[data-month="${currentMonth}"]`);
+            if (currentTh) currentTh.classList.add('bg-yellow-300', 'text-black');
+        }
+
+        // tax_1〜tax_5 の金額を、税金ブロックの1〜5行目の amount へ反映
+        function selectTax(amount, taxType) {
+            try {
+                const m = String(taxType).match(/^tax_(\d)$/);
+                if (!m) return;
+                const rowIndex = parseInt(m[1], 10) - 1;
+                const rows = document.querySelectorAll('#charges-tax-rows .charge-row');
+                if (!rows || rowIndex < 0 || rowIndex >= rows.length) {
+                    closeTaxPopup(taxType);
+                    return;
+                }
+                const amountInput = rows[rowIndex].querySelector('input[name^="charges[tax]"][name$="[amount]"]');
+                if (amountInput) {
+                    amountInput.value = parseInt(amount, 10) || 0;
+                    amountInput.dispatchEvent(new Event('input', {
                         bubbles: true
                     }));
-
-                    // フォーム送信を防ぐ
-                    if (event) {
-                        event.preventDefault();
-                    }
                 }
                 closeTaxPopup(taxType);
+                if (typeof event !== 'undefined' && event.preventDefault) event.preventDefault();
+            } catch {
+                closeTaxPopup(taxType);
             }
+        }
 
+        // 共通ポップアップ（tax_item）: 直近クリック行を保持
+        window.__taxItemTarget = null;
 
-            // 車検日から残り月数を計算
-            document.addEventListener('DOMContentLoaded', function() {
-                function calculateMonths() {
-                    const yearSelect = document.getElementById('inspection_year');
-                    const monthSelect = document.getElementById('inspection_month');
-                    const resultSpan = document.getElementById('inspection_result');
+        function openTaxItemPopup(kind, index) {
+            window.__taxItemTarget = {
+                kind,
+                index
+            };
+            openTaxPopup('tax_item');
+        }
 
-                    const selectedYear = yearSelect.value ? parseInt(yearSelect.value) : null;
-                    const selectedMonth = monthSelect.value ? parseInt(monthSelect.value) : null;
-
-                    if (selectedYear && selectedMonth) {
-                        const today = new Date();
-                        const selectedDate = new Date(selectedYear, selectedMonth - 1, 1); // 1日基準
-
-                        const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 +
-                            (selectedDate.getMonth() - today.getMonth());
-
-                        if (diffInMonths >= 0) {
-                            resultSpan.textContent = `残り${diffInMonths}ヶ月`;
-                        } else {
-                            resultSpan.textContent = "過去の日付";
-                        }
-                    } else {
-                        resultSpan.textContent = "";
-                    }
+        function selectTaxItem(name) {
+            try {
+                const target = window.__taxItemTarget;
+                if (!target) {
+                    closeTaxPopup('tax_item');
+                    return;
                 }
-
-                document.getElementById('inspection_year').addEventListener('change', calculateMonths);
-                document.getElementById('inspection_month').addEventListener('change', calculateMonths);
-            });
-
-
-
-
-            // 金額を万円に変換
-
-            function updatePriceDisplay() {
-                const priceInput = document.getElementById('price');
-                const convertedDisplay = document.getElementById('price_converted');
-
-                const value = parseFloat(priceInput.value);
-                if (!isNaN(value)) {
-                    const manYen = (value / 10000).toFixed(1).replace(/\.0$/, ''); // 少数点0は消す
-                    convertedDisplay.textContent = `${manYen}万円`;
-                } else {
-                    convertedDisplay.textContent = '';
+                const {
+                    kind,
+                    index
+                } = target;
+                const container = document.getElementById(kind === 'tax' ? 'charges-tax-rows' : 'charges-fee-rows');
+                const rows = container?.querySelectorAll('.charge-row');
+                if (!rows || index < 0 || index >= rows.length) {
+                    closeTaxPopup('tax_item');
+                    return;
                 }
+                const nameInput = rows[index].querySelector(`input[name="charges[${kind}][${index}][name]"]`) ||
+                    rows[index].querySelector('input[name^="charges"][name$="[name]"]');
+                if (nameInput) {
+                    nameInput.value = name;
+                    nameInput.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                }
+                closeTaxPopup('tax_item');
+            } finally {
+                window.__taxItemTarget = null;
             }
-        </script>
+        }
 
+        // オプション popup
+        window.__optionItemTargetIndex = null;
+
+        function openOptionItemPopup(index) {
+            window.__optionItemTargetIndex = index;
+            openTaxPopup('option_item');
+        }
+
+        function selectOptionItem(name) {
+            try {
+                const idx = window.__optionItemTargetIndex;
+                const rows = document.querySelectorAll('#options-rows .option-row');
+                if (!rows || idx == null || idx < 0 || idx >= rows.length) {
+                    closeTaxPopup('option_item');
+                    return;
+                }
+                const nameInput = rows[idx].querySelector(`input[name="options[${idx}][name]"]`) ||
+                    rows[idx].querySelector('input[name^="options"][name$="[name]"]');
+                if (nameInput) {
+                    nameInput.value = name;
+                    nameInput.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                }
+                closeTaxPopup('option_item');
+            } finally {
+                window.__optionItemTargetIndex = null;
+            }
+        }
+
+        const taxRows = @json($taxRows);
+        const feeRows = @json($feeRows);
+        const optionRows = @json($optionRows);
+        // 以降は今のままでOK（forEach で addChargeRow / addOptionRow するところ）
+
+
+        // ====== PDFボタン ======
+function submitPdfFromEdit() {
+  const form = document.getElementById('quoteForm');
+  if (!form) return;
+
+  const methodSpoof = form.querySelector('input[name="_method"]'); // @method('PUT') の実体
+  const prevAction = form.action;
+  const prevMethod = form.method;
+  const prevTarget = form.getAttribute('target');
+
+  // 一時的に _method を無効化して POST 送信にする
+  if (methodSpoof) methodSpoof.disabled = true;
+  form.action = "{{ route('quote.createPdf') }}";
+  form.method = "POST";
+  form.setAttribute('target', '_blank'); // 同じタブで良ければこの行を削除
+
+  form.submit();
+
+  // 元に戻す
+  form.action = prevAction;
+  form.method = prevMethod;
+  if (prevTarget === null) {
+    form.removeAttribute('target');
+  } else {
+    form.setAttribute('target', prevTarget);
+  }
+  if (methodSpoof) methodSpoof.disabled = false;
+}
+
+
+
+    </script>
 </x-app-layout>
