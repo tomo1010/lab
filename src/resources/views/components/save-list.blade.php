@@ -20,6 +20,7 @@
                         </a>
                     </span>
                     <p class="text-sm text-gray-500">更新日時: {{ $item->updated_at->format('Y-m-d H:i') }}</p>
+                    <p class="text-sm text-gray-500">メモ: {{ $item->memo }}</p>
                 </div>
 
                 <div class="flex space-x-2">
