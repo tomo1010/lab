@@ -109,7 +109,7 @@
         // number_format の短縮
         $nf = fn($v) => number_format((int)($v ?? 0));
 
-        // 配列（コントローラから）：$tax_rows(name,amount), $fee_rows(name,amount), $option_rows(name,unit_price)
+        // 配列（コントローラから）：$tax_rows(name,amount), $fee_rows(name,amount), $option_rows(name,amount)
         // 空行（nameなし＆金額0など）は先に除外してから使う
         $taxRows = collect($tax_rows ?? [])
             ->map(function($r){ return ['name' => $r['name'] ?? '', 'amount' => (int)($r['amount'] ?? 0)]; })
@@ -122,8 +122,8 @@
             ->values();
 
         $optRowsOriginal = collect($option_rows ?? [])
-            ->map(function($r){ return ['name' => $r['name'] ?? '', 'unit_price' => (int)($r['unit_price'] ?? 0)]; })
-            ->filter(fn($r) => filled($r['name']) || $r['unit_price'] > 0)
+            ->map(function($r){ return ['name' => $r['name'] ?? '', 'amount' => (int)($r['amount'] ?? 0)]; })
+            ->filter(fn($r) => filled($r['name']) || $r['amount'] > 0)
             ->values();
 
         // 諸費用ブロックのrowspan（明細行 + 合計行1つ）。最低1は確保
@@ -200,13 +200,13 @@
                     @endphp
                     <td {!! $small !!}>{{ $firstOpt['name'] ?? '' }}</td>
                     <td style="text-align: right; font-size:10px;">
-                        {{ isset($firstOpt['unit_price']) && (int)$firstOpt['unit_price'] > 0 ? $nf($firstOpt['unit_price']) : '' }}
+                        {{ isset($firstOpt['amount']) && (int)$firstOpt['amount'] > 0 ? $nf($firstOpt['amount']) : '' }}
                     </td>
                 </tr>
                 @foreach($optRows as $r)
                     <tr>
                         <td {!! $small !!}>{{ $r['name'] ?? '' }}</td>
-                        <td style="text-align: right; font-size:10px;">{{ ($r['unit_price'] ?? 0) > 0 ? $nf($r['unit_price']) : '' }}</td>
+                        <td style="text-align: right; font-size:10px;">{{ ($r['amount'] ?? 0) > 0 ? $nf($r['amount']) : '' }}</td>
                     </tr>
                 @endforeach
                 <tr>
