@@ -473,7 +473,7 @@
 
                                 output += `■ 工賃詳細\n${laborLines || '（未入力）'}\n` +
                                     `税抜合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
-                                    `税込合計：${this.laborSubtotal.toLocaleString()} 円\n` +
+                                    `税込合計：${this.laborSubtotal.toLocaleString()} 円\n`
 
                                 const comment = document.getElementById('comment')?.value || '';
                                 output += `■ 備考\n${comment.trim()}\n`;
