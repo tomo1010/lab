@@ -112,20 +112,27 @@ class FaxController extends Controller
         return $pdf->stream('fax_' . $data['date'] . '.pdf');
     }
 
-    
+
     //車両入替え
     public function changePdf(Request $request)
     {
+        $validated = $request->validate([
+            'send_date'   => ['required', 'date'],
+            'change_date' => ['required', 'date'],
+            // 他の入力も必要に応じて追加
+        ]);
 
+        $sendDate   = \Carbon\Carbon::parse($validated['send_date'])->format('Y-m-d');
+        $changeDate = \Carbon\Carbon::parse($validated['change_date'])->format('Y-m-d');
+
+        // Viewに渡すデータを整える（$request->all() ベースで上書き）
         $data = $request->all();
-        $date['date'] = now()->format('Y-m-d');
-        $data['date'] = $date['date'];
+        $data['send_date']   = $sendDate;
+        $data['change_date'] = $changeDate;
 
-        $date['change_date'] = now()->format('Y-m-d');
-        $data['change_date'] = $date['change_date'];
+        $pdf = \PDF::loadView('fax.changePdf', $data);
 
-        $pdf = PDF::loadView('fax.changePdf', $data);
-
-        return $pdf->stream('fax_' . $data['date'] . '.pdf');
+        // 例：送信日をファイル名に使用
+        return $pdf->stream('fax_' . $sendDate . '.pdf');
     }
 }
