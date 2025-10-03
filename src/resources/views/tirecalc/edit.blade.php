@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{ route('tirecalc.index') }}">
-                タイヤ計算機 .
+                タイヤ計算機 ..
             </a>
         </h2>
     </x-slot>
@@ -769,15 +769,13 @@
                         method: 'PUT',
 
                         submitAsPdf() {
-                            this.actionUrl = '{{ route('
-                            tirecalc.createPdf ') }}';
+                            this.actionUrl = '{{route('tirecalc.createPdf')}}';
                             this.method = 'POST';
                             this.$nextTick(() => this.$refs.form.submit());
                         },
 
                         submitAsUpdate() {
-                            this.actionUrl = '{{ route('
-                            tirecalc.update ', $tirecalc->id) }}';
+                            this.actionUrl = '{{route('tirecalc.update', $tirecalc->id)}}';
                             this.method = 'PUT';
                             this.$nextTick(() => this.$refs.form.submit());
                         }
