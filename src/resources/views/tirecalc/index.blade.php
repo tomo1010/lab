@@ -174,7 +174,7 @@
                                 <div class="w-1/2">
                                     <select x-model="grossA" class="w-full border rounded px-2 py-1">
                                         <option :value="null">+加算</option>
-                                        <template x-for="amount in [5000, 10000, 15000, 20000, 25000, 30000]" :key="amount">
+                                        <template x-for="amount in [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000]" :key="amount">
                                             <option :value="amount" x-text="`${amount.toLocaleString()} 円`"></option>
                                         </template>
                                     </select>
@@ -184,7 +184,7 @@
                                 <div class="w-1/2">
                                     <select x-model="grossB" class="w-full border rounded px-2 py-1">
                                         <option :value="null">×乗算</option>
-                                        <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5]" :key="rate">
+                                        <template x-for="rate in [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]" :key="rate">
                                             <option :value="rate" x-text="rate.toFixed(1)"></option>
                                         </template>
                                     </select>
@@ -302,10 +302,10 @@
                                             <option value="ニットー" {{ request('maker1') == 'ニットー' ? 'selected' : '' }}>ニットー</option>
                                         </optgroup>
                                         <optgroup label="海外メーカー">
-                                            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー</option>
-                                            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン</option>
-                                            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ</option>
-                                            <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル</option>
+                                            <option value="グッドイヤー" {{ request('maker1') == 'グッドイヤー' ? 'selected' : '' }}>グッドイヤー（アメリカ）</option>
+                                            <option value="ミシュラン" {{ request('maker1') == 'ミシュラン' ? 'selected' : '' }}>ミシュラン（フランス）</option>
+                                            <option value="ピレリ" {{ request('maker1') == 'ピレリ' ? 'selected' : '' }}>ピレリ（イタリア）</option>
+                                            <option value="コンチネンタル" {{ request('maker1') == 'コンチネンタル' ? 'selected' : '' }}>コンチネンタル（ドイツ）</option>
                                         </optgroup>
                                         <optgroup label="アジアンタイヤ">
                                             <option value="ナンカン（台湾）" {{ request('maker1') == 'ナンカン（台湾）' ? 'selected' : '' }}>ナンカン（台湾）</option>
