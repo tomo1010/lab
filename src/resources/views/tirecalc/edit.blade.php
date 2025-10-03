@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{ route('tirecalc.index') }}">
-                タイヤ計算機
+                タイヤ計算機 .
             </a>
         </h2>
     </x-slot>
@@ -219,31 +219,31 @@
                             <input type="text" x-model="row.name" class="w-[50%] border rounded px-2 py-1" placeholder="項目名">
                             <input type="number" x-model.number="row.price" min="0" class="w-[30%] border rounded px-2 py-1" placeholder="金額">
                             <select x-model.number="row.quantity" class="w-[20%] border rounded px-2 py-1">
-                                    <option value="1">1個</option>
-                                    <option value="2">2個</option>
-                                    <option value="3">3個</option>
-                                    <option value="4">4個</option>
-                                    <option value="5">5個</option>
-                                    <option value="6">6個</option>
-                                    <option value="7">7個</option>
-                                    <option value="8">8個</option>
-                                    <option value="9">9個</option>
-                                    <option value="10">10個</option>
-                                    <option value="10">11個</option>
-                                    <option value="10">12個</option>
-                                    <option value="10">13個</option>
-                                    <option value="10">14個</option>
-                                    <option value="10">15個</option>
-                                    <option value="10">16個</option>
-                                    <option value="10">17個</option>
-                                    <option value="10">18個</option>
-                                    <option value="10">19個</option>
-                                    <option value="10">20個</option>
-                                    <option value="10">21個</option>
-                                    <option value="10">22個</option>
-                                    <option value="10">23個</option>
-                                    <option value="10">24個</option>
-                                    <option value="10">25個</option>
+                                <option value="1">1個</option>
+                                <option value="2">2個</option>
+                                <option value="3">3個</option>
+                                <option value="4">4個</option>
+                                <option value="5">5個</option>
+                                <option value="6">6個</option>
+                                <option value="7">7個</option>
+                                <option value="8">8個</option>
+                                <option value="9">9個</option>
+                                <option value="10">10個</option>
+                                <option value="10">11個</option>
+                                <option value="10">12個</option>
+                                <option value="10">13個</option>
+                                <option value="10">14個</option>
+                                <option value="10">15個</option>
+                                <option value="10">16個</option>
+                                <option value="10">17個</option>
+                                <option value="10">18個</option>
+                                <option value="10">19個</option>
+                                <option value="10">20個</option>
+                                <option value="10">21個</option>
+                                <option value="10">22個</option>
+                                <option value="10">23個</option>
+                                <option value="10">24個</option>
+                                <option value="10">25個</option>
                             </select>
                         </div>
                     </template>
@@ -473,7 +473,7 @@
 
                                 output += `■ 工賃詳細\n${laborLines || '（未入力）'}\n` +
                                     `税抜合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
-                                    `税込合計：${this.laborSubtotal.toLocaleString()} 円\n`
+                                `税込合計：${this.laborSubtotal.toLocaleString()} 円\n`
 
                                 const comment = document.getElementById('comment')?.value || '';
                                 output += `■ 備考\n${comment.trim()}\n`;
@@ -769,13 +769,15 @@
                         method: 'PUT',
 
                         submitAsPdf() {
-                            this.actionUrl = '{{ route('tirecalc.createPdf') }}';
+                            this.actionUrl = '{{ route('
+                            tirecalc.createPdf ') }}';
                             this.method = 'POST';
                             this.$nextTick(() => this.$refs.form.submit());
                         },
 
                         submitAsUpdate() {
-                            this.actionUrl = '{{ route('tirecalc.update', $tirecalc->id) }}';
+                            this.actionUrl = '{{ route('
+                            tirecalc.update ', $tirecalc->id) }}';
                             this.method = 'PUT';
                             this.$nextTick(() => this.$refs.form.submit());
                         }
