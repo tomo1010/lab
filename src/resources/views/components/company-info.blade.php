@@ -16,7 +16,7 @@
             〒：
             <input type="text" name="company_postal" id="company_postal"
                 class="w-24 border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
-                placeholder="123-4567" inputmode="numeric" autocomplete="postal-code"
+                placeholder="123-4567"
                 value="{{ old('company_postal', auth()->check() ? auth()->user()->company_postal : '') }}"
                 {{ auth()->check() ? 'readonly' : '' }}>
 
@@ -38,7 +38,7 @@
                 TEL：
                 <input type="tel" name="company_tel" id="company_tel"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
-                    placeholder="090-1234-5678" inputmode="tel" autocomplete="tel"
+                    placeholder="123-456-7890"
                     value="{{ old('company_tel', auth()->check() ? auth()->user()->company_tel : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
@@ -47,7 +47,7 @@
                 FAX：
                 <input type="tel" name="company_fax" id="company_fax"
                     class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
-                    placeholder="03-1234-5678" inputmode="tel" autocomplete="tel"
+                    placeholder="03-1234-5678"
                     value="{{ old('company_fax', auth()->check() ? auth()->user()->company_fax : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>

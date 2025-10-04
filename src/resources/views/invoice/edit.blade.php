@@ -1,6 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">請求書印刷</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <a
+                href="{{ route('invoice.index') }}"
+                class="text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 visited:text-gray-800"
+                aria-label="請求書一覧ページへ">
+                請求書印刷
+            </a>
+        </h2>
     </x-slot>
 
     @if (session('success'))
@@ -65,11 +72,29 @@
                     <template x-for="(item, i) in items" :key="i">
                         <div class="flex gap-4 mb-2">
                             <input :name="`items[${i}][name]`" x-model="item.name" class="w-2/3 border rounded px-2 py-1" placeholder="項目">
-                            <input :name="`items[${i}][price]`" x-model.number="item.price" @input="recalculateTotal()" type="number" class="w-1/3 border rounded px-2 py-1" placeholder="金額" min="0">
+                            <input
+                                :name="`items[${i}][price]`"
+                                x-model="item.price"
+                                @input="recalculateTotal()"
+                                type="number"
+                                step="any"
+                                class="w-1/3 border rounded px-2 py-1"
+                                placeholder="金額"
+                                inputmode="decimal" />
+
                         </div>
                     </template>
 
-                    <button type="button" @click="addItem()" class="text-blue-600 text-sm mb-3">＋ 行を追加</button>
+<!-- ボタンはすでにOK（そのまま使えます） -->
+<div class="mt-3 mb-6 space-x-2">
+  <button type="button" @click="addItem()" class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700 text-sm">
+    ＋ 行を追加
+  </button>
+  <button type="button" @click="removeItem()" :disabled="items.length <= 1"
+    class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700 text-sm disabled:text-gray-400 disabled:cursor-not-allowed">
+    − 行を削除
+  </button>
+</div>
 
                     <div class="flex gap-4 items-center">
                         <input type="text" class="w-2/3 bg-gray-200 border rounded px-2 py-1" placeholder="合計" disabled>
@@ -79,6 +104,7 @@
                 </div>
 
 
+                <!-- ↓この <script> 内の invoiceForm を以下のように修正 -->
                 <script>
                     function invoiceForm(initialItems = [], initialTotal = 0) {
                         return {
@@ -90,16 +116,27 @@
                             addItem() {
                                 this.items.push({
                                     name: '',
-                                    price: 0
+                                    price: ''
                                 });
                                 this.recalculateTotal();
                             },
+                            // 追加：末尾の行を1つ削除（最低1行は残す）
+                            removeItem() {
+                                if (this.items.length > 1) {
+                                    this.items.pop();
+                                    this.recalculateTotal();
+                                }
+                            },
                             recalculateTotal() {
-                                this.total = this.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
-                            }
+                                this.total = this.items.reduce((sum, item) => {
+                                    const v = parseFloat(String(item.price ?? '').replace(/,/g, ''));
+                                    return sum + (Number.isFinite(v) ? v : 0);
+                                }, 0);
+                            },
                         }
                     }
                 </script>
+
 
 
                 <div class="mb-6">
@@ -131,7 +168,6 @@
 
 
         <script>
-            
             function formHandler(defaultAction) {
                 return {
                     actionUrl: defaultAction, // 初期状態は「保存ルート」

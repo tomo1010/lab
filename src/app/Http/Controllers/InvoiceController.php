@@ -50,43 +50,69 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         $validated = $request->validate([
-            'customer_name' => 'nullable|string|max:255',
-            'to_suffix' => 'nullable|string|max:10',
-            'postal' => 'nullable|string|max:10',
+            'customer_name'    => 'nullable|string|max:255',
+            'to_suffix'        => 'nullable|string|max:10',
+            'postal'           => 'nullable|string|max:10',
             'customer_address' => 'nullable|string|max:255',
 
-            'items' => 'array',
-            'items.*.name' => 'nullable|string|max:255',
-            'items.*.price' => 'nullable|numeric|min:0',
+            'items'            => 'array',
+            'items.*.name'     => 'nullable|string|max:255',
+            // ▼ マイナス許可：min:0 を外す
+            'items.*.price'    => 'nullable|numeric',
 
-            'total' => 'nullable|integer|min:0',
-            'message' => 'nullable|string|max:500',
-            'date' => 'nullable|date',
-            'page_count' => 'nullable|integer|min:1',
+            // ▼ total は hidden を信用しないので検証しない（再計算する）
+            // 'total'          => 'nullable|integer|min:0',
+
+            'message'          => 'nullable|string|max:500',
+            'date'             => 'nullable|date',
+            'page_count'       => 'nullable|integer|min:1|max:10',
         ]);
-        //dd($validated);
 
-        $items = collect($validated['items'])->filter(function ($item) {
-            return !empty($item['name']) || !empty($item['price']);
-        })->values()->all();
+        // items 正規化（0 や 負数 を落とさない）
+        $items = collect($validated['items'] ?? [])
+            ->map(function ($item) {
+                return [
+                    'name'  => $item['name']  ?? '',
+                    'price' => isset($item['price']) ? (float)$item['price'] : null,
+                ];
+            })
+            // 名前 or 金額が存在する行だけ残す（0 は残す。null/'' は除外）
+            ->filter(function ($item) {
+                $hasName  = $item['name'] !== '';
+                $hasPrice = $item['price'] !== null && $item['price'] !== '';
+                return $hasName || $hasPrice;
+            })
+            ->values();
 
+        // 合計はサーバで再計算（必要に応じて丸め方を変更）
+        $serverTotal = $items->sum(fn($it) => (float)$it['price']);
+
+        // 合計をマイナス不可にしたい場合はチェック（許可するならこの if を削除）
+        if ($serverTotal < 0) {
+            return back()
+                ->withErrors(['items' => '合計がマイナスになっています。'])
+                ->withInput();
+        }
+
+        // 円整数で保存する場合
+        $serverTotal = (int) round($serverTotal);
 
         $invoice = Invoice::create([
-            'user_id' => auth()->id(),
-            'date' => $validated['date'] ?? null,
-            'page_count' => $validated['page_count'] ?? null,
-            'customer_name' => $validated['customer_name'] ?? null,
-            'to_suffix' => $validated['to_suffix'] ?? null,
+            'user_id'          => auth()->id(),
+            'date'             => $validated['date'] ?? null,
+            'page_count'       => $validated['page_count'] ?? null,
+            'customer_name'    => $validated['customer_name'] ?? null,
+            'to_suffix'        => $validated['to_suffix'] ?? null,
             'customer_address' => $validated['customer_address'] ?? null,
-            'items' => $items,
-            'total' => $validated['total'] ?? 0,
-            'message' => $validated['message'] ?? null,
+            'items'            => $items->all(),
+            'total'            => $serverTotal, // クライアント送信の total は使わない
+            'message'          => $validated['message'] ?? null,
         ]);
-        //dd($invoice->items);
+
         return redirect()->route('invoice.index')->with('success', '投稿が完了しました');
     }
+
 
 
     /**
@@ -137,33 +163,63 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $validated = $request->validate([
-            'date' => 'nullable|date',
-            'page_count' => 'nullable|integer|min:1|max:10',
-            'customer_name' => 'nullable|string|max:255',
-            'to_suffix' => 'nullable|string|max:10',
+            'date'             => 'nullable|date',
+            'page_count'       => 'nullable|integer|min:1|max:10',
+            'customer_name'    => 'nullable|string|max:255',
+            'to_suffix'        => 'nullable|string|max:10',
             'customer_address' => 'nullable|string|max:255',
-            'message' => 'nullable|string|max:500',
-            'items' => 'array',
-            'items.*.name' => 'nullable|string|max:255',
-            'items.*.price' => 'nullable|numeric|min:0',
-            'total' => 'nullable|integer|min:0',
+            'message'          => 'nullable|string|max:500',
+
+            'items'            => 'array',
+            'items.*.name'     => 'nullable|string|max:255',
+            'items.*.price'    => 'nullable|numeric',
+
         ]);
 
-        $filteredItems = collect($validated['items'])->filter(fn($item) => !empty($item['name']) || !empty($item['price']))->values()->all();
+        $items = collect($validated['items'] ?? [])
+            ->map(function ($item) {
+                return [
+                    'name'  => $item['name']  ?? '',
+                    'price' => isset($item['price']) ? (float)$item['price'] : null,
+                ];
+            })
+
+            ->filter(function ($item) {
+                $hasName  = $item['name'] !== '';
+                $hasPrice = $item['price'] !== null && $item['price'] !== '';
+                return $hasName || $hasPrice;
+            })
+            ->values();
+
+        // 合計はサーバで再計算（小数対応 → 円に丸めたい場合は round()）
+        $serverTotal = $items->sum(fn($it) => (float)$it['price']);
+
+        // もし「合計はマイナス不可」にしたい場合はチェックを入れる（不要なら削除）
+        if ($serverTotal < 0) {
+            return back()
+                ->withErrors(['items' => '合計がマイナスになっています。'])
+                ->withInput();
+        }
+
+        // 円で保存したいなら整数に丸める（必要なければ小数のまま numeric カラムに）
+        $serverTotal = (int) round($serverTotal);
 
         $invoice->update([
-            'date' => $validated['date'],
-            'page_count' => $validated['page_count'],
-            'customer_name' => $validated['customer_name'],
-            'to_suffix' => $validated['to_suffix'],
-            'customer_address' => $validated['customer_address'],
-            'message' => $validated['message'],
-            'items' => $filteredItems,
-            'total' => $validated['total'],
+            'date'             => $validated['date'] ?? null,
+            'page_count'       => $validated['page_count'] ?? null,
+            'customer_name'    => $validated['customer_name'] ?? null,
+            'to_suffix'        => $validated['to_suffix'] ?? null,
+            'customer_address' => $validated['customer_address'] ?? null,
+            'message'          => $validated['message'] ?? null,
+            'items'            => $items->all(),
+            'total'            => $serverTotal, // クライアント値は使わない
         ]);
 
-        return redirect()->route('invoice.edit', $invoice)->with('success', '保存しました');
+        return redirect()
+            ->route('invoice.edit', $invoice)
+            ->with('success', '保存しました');
     }
+
 
     /**
      * Remove the specified resource from storage.
