@@ -8,6 +8,7 @@ use App\Models\User;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -243,50 +244,65 @@ class InvoiceController extends Controller
     /**
      * 投稿のコピー
      */
-    public function storeCopy($id)
-    {
+public function storeCopy($id)
+{
+    $user = Auth::user();
+    if (! $user) {
+        abort(403, 'ログインが必要です');
+    }
 
-        $user = Auth::user();
-        if (! $user) {
-            abort(403, 'ログインが必要です');
-        }
+    // コピー元
+    $invoice = Invoice::findOrFail($id);
 
-        // コピー元の投稿を取得
-        $invoice = Invoice::findOrFail($id);
+    // もし「自分の請求書しかコピー不可」にしたい場合は有効化
+    // if ($invoice->user_id !== $user->id) {
+    //     abort(403, 'この請求書をコピーする権限がありません');
+    // }
 
-        // 制限件数を超えたら一番古いデータをさ削除
+    $newInvoice = null;
+
+    DB::transaction(function () use ($user, $invoice, &$newInvoice) {
+        // 制限：超えていたら最古を削除（自分の請求書のみ）
         $limit = $user->limit();
         $count = $user->invoices()->count();
-
         if ($count >= $limit) {
             $user->invoices()->oldest()->first()?->delete();
         }
 
-        // 認証済みユーザーの投稿として新しいレコードを作成
-        $newInvoice = new Invoice();
-        $newInvoice->user_id = auth()->id();
+        // items を正規化（名前か金額がある行のみ、0やマイナスは保持）
+        $items = collect($invoice->items ?? [])
+            ->map(function ($it) {
+                return [
+                    'name'  => (string)($it['name'] ?? ''),
+                    'price' => isset($it['price']) ? (float)$it['price'] : null,
+                ];
+            })
+            ->filter(function ($it) {
+                $hasName  = $it['name'] !== '';
+                $hasPrice = $it['price'] !== null && $it['price'] !== '';
+                return $hasName || $hasPrice;
+            })
+            ->values();
 
-        // 
-        $newInvoice->customer_name = $invoice->customer_name . "[コピー]";
-        $newInvoice->to_suffix = $invoice->to_suffix;
-        $newInvoice->customer_address = $invoice->customer_address;
-        $newInvoice->date = $invoice->date;
-        $newInvoice->page_count = $invoice->page_count;
-        $newInvoice->item_1 = $invoice->item_1;
-        $newInvoice->item_2 = $invoice->item_2;
-        $newInvoice->item_3 = $invoice->item_3;
-        $newInvoice->item_4 = $invoice->item_4;
-        $newInvoice->item_5 = $invoice->item_5;
-        $newInvoice->price_1 = $invoice->price_1;
-        $newInvoice->price_2 = $invoice->price_2;
-        $newInvoice->price_3 = $invoice->price_3;
-        $newInvoice->price_4 = $invoice->price_4;
-        $newInvoice->price_5 = $invoice->price_5;
-        $newInvoice->total = $invoice->total;
-        $newInvoice->message = $invoice->message;
+        // 合計をサーバ側で再計算（円で保存する場合は丸める。小数で保存したいなら round() を外し、カラム型を decimal に）
+        $serverTotal = (int) round($items->sum(fn ($it) => (float)$it['price']));
 
-        $newInvoice->save();
+        // 新規作成（所有者はログインユーザ）
+        $newInvoice = $user->invoices()->create([
+            'date'             => $invoice->date,
+            'page_count'       => $invoice->page_count,
+            'customer_name'    => trim(($invoice->customer_name ?? '') . ' [コピー]'),
+            'to_suffix'        => $invoice->to_suffix,
+            'customer_address' => $invoice->customer_address,
+            'items'            => $items->all(),
+            'total'            => $serverTotal,
+            'message'          => $invoice->message,
+        ]);
+    });
 
-        return redirect()->route('invoice.edit', ['invoice' => $newInvoice->id])->with('success', 'コピーしました。');
-    }
+    return redirect()
+        ->route('invoice.edit', ['invoice' => $newInvoice->id])
+        ->with('success', 'コピーしました。');
+}
+
 }

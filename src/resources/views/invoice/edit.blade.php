@@ -72,15 +72,15 @@
                     <template x-for="(item, i) in items" :key="i">
                         <div class="flex gap-4 mb-2">
                             <input :name="`items[${i}][name]`" x-model="item.name" class="w-2/3 border rounded px-2 py-1" placeholder="項目">
-                            <input
-                                :name="`items[${i}][price]`"
-                                x-model="item.price"
-                                @input="recalculateTotal()"
-                                type="number"
-                                step="any"
-                                class="w-1/3 border rounded px-2 py-1"
-                                placeholder="金額"
-                                inputmode="decimal" />
+<input
+  :name="`items[${i}][price]`"
+  x-model="item.price"
+  @input="recalculateTotal()"
+  type="text"
+  class="w-1/3 border rounded px-2 py-1"
+  placeholder="金額"
+  inputmode="text" />
+
 
                         </div>
                     </template>
