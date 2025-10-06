@@ -901,4 +901,141 @@ function submitPdfFromEdit() {
 
 
     </script>
+    <!-- クリップボードにコピー -->
+    <script>
+      async function copyToClipboard() {
+        // 再計算
+        recalcAll();
+
+        // 入力値取得
+        const car = document.getElementById('car')?.value || '';
+        const grade = document.getElementById('grade')?.value || '';
+        const color = document.getElementById('color')?.value || '';
+        const transmission = document.querySelector('input[name="transmission"]:checked')?.value || '';
+        const drive = document.querySelector('input[name="drive"]:checked')?.value || '';
+        const year = document.getElementById('year')?.selectedOptions?.[0]?.text || '';
+        const mileage = document.getElementById('mileage')?.value || '';
+        const inspectionYear = document.getElementById('inspection_year')?.selectedOptions?.[0]?.text || '';
+        const inspectionMonth = document.getElementById('inspection_month')?.selectedOptions?.[0]?.text || '';
+        const price = document.getElementById('price')?.value || '0';
+        const chargesTotal = document.getElementById('charges_total')?.value || '0';
+        const optionTotal = document.getElementById('option_total')?.value || '0';
+        const total = document.getElementById('total')?.value || '0';
+        const tradePrice = document.getElementById('trade_price')?.value || '0';
+        const discount = document.getElementById('discount')?.value || '0';
+        const payment = document.getElementById('payment')?.value || '0';
+        const memoText = document.getElementById('message')?.value || '';
+
+        // 金額フォーマット
+        const toYen = (v) => {
+          const n = parseInt(v, 10);
+          return (isNaN(n) ? 0 : n).toLocaleString() + '円';
+        };
+
+        // 諸費用：税金・保険料
+        const taxLines = [];
+        document.querySelectorAll('#charges-tax-rows .charge-row').forEach(row => {
+          const name = (row.querySelector('input[name$="[name]"]')?.value || '').trim();
+          const amount = row.querySelector('input[name$="[amount]"]')?.value || '';
+          // 項目・金額どちらかの入力があれば出力
+          if (name || amount) {
+            const label = name || '（項目名未入力）';
+            const yen = toYen(amount);
+            taxLines.push(`  ${label}　${yen}`);
+          }
+        });
+
+        // 諸費用：販売諸費用
+        const feeLines = [];
+        document.querySelectorAll('#charges-fee-rows .charge-row').forEach(row => {
+          const name = (row.querySelector('input[name$="[name]"]')?.value || '').trim();
+          const amount = row.querySelector('input[name$="[amount]"]')?.value || '';
+          // 項目・金額どちらかの入力があれば出力
+          if (name || amount) {
+            const label = name || '（項目名未入力）';
+            const yen = toYen(amount);
+            feeLines.push(`  ${label}　${yen}`);
+          }
+        });
+
+        // オプション
+        const optionLines = [];
+        document.querySelectorAll('#options-rows .option-row').forEach(row => {
+          const name = (row.querySelector('input[name$="[name]"]')?.value || '').trim();
+          const amount = row.querySelector('input[name$="[amount]"]')?.value || '';
+          // 項目・金額どちらかの入力があれば出力
+          if (name || amount) {
+            const label = name || '（項目名未入力）';
+            const yen = toYen(amount);
+            optionLines.push(`  ${label}　${yen}`);
+          }
+        });
+
+        // コピー用テキスト作成
+        const lines = [];
+
+        // --- 車名・グレード・色・ミッション・駆動 ---
+        // 項目名がないので入力がある場合のみ行生成
+        if (car) lines.push(`・${car}`);
+        if (grade) lines.push(`・${grade}`);
+        if (color) lines.push(`・${color}`);
+        if (transmission || drive) {
+          const td = `${transmission}${transmission && drive ? '・' : ''}${drive}`;
+          lines.push(`・${td}`);
+        }
+        if (lines.length) lines.push(''); // 空行差し込み
+
+        // --- 年式・走行距離・車検日 ---
+        lines.push(`・年式：${year}`);
+        lines.push(`・走行距離：${mileage}`);
+        lines.push(`・車検日：${inspectionYear} ${inspectionMonth}`.trim());
+        lines.push('');
+
+        // --- 車両価格 ---
+        lines.push(`・車両価格：${toYen(price)}`);
+        lines.push('');
+
+        // --- 諸費用 ---
+        const hasCharges = taxLines.length || feeLines.length;
+        lines.push('・諸費用：');
+        if (hasCharges) {
+          if (taxLines.length) {
+            lines.push('税金・保険料など', ...taxLines);
+          }
+          if (feeLines.length) {
+            lines.push('販売諸費用', ...feeLines);
+          }
+          lines.push(`合計：${toYen(chargesTotal)}`);
+          lines.push('');
+        }
+
+        // --- オプション ---
+        const hasOptions = optionLines.length;
+        lines.push('・オプション：', ...optionLines);
+        if (hasOptions) {
+          lines.push(`小計：${toYen(optionTotal)}`);
+          lines.push('');
+        }
+
+        // --- お支払い ---
+        lines.push(`・合計：${toYen(total)}`);
+        lines.push(`・下取り価格：${tradePrice && parseInt(tradePrice,10) !== 0 ? toYen(tradePrice) : ''}`);
+        lines.push(`・値引き：${discount && parseInt(discount,10) !== 0 ? toYen(discount) : ''}`);
+        lines.push(`・お支払い総額：${toYen(payment)}`);
+
+        // --- 備考 ---
+        lines.push('', `・備考：${memoText}`);
+
+        // 改行差し込み
+        const output = lines.join('\n');
+
+        // クリップボードコピー
+        try {
+          await navigator.clipboard.writeText(output);
+          alert('入力内容をクリップボードにコピーしました！');
+        } catch (e) {
+          alert('コピーに失敗しました');
+        }
+      }
+    </script>
 </x-app-layout>
