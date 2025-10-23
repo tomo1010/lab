@@ -72,7 +72,10 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
+                                <div class="flex items-center justify-between">
+                                    <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
+                                    <span id="year_age" class="text-gray-700 font-medium text-sm mb-1"></span>
+                                </div>
                                 <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
                                     @php
                                     $currentYear = now()->year;
@@ -98,7 +101,10 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
+                                <div class="flex items-center justify-between">
+                                    <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
+                                    <span id="mileage_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+                                </div>
                                 <input type="text" name="mileage" id="mileage"
                                     class="w-full px-4 py-2 border rounded-lg"
                                     inputmode="numeric" pattern="\d*">
@@ -439,6 +445,57 @@
                     '';
             }
 
+            // 年落ち表示
+            function updateYearAge() {
+              const element = document.getElementById('year');
+              const display = document.getElementById('year_age');
+              if (!element || !display) return;
+
+              const value = parseInt(element.value, 10);
+              if (isNaN(value)) {
+                display.textContent = ''; return;
+              }
+
+              const current = new Date().getFullYear();
+              const age = current - value;
+              display.textContent = age > 0 ? `${age}年落ち` : '';
+            }
+
+            // 走行距離を万単位表示（1000km未満は非表示）
+            function updateMileageDisplay() {
+              const element = document.getElementById('mileage');
+              const display = document.getElementById('mileage_converted');
+              if (!element || !display) return;
+
+              const value = parseFloat(element.value);
+              if (isNaN(value) || value < 1000) {
+                display.textContent = ''; return;
+              }
+
+              const calcValue = value / 10000; // 万km
+              display.textContent = Number.isInteger(calcValue)
+                ? `${calcValue.toFixed(0)}万km`
+                : `${calcValue.toFixed(1).replace(/\.0$/, '')}万km`;
+            }
+
+            // 車検の残月表示
+            function calculateMonths() {
+              const yearSelect = document.getElementById('inspection_year');
+              const monthSelect = document.getElementById('inspection_month');
+              const resultSpan = document.getElementById('inspection_result');
+              const selectedYear = yearSelect?.value ? parseInt(yearSelect.value) : null;
+              const selectedMonth = monthSelect?.value ? parseInt(monthSelect.value) : null;
+              if (selectedYear && selectedMonth) {
+                const today = new Date();
+                const selectedDate = new Date(selectedYear, selectedMonth - 1, 1);
+                const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 +
+                  (selectedDate.getMonth() - today.getMonth());
+                resultSpan.textContent = diffInMonths >= 0 ? `残り${diffInMonths}ヶ月` : '過去の日付';
+              } else {
+                resultSpan.textContent = '';
+              }
+            }
+
             // ------- 諸費用アイコン定義（既存のまま） -------
             const taxIcons = [{
                     id: 'tax_1',
@@ -754,6 +811,9 @@
 
             function recalcAll() {
                 updatePriceDisplay();
+                updateYearAge();
+                updateMileageDisplay();
+                calculateMonths();
                 recalcPayment();
             }
 
@@ -766,25 +826,13 @@
                 if (taxContainer?.dataset.initialized === '1') return;
                 taxContainer.dataset.initialized = '1';
 
-                // イベント（車検）
-                function calculateMonths() {
-                    const yearSelect = document.getElementById('inspection_year');
-                    const monthSelect = document.getElementById('inspection_month');
-                    const resultSpan = document.getElementById('inspection_result');
-                    const selectedYear = yearSelect?.value ? parseInt(yearSelect.value) : null;
-                    const selectedMonth = monthSelect?.value ? parseInt(monthSelect.value) : null;
-                    if (selectedYear && selectedMonth) {
-                        const today = new Date();
-                        const selectedDate = new Date(selectedYear, selectedMonth - 1, 1);
-                        const diffInMonths = (selectedDate.getFullYear() - today.getFullYear()) * 12 +
-                            (selectedDate.getMonth() - today.getMonth());
-                        resultSpan.textContent = diffInMonths >= 0 ? `残り${diffInMonths}ヶ月` : '過去の日付';
-                    } else {
-                        resultSpan.textContent = '';
-                    }
-                }
                 document.getElementById('inspection_year')?.addEventListener('change', calculateMonths);
                 document.getElementById('inspection_month')?.addEventListener('change', calculateMonths);
+
+                document.getElementById('year')?.addEventListener('change', updateYearAge);
+                document.getElementById('mileage')?.addEventListener('input', updateMileageDisplay);
+                updateYearAge();
+                updateMileageDisplay();
 
                 // プリセット取得（Bladeから）※配列で来る前提
                 const taxPresets = @json($taxPresets ?? []);
@@ -1110,7 +1158,7 @@
               if (name || amount) {
                 const label = name || '（項目名未入力）';
                 const yen = toYen(amount);
-                taxLines.push(`  ${label}　${yen}`);
+                taxLines.push(`${label}　${yen}`);
               }
             });
 
@@ -1123,7 +1171,7 @@
               if (name || amount) {
                 const label = name || '（項目名未入力）';
                 const yen = toYen(amount);
-                feeLines.push(`  ${label}　${yen}`);
+                feeLines.push(`${label}　${yen}`);
               }
             });
 
@@ -1136,7 +1184,7 @@
               if (name || amount) {
                 const label = name || '（項目名未入力）';
                 const yen = toYen(amount);
-                optionLines.push(`  ${label}　${yen}`);
+                optionLines.push(`${label}　${yen}`);
               }
             });
 
@@ -1145,55 +1193,106 @@
 
             // --- 車名・グレード・色・ミッション・駆動 ---
             // 項目名がないので入力がある場合のみ行生成
-            if (car) lines.push(`・${car}`);
-            if (grade) lines.push(`・${grade}`);
-            if (color) lines.push(`・${color}`);
-            if (transmission || drive) {
-              const td = `${transmission}${transmission && drive ? '・' : ''}${drive}`;
-              lines.push(`・${td}`);
-            }
+            lines.push('▼車両情報');
+            lines.push('——————————————');
+            lines.push(`車種：${car}`);
+            lines.push(`グレード：${grade}`);
+            lines.push(`カラー：${color}`);
+            const td = `${transmission}${transmission && drive ? '・' : ''}${drive}`;
+            lines.push(`駆動・ミッション：${td}`);
             if (lines.length) lines.push(''); // 空行差し込み
 
             // --- 年式・走行距離・車検日 ---
-            lines.push(`・年式：${year}`);
-            lines.push(`・走行距離：${mileage}`);
-            lines.push(`・車検日：${inspectionYear} ${inspectionMonth}`.trim());
+            let year_age = document.getElementById('year_age')?.innerText || '';
+            year_age = year_age.replace('落ち', '目');
+            // 年式コピー文言を整形
+            const matchYear = year.match(/^(\d{4})（令和(\d+)年）$/);
+            let yearForCopy = year;
+            if (matchYear) {
+              const seireki = parseInt(matchYear[1], 10); // 西暦
+              const reiwa = parseInt(matchYear[2], 10);   // 令和
+              yearForCopy = `${seireki} / 令和${reiwa}年`;
+            }
+            if (year_age !== '') {
+              lines.push(`年式：${yearForCopy} (${year_age})`);
+            } else {
+              lines.push(`年式：${yearForCopy}`);
+            }
+
+            const mileage_converted = document.getElementById('mileage_converted')?.innerText || '';
+            if (mileage_converted !== '') {
+              lines.push(`走行距離：${mileage}km (${mileage_converted})`);
+            } else {
+              lines.push(`走行距離：${mileage}km`);
+            }
+
+            const inspection_result = document.getElementById('inspection_result')?.innerText || '';
+            const yearMonth = `${inspectionYear}${inspectionMonth}`;
+            // 車検日コピー文言を整形
+            let yearMonthForCopy = yearMonth;
+            const matchYearMonth = yearMonth.match(/（(令和\d+年)）\s*(\d+月)?/);
+            if (matchYearMonth) {
+              const japaneseYear = matchYearMonth[1];
+              const month = matchYearMonth[2] || '';
+              yearMonthForCopy =  `${japaneseYear}${month}`;
+            }
+            if (inspection_result !== '') {
+              lines.push(`車検：${yearMonthForCopy} (${inspection_result})`.trim());
+            } else {
+              lines.push(`車検：${yearMonthForCopy}`.trim());
+            }
+            lines.push('');
             lines.push('');
 
             // --- 車両価格 ---
-            lines.push(`・車両価格：${toYen(price)}`);
+            lines.push('▼車両価格');
+            lines.push('——————————————');
+            lines.push(`①${toYen(price)}`);
+            lines.push('');
             lines.push('');
 
             // --- 諸費用 ---
+            lines.push('▼諸費用');
+            lines.push('——————————————');
             const hasCharges = taxLines.length || feeLines.length;
-            lines.push('・諸費用：');
             if (hasCharges) {
               if (taxLines.length) {
-                lines.push('税金・保険料など', ...taxLines);
+                lines.push(...taxLines);
               }
               if (feeLines.length) {
-                lines.push('販売諸費用', ...feeLines);
+                lines.push(...feeLines);
               }
-              lines.push(`合計：${toYen(chargesTotal)}`);
+              lines.push(`②計：${toYen(chargesTotal)}`);
               lines.push('');
             }
+            lines.push('');
 
             // --- オプション ---
+            lines.push('▼オプション');
+            lines.push('——————————————');
             const hasOptions = optionLines.length;
-            lines.push('・オプション：', ...optionLines);
+            lines.push(...optionLines);
             if (hasOptions) {
-              lines.push(`小計：${toYen(optionTotal)}`);
+              lines.push(`③計：${toYen(optionTotal)}`);
               lines.push('');
             }
+            lines.push('');
 
             // --- お支払い ---
-            lines.push(`・合計：${toYen(total)}`);
-            lines.push(`・下取り価格：${tradePrice && parseInt(tradePrice,10) !== 0 ? toYen(tradePrice) : ''}`);
-            lines.push(`・値引き：${discount && parseInt(discount,10) !== 0 ? toYen(discount) : ''}`);
-            lines.push(`・お支払い総額：${toYen(payment)}`);
+            lines.push('▼お支払い');
+            lines.push('——————————————');
+            lines.push(`①+②+③合計：${toYen(total)}`);
+            lines.push(`下取り価格：-${tradePrice && parseInt(tradePrice,10) !== 0 ? toYen(tradePrice) : ''}`);
+            lines.push(`値引き：-${discount && parseInt(discount,10) !== 0 ? toYen(discount) : ''}`);
+            lines.push('');
+            lines.push(`お支払い総額：${toYen(payment)}`);
+            lines.push('');
+            lines.push('');
 
             // --- 備考 ---
-            lines.push('', `・備考：${memoText}`);
+            lines.push('▼備考');
+            lines.push('——————————————');
+            lines.push(`${memoText}`);
 
             // 改行差し込み
             const output = lines.join('\n');
