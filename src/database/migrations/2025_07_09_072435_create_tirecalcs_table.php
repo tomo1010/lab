@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('customer_name')->nullable();
             $table->string('honorific')->nullable();
             $table->text('comment')->nullable();
+            $table->text('memo')->nullable();
 
             $table->timestamps();
         });

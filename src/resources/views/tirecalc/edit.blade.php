@@ -717,7 +717,7 @@
                         </div>
 
                         <!-- コメント -->
-                        <div class="mb-6">
+                        <div class="mb-2">
                             <h4 class="text-base font-semibold text-gray-700 mb-2">コメント</h4>
                             <textarea
                                 id="comment"
@@ -725,6 +725,22 @@
                                 rows="4"
                                 class="w-full px-4 py-2 border rounded-lg">{{ old('comment', $tirecalc->comment ?? '※総額には、工賃、廃棄タイヤ費用、消費税すべて含みます。') }}</textarea>
                         </div>
+
+<!-- メモ -->
+<div class="mb-6">
+    <h4 class="text-base font-semibold text-gray-700 mb-2">メモ</h4>
+    <input
+        type="text"
+        inputmode="text"
+        name="memo"
+        id="memo"
+        class="w-full px-4 py-2 border rounded-lg"
+        placeholder="社内メモ（PDFには印字されません）"
+        value="{{ old('memo', $tirecalc->memo) }}"
+    >
+</div>
+
+
                     </div>
                 </div>
 
