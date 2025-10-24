@@ -183,6 +183,7 @@ class TirecalcController extends Controller
             'customer_name' => 'nullable|string',
             'honorific' => 'nullable|string',
             'comment' => 'nullable|string',
+            'memo' => 'nullable|string',
         ]);
         //dd($validated);
         if (auth()->check()) {
@@ -257,6 +258,7 @@ class TirecalcController extends Controller
         $newTirecalc->customer_name = $tirecalc->customer_name . "[コピー]";
         $newTirecalc->honorific = $tirecalc->honorific;
         $newTirecalc->comment = $tirecalc->comment;
+        $newTirecalc->memo = $tirecalc->memo;
 
         $newTirecalc->save();
 
@@ -308,6 +310,7 @@ class TirecalcController extends Controller
             'customer_name' => 'nullable|string',
             'honorific' => 'nullable|string',
             'comment' => 'nullable|string',
+            'memo' => 'nullable|string',
         ]);
 
         $filteredItems = collect($validated['laborItems'] ?? [])
@@ -337,6 +340,7 @@ class TirecalcController extends Controller
             'customer_name' => $validated['customer_name'],
             'honorific' => $validated['honorific'],
             'comment' => $validated['comment'],
+            'memo' => $validated['memo'],
 
         ]);
 

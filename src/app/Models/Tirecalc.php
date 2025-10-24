@@ -32,6 +32,7 @@ class Tirecalc extends Model
         'customer_name',
         'honorific',
         'comment',
+        'memo',
     ];
 
     protected $casts = [
