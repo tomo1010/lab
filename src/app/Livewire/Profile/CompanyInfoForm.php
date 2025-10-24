@@ -12,6 +12,7 @@ class CompanyInfoForm extends Component
     public $company_name;
     public $company_tel;
     public $company_fax;
+    public $company_handyphone;
     public $company_mail;
     public $company_url;
     public $company_registration_number;
@@ -30,6 +31,7 @@ class CompanyInfoForm extends Component
         $this->company_name = $user->company_name;
         $this->company_tel = $user->company_tel;
         $this->company_fax = $user->company_fax;
+        $this->company_handyphone = $user->company_handyphone;
         $this->company_mail = $user->company_mail;
         $this->company_url = $user->company_url;
         $this->company_registration_number = $user->company_registration_number;
@@ -47,6 +49,7 @@ class CompanyInfoForm extends Component
             'company_name' => 'nullable|string|max:255',
             'company_tel' => 'nullable|string|max:20',
             'company_fax' => 'nullable|string|max:20',
+            'company_handyphone' => 'nullable|string|max:20',
             'company_mail' => 'nullable|email|max:255',
             'company_url' => 'nullable|string|max:255',
             'company_registration_number' => 'nullable|string|max:30',
@@ -62,6 +65,7 @@ class CompanyInfoForm extends Component
             'company_name' => $this->company_name,
             'company_tel' => $this->company_tel,
             'company_fax' => $this->company_fax,
+            'company_handyphone' => $this->company_handyphone,
             'company_mail' => $this->company_mail,
             'company_url' => $this->company_url,
             'company_registration_number' => $this->company_registration_number,

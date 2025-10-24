@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('company_address')->nullable(); // 住所
             $table->string('company_name')->nullable(); // 会社名
             $table->string('company_tel')->nullable(); // 電話番号
+            $table->string('company_handyphone')->nullable(); // 携帯番号
             $table->string('company_fax')->nullable(); // FAX
             $table->string('company_mail')->nullable(); // メール
             $table->string('company_url')->nullable(); // ホームページURL
@@ -33,6 +34,7 @@ return new class extends Migration
                 'company_address',
                 'company_name',
                 'company_tel',
+                'company_handyphone',
                 'company_fax',
                 'company_mail',
                 'company_url',
