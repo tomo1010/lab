@@ -272,7 +272,7 @@
 
                             <div class="mt-6 text-right">
                                 <span class="text-gray-700 font-semibold">
-                                    小計：
+                                    オプション 合計：
                                     <span id="option_total_display" class="text-gray-800 font-bold">0円</span>
                                 </span>
                                 <input type="hidden" id="option_total" name="option_total" value="0">
@@ -285,7 +285,7 @@
 
                         <!-- 合計 = 本体価格 + 諸費用合計 + オプション合計 -->
                         <div class="mb-4">
-                            <label for="total" class="block text-gray-700 font-semibold mb-1">合計</label>
+                            <label for="total" class="block text-gray-700 font-semibold mb-1">総合計（車両価格+諸費用+オプション）</label>
                             <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
                         </div>
 
