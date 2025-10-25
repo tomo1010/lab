@@ -512,7 +512,7 @@
                         </button>
 
                         <!-- コピー ボタン -->
-                        <div x-data="taxCalculator()">
+                        <div>
                             <button type="button"
                                 class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
                             @click=" copyToClipboard">
@@ -802,42 +802,62 @@
                         return this.displayUnitPrice(item) + this.laborSubtotal;
                     },
 
-                    // クリップボードにコピーする関数
-                    async copyToClipboard() {
+                  // クリップボードにコピーする関数
+                  async copyToClipboard() {
 
-                        let output = '';
+                    let output = '';
 
-                        const customer_name = document.getElementById('customer_name')?.value || '';
-                        const honorific = document.getElementById('honorific')?.value || '';
-                        output += `■ 宛名\n${customer_name} ${honorific}\n\n`;
+                    const customer_name = document.getElementById('customer_name')?.value || '';
+                    const honorific = document.getElementById('honorific')?.value || '';
+                    output += `${customer_name} ${honorific}\n\n`;
 
-                        const selectTire = document.getElementById('selectTire')?.value || '未選択';
-                        output += `■ タイトル\n${selectTire}\n\n`;
+                    const selectTire = document.getElementById('selectTire')?.value || '未選択';
+                    output += `■ 商品\n${selectTire}\n\n`;
 
-                        const sizeGeneral = document.getElementById('sizeGeneral')?.value;
-                        const sizeFree = document.getElementById('sizeFree')?.value;
-                        output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
+                    const sizeGeneral = document.getElementById('sizeGeneral')?.value;
+                    const sizeFree = document.getElementById('sizeFree')?.value;
+                    output += `■ タイヤサイズ\n${sizeFree || sizeGeneral || '未入力'}\n\n`;
 
-                        const maker1 = document.getElementById('maker1')?.value || '未選択';
-                        const maker2 = document.getElementById('maker2')?.value || '未選択';
-                        const maker3 = document.getElementById('maker3')?.value || '未選択';
+                    /**
+                     * 商品情報
+                     */
+                    const maker1 = document.getElementById('maker1')?.value || '-';
+                    const maker2 = document.getElementById('maker2')?.value || '-';
+                    const maker3 = document.getElementById('maker3')?.value || '-';
 
-                        output += `■ 商品1：${maker1}\n合計：${this.totalWithLabor(this.item1)} 円\n\n`;
-                        output += `■ 商品2：${maker2}\n合計：${this.totalWithLabor(this.item2)} 円\n\n`;
-                        output += `■ 商品3：${maker3}\n合計：${this.totalWithLabor(this.item3)} 円\n\n`;
+                    output += `■ 商品A：${maker1}\nタイヤ：${this.displayUnitPrice(this.item1).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item1).toLocaleString()} 円\n\n`;
+                    output += `■ 商品B：${maker2}\nタイヤ：${this.displayUnitPrice(this.item2).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item2).toLocaleString()} 円\n\n`;
+                    output += `■ 商品C：${maker3}\nタイヤ：${this.displayUnitPrice(this.item3).toLocaleString()} 円\n工賃：${this.laborSubtotal.toLocaleString()} 円\n合計：${this.totalWithLabor(this.item3).toLocaleString()} 円\n\n`;
 
-                        output += `■ 工賃明細\n小計：${this.laborSubtotal} 円\n\n`;
+                    /**
+                     * 工賃詳細 - 動的に生成
+                     */
+                    const laborLines = (this.laborItems || [])
+                      // 名前と金額が入力されているもののみにフィルタリング
+                      .filter(r => (r?.name ?? '').toString().trim() !== '' && Number(r?.price) > 0)
+                      .map(r => {
+                        const name = r.name; // 名前
+                        const qty = Number(r?.quantity ?? 1); // 個数
+                        const price = Number(r?.price ?? 0); // 金額
+                        const amount = price * qty; // 合計
+                        return `${name}：${amount.toLocaleString()} 円`;
+                      })
+                      .join('\n');
 
-                        const comment = document.getElementById('comment')?.value || '';
-                        output += `■ コメント\n${comment.trim()}\n`;
+                    output += `■ 工賃詳細\n${laborLines || '（未入力）'}\n` +
+                      `税抜合計：${this.laborSubtotalExcludingTax.toLocaleString()} 円\n\n`;
+                    `税込合計：${this.laborSubtotal.toLocaleString()} 円\n`
 
-                        try {
-                            await navigator.clipboard.writeText(output);
-                            alert('入力内容をクリップボードにコピーしました！');
-                        } catch (e) {
-                            alert('コピーに失敗しました');
-                        }
+                    const comment = document.getElementById('comment')?.value || '';
+                    output += `■ 備考\n${comment.trim()}\n`;
+
+                    try {
+                      await navigator.clipboard.writeText(output);
+                      alert('入力内容をクリップボードにコピーしました！');
+                    } catch (e) {
+                      alert('コピーに失敗しました');
                     }
+                  }
                 };
 
 
