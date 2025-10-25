@@ -42,7 +42,14 @@
                     value="{{ old('company_tel', auth()->check() ? auth()->user()->company_tel : '') }}"
                     {{ auth()->check() ? 'readonly' : '' }}>
             </div>
-
+            <div class="md:w-1/2 mt-2 md:mt-0">
+                携帯電話：
+                <input type="tel" name="company_handyphone" id="company_handyphone"
+                    class="w-full border rounded px-2 py-1 {{ auth()->check() ? 'bg-gray-100 text-gray-500' : '' }}"
+                    placeholder="123-456-7890"
+                    value="{{ old('company_handyphone', auth()->check() ? auth()->user()->company_handyphone : '') }}"
+                    {{ auth()->check() ? 'readonly' : '' }}>
+            </div>
             <div class="md:w-1/2 mt-2 md:mt-0">
                 FAX：
                 <input type="tel" name="company_fax" id="company_fax"

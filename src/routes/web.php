@@ -13,6 +13,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\FaxController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\QrController;
 
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Http\Request;
@@ -235,3 +236,10 @@ Route::post('tirecalc/createPdf', [TirecalcController::class, 'createPdf'])->nam
 Route::post('/store-intended', function (\Illuminate\Http\Request $request) {
     session(['url.intended' => $request->input('intended')]);
 })->name('store.intended');
+
+
+
+// routes/web.php
+Route::view('/tradein', 'tradein.index')->name('tradein.index');
+Route::post('/tradein/store', [QrController::class, 'store'])->name('tradein.store');
+

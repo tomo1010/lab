@@ -32,6 +32,7 @@ class User extends Authenticatable
         'company_name',
         'company_tel',
         'company_fax',
+        'company_handyphone',
         'company_mail',
         'company_url',
         'company_registration_number',

@@ -36,6 +36,10 @@
                 <x-text-input id="company_tel" type="text" class="mt-1 block w-full" wire:model.defer="company_tel" />
             </div>
             <div class="md:w-1/2 mt-4 md:mt-0">
+                <x-input-label for="company_handyphone" value="携帯電話" />
+                <x-text-input id="company_handyphone" type="text" class="mt-1 block w-full" wire:model.defer="company_handyphone" />
+            </div>
+            <div class="md:w-1/2 mt-4 md:mt-0">
                 <x-input-label for="company_fax" value="FAX" />
                 <x-text-input id="company_fax" type="text" class="mt-1 block w-full" wire:model.defer="company_fax" />
             </div>
