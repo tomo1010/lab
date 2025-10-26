@@ -33,8 +33,8 @@ use Livewire\Livewire;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('welcome'); // resources/views/welcome.blade.php
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -242,4 +242,3 @@ Route::post('/store-intended', function (\Illuminate\Http\Request $request) {
 // routes/web.php
 Route::view('/tradein', 'tradein.index')->name('tradein.index');
 Route::post('/tradein/store', [QrController::class, 'store'])->name('tradein.store');
-

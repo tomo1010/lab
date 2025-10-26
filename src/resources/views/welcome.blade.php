@@ -1,224 +1,223 @@
-<!DOCTYPE html>
-<html lang="ja">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            HOME
+        </h2>
+    </x-slot>
 
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EJXR5D575"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    {{-- 既存のスタイル（必要なら残す） --}}
+    <style>
+        .fax-container { font-size: 12pt; padding: 2rem; background-color: #fff; border: 1px solid #ddd; margin-top: 1rem; }
+        .title { text-align: center; font-size: 20pt; font-weight: bold; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 10px 0; margin-bottom: 20px; }
+        .input-text { width: 100%; padding: 5px; font-size: 12pt; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .textarea   { width: 100%; height: 60px; font-size: 12pt; padding: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; }
+        .submit-btn { margin-top: 30px; text-align: center; }
+        .submit-btn button { font-size: 14pt; padding: 10px 20px; }
+        .right-align-small { text-align: right; font-size: 10pt; color: #555; margin-bottom: 0.25rem; }
+        .left-align { text-align: left; margin-top: 1rem; margin-bottom: 1rem; }
+    </style>
 
-        function gtag() {
-            dataLayer.push(arguments);
+    {{-- カード共通：高さ/枠/ホバー/フォーカスを統一 --}}
+    <style>
+        .app-card{
+            display:flex; align-items:flex-start; gap:.75rem;
+            border:1px solid #e5e7eb; border-radius:1rem; background:#fff;
+            padding:1.25rem; height:100%;
+            transition: box-shadow .2s ease, transform .2s ease;
+            text-decoration: none;
         }
-        gtag('js', new Date());
+        .app-card:hover{ box-shadow:0 8px 20px rgba(0,0,0,.06); transform:translateY(-1px); }
+        .app-card:focus-visible{ outline:2px solid #60a5fa; outline-offset:2px; }
+        .app-card-title{ font-weight:600; color:#1f2937; }
+        .app-card-desc{ font-size:.75rem; color:#6b7280; margin-top:.25rem; }
+        /* Font Awesome用に調整 */
+        .app-icon{ font-size:1.25rem; line-height:1.5rem; color:#374151; flex:0 0 auto; margin-top:.125rem; }
+    </style>
 
-        gtag('config', 'G-5EJXR5D575');
-    </script>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>車比較サイト</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="google-adsense-account" content="ca-pub-8272433810922720">
-</head>
-
-<body class="bg-white font-sans leading-relaxed">
-
-    <!-- ヘッダー -->
-    <header class="bg-gray-100 py-10">
-        <div class="max-w-screen-xl mx-auto text-center">
-            <h1 class="text-3xl font-semibold text-gray-900">車の比較サイト</h1>
-            <p class="mt-2 text-lg text-gray-600">あなたのニーズにぴったりな車を見つけましょう</p>
-        </div>
-    </header>
-
-    <!-- 車のジャンルセクション -->
-    <section class="py-16">
-        <div class="max-w-screen-xl mx-auto px-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-10 text-center">車のジャンル</h2>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- ミニバン -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #2981C0;">
-                    <img src="{{ asset('img/car_genre_bunner/minivan.png') }}" alt="Minivan Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/minivan" class="text-xl font-medium hover:underline">ミニバン</a>
-
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            定番のミニバン。「ワンボックス」や「ファミリーカー」とも呼びます。
-                        </p>
-                        <p>
-                            ３列シートに６人以上乗車、スライドドア搭載、荷物もたくさん積載で
-                            ファミリーカーとして大人気。
-                        </p>
-                        <p>
-                            小さな子どもが２人以上の家族ならチャイルドシートが２つでセカンドシートが満席。
-                            さらにベビーカーや祖父母もとなると、<span class="underline">ミニバン一択</span>。
-                        </p>
-                        <p>
-                            販売台数も多く、車両価格も高額なため、各メーカーがしのぎを削って優良車種を開発。
-                            その結果、<span class="text-yellow-200 font-medium">基本的にはどの車種を選んでもハズレがありません。</span>
-                        </p>
-                    </div>
-
-                </div>
-                <!-- SUV -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #748300;">
-                    <img src="{{ asset('img/car_genre_bunner/suv.png') }}" alt="SUV Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/suv" class="text-xl font-medium hover:underline">SUV</a>
-
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            大人気のSUV。クロカンとか四駆（ヨンク）とも言ったりします
-                        </p>
-                        <p>
-                            車高が高く、タイヤが大きく、悪路走破性に優れた車種で、オフロード走行も可能。
-                            近年ではオンロード性能も向上し、街乗りでも快適に使用できます。
-                        </p>
-                        <p>
-                            軽自動車から高級SUVまで幅広いラインナップがあり、
-                            <span class="underline">ファミリーカーとしても人気</span>です。
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <!-- プチバン -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #EF6C70;">
-                    <img src="{{ asset('img/car_genre_bunner/puchivan.png') }}" alt="Puchivan Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/puchivan" class="text-xl font-medium hover:underline">プチバン</a>
-
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            スライドドア搭載のコンパクトカーがプチバン。
-                        </p>
-                        <p>
-                            ミニバンに近いのですが、２列シートで５人乗りもしくは４人乗りのコンパクトカーです。
-                            <span class="underline">小さな子どもが１人の家族</span>におすすめ。
-                        </p>
-                        <p>
-                            なんだかんだ小回りが効いて
-                            <span class="text-yellow-200 font-medium">運転しやすく使い勝手が良いのがプチバンの最大の魅力</span>。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ハッチバック -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #FFAD35;">
-                    <img src="{{ asset('img/car_genre_bunner/hatchback.png') }}" alt="Hatchback Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/hatchback" class="text-xl font-medium hover:underline">ハッチバック</a>
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            昔からあるコンパクトカーといえばハッチバック。 </p>
-                        <p>
-                            ２列シートで５人乗りのコンパクトカーで、トランクが後ろに開くタイプ。
-                            初心者向けのエントリーカーもあれば、スポーティな走行性能を持つ車種もあります。
-                        </p>
-                        <p>
-                            最近ではサイズの大きなハッチバックもあります。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ワゴン -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #90374E;">
-                    <img src="{{ asset('img/car_genre_bunner/wagon.png') }}" alt="Wagon Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/wagon" class="text-xl font-medium hover:underline">ステーションワゴン</a>
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            ワゴンといえばステーションワゴン。
-                        </p>
-                        <p>
-                            最近はミニバンやSUVに人気を奪われているものの、
-                            <span class="underline">荷物をたくさん積める</span>という点では依然として人気があります。
-                        </p>
-                        <p>
-                            不人気ジャンルなので各社とも選べる車種が少ないのが難点。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- セダン -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #3E327B;">
-                    <img src="{{ asset('img/car_genre_bunner/sedan.png') }}" alt="Sedan Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/sedan" class="text-xl font-medium hover:underline">セダン</a>
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            車の王道スタイルといえばセダン。
-                        </p>
-                        <p>
-                            VIPな感じと落ち着いた大人の印象で、フォルムはやっぱりカッコいい。長距離を乗るならやはりセダンの右に出るジャンルは無いと思います。 </p>
-                        <p>
-                            残念なのは年々高額化して、なかなか手が出しにくくなっていることでしょうか
-                        </p>
-                    </div>
-                </div>
-
-                <!-- スポーツ -->
-                <div class="text-center rounded-lg p-4 text-white shadow-lg" style="background-color: #FE4500;">
-                    <img src="{{ asset('img/car_genre_bunner/sports.png') }}" alt="Sports Banner" class="w-[150px] h-[36px] object-contain mx-auto mb-4">
-                    <a href="https://www.kurumayalab.com/car/sports" class="text-xl font-medium hover:underline">スポーツ</a>
-                    <div class="text-left text-sm leading-relaxed space-y-4 mt-4">
-                        <p>
-                            コアなファンに愛されるスポーツカー。
-                        </p>
-                        <p>
-                            一度は乗ってみたいと思う人も多いのではないでしょうか。
-                        </p>
-                        <p>
-                            ただし、実用性は低く、荷物を積むスペースも限られています。
-
-                        </p>
-
-                    </div>
-                </div>
+        {{-- ヘッダー・導入 --}}
+        <section>
+            <div class="rounded-2xl border border-gray-200 bg-white p-6">
+                <h3 class="text-lg font-semibold text-gray-800">クルマ屋ラボ</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    クイック見積り・タイヤ計算機・クイック請求・FAX送付状・施工証明書印刷・ラベル印刷など、各機能へ移動できます。
+                </p>
             </div>
+        </section>
 
-            <h2 class="text-2xl font-bold text-gray-900 mb-10 text-center mt-10">車のスペック</h2>
+        {{-- 業務ツール --}}
+        <section>
+            <h4 class="mb-3 text-sm font-semibold text-gray-600">業務ツール</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-            @php
-            $iconPath = 'img/car_category_icon/';
-            $iconFiles = array_diff(scandir(public_path($iconPath)), ['.', '..']);
-            $categories = [
-            'https://www.kurumayalab.com/car/minivan',
-            'https://www.kurumayalab.com/car/suv',
-            'https://www.kurumayalab.com/car/puchivan',
-            'https://www.kurumayalab.com/car/hatchback',
-            'https://www.kurumayalab.com/car/wagon',
-            'https://www.kurumayalab.com/car/sedan',
-            'https://www.kurumayalab.com/car/sports',
-            ];
-            @endphp
+                {{-- クイック見積り --}}
+                <a href="{{ route('quote.index') }}" class="app-card">
+                    <i class="fa-solid fa-file-lines app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">クイック見積り</div>
+                        <div class="app-card-desc">新規作成／PDF出力</div>
+                    </div>
+                </a>
 
-            <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-8 mt-10">
-                @foreach ($iconFiles as $icon)
-                @php
-                $randomCategory = $categories[array_rand($categories)];
-                @endphp
-                <div class="text-center rounded-lg p-4 bg-gray-100 shadow-lg">
-                    <a href="{{ $randomCategory }}">
-                        <img src="{{ asset($iconPath . $icon) }}" alt="{{ pathinfo($icon, PATHINFO_FILENAME) }} Icon" class="w-[200px] h-[50px] object-contain mx-auto">
+                {{-- タイヤ計算機 --}}
+                <a href="{{ route('tirecalc.index') }}" class="app-card">
+                    <i class="fa-solid fa-calculator app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">タイヤ計算機</div>
+                        <div class="app-card-desc">原価入力→粗利→工賃→合計／PDF出力</div>
+                    </div>
+                </a>
+
+                {{-- 年齢計算機 --}}
+                <a href="{{ route('agecalc.index') }}" class="app-card">
+                    <i class="fa-solid fa-calendar-days app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">年齢計算機</div>
+                        <div class="app-card-desc">自動車保険用の年齢計算</div>
+                    </div>
+                </a>
+
+                {{-- クイック請求書 --}}
+                <a href="{{ route('invoice.index') }}" class="app-card">
+                    <i class="fa-solid fa-file-invoice-dollar app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">クイック請求書</div>
+                        <div class="app-card-desc">新規作成／PDF出力</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        {{-- 印刷ツール（グリッドに統一） --}}
+        <section>
+            <h4 class="mb-3 text-sm font-semibold text-gray-600">印刷ツール</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                {{-- FAX送付状（汎用） --}}
+                <a href="{{ route('fax.send') }}" class="app-card">
+                    <i class="fa-solid fa-fax app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">FAX送付状（汎用）</div>
+                        <div class="app-card-desc">新規作成／PDF出力</div>
+                    </div>
+                </a>
+
+                {{-- FAX送付状（車両入替え） --}}
+                <a href="{{ route('fax.change') }}" class="app-card">
+                    <i class="fa-solid fa-right-left app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">FAX送付状（車両入替え）</div>
+                        <div class="app-card-desc">新規作成／PDF出力</div>
+                    </div>
+                </a>
+
+                {{-- ラベル印刷 --}}
+                <a href="{{ route('label.index') }}" class="app-card">
+                    <i class="fa-solid fa-tag app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">ラベル印刷</div>
+                        <div class="app-card-desc">新規作成</div>
+                    </div>
+                </a>
+
+                {{-- 施工証明書（アイコン追加） --}}
+                <a href="{{ route('pdf.construction') }}" class="app-card">
+                    <i class="fa-solid fa-shield-halved app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">施工証明書</div>
+                        <div class="app-card-desc">ボディコーティング施工証明書発行</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        {{-- 比較・販促 --}}
+        <section>
+            <h4 class="mb-3 text-sm font-semibold text-gray-600">比較・販促</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <a href="{{ route('car.index') }}" class="app-card">
+                    <i class="fa-solid fa-car-side app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">クルマ比較サイト</div>
+                        <div class="app-card-desc">車種・スペック比較</div>
+                    </div>
+                </a>
+
+                <a href="{{ route('baby.index') }}" class="app-card">
+                    <i class="fa-solid fa-baby-carriage app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">Baby in Car</div>
+                        <div class="app-card-desc">赤ちゃんが乗ってますステッカー</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        {{-- その他 --}}
+        <section>
+            <h4 class="mb-3 text-sm font-semibold text-gray-600">その他</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <a href="https://kurumayalabo.com/" class="app-card">
+                    <i class="fa-solid fa-book-open app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">使い方・マニュアル</div>
+                        <div class="app-card-desc">操作手順・よくある質問</div>
+                    </div>
+                </a>
+
+                <a href="https://kurumayalabo.com/news/" class="app-card">
+                    <i class="fa-solid fa-bullhorn app-icon" aria-hidden="true"></i>
+                    <div class="flex-1">
+                        <div class="app-card-title">お知らせ／障害情報</div>
+                        <div class="app-card-desc">アップデートや不具合情報</div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        {{-- サブスクリプション --}}
+        <section>
+            @auth
+                <h4 class="mb-3 text-sm font-semibold text-gray-600">アカウント・サブスク</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                    <a href="{{ url('/subscribe') }}" class="app-card">
+                        <i class="fa-solid fa-crown app-icon" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <div class="app-card-title">サブスクに加入</div>
+                            <div class="app-card-desc">Checkout（Stripe）へ</div>
+                        </div>
                     </a>
+
+                    <a href="{{ url('/billing-portal') }}" class="app-card">
+                        <i class="fa-regular fa-credit-card app-icon" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <div class="app-card-title">請求・支払い管理</div>
+                            <div class="app-card-desc">カード変更／解約・再開</div>
+                        </div>
+                    </a>
+
                 </div>
-                @endforeach
-            </div>
+            @endauth
 
-        </div>
+            @guest
+                <div class="rounded-2xl border border-gray-200 bg-white p-5 text-center">
+                    <p class="text-sm text-gray-700">
+                        サブスク加入や保存機能のご利用にはログインが必要です。
+                        <a href="{{ route('login') }}" class="underline hover:text-gray-900">ログイン</a> /
+                        <a href="{{ route('register') }}" class="underline hover:text-gray-900">新規登録</a>
+                    </p>
+                </div>
+            @endguest
+        </section>
 
-    </section>
-
-
-
-
-
-    <!-- フッター -->
-    <footer class="bg-gray-100 py-10">
-        <div class="max-w-screen-xl mx-auto text-center">
-            <p class="text-gray-600">© 2025 車比較サイト</p>
-        </div>
-    </footer>
-
-</body>
-
-</html>
+    </div>
+</x-app-layout>

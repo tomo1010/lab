@@ -14,24 +14,30 @@
             @endphp
             <li class="p-4 bg-gray-100 rounded-lg flex justify-between items-center">
                 <div>
-                    <span class="text-lg font-semibold flex items-center space-x-2">
+                    <span class="text-base  font-semibold flex items-center space-x-2">
                         <a href="{{ route("{$routePrefix}.edit", $item->id) }}">
-                            {{ $item->car }} {{ $item->color }} {{ $displayMan }}万円 {{ $item->customer_name }}様 {{ $item->item1_cost }}
+                            @php
+                            // 万円表示は total>0 のときだけ
+                            $man = ($item->total ?? 0) / 10000;
+                            $displayMan = fmod($man, 1) === 0.0 ? number_format($man, 0) : number_format($man, 1);
+
+                            $parts = array_filter([
+                            trim("{$item->car} {$item->color}") ?: null,
+                            ($item->total ?? 0) > 0 ? "{$displayMan}万" : null,
+                            !empty($item->customer_name) ? "{$item->customer_name}様" : null,
+                            ($item->item1_cost ?? 0) > 0 ? number_format($item->item1_cost) . '円' : null,
+                            ]);
+                            @endphp
+                            {{ implode(' ', $parts) }}
                         </a>
                     </span>
+
                     <p class="text-sm text-gray-500">更新日時: {{ $item->updated_at->format('Y-m-d H:i') }}</p>
                     <p class="text-sm text-gray-500">メモ: {{ $item->memo }}</p>
                 </div>
 
                 <div class="flex space-x-2">
-                    <!-- 編集 -->
-                    <!--
-                    <a href="{{ route("{$routePrefix}.edit", $item->id) }}"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center space-x-2"
-                        title="編集">
-                        <i class="fas fa-edit"></i>
-                    </a>
--->
+
                     <!-- コピー -->
                     <form action="{{ route("{$routePrefix}.copy", $item->id) }}" method="POST">
                         @csrf
