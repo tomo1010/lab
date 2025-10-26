@@ -5,7 +5,7 @@
                 href="{{ route('invoice.index') }}"
                 class="text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 visited:text-gray-800"
                 aria-label="請求書一覧ページへ">
-                請求書印刷
+                請求書印刷（編集）
             </a>
         </h2>
     </x-slot>
@@ -33,7 +33,6 @@
 
 
             <div class="bg-white p-8 border border-gray-300 rounded-md shadow-md text-sm">
-                <div class="text-center text-2xl font-bold border-y border-black py-3 mb-6">請求書 編集</div>
 
                 <div class="text-right text-xs text-gray-600 mb-2">
                     発行日：

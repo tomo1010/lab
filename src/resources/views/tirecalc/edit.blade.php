@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{ route('tirecalc.index') }}">
-                タイヤ計算機 ..
+                タイヤ計算機（編集）
             </a>
         </h2>
     </x-slot>
