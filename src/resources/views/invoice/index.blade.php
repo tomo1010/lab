@@ -40,7 +40,6 @@
             <input type="hidden" name="view" value="invoice.createPdf">
 
             <div class="bg-white p-8 border border-gray-300 rounded-md shadow-md text-sm">
-                <div class="text-center text-2xl font-bold border-y border-black py-3 mb-6">請求書</div>
 
                 <div class="text-right text-xs text-gray-600 mb-2">
                     発行日：
