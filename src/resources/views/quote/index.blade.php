@@ -388,15 +388,6 @@
                             <!-- ログインユーザの制限処理 -->
                             @auth
                             @php
-                            $limit = auth()->user()->limit(); // Userモデルに定義（例：100 or 5）
-                            $quoteCount = auth()->user()->quotes()->count();
-                            $isOverLimit = $quoteCount >= $limit;
-                            @endphp
-                            @endauth
-
-
-                            @auth
-                            @php
                             $limit = auth()->user()->limit();
                             $quoteCount = auth()->user()->quotes()->count();
                             $isOverLimit = $quoteCount >= $limit;
