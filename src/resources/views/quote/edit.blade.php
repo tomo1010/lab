@@ -1075,9 +1075,14 @@ function submitPdfFromEdit() {
         lines.push('');
 
         // --- 車両価格 ---
+        let price_converted = document.getElementById('price_converted')?.innerText || '';
         lines.push('▼車両価格');
         lines.push('——————————————');
-        lines.push(`①${toYen(price)}`);
+        if (price_converted !== '') {
+          lines.push(`①${toYen(price)} (${price_converted})`);
+        } else {
+          lines.push(`①${toYen(price)}`);
+        }
         lines.push('');
         lines.push('');
 
