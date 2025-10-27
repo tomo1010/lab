@@ -68,11 +68,18 @@ class QuoteController extends Controller
             abort(403, 'ログインが必要です');
         }
 
-        // 保存上限（既存ロジック）
+        // 保存上限
         $limit = $user->limit();
         $count = $user->quotes()->count();
+
         if ($count >= $limit) {
-            $user->quotes()->oldest()->first()?->delete();
+            // 既存の orderBy / latest スコープをリセットしてから created_at 昇順で最古を取得
+            $oldest = $user->quotes()
+                ->reorder()                 // ← ここがポイント：既存の ORDER BY を全クリア
+                ->oldest('created_at')      // 明示的にカラム指定（保険）
+                ->first();
+
+            $oldest?->delete();
         }
 
         // まず “生” 入力を受け取る
