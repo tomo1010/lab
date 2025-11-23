@@ -190,9 +190,9 @@ class TirecalcController extends Controller
             $validated['user_id'] = auth()->id();
         }
 
-        Tirecalc::create($validated);
+        $tirecalc = Tirecalc::create($validated);
 
-        return redirect()->back()->with('success', '保存しました');
+        return redirect()->route('tirecalc.edit', $tirecalc)->with('success', '保存しました');
     }
 
 

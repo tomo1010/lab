@@ -111,7 +111,10 @@ class InvoiceController extends Controller
             'message'          => $validated['message'] ?? null,
         ]);
 
-        return redirect()->route('invoice.index')->with('success', '投稿が完了しました');
+
+        return redirect()
+            ->route('invoice.edit', $invoice)
+            ->with('success', '保存しました');
     }
 
 
