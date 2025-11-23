@@ -17,6 +17,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        if (array_key_exists('HTTP_REFERER', $_SERVER)) {
+            $path = parse_url($_SERVER['HTTP_REFERER']);
+            if (array_key_exists('host', $path)) {
+                if ($path['host'] == $_SERVER['HTTP_HOST']) {
+                    session(['url.intended' => $_SERVER['HTTP_REFERER']]);
+                }
+            }
+        }
+
         return view('auth.login');
     }
 
