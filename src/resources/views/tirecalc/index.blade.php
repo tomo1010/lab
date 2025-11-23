@@ -514,7 +514,7 @@
                         <!-- コピー ボタン -->
                         <div>
                             <button type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
+                               class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
                             @click=" copyToClipboard">
                                 コピー
                             </button>
@@ -542,14 +542,10 @@
                         @endguest
 
                     </div>
-
                 </form>
-
-
 
                 {{-- 保存モーダル --}}
                 @include('components.save-modal')
-
 
                 {{-- 保存済み一覧 --}}
                 @auth
@@ -563,13 +559,6 @@
 
             </div>
         </div>
-
-
-
-
-
-
-
 
         <!-- Alpine.js ロジック -->
         <script>

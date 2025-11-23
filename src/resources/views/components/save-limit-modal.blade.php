@@ -2,7 +2,7 @@
     <!-- 保存ボタン -->
     <button type="button"
         @click="isOverLimit ? showModal = true : saveOnly()"
-        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">
         保存
     </button>
 

@@ -50,15 +50,19 @@
 <body class="font-sans antialiased bg-gray-100">
 
     <div class="min-h-screen flex flex-col">
-        @include('layouts.navigation')
+        <div class="fixed top-0 left-0 right-0 z-50 bg-white shadow">
+            @include('layouts.navigation')
+        </div>
+
+        <div class="pt-[129px]"></div>
 
         <!-- Page Heading -->
         @if (isset($header))
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
         @endif
 
         <!-- Page Content -->
@@ -78,6 +82,12 @@
 
     @livewireScripts
 
+    <!-- トップへ戻るボタン -->
+    <button id="backToTop"
+            class="fixed bottom-3 right-3 lg:bottom-6 lg:right-6 z-50 bg-blue-600 text-white w-10 h-10 lg:w-12 lg:h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-500 transition"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        ▲
+    </button>
 </body>
 
 </html>

@@ -6,14 +6,6 @@
     </x-slot>
 
     <style>
-        .fax-container {
-            font-size: 12pt;
-            padding: 2rem;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            margin-top: 1rem;
-        }
-
         .title {
             text-align: center;
             font-size: 20pt;
@@ -22,25 +14,6 @@
             border-bottom: 1px solid #000;
             padding: 10px 0;
             margin-bottom: 20px;
-        }
-
-        .input-text {
-            width: 100%;
-            padding: 5px;
-            font-size: 12pt;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .textarea {
-            width: 100%;
-            height: 60px;
-            font-size: 12pt;
-            padding: 5px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
 
         .footer {
@@ -55,7 +28,6 @@
         }
 
         .submit-btn button {
-            font-size: 14pt;
             padding: 10px 20px;
         }
 
@@ -73,81 +45,83 @@
         }
     </style>
 
-    <div class="max-w-4xl mx-auto">
-        <form method="POST" action="{{ route('fax.changePdf') }}">
-            @csrf
+    <div class="py-12">
+        <div class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
+            <form method="POST" action="{{ route('fax.changePdf') }}">
+                @csrf
 
-            <div class="fax-container bg-white shadow-md rounded-md">
-                <div class="title">車両入替え 送付状</div>
+                <div>
+                    <div class="title">車両入替え 送付状</div>
 
-                <div class="right-align-small">
-                    送信日：
-                    <input type="date" name="send_date" class="border rounded px-2 py-1 text-sm" value="{{ date('Y-m-d') }}" required>
-                </div>
+                    <div class="right-align-small">
+                        送信日：
+                        <input type="date" name="send_date" class="border rounded px-2 py-1 text-sm" value="{{ date('Y-m-d') }}" required>
+                    </div>
 
 
-                <div class="right-align-small">
-                    送信枚数：
-                    <select name="page_count" class="border rounded px-2 py-1 text-sm">
-                        <option value="1">1枚</option>
-                        <option value="2" selected>2枚</option>
-                        <option value="3">3枚</option>
-                        <option value="4">4枚</option>
-                        <option value="5">5枚</option>
-                        <option value="6">6枚</option>
-                        <option value="7">7枚</option>
-                        <option value="8">8枚</option>
-                        <option value="9">9枚</option>
-                        <option value="10">10枚</option>
-                    </select>
-                </div>
-
-                <div class="left-align">
-                    <label class="block mb-1">宛先：</label>
-                    <div class="flex items-center gap-2">
-                        <input type="text" name="to" class="input-text w-full" placeholder="宛名を入力してください">
-                        <select name="to_suffix" class="border rounded px-2 py-1 text-sm">
-                            <option value="様">様</option>
-                            <option value="御中">御中</option>
+                    <div class="right-align-small">
+                        送信枚数：
+                        <select name="page_count" class="border rounded px-2 py-1 text-sm">
+                            <option value="1">1枚</option>
+                            <option value="2" selected>2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                            <option value="6">6枚</option>
+                            <option value="7">7枚</option>
+                            <option value="8">8枚</option>
+                            <option value="9">9枚</option>
+                            <option value="10">10枚</option>
                         </select>
                     </div>
-                </div>
+
+                    <div class="left-align">
+                        <label class="block mb-1">宛先：</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" name="to" class="w-full border rounded px-2 py-1" placeholder="宛名を入力してください">
+                            <select name="to_suffix" class="border rounded px-2 py-1 text-sm">
+                                <option value="様">様</option>
+                                <option value="御中">御中</option>
+                            </select>
+                        </div>
+                    </div>
 
 
-                <div class="left-align">
-                    <label class="block mb-1">車両入替え予定日：</label>
-                    <input type="date" name="change_date" class="border rounded px-2 py-1" value="{{ date('Y-m-d') }}" required>
-                </div>
+                    <div class="left-align">
+                        <label class="block mb-1">車両入替え予定日：</label>
+                        <input type="date" name="change_date" class="w-full border rounded px-2 py-1" value="{{ date('Y-m-d') }}" required>
+                    </div>
 
-                <div class="left-align">
+                    <div class="left-align">
 
-                    <div class="flex items-center">
-                        <input type="text" name="price" class="input-text" placeholder="車両金額を入力してください">
-                        <span class="ml-2 whitespace-nowrap">万円</span>
+                        <div class="flex items-center">
+                            <input type="text" name="price" class="w-full border rounded px-2 py-1" placeholder="車両金額を入力してください">
+                            <span class="ml-2 whitespace-nowrap">万円</span>
+                        </div>
+                    </div>
+
+                    <div class="left-align">
+                        <div class="flex items-center">
+                            <input type="text" name="before" class="w-full border rounded px-2 py-1" placeholder="入替え前の車あれば入力">
+                            <span class="ml-2 whitespace-nowrap">から新しい車へ入替え</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <textarea name=" message" class="w-full border rounded px-2 py-1">車両入替えの手続きをお願いします。</textarea>
+                    </div>
+
+                    {{-- 発行者情報 --}}
+                    @include('components.company-info')
+
+                    <div class="submit-btn">
+                        <button type="submit" class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">
+                            PDF作成
+                        </button>
                     </div>
                 </div>
-
-                <div class="left-align">
-                    <div class="flex items-center">
-                        <input type="text" name="before" class="input-text" placeholder="入替え前の車あれば入力">
-                        <span class="ml-2 whitespace-nowrap">から新しい車へ入替え</span>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <textarea name=" message" class="textarea">車両入替えの手続きをお願いします。</textarea>
-                </div>
-
-                {{-- 発行者情報 --}}
-                @include('components.company-info')
-
-                <div class="submit-btn">
-                    <button type="submit" class="bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700">
-                        PDF作成
-                    </button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
 

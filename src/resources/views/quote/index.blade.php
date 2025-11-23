@@ -2,298 +2,292 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            クイック見積もり
+            <a href="{{ route('quote.index') }}">
+                クイック見積もり
+            </a>
         </h2>
     </x-slot>
 
-
-    <div class="text-xs text-gray-500">
-    </div>
+    <!-- 成功・エラーメッセージ -->
+    @if (session('success'))
+        <div class=" bg-green-100 text-green-800 p-2 mb-4 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="bg-red-100 text-red-800 p-2 mb-4 rounded">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="py-12">
         <div x-data="{ showLoginModal: false }">
+            <div class="w-full max-w-full md:max-w-4xl mx-auto p-6 bg-white rounded shadow space-y-8">
+                <!-- 投稿フォーム -->
+                <form id="quoteForm" action="{{ route('quote.store') }}" method="POST" class="mb-6">
+                    @csrf
 
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
 
-                    <!-- 成功・エラーメッセージ -->
-                    @if(session('success'))
-                    <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-                        {{ session('success') }}
-                    </div>
-                    @endif
+                    <!-- 購入車種 -->
+                    <div class="mb-4 bg-blue-100 p-6 rounded-lg">
+                        <div class="mb-4">
+                            <label for="car" class="block text-gray-700 font-semibold mb-1">車名</label>
+                            <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg">
+                        </div>
+                        <div class="mb-4">
+                            <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
+                            <input type="text" name="grade" id="grade" class="w-full px-4 py-2 border rounded-lg">
+                        </div>
+                        <div class="mb-4">
+                            <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
+                            <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
+                        </div>
 
-                    @if(session('error'))
-                    <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-
-                    <!-- 投稿フォーム -->
-                    <form id="quoteForm" action="{{ route('quote.store') }}" method="POST" class="mb-6">
-                        @csrf
-
-                        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両情報</h3>
-
-                        <!-- 購入車種 -->
-                        <div class="mb-4 bg-blue-100 p-6 rounded-lg">
-                            <div class="mb-4">
-                                <label for="car" class="block text-gray-700 font-semibold mb-1">車名</label>
-                                <input type="text" name="car" id="car" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div class="mb-4">
-                                <label for="grade" class="block text-gray-700 font-semibold mb-1">グレード</label>
-                                <input type="text" name="grade" id="grade" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div class="mb-4">
-                                <label for="color" class="block text-gray-700 font-semibold mb-1">色</label>
-                                <input type="text" name="color" id="color" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-
-                            <div class="mb-4 flex space-x-8">
-                                <div class="w-1/2">
-                                    <label class="block text-gray-700 font-semibold mb-1">ミッション</label>
-                                    <div class="flex items-center">
-                                        <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
-                                        <label for="transmission_at" class="mr-4">AT</label>
-                                        <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
-                                        <label for="transmission_mt">MT</label>
-                                    </div>
-                                </div>
-                                <div class="w-1/2">
-                                    <label class="block text-gray-700 font-semibold mb-1">駆動</label>
-                                    <div class="flex items-center">
-                                        <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
-                                        <label for="drive_2wd" class="mr-4">2WD</label>
-                                        <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
-                                        <label for="drive_4wd">4WD</label>
-                                    </div>
+                        <div class="mb-4 flex space-x-8">
+                            <div class="w-1/2">
+                                <label class="block text-gray-700 font-semibold mb-1">ミッション</label>
+                                <div class="flex items-center">
+                                    <input type="radio" name="transmission" id="transmission_at" value="AT" class="mr-2">
+                                    <label for="transmission_at" class="mr-4">AT</label>
+                                    <input type="radio" name="transmission" id="transmission_mt" value="MT" class="mr-2">
+                                    <label for="transmission_mt">MT</label>
                                 </div>
                             </div>
-
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between">
-                                    <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
-                                    <span id="year_age" class="text-gray-700 font-medium text-sm mb-1"></span>
-                                </div>
-                                <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
-                                    @php
-                                    $currentYear = now()->year;
-                                    $endYear = 1989;
-                                    $eraNames = [2019 => '令和', 1989 => '平成'];
-                                    @endphp
-                                    <option value="" selected></option>
-                                    @for ($year = $currentYear; $year >= $endYear; $year--)
-                                    @php
-                                    $era = '昭和';
-                                    $eraYear = $year;
-                                    foreach ($eraNames as $eraStart => $eraName) {
-                                    if ($year >= $eraStart) {
-                                    $era = $eraName;
-                                    $eraYear = $year - $eraStart + 1;
-                                    break;
-                                    }
-                                    }
-                                    @endphp
-                                    <option value="{{ $year }}">{{ $year }}（{{ $era }}{{ $eraYear }}年）</option>
-                                    @endfor
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between">
-                                    <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
-                                    <span id="mileage_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
-                                </div>
-                                <input type="text" name="mileage" id="mileage"
-                                    class="w-full px-4 py-2 border rounded-lg"
-                                    inputmode="numeric" pattern="\d*">
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between">
-                                    <label class="text-gray-700 font-semibold mb-1">車検日</label>
-                                    <span id="inspection_result" class="text-gray-700 font-medium text-sm mb-1"></span>
-                                </div>
-
-                                <div class="flex space-x-2 items-center">
-                                    <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
-                                        @php
-                                        $currentYear = now()->year;
-                                        $reiwaStart = 2019;
-                                        $startYear = $currentYear;
-                                        $endYear = $currentYear + 3;
-                                        @endphp
-                                        <option value="" selected></option>
-                                        <option value="2年付">2年付</option>
-                                        <option value="3年付">3年付</option>
-                                        @for ($year = $startYear; $year <= $endYear; $year++)
-                                            @php $reiwa=$year - $reiwaStart + 1; @endphp
-                                            <option value="{{ $year }}">{{ $year }}（令和{{ $reiwa }}年）</option>
-                                            @endfor
-                                    </select>
-
-                                    <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
-                                        <option value="" selected></option>
-                                        @foreach (range(1, 12) as $month)
-                                        <option value="{{ $month }}">{{ $month }}月</option>
-                                        @endforeach
-                                    </select>
+                            <div class="w-1/2">
+                                <label class="block text-gray-700 font-semibold mb-1">駆動</label>
+                                <div class="flex items-center">
+                                    <input type="radio" name="drive" id="drive_2wd" value="2WD" class="mr-2">
+                                    <label for="drive_2wd" class="mr-4">2WD</label>
+                                    <input type="radio" name="drive" id="drive_4wd" value="4WD" class="mr-2">
+                                    <label for="drive_4wd">4WD</label>
                                 </div>
                             </div>
                         </div>
 
-                        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <label for="year" class="block text-gray-700 font-semibold mb-1">年式</label>
+                                <span id="year_age" class="text-gray-700 font-medium text-sm mb-1"></span>
+                            </div>
+                            <select name="year" id="year" class="w-full px-4 py-2 border rounded-lg">
+                                @php
+                                    $currentYear = now()->year;
+                                    $endYear = 1989;
+                                    $eraNames = [2019 => '令和', 1989 => '平成'];
+                                @endphp
+                                <option value="" selected></option>
+                                @for ($year = $currentYear; $year >= $endYear; $year--)
+                                    @php
+                                        $era = '昭和';
+                                        $eraYear = $year;
+                                        foreach ($eraNames as $eraStart => $eraName) {
+                                        if ($year >= $eraStart) {
+                                        $era = $eraName;
+                                        $eraYear = $year - $eraStart + 1;
+                                        break;
+                                        }
+                                        }
+                                    @endphp
+                                    <option value="{{ $year }}">{{ $year }}（{{ $era }}{{ $eraYear }}年）</option>
+                                @endfor
+                            </select>
+                        </div>
 
-                        <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between">
-                                    <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
-                                    <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
-                                </div>
-                                <div class="flex items-center">
-                                    <input
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <label for="mileage" class="block text-gray-700 font-semibold mb-1">走行距離</label>
+                                <span id="mileage_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+                            </div>
+                            <input type="text" name="mileage" id="mileage"
+                                   class="w-full px-4 py-2 border rounded-lg"
+                                   inputmode="numeric" pattern="\d*">
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <label class="text-gray-700 font-semibold mb-1">車検日</label>
+                                <span id="inspection_result" class="text-gray-700 font-medium text-sm mb-1"></span>
+                            </div>
+
+                            <div class="flex space-x-2 items-center">
+                                <select name="inspection_year" id="inspection_year" class="w-1/2 px-4 py-2 border rounded-lg">
+                                    @php
+                                        $currentYear = now()->year;
+                                        $reiwaStart = 2019;
+                                        $startYear = $currentYear;
+                                        $endYear = $currentYear + 3;
+                                    @endphp
+                                    <option value="" selected></option>
+                                    <option value="2年付">2年付</option>
+                                    <option value="3年付">3年付</option>
+                                    @for ($year = $startYear; $year <= $endYear; $year++)
+                                        @php $reiwa=$year - $reiwaStart + 1; @endphp
+                                        <option value="{{ $year }}">{{ $year }}（令和{{ $reiwa }}年）</option>
+                                    @endfor
+                                </select>
+
+                                <select name="inspection_month" id="inspection_month" class="w-1/2 px-4 py-2 border rounded-lg">
+                                    <option value="" selected></option>
+                                    @foreach (range(1, 12) as $month)
+                                        <option value="{{ $month }}">{{ $month }}月</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">車両価格</h3>
+
+                    <div class="mb-4 bg-yellow-100 p-6 rounded-lg">
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <label for="price" class="text-gray-700 font-semibold mb-1">価格</label>
+                                <span id="price_converted" class="text-gray-700 font-medium text-sm mb-1"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <input
                                         type="number"
                                         name="price"
                                         id="price"
                                         class="w-full px-4 py-2 border rounded-lg"
                                         inputmode="numeric" pattern="\d*"
                                         oninput="updatePriceDisplay(); recalcAll();">
-                                </div>
                             </div>
                         </div>
+                    </div>
 
 
-                        @include('quote.popup.tax_1')
-                        @include('quote.popup.tax_2')
-                        @include('quote.popup.tax_3')
-                        @include('quote.popup.tax_item')
-                        @include('quote.popup.option_item')
+                    @include('quote.popup.tax_1')
+                    @include('quote.popup.tax_2')
+                    @include('quote.popup.tax_3')
+                    @include('quote.popup.tax_item')
+                    @include('quote.popup.option_item')
 
 
 
 
-                        {{-- ▼▼▼ ここから諸費用（quote_charges対応 / プリセット無し） ▼▼▼ --}}
-                        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">
-                            諸費用（税金・保険料 / 販売諸費用）
-                        </h3>
+                    {{-- ▼▼▼ ここから諸費用（quote_charges対応 / プリセット無し） ▼▼▼ --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">
+                        諸費用（税金・保険料 / 販売諸費用）
+                    </h3>
 
-                        {{-- 税金・保険料 --}}
-                        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-lg font-semibold text-gray-800">税金・保険料など</div>
-                            </div>
+                    {{-- 税金・保険料 --}}
+                    <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-lg font-semibold text-gray-800">税金・保険料など</div>
+                        </div>
 
-                            <div id="charges-tax-rows"></div>
-                            <button type="button"
+                        <div id="charges-tax-rows"></div>
+                        <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="addChargeRow('tax')">
-                                ＋ 追加　
-                            </button>
-                            <button type="button"
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="removeChargeRow('tax')">
-                                − 削除
-                            </button>
+                            − 削除
+                        </button>
 
-                            <div class="mt-4 text-right">
+                        <div class="mt-4 text-right">
                                 <span class="text-gray-700 font-semibold">
                                     小計：
                                     <span id="charges_tax_total_display" class="text-gray-800 font-bold">0円</span>
                                 </span>
-                                <input type="hidden" id="charges_tax_total" name="charges_tax_total" value="0">
-                            </div>
-
-
+                            <input type="hidden" id="charges_tax_total" name="charges_tax_total" value="0">
                         </div>
 
-                        {{-- 販売諸費用 --}}
-                        <div class="mb-4 bg-purple-100 p-6 rounded-lg">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="text-lg font-semibold text-gray-800">販売諸費用</div>
-                            </div>
 
-                            <div id="charges-fee-rows"></div>
-                            <button type="button"
+                    </div>
+
+                    {{-- 販売諸費用 --}}
+                    <div class="mb-4 bg-purple-100 p-6 rounded-lg">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-lg font-semibold text-gray-800">販売諸費用</div>
+                        </div>
+
+                        <div id="charges-fee-rows"></div>
+                        <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="addChargeRow('fee')">
-                                ＋ 追加　
-                            </button>
-                            <button type="button"
+                            ＋ 追加　
+                        </button>
+                        <button type="button"
                                 class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                 onclick="removeChargeRow('fee')">
-                                − 削除
-                            </button>
+                            − 削除
+                        </button>
 
-                            <div class="mt-4 text-right">
+                        <div class="mt-4 text-right">
                                 <span class="text-gray-700 font-semibold">
                                     小計：
                                     <span id="charges_fee_total_display" class="text-gray-800 font-bold">0円</span>
                                 </span>
-                                <input type="hidden" id="charges_fee_total" name="charges_fee_total" value="0">
-                            </div>
-
+                            <input type="hidden" id="charges_fee_total" name="charges_fee_total" value="0">
                         </div>
 
-                        {{-- 諸費用 合計（税金・保険料 + 販売諸費用） --}}
-                        <div class="mb-4 bg-purple-100 p-6 rounded-lg text-right">
-                            <label class="text-gray-700 font-semibold">
-                                諸費用 合計：
-                                <span id="charges_total_display" class="text-gray-800 font-bold">0円</span>
-                            </label>
-                            <input type="hidden" id="charges_total" name="charges_total" value="0">
-                        </div>
+                    </div>
+
+                    {{-- 諸費用 合計（税金・保険料 + 販売諸費用） --}}
+                    <div class="mb-4 bg-purple-100 p-6 rounded-lg text-right">
+                        <label class="text-gray-700 font-semibold">
+                            諸費用 合計：
+                            <span id="charges_total_display" class="text-gray-800 font-bold">0円</span>
+                        </label>
+                        <input type="hidden" id="charges_total" name="charges_total" value="0">
+                    </div>
 
 
-                        {{-- ▲▲▲ 諸費用ここまで ▲▲▲ --}}
+                    {{-- ▲▲▲ 諸費用ここまで ▲▲▲ --}}
 
 
 
 
 
-                        {{-- ▼▼▼ ここからオプション（行の増減つき / 種別フォームなし） ▼▼▼ --}}
-                        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプション</h3>
+                    {{-- ▼▼▼ ここからオプション（行の増減つき / 種別フォームなし） ▼▼▼ --}}
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">オプション</h3>
 
-                        <div class="mb-4 bg-blue-200 p-6 rounded-lg">
-                            <div id="options-rows"></div>
+                    <div class="mb-4 bg-blue-200 p-6 rounded-lg">
+                        <div id="options-rows"></div>
 
-                            <div class="mt-3">
-                                <button type="button"
+                        <div class="mt-3">
+                            <button type="button"
                                     class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                     onclick="addOptionRow()">
-                                    ＋ 追加　
-                                </button>
-                                <button type="button"
+                                ＋ 追加　
+                            </button>
+                            <button type="button"
                                     class="text-blue-600 hover:underline underline-offset-2 hover:text-blue-700"
                                     onclick="removeOptionRow()">
-                                    − 削除
-                                </button>
-                            </div>
+                                − 削除
+                            </button>
+                        </div>
 
-                            <div class="mt-6 text-right">
+                        <div class="mt-6 text-right">
                                 <span class="text-gray-700 font-semibold">
                                     オプション 合計：
                                     <span id="option_total_display" class="text-gray-800 font-bold">0円</span>
                                 </span>
-                                <input type="hidden" id="option_total" name="option_total" value="0">
-                            </div>
-
-                        </div>
-                        {{-- ▲▲▲ オプション終わり ▲▲▲ --}}
-
-                        <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
-
-                        <!-- 合計 = 本体価格 + 諸費用合計 + オプション合計 -->
-                        <div class="mb-4">
-                            <label for="total" class="block text-gray-700 font-semibold mb-1">総合計（車両価格+諸費用+オプション）</label>
-                            <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
+                            <input type="hidden" id="option_total" name="option_total" value="0">
                         </div>
 
-                        <!-- 下取り -->
-                        <div class="mb-4">
-                            <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
-                            <div class="flex items-center gap-2">
-                                <input
+                    </div>
+                    {{-- ▲▲▲ オプション終わり ▲▲▲ --}}
+
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">お支払い</h3>
+
+                    <!-- 合計 = 本体価格 + 諸費用合計 + オプション合計 -->
+                    <div class="mb-4">
+                        <label for="total" class="block text-gray-700 font-semibold mb-1">総合計（車両価格+諸費用+オプション）</label>
+                        <input type="number" name="total" id="total" class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
+                    </div>
+
+                    <!-- 下取り -->
+                    <div class="mb-4">
+                        <label for="trade_price" class="block text-gray-700 font-semibold mb-1">下取り価格</label>
+                        <div class="flex items-center gap-2">
+                            <input
                                     type="number"
                                     name="trade_price"
                                     id="trade_price"
@@ -301,126 +295,124 @@
                                     class="w-full px-4 py-2 border rounded-lg"
                                     oninput="recalcPayment()">
 
-                                <!-- 端数トレード（万単位に揃える） -->
-                                <button type="button"
+                            <!-- 端数トレード（万単位に揃える） -->
+                            <button type="button"
                                     class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
                                     title="お支払い総額の1万円未満を下取りへ"
                                     onclick="fillTradeRemainder()">
-                                    <i class="fa-solid fa-sliders"></i>
-                                </button>
-                            </div>
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
                         </div>
+                    </div>
 
 
-                        <!-- 値引き -->
-                        <div class="mb-4">
-                            <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
-                            <div class="flex items-center gap-2">
-                                <input type="number"
-                                    name="discount"
-                                    id="discount"
-                                    inputmode="numeric" pattern="\d*"
-                                    class="w-full px-4 py-2 border rounded-lg"
-                                    oninput="recalcPayment()">
+                    <!-- 値引き -->
+                    <div class="mb-4">
+                        <label for="discount" class="block text-gray-700 font-semibold mb-1">値引き</label>
+                        <div class="flex items-center gap-2">
+                            <input type="number"
+                                   name="discount"
+                                   id="discount"
+                                   inputmode="numeric" pattern="\d*"
+                                   class="w-full px-4 py-2 border rounded-lg"
+                                   oninput="recalcPayment()">
 
-                                <!-- 端数調整（万単位に揃える） -->
-                                <button type="button"
+                            <!-- 端数調整（万単位に揃える） -->
+                            <button type="button"
                                     class="shrink-0 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
                                     title="お支払い総額の1万円未満を値引きへ"
                                     onclick="fillDiscountRemainder()">
-                                    <i class="fa-solid fa-sliders"></i>
-                                </button>
-                            </div>
+                                <i class="fa-solid fa-sliders"></i>
+                            </button>
                         </div>
+                    </div>
 
 
-                        <!-- お支払い総額 -->
-                        <div class="mb-4">
-                            <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
-                            <input type="number" name="payment" id="payment"
-                                class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
-                        </div>
+                    <!-- お支払い総額 -->
+                    <div class="mb-4">
+                        <label for="payment" class="block text-gray-700 font-semibold mb-1">お支払い総額</label>
+                        <input type="number" name="payment" id="payment"
+                               class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-right" readonly>
+                    </div>
 
 
-                        <!--メモ -->
-                        <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
-                        <div class="mb-4 bg-gray-200 p-6 rounded-lg">
-                            <label for="message" class="block text-gray-700 font-semibold mb-1">備考</label>
-                            <input
+                    <!--メモ -->
+                    <h3 class="mt-6 text-xl font-bold text-gray-800 border-b-2 border-gray-400 pb-2 mb-4">その他</h3>
+                    <div class="mb-4 bg-gray-200 p-6 rounded-lg">
+                        <label for="message" class="block text-gray-700 font-semibold mb-1">備考</label>
+                        <input
                                 type="text"
                                 name="message"
                                 id="message"
                                 class="w-full px-4 py-2 border rounded-lg">
 
-                            <!-- ここでスペースを追加 -->
-                            <label for="memo" class="mt-4 block text-gray-700 font-semibold mb-1">メモ</label>
-                            <input
+                        <!-- ここでスペースを追加 -->
+                        <label for="memo" class="mt-4 block text-gray-700 font-semibold mb-1">メモ</label>
+                        <input
                                 type="text"
                                 name="memo"
                                 id="memo"
                                 class="w-full px-4 py-2 border rounded-lg"
                                 placeholder="社内メモ（PDFには印字されません）">
-                        </div>
+                    </div>
 
 
 
 
-                        {{-- ボタン群 --}}
-                        <div class="flex justify-center gap-4 mt-6">
-                            {{-- PDF作成 --}}
-                            <button
+                    {{-- ボタン群 --}}
+                    <div class="flex justify-center gap-4 mt-6">
+                        {{-- PDF作成 --}}
+                        <button
                                 type="submit"
                                 formaction="{{ route('quote.createPdf') }}"
                                 class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
-                                PDF作成
-                            </button>
+                            PDF作成
+                        </button>
 
-                            {{-- コピー --}}
-                            <div>
-                                <button type="button"
+                        {{-- コピー --}}
+                        <div>
+                            <button type="button"
                                     class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
                                     @click="copyToClipboard">
-                                    コピー
-                                </button>
-                            </div>
+                                コピー
+                            </button>
+                        </div>
 
 
-                            <!-- ログインユーザの制限処理 -->
-                            @auth
+                        <!-- ログインユーザの制限処理 -->
+                        @auth
                             @php
-                            $limit = auth()->user()->limit();
-                            $quoteCount = auth()->user()->quotes()->count();
-                            $isOverLimit = $quoteCount >= $limit;
+                                $limit = auth()->user()->limit();
+                                $quoteCount = auth()->user()->quotes()->count();
+                                $isOverLimit = $quoteCount >= $limit;
                             @endphp
 
                             {{-- 保存（上限超過時はモーダル） --}}
                             <x-save-limit-modal :is-over-limit="$isOverLimit" />
-                            @endauth
+                        @endauth
 
-                            @guest
+                        @guest
                             {{-- 未ログインは既存のログインモーダル等を表示 --}}
                             <button
-                                type="button"
-                                @click.prevent="showLoginModal = true"
-                                class="bg-gray-300 text-white px-6 py-2 rounded cursor-pointer">
+                                    type="button"
+                                    @click.prevent="showLoginModal = true"
+                                    class="bg-gray-300 text-white px-6 py-2 rounded cursor-pointer">
                                 保存
                             </button>
-                            @endguest
+                        @endguest
 
-                        </div>
+                    </div>
 
-                    </form>
+                </form>
 
-                    {{-- 保存モーダル --}}
-                    @include('components.save-modal')
-                </div>
+                {{-- 保存モーダル --}}
+                @include('components.save-modal')
+
+                <!-- データ保存一覧 -->
+                @auth
+                    <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
+                @endauth
             </div>
-
-
-            <!-- データ保存一覧 -->
-            @auth
-            <x-save-list :items="$quotes" itemName="quote" :is-over-limit="$isOverLimit" routePrefix="quote" />
-            @endauth
         </div>
 
 
