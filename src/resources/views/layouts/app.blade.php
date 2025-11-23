@@ -49,7 +49,7 @@
 
 <body class="font-sans antialiased bg-gray-100">
 
-    <div class="min-h-screen">
+    <div class="min-h-screen flex flex-col">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -62,9 +62,18 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="flex-grow">
             {{ $slot }}
         </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t py-4 text-center text-gray-600 text-sm">
+            © 2021–2025
+            <a href="https://www.kurumayalab.com" class="text-blue-600 hover:underline" target="_blank">
+                https://www.kurumayalab.com
+            </a>
+            . All rights reserved.
+        </footer>
     </div>
 
     @livewireScripts
