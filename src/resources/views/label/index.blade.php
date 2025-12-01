@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            ラベル印刷
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('label.index') }}">
+                    ラベル印刷
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     <link rel="stylesheet" href="https://unpkg.com/paper-css@0.4.1/paper.css">

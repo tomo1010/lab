@@ -1,11 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{ route('tirecalc.index') }}">
-                タイヤ計算機
-            </a>
-        </h2>
-
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('tirecalc.index') }}">
+                    タイヤ計算機
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     @if (session('success'))

@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            車両入替え送付状印刷
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('fax.change') }}">
+                    車両入替え送付状印刷
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     <style>

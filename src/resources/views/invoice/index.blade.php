@@ -1,15 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a
-                href="{{ route('invoice.index') }}"
-                class="text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 visited:text-gray-800"
-                aria-label="請求書一覧ページへ">
-                請求書印刷
-            </a>
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('invoice.index') }}">
+                    請求書印刷
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
-
 
     @if (session('success'))
     <div class="bg-green-100 text-green-800 p-2 mb-4 rounded">

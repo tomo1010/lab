@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            売約済み（横書き）
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('pdf.soldHorizental') }}">
+                    売約済み（横書き）
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     <div class="py-12">

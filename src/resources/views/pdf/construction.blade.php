@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            ボディコーティング施工証明書印刷
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('pdf.construction') }}">
+                    ボディコーティング施工証明書印刷
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     <div class="py-12">
