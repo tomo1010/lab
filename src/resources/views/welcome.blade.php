@@ -13,7 +13,7 @@
         .textarea   { width: 100%; height: 60px; font-size: 12pt; padding: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; }
         .submit-btn { margin-top: 30px; text-align: center; }
-        .submit-btn button { font-size: 14pt; padding: 10px 20px; }
+        .submit-btn button { padding: 10px 20px; }
         .right-align-small { text-align: right; font-size: 10pt; color: #555; margin-bottom: 0.25rem; }
         .left-align { text-align: left; margin-top: 1rem; margin-bottom: 1rem; }
     </style>

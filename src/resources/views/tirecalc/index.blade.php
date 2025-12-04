@@ -1,11 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="{{ route('tirecalc.index') }}">
-                タイヤ計算機
-            </a>
-        </h2>
-
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{ route('tirecalc.index') }}">
+                    タイヤ計算機
+                </a>
+            </h2>
+            <x-head-buttons />
+        </div>
     </x-slot>
 
     @if (session('success'))
@@ -514,7 +516,7 @@
                         <!-- コピー ボタン -->
                         <div>
                             <button type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700""
+                               class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
                             @click=" copyToClipboard">
                                 コピー
                             </button>
@@ -542,14 +544,10 @@
                         @endguest
 
                     </div>
-
                 </form>
-
-
 
                 {{-- 保存モーダル --}}
                 @include('components.save-modal')
-
 
                 {{-- 保存済み一覧 --}}
                 @auth
@@ -563,13 +561,6 @@
 
             </div>
         </div>
-
-
-
-
-
-
-
 
         <!-- Alpine.js ロジック -->
         <script>
